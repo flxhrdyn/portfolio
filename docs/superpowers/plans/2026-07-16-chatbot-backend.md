@@ -441,9 +441,9 @@ git commit -m "feat(backend): define the 7 grounding-file tools"
 from app.rate_limit import get_client_ip
 
 
-def test_get_client_ip_uses_forwarded_for_header():
+def test_get_client_ip_uses_rightmost_forwarded_for_entry():
     headers = {"x-forwarded-for": "1.2.3.4, 5.6.7.8"}
-    assert get_client_ip(headers, "9.9.9.9") == "1.2.3.4"
+    assert get_client_ip(headers, "9.9.9.9") == "5.6.7.8"
 
 
 def test_get_client_ip_falls_back_to_client_host():
@@ -476,9 +476,12 @@ ratelimit = Ratelimit(redis=_redis, limiter=SlidingWindow(max_requests=20, windo
 
 
 def get_client_ip(headers: Mapping[str, str], client_host: Optional[str]) -> str:
+    # Only a single trusted hop (the Railway edge proxy) sits in front of this service.
+    # The edge appends the real client IP as the last entry; earlier entries are
+    # client-supplied and spoofable, so the rightmost value is the only one to trust.
     forwarded = headers.get("x-forwarded-for")
     if forwarded:
-        return forwarded.split(",")[0].strip()
+        return forwarded.split(",")[-1].strip()
     return client_host if client_host else "unknown"
 ```
 

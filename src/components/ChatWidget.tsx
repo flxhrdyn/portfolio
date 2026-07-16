@@ -65,7 +65,7 @@ export default function ChatWidget() {
       if (!res.ok) throw new Error("Chat request failed");
 
       const data = await res.json();
-      setMessages((prev) => [...prev, { id: `${Date.now()}-b`, sender: "bot", html: `<p>${data.reply}</p>` }]);
+      setMessages((prev) => [...prev, { id: `${Date.now()}-b`, sender: "bot", text: data.reply }]);
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -96,13 +96,14 @@ export default function ChatWidget() {
             {messages.map((msg) => (
               <div key={msg.id} className={`chat-msg ${msg.sender === "user" ? "user" : "bot"}`}>
                 <div className="msg-sender">{msg.sender === "user" ? "GUEST" : "HAWAT"}</div>
-                {msg.sender === "user" ? (
+                {msg.text !== undefined ? (
+                  // User messages and live LLM replies are untrusted/model-generated text -
+                  // always rendered as plain text, never through dangerouslySetInnerHTML.
                   <div className="msg-bubble">
                     <p>{msg.text}</p>
                   </div>
                 ) : (
-                  // Bot replies are either the static welcome message or plain text from our own
-                  // backend wrapped in a single <p> - never raw user input.
+                  // Only our own hardcoded strings (welcome message, offline fallback) use html.
                   <div className="msg-bubble" dangerouslySetInnerHTML={{ __html: msg.html ?? "" }} />
                 )}
               </div>
