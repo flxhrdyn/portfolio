@@ -20,7 +20,10 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
+    // The theme attribute is set by an inline script before hydration, so it can
+    // only be read from the DOM after mount, not derived during render.
     const current = document.documentElement.getAttribute("data-theme");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTheme(current === "dark" ? "dark" : "light");
   }, []);
 

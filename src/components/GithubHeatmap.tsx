@@ -35,6 +35,9 @@ export default function GithubHeatmap() {
   const [cells, setCells] = useState<Cell[]>([]);
 
   useEffect(() => {
+    // Cells are randomized per mount; generating them during render would produce
+    // a different result on the server than on the client and break hydration.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCells(buildCells());
   }, []);
 

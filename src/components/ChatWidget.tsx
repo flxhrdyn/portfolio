@@ -81,7 +81,6 @@ export default function ChatWidget() {
                   </div>
                 ) : (
                   // Bot replies are static, author-controlled content from content/chat-kb.json — never user input.
-                  // eslint-disable-next-line react/no-danger
                   <div className="msg-bubble" dangerouslySetInnerHTML={{ __html: msg.html ?? "" }} />
                 )}
               </div>
