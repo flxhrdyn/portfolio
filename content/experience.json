@@ -17,7 +17,27 @@
       "highlights": [
         "Built an AI laboratory assistant by fine-tuning Qwen3-8B with PEFT and QLoRA, integrated into a production-ready RAG chatbot with FastAPI, Qwen2.5-VL OCR, and hybrid retrieval (Qdrant + BM25).",
         "Published peer-reviewed research applying deep learning (CoralNet, InceptionV3, MobileNetV2) to automate coral bleaching detection, achieving 89% accuracy to support marine biodiversity monitoring.",
+        "Created Machine Learning and Computer Vision educational modules and co-authored an AI reference book (ISBN 9286020764751), supporting applied AI learning initiatives with IPB University.",
         "Deployed distributed AI workloads on NVIDIA DGX-1 and DGX A100 with infrastructure teams using Docker."
+      ]
+    },
+    {
+      "title": "International AI Summer Course Instructor",
+      "company": "Uzbekistan State World Languages University & Millat Umidi University",
+      "date": "Feb 2025 – Aug 2025",
+      "highlights": [
+        "Delivered hands-on training on Generative AI, NLP, and LLM applications to international students and academic faculty, bridging AI theory with practical implementation workflows.",
+        "Guided participants in architecting end-to-end GenAI applications, covering NLP basics, LLM integration, prompt engineering, and production-ready system design."
+      ]
+    },
+    {
+      "title": "Data Science Instructor",
+      "company": "Lembaga Pengembangan Komputerisasi Universitas Gunadarma",
+      "date": "Jun 2025 – Jun 2026",
+      "highlights": [
+        "Mentored and assessed 200+ participants building end-to-end ML solutions, from data preprocessing through model deployment.",
+        "Developed practical AI/ML learning modules based on real-world engineering scenarios, emphasizing reproducible experimentation and production-oriented development.",
+        "Led technical reviews for participant projects: code review, debugging support, and system architecture recommendations."
       ]
     }
   ],
