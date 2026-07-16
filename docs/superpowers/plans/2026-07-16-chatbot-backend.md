@@ -85,8 +85,8 @@ def health() -> dict:
 fastapi>=0.115.0
 uvicorn[standard]>=0.32.0
 groq>=0.13.0
-upstash-ratelimit>=1.2.0
-upstash-redis>=1.2.0
+upstash-ratelimit>=1.1.0
+upstash-redis>=1.0.0
 pydantic>=2.9.0
 python-dotenv>=1.0.1
 ```
