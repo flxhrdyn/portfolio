@@ -1,0 +1,7 @@
+[
+  { "code": "BNSP", "color": "#1a73e8", "title": "Associate Data Scientist", "issuer": "Badan Nasional Sertifikasi Profesi", "date": "Sept 2025", "badge": "National Cert." },
+  { "code": "TF_DD", "color": "#FF6F00", "title": "TensorFlow: Data and Deployment", "issuer": "DeepLearning.AI", "date": "May 2024", "badge": "Specialization" },
+  { "code": "TF_DV", "color": "#FF6F00", "title": "DeepLearning.AI TensorFlow Developer", "issuer": "DeepLearning.AI", "date": "Apr 2024", "badge": "Developer" },
+  { "code": "STANF", "color": "#4285F4", "title": "Machine Learning Specialization", "issuer": "Stanford University / DeepLearning.AI", "date": "Mar 2024", "badge": "Specialization" },
+  { "code": "SQL", "color": "#336791", "title": "SQL Server for Intermediate", "issuer": "Universitas Gunadarma", "date": "Feb 2024", "badge": "Database" }
+]

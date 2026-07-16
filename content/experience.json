@@ -1,0 +1,44 @@
+{
+  "work": [
+    {
+      "title": "IT Intern (ML & Data Science)",
+      "company": "PT Astra Visteon Indonesia",
+      "date": "June 2026 – Present",
+      "highlights": [
+        "Developing an unsupervised predictive maintenance system for industrial air compressors using 121K+ telemetry records for early anomaly detection.",
+        "Engineered an ensemble anomaly detection pipeline (Rule-Based, Isolation Forest, LSTM Autoencoder) that reduced false-positive rates by 45% for industrial air compressor telemetry.",
+        "Performed EDA, feature engineering, model evaluation, and threshold optimization, reducing false-positive alerts by over 50%."
+      ]
+    },
+    {
+      "title": "AI Engineer (Part-time)",
+      "company": "HPC Universitas Gunadarma (HPC-UG)",
+      "date": "Sept 2024 – Present",
+      "highlights": [
+        "Built an AI laboratory assistant by fine-tuning Qwen3-8B with PEFT and QLoRA, integrated into a production-ready RAG chatbot with FastAPI, Qwen2.5-VL OCR, and hybrid retrieval (Qdrant + BM25).",
+        "Published peer-reviewed research applying deep learning (CoralNet, InceptionV3, MobileNetV2) to automate coral bleaching detection, achieving 89% accuracy to support marine biodiversity monitoring.",
+        "Deployed distributed AI workloads on NVIDIA DGX-1 and DGX A100 with infrastructure teams using Docker."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "title": "Bachelor of Informatics",
+      "company": "Universitas Gunadarma",
+      "date": "Sept 2021 – Aug 2025",
+      "accentColor": "var(--accent-color)",
+      "statLabel": "GPA: 3.85 / 4.00",
+      "statColor": "var(--accent-text)",
+      "description": "Rigorous coursework in computational complexity, software engineering, relational databases, and high-performance neural computing."
+    },
+    {
+      "title": "Machine Learning Specialization",
+      "company": "Bangkit Academy",
+      "date": "Feb 2024 – July 2024",
+      "accentColor": "#34a853",
+      "statLabel": "Graduated with Distinction",
+      "statColor": "#34a853",
+      "description": "Google-led cohort centered on mathematics for ML, computer vision architectures, advanced transformers, and robust pipeline engineering."
+    }
+  ]
+}

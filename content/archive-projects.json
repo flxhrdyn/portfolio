@@ -1,0 +1,9 @@
+[
+  { "name": "Sekilas.ai", "category": "Agentic News Insights", "stack": "FastAPI, LangChain, React", "status": "WIP", "statusColor": "yellow" },
+  { "name": "iot-predictive-maintenance", "category": "Industrial ML / MLOps", "stack": "PyTorch, MLflow, Docker", "status": "Completed", "statusColor": "green" },
+  { "name": "Mango Leaf Disease Classifier", "category": "Computer Vision", "stack": "CNN, TensorFlow, Keras", "status": "Completed", "statusColor": "green" },
+  { "name": "Gold Price Prediction Dashboard", "category": "Time Series Forecasting", "stack": "scikit-learn, Streamlit", "status": "Completed", "statusColor": "green" },
+  { "name": "LUCIAN Lung Classifier", "category": "Medical Vision", "stack": "ConvNeXt-Base, PyTorch", "status": "Featured", "statusColor": "blue" },
+  { "name": "InvenioAI", "category": "Advanced RAG", "stack": "LangChain, Qdrant, FastAPI", "status": "Featured", "statusColor": "blue" },
+  { "name": "Omnius Platform", "category": "Media Analysis LLM", "stack": "React, TypeScript, LLMs", "status": "Featured", "statusColor": "blue" }
+]

@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "coral-bleaching-detection",
+    "title": "Automating Coral Bleaching Detection with Deep Learning",
+    "kind": "PEER-REVIEWED PUBLICATION",
+    "summary": "Developed and published research utilizing advanced deep learning architectures (CoralNet, InceptionV3, MobileNetV2) to automate the detection and quantification of coral bleaching, achieving 89% accuracy in marine biodiversity monitoring tasks.",
+    "tags": ["CoralNet", "InceptionV3", "MobileNetV2"],
+    "abstract": "Automated monitoring of coral reef ecosystems is critical for tracking the global impacts of rising ocean temperatures. This paper presents a deep learning-based framework to identify and quantify coral bleaching events from underwater imagery. Integrating model features from CoralNet, InceptionV3, and MobileNetV2 with localized patch classifier structures, we establish a robust computational pipeline that reduces manual annotation loads while maintaining high diagnostic precision.",
+    "methodology": [
+      "Pretrained Backbones: Comparative validation of features extracted from CoralNet-v2, InceptionV3, and MobileNetV2 models.",
+      "Data Pipeline: Dense color correction and histogram matching to resolve lighting variances in underwater optical channels.",
+      "Classifier Calibration: Softmax classification heads trained on public and proprietary labeled benthic surveys with automated augmentation layers."
+    ],
+    "keyFindings": "The ensemble model achieved an 89% overall classification accuracy for bleached vs. healthy coral structures. Deployed on high-performance computing resources, the pipeline processes extensive video transects in real-time, providing critical, automated insights for marine biodiversity conservation efforts."
+  }
+]
