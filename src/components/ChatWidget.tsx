@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import chatKb from "@/content/chat-kb.json";
+import Link from "next/link";
 
 interface Message {
   id: string;
@@ -11,21 +11,17 @@ interface Message {
 }
 
 const QUICK_CHIPS = [
-  { label: "Who is Felix?", query: "Who is Felix?" },
-  { label: "Featured Projects", query: "What are his featured projects?" },
-  { label: "Technical Skills", query: "What technical skills does he have?" },
-  { label: "Bangkit Academy", query: "Tell me about his Bangkit Academy experience" },
-  { label: "Contact Details", query: "Show contact channels" },
+  { label: "Who is Felix?", href: "/portfolio" },
+  { label: "Featured Projects", href: "/portfolio#projects" },
+  { label: "Technical Skills", href: "/portfolio#skills" },
+  { label: "Bangkit Academy", href: "/portfolio#experience" },
+  { label: "Contact Details", href: "/portfolio#contact" },
 ];
 
-function searchKb(query: string): string {
-  const q = query.toLowerCase();
-  if (q.includes("who") || q.includes("felix") || q.includes("about")) return chatKb.whoIsFelix;
-  if (q.includes("project") || q.includes("lucian") || q.includes("omnius") || q.includes("invenio")) return chatKb.featuredProjects;
-  if (q.includes("skill") || q.includes("tech") || q.includes("python")) return chatKb.technicalSkills;
-  if (q.includes("bangkit") || q.includes("cohort") || q.includes("academy")) return chatKb.bangkitAcademy;
-  if (q.includes("contact") || q.includes("email") || q.includes("reach")) return chatKb.contactDetails;
-  return chatKb.fallback;
+function toPlainText(msg: Message): string {
+  if (msg.text) return msg.text;
+  if (msg.html) return msg.html.replace(/<[^>]+>/g, "");
+  return "";
 }
 
 export default function ChatWidget() {
@@ -46,18 +42,43 @@ export default function ChatWidget() {
     });
   };
 
-  const send = (query: string) => {
+  const send = async (query: string) => {
     if (!query.trim() || isTyping) return;
+
+    const history = messages.slice(-6).map((msg) => ({
+      role: msg.sender === "user" ? "user" : "assistant",
+      content: toPlainText(msg),
+    }));
+
     setMessages((prev) => [...prev, { id: `${Date.now()}-u`, sender: "user", text: query }]);
     setInput("");
     setIsTyping(true);
     scrollToBottom();
 
-    setTimeout(() => {
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: query, history }),
+      });
+
+      if (!res.ok) throw new Error("Chat request failed");
+
+      const data = await res.json();
+      setMessages((prev) => [...prev, { id: `${Date.now()}-b`, sender: "bot", html: `<p>${data.reply}</p>` }]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: `${Date.now()}-b`,
+          sender: "bot",
+          html: "<p>Chat is temporarily unavailable - explore my work below.</p>",
+        },
+      ]);
+    } finally {
       setIsTyping(false);
-      setMessages((prev) => [...prev, { id: `${Date.now()}-b`, sender: "bot", html: searchKb(query) }]);
       scrollToBottom();
-    }, 700);
+    }
   };
 
   return (
@@ -80,7 +101,8 @@ export default function ChatWidget() {
                     <p>{msg.text}</p>
                   </div>
                 ) : (
-                  // Bot replies are static, author-controlled content from content/chat-kb.json — never user input.
+                  // Bot replies are either the static welcome message or plain text from our own
+                  // backend wrapped in a single <p> - never raw user input.
                   <div className="msg-bubble" dangerouslySetInnerHTML={{ __html: msg.html ?? "" }} />
                 )}
               </div>
@@ -126,9 +148,9 @@ export default function ChatWidget() {
 
           <div className="chat-chips-container">
             {QUICK_CHIPS.map((chip) => (
-              <button key={chip.label} className="chat-chip" onClick={() => send(chip.query)}>
+              <Link key={chip.label} href={chip.href} className="chat-chip">
                 {chip.label}
-              </button>
+              </Link>
             ))}
           </div>
 
