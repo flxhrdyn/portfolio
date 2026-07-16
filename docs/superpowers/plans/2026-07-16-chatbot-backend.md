@@ -789,12 +789,16 @@ Replace the full file content with:
 ```python
 import os
 
-from fastapi import FastAPI, HTTPException, Request
-from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
 
-from .groq_client import run_agent
-from .rate_limit import get_client_ip, ratelimit
-from .schemas import ChatRequest, ChatResponse
+load_dotenv()
+
+from fastapi import FastAPI, HTTPException, Request  # noqa: E402
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
+
+from .groq_client import run_agent  # noqa: E402
+from .rate_limit import get_client_ip, ratelimit  # noqa: E402
+from .schemas import ChatRequest, ChatResponse  # noqa: E402
 
 app = FastAPI()
 
