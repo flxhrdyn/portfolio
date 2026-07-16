@@ -476,7 +476,7 @@ ratelimit = Ratelimit(redis=_redis, limiter=SlidingWindow(max_requests=20, windo
 
 
 def get_client_ip(headers: Mapping[str, str], client_host: Optional[str]) -> str:
-    # Only a single trusted hop (the Railway edge proxy) sits in front of this service.
+    # Only a single trusted hop (the Render edge proxy) sits in front of this service.
     # The edge appends the real client IP as the last entry; earlier entries are
     # client-supplied and spoofable, so the rightmost value is the only one to trust.
     forwarded = headers.get("x-forwarded-for")
@@ -1226,19 +1226,28 @@ cd backend
 Tests mock the Groq client and rate limiter - no real API calls or network
 access are needed to run the suite.
 
-## Deployment (Railway)
+## Deployment (Render)
+
+Render's free tier has no perpetual cost, at the tradeoff of a cold start
+(~30-50s) after 15 minutes of inactivity - acceptable for a low-traffic
+portfolio chatbot. (Switched from the initially-planned Railway after
+confirming Railway's free tier is a one-time trial credit, not perpetual.)
 
 1. Create a Groq account at console.groq.com, generate an API key.
 2. Create a free Redis database at upstash.com, copy the REST URL and
    token from the database's REST API tab.
-3. Create a Railway project, connect this repo, set the service's root
-   directory to `backend/`.
-4. Add environment variables in Railway: `GROQ_API_KEY`,
+3. On render.com, create a new **Web Service**, connect this repo, and set:
+   - **Root Directory**: `backend`
+   - **Runtime**: Python 3
+   - **Build Command**: `pip install -r requirements.txt`
+   - **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
+   - **Instance Type**: Free
+4. Add environment variables in Render: `GROQ_API_KEY`,
    `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `ALLOWED_ORIGIN`
    (set to the deployed Vercel URL, e.g. `https://your-site.vercel.app`).
-5. Deploy. Copy the resulting Railway service URL.
+5. Deploy. Copy the resulting `onrender.com` service URL.
 6. In the Vercel project's environment variables, add `BACKEND_URL` set to
-   that Railway service URL, then redeploy the Next.js app.
+   that Render service URL, then redeploy the Next.js app.
 ```
 
 - [ ] **Step 2: Run the full backend test suite**
