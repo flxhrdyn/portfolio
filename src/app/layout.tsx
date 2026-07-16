@@ -2,9 +2,30 @@ import type { Metadata } from "next";
 import ThemeScript from "@/components/ThemeScript";
 import "./globals.css";
 
+const SITE_URL = "https://flxhrdyn.vercel.app";
+const TITLE = "Felix Windriyareksa Hardyan — AI Engineer & Data Scientist";
+const DESCRIPTION =
+  "AI/ML Engineer & Data Scientist portfolio — computer vision, applied NLP, and retrieval-augmented generation.";
+
 export const metadata: Metadata = {
-  title: "Felix Windriyareksa Hardyan — AI Engineer & Data Scientist",
-  description: "AI/ML Engineer & Data Scientist portfolio — computer vision, applied NLP, and retrieval-augmented generation.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: TITLE,
+    template: "%s — Felix Windriyareksa Hardyan",
+  },
+  description: DESCRIPTION,
+  openGraph: {
+    title: TITLE,
+    description: DESCRIPTION,
+    url: SITE_URL,
+    siteName: "Felix Windriyareksa Hardyan",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

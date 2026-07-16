@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect, useMemo, useState } from "react";
+import type { ContributionDay } from "@/lib/github-contributions";
 
 const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 const TOTAL_COLUMNS = 53;
@@ -13,54 +11,70 @@ interface Cell {
   commitCount: number | "No";
 }
 
-function buildCells(): Cell[] {
-  const cells: Cell[] = [];
-  for (let i = 0; i < TOTAL_CELLS; i++) {
-    const r = Math.random();
-    let level = 0;
-    if (r > 0.88) level = 4;
-    else if (r > 0.75) level = 3;
-    else if (r > 0.55) level = 2;
-    else if (r > 0.35) level = 1;
+function buildCells(contributions: ContributionDay[]): Cell[] {
+  const recent = contributions.slice(-TOTAL_CELLS);
+  const padCount = TOTAL_CELLS - recent.length;
+  const earliestDate = recent.length > 0 ? new Date(recent[0].date) : new Date();
 
-    const date = new Date();
-    date.setDate(date.getDate() - (TOTAL_CELLS - 1 - i));
-    const commitCount = level === 0 ? "No" : level * 2 + Math.floor(Math.random() * 2);
-    cells.push({ level, date, commitCount });
+  const cells: Cell[] = [];
+  for (let i = padCount; i > 0; i--) {
+    const date = new Date(earliestDate);
+    date.setDate(date.getDate() - i);
+    cells.push({ level: 0, date, commitCount: "No" });
+  }
+  for (const day of recent) {
+    cells.push({
+      level: day.level,
+      date: new Date(day.date),
+      commitCount: day.count === 0 ? "No" : day.count,
+    });
   }
   return cells;
 }
 
-export default function GithubHeatmap() {
-  const [cells, setCells] = useState<Cell[]>([]);
-
-  useEffect(() => {
-    // Cells are randomized per mount; generating them during render would produce
-    // a different result on the server than on the client and break hydration.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setCells(buildCells());
-  }, []);
-
-  const monthLabels = useMemo(() => {
-    const labels: { name: string; column: number }[] = [];
-    const seen = new Set<string>();
-    for (let col = 0; col < TOTAL_COLUMNS; col++) {
-      const firstCellIndex = col * ROWS_PER_COLUMN;
-      if (firstCellIndex >= cells.length) continue;
-      const cellDate = cells[firstCellIndex].date;
-      const key = `${cellDate.getMonth()}-${cellDate.getFullYear()}`;
-      if (!seen.has(key)) {
-        seen.add(key);
-        labels.push({ name: MONTH_NAMES[cellDate.getMonth()], column: col + 1 });
-      }
+function buildMonthLabels(cells: Cell[]) {
+  const labels: { name: string; column: number }[] = [];
+  const seen = new Set<string>();
+  for (let col = 0; col < TOTAL_COLUMNS; col++) {
+    const firstCellIndex = col * ROWS_PER_COLUMN;
+    if (firstCellIndex >= cells.length) continue;
+    const cellDate = cells[firstCellIndex].date;
+    const key = `${cellDate.getMonth()}-${cellDate.getFullYear()}`;
+    if (!seen.has(key)) {
+      seen.add(key);
+      labels.push({ name: MONTH_NAMES[cellDate.getMonth()], column: col + 1 });
     }
-    return labels;
-  }, [cells]);
+  }
+  return labels;
+}
+
+interface GithubHeatmapProps {
+  contributions: ContributionDay[] | null;
+}
+
+export default function GithubHeatmap({ contributions }: GithubHeatmapProps) {
+  if (!contributions) {
+    return (
+      <div className="github-contrib-card">
+        <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem" }}>
+          Contribution data is temporarily unavailable -{" "}
+          <a href="https://github.com/flxhrdyn" target="_blank" rel="noreferrer" className="contrib-link">
+            view directly on GitHub
+          </a>
+          .
+        </p>
+      </div>
+    );
+  }
+
+  const cells = buildCells(contributions);
+  const monthLabels = buildMonthLabels(cells);
+  const total = contributions.reduce((sum, day) => sum + day.count, 0);
 
   return (
     <div className="github-contrib-card">
       <div className="github-contrib-header">
-        <span className="contrib-count">842 contributions in the last year</span>
+        <span className="contrib-count">{total} contributions in the last year</span>
       </div>
 
       <div className="github-contrib-body">

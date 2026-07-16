@@ -6,10 +6,11 @@ load_dotenv()
 
 from fastapi import FastAPI, HTTPException, Request  # noqa: E402
 from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
+from fastapi.responses import StreamingResponse  # noqa: E402
 
-from .groq_client import run_agent  # noqa: E402
+from .groq_client import run_agent_stream  # noqa: E402
 from .rate_limit import get_client_ip, ratelimit  # noqa: E402
-from .schemas import ChatRequest, ChatResponse  # noqa: E402
+from .schemas import ChatRequest  # noqa: E402
 
 app = FastAPI()
 
@@ -27,13 +28,14 @@ def health() -> dict:
     return {"status": "ok"}
 
 
-@app.post("/chat", response_model=ChatResponse)
-async def chat(payload: ChatRequest, request: Request) -> ChatResponse:
+@app.post("/chat")
+async def chat(payload: ChatRequest, request: Request) -> StreamingResponse:
     identifier = get_client_ip(request.headers, request.client.host if request.client else None)
     result = ratelimit.limit(identifier)
     if not result.allowed:
         raise HTTPException(status_code=429, detail="Rate limit exceeded. Try again later.")
 
     history = [{"role": m.role, "content": m.content} for m in payload.history]
-    reply = await run_agent(payload.message, history)
-    return ChatResponse(reply=reply)
+    return StreamingResponse(
+        run_agent_stream(payload.message, history), media_type="text/plain"
+    )

@@ -587,6 +587,9 @@
       flex: 1;
       padding: 1.5rem;
       overflow-y: auto;
+    }
+
+    .chat-body-content {
       display: flex;
       flex-direction: column;
       gap: 1.25rem;

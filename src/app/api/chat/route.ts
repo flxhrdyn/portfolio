@@ -17,6 +17,13 @@ export async function POST(req: Request) {
     return Response.json({ error: "Chat service is unreachable." }, { status: 502 });
   }
 
-  const data = await backendResponse.json();
-  return Response.json(data, { status: backendResponse.status });
+  if (!backendResponse.ok) {
+    const data = await backendResponse.json().catch(() => ({ error: "Chat request failed." }));
+    return Response.json(data, { status: backendResponse.status });
+  }
+
+  return new Response(backendResponse.body, {
+    status: backendResponse.status,
+    headers: { "Content-Type": "text/plain" },
+  });
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 interface Message {
@@ -35,12 +35,20 @@ export default function ChatWidget() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = () => {
-    requestAnimationFrame(() => {
-      if (bodyRef.current) bodyRef.current.scrollTop = bodyRef.current.scrollHeight;
+  // Pins scroll to the bottom whenever message content grows - including late reflows
+  // (e.g. web font finishing load after streaming ends) that a one-off scroll call would miss.
+  useEffect(() => {
+    const body = bodyRef.current;
+    const content = contentRef.current;
+    if (!body || !content) return;
+    const observer = new ResizeObserver(() => {
+      body.scrollTop = body.scrollHeight;
     });
-  };
+    observer.observe(content);
+    return () => observer.disconnect();
+  }, []);
 
   const send = async (query: string) => {
     if (!query.trim() || isTyping) return;
@@ -53,7 +61,6 @@ export default function ChatWidget() {
     setMessages((prev) => [...prev, { id: `${Date.now()}-u`, sender: "user", text: query }]);
     setInput("");
     setIsTyping(true);
-    scrollToBottom();
 
     try {
       const res = await fetch("/api/chat", {
@@ -62,10 +69,21 @@ export default function ChatWidget() {
         body: JSON.stringify({ message: query, history }),
       });
 
-      if (!res.ok) throw new Error("Chat request failed");
+      if (!res.ok || !res.body) throw new Error("Chat request failed");
 
-      const data = await res.json();
-      setMessages((prev) => [...prev, { id: `${Date.now()}-b`, sender: "bot", text: data.reply }]);
+      const replyId = `${Date.now()}-b`;
+      setMessages((prev) => [...prev, { id: replyId, sender: "bot", text: "" }]);
+      setIsTyping(false);
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let text = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        text += decoder.decode(value, { stream: true });
+        setMessages((prev) => prev.map((msg) => (msg.id === replyId ? { ...msg, text } : msg)));
+      }
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -77,7 +95,6 @@ export default function ChatWidget() {
       ]);
     } finally {
       setIsTyping(false);
-      scrollToBottom();
     }
   };
 
@@ -93,33 +110,35 @@ export default function ChatWidget() {
 
         <div style={{ display: "flex", flexDirection: "column", flexGrow: 1, overflow: "hidden", minHeight: 0 }}>
           <div className="chat-body" ref={bodyRef}>
-            {messages.map((msg) => (
-              <div key={msg.id} className={`chat-msg ${msg.sender === "user" ? "user" : "bot"}`}>
-                <div className="msg-sender">{msg.sender === "user" ? "GUEST" : "HAWAT"}</div>
-                {msg.text !== undefined ? (
-                  // User messages and live LLM replies are untrusted/model-generated text -
-                  // always rendered as plain text, never through dangerouslySetInnerHTML.
-                  <div className="msg-bubble">
-                    <p>{msg.text}</p>
-                  </div>
-                ) : (
-                  // Only our own hardcoded strings (welcome message, offline fallback) use html.
-                  <div className="msg-bubble" dangerouslySetInnerHTML={{ __html: msg.html ?? "" }} />
-                )}
-              </div>
-            ))}
-            {isTyping && (
-              <div className="chat-msg bot">
-                <div className="msg-sender">HAWAT</div>
-                <div className="msg-bubble" style={{ padding: "0.4rem 0.8rem" }}>
-                  <div className="typing-indicator">
-                    <div className="typing-dot" />
-                    <div className="typing-dot" />
-                    <div className="typing-dot" />
+            <div className="chat-body-content" ref={contentRef}>
+              {messages.map((msg) => (
+                <div key={msg.id} className={`chat-msg ${msg.sender === "user" ? "user" : "bot"}`}>
+                  <div className="msg-sender">{msg.sender === "user" ? "GUEST" : "HAWAT"}</div>
+                  {msg.text !== undefined ? (
+                    // User messages and live LLM replies are untrusted/model-generated text -
+                    // always rendered as plain text, never through dangerouslySetInnerHTML.
+                    <div className="msg-bubble">
+                      <p>{msg.text}</p>
+                    </div>
+                  ) : (
+                    // Only our own hardcoded strings (welcome message, offline fallback) use html.
+                    <div className="msg-bubble" dangerouslySetInnerHTML={{ __html: msg.html ?? "" }} />
+                  )}
+                </div>
+              ))}
+              {isTyping && (
+                <div className="chat-msg bot">
+                  <div className="msg-sender">HAWAT</div>
+                  <div className="msg-bubble" style={{ padding: "0.4rem 0.8rem" }}>
+                    <div className="typing-indicator">
+                      <div className="typing-dot" />
+                      <div className="typing-dot" />
+                      <div className="typing-dot" />
+                    </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
 
           <div className="chat-input-wrapper">

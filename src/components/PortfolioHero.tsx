@@ -1,4 +1,6 @@
-import ParticlesCanvas from "./ParticlesCanvas";
+import dynamic from "next/dynamic";
+
+const ParticlesCanvas = dynamic(() => import("./ParticlesCanvas"));
 
 export default function PortfolioHero() {
   return (

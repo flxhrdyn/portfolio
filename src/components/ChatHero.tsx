@@ -1,5 +1,7 @@
-import ParticlesCanvas from "./ParticlesCanvas";
+import dynamic from "next/dynamic";
 import ChatWidget from "./ChatWidget";
+
+const ParticlesCanvas = dynamic(() => import("./ParticlesCanvas"));
 
 export default function ChatHero() {
   return (

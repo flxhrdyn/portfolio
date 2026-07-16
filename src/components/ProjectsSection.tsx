@@ -7,6 +7,7 @@ import GithubHeatmap from "./GithubHeatmap";
 import ProjectCaseStudyBody from "./ProjectCaseStudyBody";
 import projects from "@/content/projects.json";
 import archiveProjects from "@/content/archive-projects.json";
+import type { ContributionDay } from "@/lib/github-contributions";
 
 const STATUS_BADGE_CLASS: Record<string, string> = {
   yellow: "badge-google-yellow",
@@ -14,7 +15,11 @@ const STATUS_BADGE_CLASS: Record<string, string> = {
   blue: "badge-google-blue",
 };
 
-export default function ProjectsSection() {
+interface ProjectsSectionProps {
+  contributions: ContributionDay[] | null;
+}
+
+export default function ProjectsSection({ contributions }: ProjectsSectionProps) {
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const [archiveOpen, setArchiveOpen] = useState(false);
 
@@ -90,7 +95,7 @@ export default function ProjectsSection() {
           <p style={{ marginBottom: "1.5rem", fontSize: "0.92rem", color: "var(--text-secondary)", maxWidth: "650px" }}>
             A live calendar tracking open-source commits, repository updates, and active model development pipelines.
           </p>
-          <GithubHeatmap />
+          <GithubHeatmap contributions={contributions} />
         </div>
       </div>
 
