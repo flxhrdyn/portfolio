@@ -14,8 +14,9 @@ entry points:
 ## Stack
 
 - **Framework**: Next.js (App Router), TypeScript, Tailwind CSS
-- **Content**: project case studies and research writing stored as MDX files with frontmatter
-  (title, date, tags, demo/repo URLs) - no CMS, no database. Everything is edited via git.
+- **Content**: structured data (projects, experience, skills, certifications, writing) stored as
+  `content/*.json` files, consumed directly by React components - no CMS, no database. Everything
+  is edited via git.
 - **Hosting**: Vercel, on the free Hobby tier
 - **Analytics**: Vercel Analytics
 
@@ -30,9 +31,12 @@ Atreides in Dune - is a real LLM (not a scripted/fake bot), deliberately scoped 
   curated markdown files (`about.md`, `projects.md`, `experience.md`, `skills.md`, `contact.md`,
   plus `cv.md` as a fallback full summary). This is closed-book question answering: the model is
   instructed to answer only from the specific document(s) loaded for a given query.
-- **Routing**: which document(s) get loaded is decided deterministically in code, not by a second
-  LLM call - quick-reply chips map directly to a file, and free-text questions use simple keyword
-  matching against topics/project names. This keeps latency low and avoids an extra API call.
+- **Routing**: agentic tool-calling, not deterministic keyword matching. Each grounding file is
+  exposed to the model as a callable tool, and the model itself decides which tool(s) to call
+  based on the question - including calling more than one tool in a turn for questions that span
+  topics, up to a small iteration cap (4 tool calls) to bound latency and cost. Quick-reply chips
+  remain a free navigation shortcut to a `/portfolio` section and do not call the API at all -
+  only free-text questions trigger the agent loop.
 - **Why not a vector database?** At this project's current scale (a handful of projects and a
   short bio), splitting content into a few small topic files achieves the same practical benefit
   as retrieval (only relevant content is sent to the model) with less infrastructure, tighter
