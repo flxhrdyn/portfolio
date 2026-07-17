@@ -11,8 +11,12 @@ seen on sites like LangChain's homepage.
 
 ### `content/tech-stack.json` (new)
 
-Flat array of the 16 tools with a recognizable brand logo, curated from the existing
-`Programming`, `Frameworks & Tools`, and `Cloud & MLOps` categories in `skills.json`:
+Flat array of the tools with a recognizable brand logo, curated from the existing
+`Programming`, `Frameworks & Tools`, and `Cloud & MLOps` categories in `skills.json`.
+Every slug below was verified against the installed `simple-icons@16.26.0` package
+contents directly (not guessed) — `Microsoft Azure` was dropped because no Microsoft
+icon of any kind exists in the package, and `LlamaIndex`/`FAISS` were dropped for the
+same reason (no matching icon):
 
 ```json
 [
@@ -29,31 +33,32 @@ Flat array of the 16 tools with a recognizable brand logo, curated from the exis
   { "name": "LangChain", "icon": "langchain" },
   { "name": "Hugging Face", "icon": "huggingface" },
   { "name": "Docker", "icon": "docker" },
-  { "name": "Microsoft Azure", "icon": "microsoftazure" },
+  { "name": "Pydantic", "icon": "pydantic" },
+  { "name": "Qdrant", "icon": "qdrant" },
   { "name": "Google Cloud", "icon": "googlecloud" },
   { "name": "NVIDIA", "icon": "nvidia" }
 ]
 ```
 
 `icon` is a slug into the `simple-icons` npm package (MIT-licensed, SVG path data bundled
-at build time — no CDN request, no runtime fetch). Exact slugs get verified against the
-installed package version during implementation; any tool without a real `simple-icons`
-entry is dropped from this list rather than faked.
+at build time — no CDN request, no runtime fetch).
 
 ### `content/skills.json` (edited)
 
-The 16 items above are removed from their existing categories. The two categories left
-thin by that removal — `Programming` (would drop to SQL, REST APIs) and `Cloud & MLOps`
-(would drop to MLOps Pipelines, CI/CD) — are merged into one new category,
-**"Engineering Practices"**, containing: SQL, REST APIs, MLOps Pipelines, CI/CD.
+The 17 items above are removed from their existing categories. `Microsoft Azure` has no
+`simple-icons` entry, so it stays behind as a plain pill rather than moving to the
+carousel. The two categories left thin by the removal — `Programming` (would drop to
+SQL, REST APIs) and `Cloud & MLOps` (would drop to Microsoft Azure, MLOps Pipelines,
+CI/CD) — are merged into one new category, **"Engineering Practices"**, containing:
+SQL, REST APIs, Microsoft Azure, MLOps Pipelines, CI/CD.
 
 Categories after the edit:
 - **AI & Machine Learning** — unchanged (Advanced RAG, AI Agents, Deep Learning, Computer
   Vision, NLP, LLMs & GenAI, Prompt Engineering, PEFT & QLoRA, Anomaly Detection)
-- **Frameworks & Tools** — all 5 branded items (PyTorch, TensorFlow, scikit-learn,
-  LangChain, Hugging Face) move to the carousel; retains only the non-branded/no-logo
-  specialty items: Pydantic AI, LlamaIndex & LlamaParse, Qdrant, FAISS
-- **Engineering Practices** — new: SQL, REST APIs, MLOps Pipelines, CI/CD
+- **Frameworks & Tools** — the 7 branded items (PyTorch, TensorFlow, scikit-learn,
+  LangChain, Hugging Face, Pydantic AI, Qdrant) move to the carousel; retains only the
+  no-logo specialty items: LlamaIndex & LlamaParse, FAISS
+- **Engineering Practices** — new: SQL, REST APIs, Microsoft Azure, MLOps Pipelines, CI/CD
 - **Languages & Bio** — unchanged
 
 ## Component: `TechStackCarousel`
@@ -62,7 +67,7 @@ New file: `src/components/TechStackCarousel.tsx`. Server Component (no `"use cli
 no React state) — the animation is 100% CSS, so it costs nothing at runtime beyond
 painting a `transform`.
 
-- Splits the 16 tools into two rows of 8.
+- Splits the 17 tools into two rows (9 and 8).
 - Each row's item array is duplicated (`[...items, ...items]`) so the track is exactly
   200% of the visible width — at a 50% `translateX` shift the duplicate seamlessly
   picks up where the original left off, producing a seamless infinite loop with no
