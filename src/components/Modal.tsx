@@ -21,6 +21,10 @@ export default function Modal({ id, title, isOpen, onClose, maxWidth, children }
     else if (!isOpen && dialog.open) dialog.close();
   }, [isOpen]);
 
+  const requestClose = () => {
+    dialogRef.current?.close();
+  };
+
   return (
     <dialog
       ref={dialogRef}
@@ -28,7 +32,7 @@ export default function Modal({ id, title, isOpen, onClose, maxWidth, children }
       aria-labelledby={`${id}-title`}
       onClose={onClose}
       onClick={(e) => {
-        if (e.target === dialogRef.current) onClose();
+        if (e.target === dialogRef.current) requestClose();
       }}
       className="modal-card"
       style={{ maxWidth: maxWidth ?? undefined, padding: 0, border: "1px solid var(--border-color)" }}
@@ -37,7 +41,7 @@ export default function Modal({ id, title, isOpen, onClose, maxWidth, children }
         <span id={`${id}-title`} className="modal-title">
           {title}
         </span>
-        <button className="modal-close-btn" onClick={onClose} aria-label="Close modal">
+        <button className="modal-close-btn" onClick={requestClose} aria-label="Close modal">
           ✕
         </button>
       </div>
