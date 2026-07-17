@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 interface ModalProps {
   id: string;
@@ -12,40 +12,46 @@ interface ModalProps {
 }
 
 export default function Modal({ id, title, isOpen, onClose, maxWidth, children }: ModalProps) {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-
   useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-    if (isOpen && !dialog.open) dialog.showModal();
-    else if (!isOpen && dialog.open) dialog.close();
-  }, [isOpen]);
+    if (!isOpen) return;
 
-  const requestClose = () => {
-    dialogRef.current?.close();
-  };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isOpen, onClose]);
 
   return (
-    <dialog
-      ref={dialogRef}
+    <div
       id={id}
+      className={`modal-overlay${isOpen ? " active" : ""}`}
+      role="dialog"
+      aria-modal="true"
       aria-labelledby={`${id}-title`}
-      onClose={onClose}
+      aria-hidden={!isOpen}
       onClick={(e) => {
-        if (e.target === dialogRef.current) requestClose();
+        if (e.target === e.currentTarget) onClose();
       }}
-      className="modal-card"
-      style={{ maxWidth: maxWidth ?? undefined, padding: 0, border: "1px solid var(--border-color)" }}
     >
-      <div className="modal-header">
-        <span id={`${id}-title`} className="modal-title">
-          {title}
-        </span>
-        <button className="modal-close-btn" onClick={requestClose} aria-label="Close modal">
-          ✕
-        </button>
+      <div className="modal-card" style={{ maxWidth: maxWidth ?? undefined }}>
+        <div className="modal-header">
+          <span id={`${id}-title`} className="modal-title">
+            {title}
+          </span>
+          <button className="modal-close-btn" onClick={onClose} aria-label="Close modal">
+            ✕
+          </button>
+        </div>
+        <div className="modal-body">{children}</div>
       </div>
-      <div className="modal-body">{children}</div>
-    </dialog>
+    </div>
   );
 }

@@ -1786,22 +1786,3 @@
       }
     }
 
-/* NATIVE <dialog> RESET (used by the case-study/research/archive modals) */
-dialog.modal-card {
-  margin: auto;
-  max-width: 800px;
-  width: 100%;
-  max-height: 85vh;
-}
-
-dialog.modal-card::backdrop {
-  background-color: rgba(18, 18, 20, 0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-@media (max-width: 768px) {
-  dialog.modal-card {
-    max-height: 90vh;
-  }
-}
