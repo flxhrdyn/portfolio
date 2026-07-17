@@ -6,7 +6,15 @@ import pytest
 from groq import APIConnectionError, APIStatusError
 
 from app import tools as tools_module
-from app.groq_client import MAX_ITERATIONS, STEP_LIMIT_MESSAGE, UNAVAILABLE_MESSAGE, run_agent, run_agent_stream
+from app.groq_client import (
+    FALLBACK_MODEL,
+    MAX_ITERATIONS,
+    MODEL,
+    STEP_LIMIT_MESSAGE,
+    UNAVAILABLE_MESSAGE,
+    run_agent,
+    run_agent_stream,
+)
 
 
 def _content_chunk(text: str):
@@ -95,6 +103,24 @@ async def test_run_agent_returns_friendly_message_on_connection_error(monkeypatc
 
     assert result == UNAVAILABLE_MESSAGE
     assert mock_create.call_count == 1
+
+
+@pytest.mark.asyncio
+async def test_run_agent_falls_back_to_smaller_model_on_daily_rate_limit(monkeypatch):
+    request = httpx.Request("POST", "https://api.groq.com")
+    response = httpx.Response(status_code=429, request=request)
+    rate_limited = APIStatusError("rate limit exceeded", response=response, body=None)
+    mock_create = AsyncMock(
+        side_effect=[rate_limited, _stream([_content_chunk("Felix is an AI engineer.")])]
+    )
+    monkeypatch.setattr("app.groq_client.client.chat.completions.create", mock_create)
+
+    result = await run_agent("Who is Felix?", [])
+
+    assert result == "Felix is an AI engineer."
+    assert mock_create.call_count == 2
+    assert mock_create.call_args_list[0].kwargs["model"] == MODEL
+    assert mock_create.call_args_list[1].kwargs["model"] == FALLBACK_MODEL
 
 
 @pytest.mark.asyncio

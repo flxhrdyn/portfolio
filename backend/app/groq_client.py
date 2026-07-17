@@ -7,6 +7,9 @@ from .system_prompt import SYSTEM_PROMPT
 from .tools import TOOL_FUNCTIONS, TOOLS
 
 MODEL = "llama-3.3-70b-versatile"
+# Smaller model with its own separate Groq quota bucket - falls back here when the 70B model
+# hits its tokens-per-day limit, so the chatbot degrades instead of going fully unavailable.
+FALLBACK_MODEL = "llama-3.1-8b-instant"
 # Most questions resolve in 1-2 tool calls (see tools.py); each extra iteration resends the
 # full message history - including every tool result loaded so far - so keeping this low
 # matters for staying under Groq's tokens-per-minute rate limit.
@@ -28,17 +31,35 @@ async def run_agent_stream(message: str, history: list[dict]) -> AsyncIterator[s
         *history,
         {"role": "user", "content": message},
     ]
+    model = MODEL
 
     for _ in range(MAX_ITERATIONS):
         try:
             stream = await client.chat.completions.create(
-                model=MODEL,
+                model=model,
                 messages=messages,
                 tools=TOOLS,
                 tool_choice="auto",
                 stream=True,
             )
-        except (APIConnectionError, APIStatusError):
+        except APIStatusError as e:
+            if model != FALLBACK_MODEL and e.status_code == 429:
+                model = FALLBACK_MODEL
+                try:
+                    stream = await client.chat.completions.create(
+                        model=model,
+                        messages=messages,
+                        tools=TOOLS,
+                        tool_choice="auto",
+                        stream=True,
+                    )
+                except (APIConnectionError, APIStatusError):
+                    yield UNAVAILABLE_MESSAGE
+                    return
+            else:
+                yield UNAVAILABLE_MESSAGE
+                return
+        except APIConnectionError:
             yield UNAVAILABLE_MESSAGE
             return
 
