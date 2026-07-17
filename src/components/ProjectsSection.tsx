@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import Modal from "./Modal";
 import GithubHeatmap from "./GithubHeatmap";
 import ProjectCaseStudyBody from "./ProjectCaseStudyBody";
@@ -28,7 +27,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
       <div className="container">
         <h2>Featured Projects</h2>
         <p style={{ marginBottom: "2rem" }}>
-          Selected case studies demonstrating end-to-end model training, production pipelines, and empirical diagnostic metrics.
+          Selected projects demonstrating end-to-end model training, production pipelines, and empirical diagnostic metrics.
         </p>
 
         <div className="projects-grid">
@@ -60,7 +59,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
               </div>
               <div className="project-footer">
                 <span className="project-link">
-                  Read case study
+                  Explore Project
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
@@ -103,13 +102,13 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
         <Modal key={project.slug} id={`${project.slug}-modal`} title={project.modalTitle} isOpen={openSlug === project.slug} onClose={() => setOpenSlug(null)}>
           <ProjectCaseStudyBody project={project} />
           <div className="modal-section" style={{ paddingTop: "0.5rem", borderTop: "1px solid var(--border-color)" }}>
-            <Link href={`/projects/${project.slug}`} className="project-link">
-              View full case study page
+            <a href={`https://github.com/flxhrdyn/${project.repo}`} target="_blank" rel="noopener noreferrer" className="project-link">
+              Explore Project
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
-            </Link>
+            </a>
           </div>
         </Modal>
       ))}
@@ -129,7 +128,14 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
               {archiveProjects.map((row) => (
                 <tr key={row.name}>
                   <td>
-                    <strong>{row.name}</strong>
+                    <a
+                      href={`https://github.com/flxhrdyn/${row.repo}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "var(--text-primary)", fontWeight: 700, textDecoration: "none" }}
+                    >
+                      {row.name}
+                    </a>
                   </td>
                   <td>{row.category}</td>
                   <td>{row.stack}</td>

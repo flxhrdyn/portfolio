@@ -28,27 +28,42 @@ function toPlainText(msg: Message): string {
 
 // Turns links the LLM mentions in plain text into clickable links, without ever injecting raw
 // HTML from model output. Handles three phrasings, in priority order, so the link always shows
-// a readable label instead of a bare path - even if the model doesn't follow the markdown format:
+// a readable label instead of a bare URL - even if the model doesn't follow the markdown format:
 //   1. Markdown links: "[full portfolio](/portfolio)"
 //   2. "<label> at /path" - e.g. "his portfolio at /portfolio" -> label becomes the link
-//   3. Bare paths with no label - e.g. "see /projects/lucian" - the path itself becomes the link
-const SITE_PATH = "\\/(?:portfolio|projects|research)(?:[/#][\\w-]*)*";
-const MARKDOWN_LINK_PATTERN = new RegExp(`\\[([^\\]]+)\\]\\((${SITE_PATH})\\)`, "g");
-const LABELED_PATH_PATTERN = new RegExp(`((?:\\w+\\s){0,1}\\w+)\\s+at\\s+(${SITE_PATH})`, "gi");
-const BARE_PATH_PATTERN = new RegExp(SITE_PATH, "g");
+//   3. Bare paths with no label - e.g. "see the repo at https://github.com/flxhrdyn/LUCIAN"
+// Projects link out to their GitHub repo, not an internal page - so both site-relative paths
+// and github.com/flxhrdyn/<repo> URLs are recognized.
+const SITE_PATH = "\\/(?:portfolio|research)(?:[/#][\\w-]*)*";
+const GITHUB_URL = "https:\\/\\/github\\.com\\/flxhrdyn\\/[\\w.-]+";
+const LINK_TARGET = `(?:${SITE_PATH}|${GITHUB_URL})`;
+const MARKDOWN_LINK_PATTERN = new RegExp(`\\[([^\\]]+)\\]\\((${LINK_TARGET})\\)`, "g");
+const LABELED_PATH_PATTERN = new RegExp(`((?:\\w+\\s){0,1}\\w+)\\s+at\\s+(${LINK_TARGET})`, "gi");
+const BARE_PATH_PATTERN = new RegExp(LINK_TARGET, "g");
 
-// Readable fallback labels for bare paths the model drops in without any surrounding
-// "<label> at" phrasing (e.g. a comma-separated list of case-study links).
+// Readable fallback labels for bare links the model drops in without any surrounding
+// "<label> at" phrasing (e.g. a comma-separated list of repo links).
 const PATH_LABELS: Record<string, string> = {
   "/portfolio": "full portfolio",
   "/portfolio#experience": "his experience",
   "/portfolio#skills": "his skills",
   "/portfolio#certifications": "his accomplishments",
   "/portfolio#contact": "his contact details",
-  "/projects/invenioai": "InvenioAI",
-  "/projects/omnius": "Omnius",
-  "/projects/lucian": "LUCIAN",
+  "https://github.com/flxhrdyn/InvenioAI": "InvenioAI",
+  "https://github.com/flxhrdyn/Omnius": "Omnius",
+  "https://github.com/flxhrdyn/LUCIAN": "LUCIAN",
 };
+
+const LINK_STYLE = { color: "var(--accent-text)", textDecoration: "underline", fontWeight: 600 };
+
+function SmartLink({ href, children, linkKey }: { href: string; children: ReactNode; linkKey: string }) {
+  const external = href.startsWith("https://");
+  return (
+    <Link key={linkKey} href={href} style={LINK_STYLE} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
+      {children}
+    </Link>
+  );
+}
 
 function titleCase(slug: string): string {
   return slug
@@ -57,23 +72,26 @@ function titleCase(slug: string): string {
     .join(" ");
 }
 
-// Never show a raw route to the visitor - fall back to a readable label derived from the
-// path's own segments for anything not covered by the explicit map above (e.g. a project or
+// Never show a raw URL to the visitor - fall back to a readable label derived from the
+// link's own segments for anything not covered by the explicit map above (e.g. a repo or
 // research slug added later).
 function labelForPath(path: string): string {
   if (PATH_LABELS[path]) return PATH_LABELS[path];
 
+  if (path.startsWith("https://github.com/flxhrdyn/")) {
+    const repo = path.split("/").pop() ?? "";
+    return `${titleCase(repo)} repo`;
+  }
+
   const [base, anchor] = path.split("#");
   const segments = base.split("/").filter(Boolean);
 
-  if (segments[0] === "projects" && segments[1]) return `${titleCase(segments[1])} case study`;
   if (segments[0] === "research" && segments[1]) return `${titleCase(segments[1])} article`;
   if (anchor) return `his ${anchor}`;
   return "full portfolio";
 }
 
 function linkifyLabeledPaths(text: string, keyPrefix: string): ReactNode[] {
-  const linkStyle = { color: "var(--accent-text)", textDecoration: "underline", fontWeight: 600 };
   const parts = text.split(LABELED_PATH_PATTERN);
   const nodes: ReactNode[] = [];
 
@@ -89,9 +107,9 @@ function linkifyLabeledPaths(text: string, keyPrefix: string): ReactNode[] {
         if (part) nodes.push(part);
         if (pathMatches[j]) {
           nodes.push(
-            <Link key={`${keyPrefix}-${i}-${j}`} href={pathMatches[j]} style={linkStyle}>
+            <SmartLink key={`${keyPrefix}-${i}-${j}`} linkKey={`${keyPrefix}-${i}-${j}`} href={pathMatches[j]}>
               {labelForPath(pathMatches[j])}
-            </Link>
+            </SmartLink>
           );
         }
       });
@@ -99,9 +117,9 @@ function linkifyLabeledPaths(text: string, keyPrefix: string): ReactNode[] {
 
     if (label && href) {
       nodes.push(
-        <Link key={`${keyPrefix}-${i}`} href={href} style={linkStyle}>
+        <SmartLink key={`${keyPrefix}-${i}`} linkKey={`${keyPrefix}-${i}`} href={href}>
           {label}
-        </Link>
+        </SmartLink>
       );
     }
   }
@@ -110,7 +128,6 @@ function linkifyLabeledPaths(text: string, keyPrefix: string): ReactNode[] {
 }
 
 function renderTextWithLinks(text: string) {
-  const linkStyle = { color: "var(--accent-text)", textDecoration: "underline", fontWeight: 600 };
   const nodes: ReactNode[] = [];
 
   const mdParts = text.split(MARKDOWN_LINK_PATTERN);
@@ -123,9 +140,9 @@ function renderTextWithLinks(text: string) {
 
     if (label && href) {
       nodes.push(
-        <Link key={i} href={href} style={linkStyle}>
+        <SmartLink key={i} linkKey={`${i}`} href={href}>
           {label}
-        </Link>
+        </SmartLink>
       );
     }
   }

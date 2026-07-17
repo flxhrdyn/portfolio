@@ -1,56 +1,59 @@
 [
   {
     "slug": "invenioai",
-    "title": "InvenioAI — Enterprise Document Intelligence Platform",
-    "tags": ["GenAI / RAG", "Enterprise", "FastAPI"],
+    "repo": "InvenioAI",
+    "title": "InvenioAI — Advanced RAG for Document Q&A",
+    "tags": ["GenAI / RAG", "FastAPI", "Streamlit"],
     "tagStack": "FASTAPI_QDRANT",
-    "summary": "Enterprise document intelligence platform enabling semantic search and question answering using advanced hybrid retrieval (Qdrant + BM25), FastAPI, LangChain, LlamaParse, and Docker.",
-    "modalTitle": "InvenioAI — Advanced RAG Case Study",
-    "overview": "InvenioAI is an enterprise document intelligence platform that parses complex documents and implements semantic search and question answering using advanced Retrieval-Augmented Generation (RAG).",
+    "summary": "A RAG system for document Q&A over PDFs combining hybrid dense + sparse retrieval (Qdrant BM42), RAG Fusion multi-query, cross-encoder reranking, and structured Chain-of-Thought reasoning. FastAPI backend, Streamlit frontend, Docker deployment.",
+    "modalTitle": "InvenioAI — Advanced RAG for Document Q&A",
+    "overview": "Naive single-vector search over large PDF collections misses paraphrased questions and buries answers in irrelevant chunks. Built as a retrieval system that stays accurate on dense, structurally complex documents and shows its reasoning instead of returning a black-box answer.",
     "architectureTitle": "Hybrid Retrieval & Reranking Pipeline",
-    "architectureText": "Processes diverse file types via LlamaParse, indexes chunked passages into Qdrant VectorDB, and runs a low-latency hybrid search pipeline combining Qdrant dense vectors with BM25 lexical keyword scores, followed by high-fidelity reranking.",
-    "codeBlock": "from qdrant_client import QdrantClient\nfrom langchain.retrievers import ContextualCompressionRetriever\n\n# Initialize hybrid vector store with Qdrant and BM25\nclient = QdrantClient(url=\"http://localhost:6333\")\nretriever = ContextualCompressionRetriever(\n    base_compressor=cohere_rerank,\n    base_retriever=qdrant_vector_store.as_retriever(search_kwargs={\"k\": 10})\n)",
-    "resultsTitle": "Infrastructure & Results",
+    "architectureText": "Built a structure-aware ingestion pipeline that parses PDFs via LlamaParse and preserves heading hierarchy across page breaks, then indexed the chunks into Qdrant with both dense (MMR) and sparse (BM42) vectors so lexical and semantic matches are both covered. Layered RAG Fusion multi-query expansion and a FlashRank cross-encoder reranker on top of retrieval, then drove the final answer through a 4-step Chain-of-Thought protocol (Query Deconstruction, Filtering, Synthesis, Strategy) so responses are grounded and auditable. Added a dual-layer semantic cache (exact match + similarity > 0.90) to cut redundant LLM calls on repeated or paraphrased queries.",
+    "codeBlock": "# Core stack\nLLM = \"Llama 3.3 70B / 3.1 8B (Groq Cloud)\"\nEMBEDDING = \"paraphrase-multilingual-MiniLM-L12-v2\"  # dense\nSPARSE = \"Qdrant/bm42-all-minilm-l6-v2-attentions\"    # sparse\nRERANKER = \"FlashRank ms-marco-MiniLM-L-12-v2\"        # cross-encoder",
+    "resultsTitle": "Result",
     "results": [
-      "Dynamic Parsing: Seamless parsing of charts, tables, and complex document layouts using LlamaParse.",
-      "API Services: Wrapped inside a high-throughput FastAPI application containerized with Docker.",
-      "Search Accuracy: Drastically reduced hallucination rates and improved context recall across enterprise-scale PDFs and slide decks."
+      "Retrieval quality: Hybrid dense+sparse search fused with RAG Fusion multi-query catches both semantic and exact-keyword matches that single-vector search misses.",
+      "Robust parsing: Structure-aware chunking handles charts, tables, and multi-page sections without losing document outline.",
+      "Shipped: Dockerized FastAPI + Streamlit app, live on Hugging Face Spaces and Azure Container Apps."
     ]
   },
   {
     "slug": "omnius",
-    "title": "Omnius — AI-Powered Media Intelligence Platform",
+    "repo": "Omnius",
+    "title": "Omnius — Automated Media Intelligence",
     "tags": ["AI Agents", "Microsoft Azure", "Llama 3.3"],
     "tagStack": "AZURE_AGENTS",
-    "summary": "Media intelligence platform utilizing LLM-powered multi-agent flows (Pydantic AI, Llama 3.3, Qwen3) on Microsoft Azure to perform automated news retrieval, framing, bias, and sentiment analysis.",
-    "modalTitle": "Omnius — Media Intelligence Agentic System",
-    "overview": "Omnius is an AI-powered media intelligence platform designed to retrieve, analyze, and extract deep framing, narrative bias, and sentiment metrics from global news content.",
+    "summary": "A media intelligence platform that applies Robert Entman's (1993) framing theory to news articles using an autonomous Pydantic AI research agent and Llama 3.3 / Qwen3 analysis on Groq Cloud, deployed on Azure with a React frontend.",
+    "modalTitle": "Omnius — Automated Media Intelligence",
+    "overview": "Spotting how different outlets frame the same story - what they blame, what they judge, what they recommend - takes a trained eye and hours of manual reading. Built to automate that analysis using Robert Entman's (1993) academic framing theory as the scoring rubric, instead of an ad-hoc sentiment label.",
     "architectureTitle": "Multi-Agent Architecture",
-    "architectureText": "Orchestrates scalable, structured AI agent pipelines built with Pydantic AI, leveraging state-of-the-art models like Llama 3.3 and Qwen3. These agents autonomously coordinate news ingestion, relevance checks, and deep cognitive sentiment evaluations.",
-    "codeBlock": "from pydantic_ai import Agent\nfrom pydantic import BaseModel\n\nclass NewsAnalysis(BaseModel):\n    framing_bias: str\n    sentiment_score: float\n    key_narratives: list[str]\n\n# Define LLM Agent\nanalysis_agent = Agent('azure:llama-3.3-70b-instruct', result_type=NewsAnalysis)",
-    "resultsTitle": "Deployment & Capabilities",
+    "architectureText": "Designed an autonomous Pydantic AI research agent that searches and filters candidate articles via the Tavily API, backed by a hybrid BeautifulSoup4/Tavily scraper for full-text extraction. Wired Groq-hosted LLMs (Llama 3.3 70B, Llama 3.1 8B, Qwen3 32B) to score each article against Entman's four framing pillars - problem definition, causal interpretation, moral evaluation, treatment recommendation - with results validated through Pydantic schemas. Streamed the pipeline live over Server-Sent Events from a FastAPI backend to a React 19 + D3.js frontend, and shipped it as a Docker container on Azure App Service behind an X-API-Key + CORS gate, with GitHub Actions CI/CD pushing to Azure Container Registry.",
+    "codeBlock": "# Core stack\nAGENT_FRAMEWORK = \"Pydantic AI\"\nLLMs = [\"Llama 3.3 70B\", \"Llama 3.1 8B\", \"Qwen3 32B\"]  # via Groq Cloud\nSEARCH = \"Tavily API\"\nSCRAPER = \"BeautifulSoup4 + lxml, Tavily Extraction fallback\"",
+    "resultsTitle": "Result",
     "results": [
-      "Automated Agent Flow: Retrieves news and classifies narratives according to political framing theories.",
-      "FastAPI & Docker: Implemented as modular microservices, deployed as highly scalable workloads on Microsoft Azure.",
-      "Robust Schemas: Enforces strong response schemas and structural validations using Pydantic AI."
+      "Autonomous pipeline: The research agent searches, filters, and validates articles end-to-end with no manual curation step.",
+      "Live transparency: Server-Sent Events surface scraping and analysis progress in real time instead of a blocking spinner.",
+      "Production-deployed: GitHub Actions builds and pushes Docker images to Azure Container Registry on every merge to main, live at omnius-news-analysis.netlify.app."
     ]
   },
   {
     "slug": "lucian",
+    "repo": "LUCIAN",
     "title": "LUCIAN — Lung Carcinoma Histopathology Imaging & Analysis",
-    "tags": ["Computer Vision", "Healthcare", "PyTorch"],
+    "tags": ["Computer Vision", "Healthcare", "TensorFlow"],
     "tagStack": "CONVNEXT_BASE",
-    "summary": "Built a lung cancer histopathology classification system using ConvNeXt-Base, achieving 93.67% accuracy with Grad-CAM visual explainability for diagnostic support.",
-    "modalTitle": "LUCIAN — Lung Carcinoma Case Study",
-    "overview": "LUCIAN is a histopathology image classification platform built to assist clinicians in diagnostic workflows by accurately identifying lung cancer subtypes with visual explanation support.",
+    "summary": "A lung cancer histopathology classification system built on a fine-tuned ConvNeXt-Base backbone (TensorFlow/Keras), achieving 93.67% test accuracy. Includes Grad-CAM explainability so clinicians can see which tissue regions drove each classification.",
+    "modalTitle": "LUCIAN — Lung Carcinoma Histopathology Imaging & Analysis",
+    "overview": "Lung cancer subtyping from histopathology slides is a routine but high-stakes classification task, and a model that can't explain its call is hard for a clinician to trust. Built to classify tissue slides into adenocarcinoma, squamous cell carcinoma, and benign tissue while surfacing the visual evidence behind each prediction.",
     "architectureTitle": "Technical Architecture",
-    "architectureText": "Fine-tuned a ConvNeXt-Base backbone using PyTorch. Injected a specialized Grad-CAM (Gradient-weighted Class Activation Mapping) pipeline to project diagnostic heatmaps onto slide areas, revealing exactly which cellular structures guided the model's classification decisions.",
-    "codeBlock": "import torch\nimport torchvision.models as models\n\n# Fine-Tuned ConvNeXt-Base Backbone\nmodel = models.convnext_base(weights=models.ConvNeXt_Base_Weights.DEFAULT)\nmodel.classifier[2] = torch.nn.Linear(\n    in_features=1024, \n    out_features=3, # Carcinoma tissue classes\n    bias=True\n)",
-    "resultsTitle": "Performance & Clinical Utility",
+    "architectureText": "Fine-tuned a ConvNeXt-Base backbone (pre-trained on ImageNet-1K) with TensorFlow/Keras on a 3,000-image subset of the LC25000 dataset, adding a classification head of global average pooling, a 256-unit dense ReLU layer, 30% dropout, and a 3-class softmax output over 224x224 inputs. Followed the CRISP-DM methodology end-to-end and layered a Grad-CAM pipeline (OpenCV + TensorFlow) on top of the trained model to project gradient-weighted heatmaps back onto each slide, highlighting the regions that drove the classification.",
+    "codeBlock": "# Core metrics (80:10:10 split)\nTEST_ACCURACY = \"93.67%\"\nF1_MACRO = \"93.64%\"\nPRECISION_MACRO = \"93.63%\"\nRECALL_MACRO = \"93.67%\"\nBACKBONE = \"ConvNeXt-Base (TensorFlow/Keras, ImageNet-1K pretrained)\"",
+    "resultsTitle": "Result",
     "results": [
-      "Classification Accuracy: Achieved 93.67% overall classification accuracy across complex validation splits.",
-      "Explainability Support: Grad-CAM heatmaps highlight precise regions of interest to support clinical peer reviews.",
-      "Robust Validation: Validated on multi-class histopathology datasets representing primary lung adenocarcinoma, squamous cell carcinoma, and benign tissues."
+      "Accuracy: 93.67% test accuracy and 93.64% macro F1 on a held-out 80:10:10 split.",
+      "Explainability: Grad-CAM heatmaps give clinicians a visual check on which tissue regions drove each call, not just a bare label.",
+      "Shipped: Dockerized Streamlit app on Hugging Face Spaces with automated CI/CD via GitHub Actions."
     ]
   }
 ]

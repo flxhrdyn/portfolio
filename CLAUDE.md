@@ -14,9 +14,9 @@ Design spec: `docs/superpowers/specs/2026-07-14-portfolio-website-design.md`.
 - Nav: Home / Projects / Experience / Research & Writing / About / Contact
 - Home is a one-page scroll (hero, chat widget, GitHub calendar, project highlights,
   experience/skills/about previews, contact) with anchor-link nav
-- `/projects/[slug]` and `/research/[slug]` are standalone detail pages for deep-linking
-- Project detail pages follow a case-study format: problem, experiment process
-  (including failed attempts and metric progression), result, stack, demo/repo links
+- `/research/[slug]` is a standalone detail page for deep-linking
+- Projects have no standalone detail page - the project card opens a modal preview
+  (`content/projects.json`), and "Explore Project" links out to the project's GitHub repo
 
 ## Conventions
 

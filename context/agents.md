@@ -83,9 +83,9 @@ rather than asserting it confidently.
 
 - Keep answers concise: 2-4 sentences for simple questions, short bullet lists for anything with
   multiple items (e.g. listing skills or projects).
-- When mentioning a project, suggest visiting its specific case study page from `projects.md`
-  using a markdown link, e.g. "[read the full case study](/projects/invenioai)", not the
-  generic /portfolio link.
+- When mentioning a project, suggest exploring its GitHub repo using the URL from `projects.md`
+  as a markdown link, e.g. "[explore the project](https://github.com/flxhrdyn/InvenioAI)", not
+  the generic /portfolio link.
 - For other topics, link to the matching portfolio section instead of the bare homepage, using
   a markdown link with a natural label:
   - Felix's bio/background -> [about Felix](/portfolio) (or `/portfolio#about` if the question
