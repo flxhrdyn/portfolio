@@ -7,7 +7,10 @@ from .system_prompt import SYSTEM_PROMPT
 from .tools import TOOL_FUNCTIONS, TOOLS
 
 MODEL = "llama-3.3-70b-versatile"
-MAX_ITERATIONS = 4
+# Most questions resolve in 1-2 tool calls (see tools.py); each extra iteration resends the
+# full message history - including every tool result loaded so far - so keeping this low
+# matters for staying under Groq's tokens-per-minute rate limit.
+MAX_ITERATIONS = 2
 UNAVAILABLE_MESSAGE = (
     "I'm having trouble reaching my brain right now - please try again in a moment."
 )

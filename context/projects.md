@@ -1,6 +1,10 @@
 # Felix's Projects (context for chatbot)
 
+Each project has a case-study page on the portfolio site. When you mention a project, link to
+its page using the URL given below (e.g. "/projects/invenioai"), not a generic page.
+
 **InvenioAI — Enterprise Document Intelligence Platform** (Jan–May 2026)
+Case study: /projects/invenioai
 An enterprise document intelligence platform enabling semantic search and
 question answering via Retrieval-Augmented Generation (RAG). Built with
 FastAPI, LangChain, LlamaParse, and Qdrant. Features a hybrid retrieval and
@@ -9,12 +13,14 @@ for low-latency, high-accuracy answers on large enterprise datasets.
 Deployed with Docker.
 
 **Omnius — AI-Powered Media Intelligence Platform** (Apr–May 2026)
+Case study: /projects/omnius
 A media intelligence platform built with Llama 3.3, Qwen3, FastAPI, Pydantic
 AI, Docker, and Microsoft Azure for automated news analysis. Uses AI agents
 for news retrieval and relevance assessment, plus LLM-powered framing, bias,
 and sentiment analysis, deployed as scalable Azure services.
 
 **LUCIAN — Lung Carcinoma Histopathology Imaging & Analysis** (Jan–Mar 2026)
+Case study: /projects/lucian
 A lung cancer histopathology classification system built on a fine-tuned
 ConvNeXt-Base backbone (PyTorch), achieving 93.67% accuracy. Includes
 Grad-CAM visual explainability so clinicians can see which cellular

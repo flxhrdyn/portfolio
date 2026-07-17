@@ -1,5 +1,6 @@
 "use client";
 
+import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
@@ -11,17 +12,125 @@ interface Message {
 }
 
 const QUICK_CHIPS = [
-  { label: "Who is Felix?", href: "/portfolio" },
-  { label: "Featured Projects", href: "/portfolio#projects" },
-  { label: "Technical Skills", href: "/portfolio#skills" },
-  { label: "Bangkit Academy", href: "/portfolio#experience" },
-  { label: "Contact Details", href: "/portfolio#contact" },
+  { label: "Who is Felix?", query: "Who is Felix?" },
+  { label: "Projects", query: "What are his featured projects?" },
+  { label: "Experience", query: "What is his work experience?" },
+  { label: "Skills", query: "What are his technical skills?" },
+  { label: "Accomplishments", query: "What are his certifications and accomplishments?" },
+  { label: "Contact", query: "How can I contact Felix?" },
 ];
 
 function toPlainText(msg: Message): string {
   if (msg.text) return msg.text;
   if (msg.html) return msg.html.replace(/<[^>]+>/g, "");
   return "";
+}
+
+// Turns links the LLM mentions in plain text into clickable links, without ever injecting raw
+// HTML from model output. Handles three phrasings, in priority order, so the link always shows
+// a readable label instead of a bare path - even if the model doesn't follow the markdown format:
+//   1. Markdown links: "[full portfolio](/portfolio)"
+//   2. "<label> at /path" - e.g. "his portfolio at /portfolio" -> label becomes the link
+//   3. Bare paths with no label - e.g. "see /projects/lucian" - the path itself becomes the link
+const SITE_PATH = "\\/(?:portfolio|projects|research)(?:[/#][\\w-]*)*";
+const MARKDOWN_LINK_PATTERN = new RegExp(`\\[([^\\]]+)\\]\\((${SITE_PATH})\\)`, "g");
+const LABELED_PATH_PATTERN = new RegExp(`((?:\\w+\\s){0,1}\\w+)\\s+at\\s+(${SITE_PATH})`, "gi");
+const BARE_PATH_PATTERN = new RegExp(SITE_PATH, "g");
+
+// Readable fallback labels for bare paths the model drops in without any surrounding
+// "<label> at" phrasing (e.g. a comma-separated list of case-study links).
+const PATH_LABELS: Record<string, string> = {
+  "/portfolio": "full portfolio",
+  "/portfolio#experience": "his experience",
+  "/portfolio#skills": "his skills",
+  "/portfolio#certifications": "his accomplishments",
+  "/portfolio#contact": "his contact details",
+  "/projects/invenioai": "InvenioAI",
+  "/projects/omnius": "Omnius",
+  "/projects/lucian": "LUCIAN",
+};
+
+function titleCase(slug: string): string {
+  return slug
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+
+// Never show a raw route to the visitor - fall back to a readable label derived from the
+// path's own segments for anything not covered by the explicit map above (e.g. a project or
+// research slug added later).
+function labelForPath(path: string): string {
+  if (PATH_LABELS[path]) return PATH_LABELS[path];
+
+  const [base, anchor] = path.split("#");
+  const segments = base.split("/").filter(Boolean);
+
+  if (segments[0] === "projects" && segments[1]) return `${titleCase(segments[1])} case study`;
+  if (segments[0] === "research" && segments[1]) return `${titleCase(segments[1])} article`;
+  if (anchor) return `his ${anchor}`;
+  return "full portfolio";
+}
+
+function linkifyLabeledPaths(text: string, keyPrefix: string): ReactNode[] {
+  const linkStyle = { color: "var(--accent-text)", textDecoration: "underline", fontWeight: 600 };
+  const parts = text.split(LABELED_PATH_PATTERN);
+  const nodes: ReactNode[] = [];
+
+  for (let i = 0; i < parts.length; i += 3) {
+    const plain = parts[i];
+    const label = parts[i + 1];
+    const href = parts[i + 2];
+
+    if (plain) {
+      const pathParts = plain.split(BARE_PATH_PATTERN);
+      const pathMatches = plain.match(BARE_PATH_PATTERN) ?? [];
+      pathParts.forEach((part, j) => {
+        if (part) nodes.push(part);
+        if (pathMatches[j]) {
+          nodes.push(
+            <Link key={`${keyPrefix}-${i}-${j}`} href={pathMatches[j]} style={linkStyle}>
+              {labelForPath(pathMatches[j])}
+            </Link>
+          );
+        }
+      });
+    }
+
+    if (label && href) {
+      nodes.push(
+        <Link key={`${keyPrefix}-${i}`} href={href} style={linkStyle}>
+          {label}
+        </Link>
+      );
+    }
+  }
+
+  return nodes;
+}
+
+function renderTextWithLinks(text: string) {
+  const linkStyle = { color: "var(--accent-text)", textDecoration: "underline", fontWeight: 600 };
+  const nodes: ReactNode[] = [];
+
+  const mdParts = text.split(MARKDOWN_LINK_PATTERN);
+  for (let i = 0; i < mdParts.length; i += 3) {
+    const plain = mdParts[i];
+    const label = mdParts[i + 1];
+    const href = mdParts[i + 2];
+
+    if (plain) nodes.push(...linkifyLabeledPaths(plain, `${i}`));
+
+    if (label && href) {
+      nodes.push(
+        <Link key={i} href={href} style={linkStyle}>
+          {label}
+        </Link>
+      );
+    }
+  }
+
+  return nodes;
 }
 
 export default function ChatWidget() {
@@ -118,7 +227,7 @@ export default function ChatWidget() {
                     // User messages and live LLM replies are untrusted/model-generated text -
                     // always rendered as plain text, never through dangerouslySetInnerHTML.
                     <div className="msg-bubble">
-                      <p>{msg.text}</p>
+                      <p>{msg.sender === "bot" ? renderTextWithLinks(msg.text) : msg.text}</p>
                     </div>
                   ) : (
                     // Only our own hardcoded strings (welcome message, offline fallback) use html.
@@ -168,9 +277,14 @@ export default function ChatWidget() {
 
           <div className="chat-chips-container">
             {QUICK_CHIPS.map((chip) => (
-              <Link key={chip.label} href={chip.href} className="chat-chip">
+              <button
+                key={chip.label}
+                type="button"
+                className="chat-chip"
+                onClick={() => send(chip.query)}
+              >
                 {chip.label}
-              </Link>
+              </button>
             ))}
           </div>
 
