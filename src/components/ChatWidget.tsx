@@ -11,13 +11,63 @@ interface Message {
   text?: string;
 }
 
+// Chip answers are hardcoded (not sent to the LLM) so they're instant, free, and never fail -
+// only free-typed questions go through the /api/chat call. Keep this in sync with context/*.md.
 const QUICK_CHIPS = [
-  { label: "Who is Felix?", query: "Who is Felix?" },
-  { label: "Projects", query: "What are his featured projects?" },
-  { label: "Experience", query: "What is his work experience?" },
-  { label: "Skills", query: "What are his technical skills?" },
-  { label: "Accomplishments", query: "What are his certifications and accomplishments?" },
-  { label: "Contact", query: "How can I contact Felix?" },
+  {
+    label: "Who is Felix?",
+    query: "Who is Felix?",
+    answer:
+      "Felix Windriyareksa Hardyan is an AI/ML Engineer and BNSP-certified Data Scientist based in " +
+      "Jakarta, Indonesia, focused on Generative AI, RAG, LLM fine-tuning, NLP, and Computer Vision. " +
+      "He currently works as an IT Intern (ML & Data Science) at PT Astra Visteon Indonesia and " +
+      "part-time AI Engineer at HPC Universitas Gunadarma, building production-ready AI systems " +
+      "end-to-end. Learn more [about Felix](/portfolio#about).",
+  },
+  {
+    label: "Projects",
+    query: "What are his featured projects?",
+    answer:
+      "Felix's featured projects: InvenioAI, an advanced RAG system for document Q&A " +
+      "([explore the project](https://github.com/flxhrdyn/InvenioAI)); Omnius, an automated media " +
+      "intelligence platform ([explore the project](https://github.com/flxhrdyn/Omnius)); and " +
+      "LUCIAN, a lung cancer histopathology classifier reaching 93.67% accuracy " +
+      "([explore the project](https://github.com/flxhrdyn/LUCIAN)).",
+  },
+  {
+    label: "Experience",
+    query: "What is his work experience?",
+    answer:
+      "Felix is an IT Intern (ML & Data Science) at PT Astra Visteon Indonesia, building predictive " +
+      "maintenance systems, and a part-time AI Engineer at HPC Universitas Gunadarma, fine-tuning " +
+      "LLMs and building RAG chatbot infrastructure. He has also taught AI/ML as an International AI " +
+      "Summer Course Instructor and Data Science Instructor, mentoring 200+ learners. See " +
+      "[his experience](/portfolio#experience).",
+  },
+  {
+    label: "Skills",
+    query: "What are his technical skills?",
+    answer:
+      "Felix works with Python, TypeScript, FastAPI, and React, specializing in Advanced RAG, AI " +
+      "Agents, Deep Learning, Computer Vision, and NLP using PyTorch, TensorFlow, LangChain, and " +
+      "Hugging Face - deployed with Docker on Azure and GCP. See [his skills](/portfolio#skills).",
+  },
+  {
+    label: "Accomplishments",
+    query: "What are his certifications and accomplishments?",
+    answer:
+      "Felix holds a BNSP Associate Data Scientist certification, the DeepLearning.AI TensorFlow " +
+      "Developer and Data/Deployment Specializations, and Stanford's Machine Learning Specialization. " +
+      "He has also published peer-reviewed deep learning research and co-authored an AI reference " +
+      "book. See [his accomplishments](/portfolio#certifications).",
+  },
+  {
+    label: "Contact",
+    query: "How can I contact Felix?",
+    answer:
+      "You can reach Felix by email at felixhardyanwork@gmail.com or on GitHub at " +
+      "github.com/flxhrdyn. See [his contact details](/portfolio#contact) for more.",
+  },
 ];
 
 function toPlainText(msg: Message): string {
@@ -127,7 +177,7 @@ function linkifyLabeledPaths(text: string, keyPrefix: string): ReactNode[] {
   return nodes;
 }
 
-function renderTextWithLinks(text: string) {
+function renderTextWithLinks(text: string, keyPrefix: string) {
   const nodes: ReactNode[] = [];
 
   const mdParts = text.split(MARKDOWN_LINK_PATTERN);
@@ -136,11 +186,11 @@ function renderTextWithLinks(text: string) {
     const label = mdParts[i + 1];
     const href = mdParts[i + 2];
 
-    if (plain) nodes.push(...linkifyLabeledPaths(plain, `${i}`));
+    if (plain) nodes.push(...linkifyLabeledPaths(plain, `${keyPrefix}-${i}`));
 
     if (label && href) {
       nodes.push(
-        <SmartLink key={i} linkKey={`${i}`} href={href}>
+        <SmartLink key={`${keyPrefix}-${i}`} linkKey={`${keyPrefix}-${i}`} href={href}>
           {label}
         </SmartLink>
       );
@@ -149,6 +199,70 @@ function renderTextWithLinks(text: string) {
 
   return nodes;
 }
+
+// Renders **bold** spans inline, deferring to renderTextWithLinks for everything else so
+// links keep working inside/around bold text.
+function renderInline(text: string, keyPrefix: string): ReactNode[] {
+  const nodes: ReactNode[] = [];
+  const parts = text.split(/\*\*(.+?)\*\*/g);
+  parts.forEach((part, i) => {
+    if (i % 2 === 1) {
+      nodes.push(<strong key={`${keyPrefix}-b-${i}`}>{part}</strong>);
+    } else if (part) {
+      nodes.push(...renderTextWithLinks(part, `${keyPrefix}-${i}`));
+    }
+  });
+  return nodes;
+}
+
+// The model answers list-shaped questions (projects, skills, etc.) with markdown bullets and
+// bold labels - render those as real <ul>/<strong> instead of leaving "**"/"-" visible as text.
+function renderMarkdown(text: string, keyPrefix: string): ReactNode[] {
+  const blocks: ReactNode[] = [];
+  let listBuffer: string[] = [];
+  let blockIndex = 0;
+
+  const flushList = () => {
+    if (listBuffer.length === 0) return;
+    const listKey = blockIndex++;
+    blocks.push(
+      <ul key={`${keyPrefix}-ul-${listKey}`} style={{ margin: "0.4rem 0", paddingLeft: "1.2rem" }}>
+        {listBuffer.map((item, i) => (
+          <li key={`${keyPrefix}-ul-${listKey}-li-${i}`}>
+            {renderInline(item, `${keyPrefix}-ul-${listKey}-li-${i}`)}
+          </li>
+        ))}
+      </ul>
+    );
+    listBuffer = [];
+  };
+
+  text.split("\n").forEach((line) => {
+    const trimmed = line.trim();
+    const listMatch = trimmed.match(/^[-*]\s+(.*)$/);
+    if (listMatch) {
+      listBuffer.push(listMatch[1]);
+      return;
+    }
+    flushList();
+    if (trimmed) {
+      const pKey = blockIndex++;
+      blocks.push(<p key={`${keyPrefix}-p-${pKey}`}>{renderInline(trimmed, `${keyPrefix}-p-${pKey}`)}</p>);
+    }
+  });
+  flushList();
+
+  return blocks;
+}
+
+// Rotated while waiting so a long multi-step tool-calling wait reads as progress rather than
+// a frozen "..." - purely cosmetic, doesn't reflect real backend state.
+const STATUS_MESSAGES = [
+  "Thinking...",
+  "Looking through his projects...",
+  "Checking his experience...",
+  "Putting together an answer...",
+];
 
 export default function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([
@@ -160,8 +274,20 @@ export default function ChatWidget() {
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [statusIndex, setStatusIndex] = useState(0);
   const bodyRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isTyping) {
+      setStatusIndex(0);
+      return;
+    }
+    const id = setInterval(() => {
+      setStatusIndex((i) => (i + 1) % STATUS_MESSAGES.length);
+    }, 2200);
+    return () => clearInterval(id);
+  }, [isTyping]);
 
   // Pins scroll to the bottom whenever message content grows - including late reflows
   // (e.g. web font finishing load after streaming ends) that a one-off scroll call would miss.
@@ -175,6 +301,31 @@ export default function ChatWidget() {
     observer.observe(content);
     return () => observer.disconnect();
   }, []);
+
+  // Chip answers are hardcoded, so they'd otherwise appear instantly - a dead giveaway that
+  // it's a canned template rather than a live agent response. A short random "thinking" delay
+  // plus a typewriter reveal makes it read the same as a real streamed answer.
+  const sendChip = (chip: (typeof QUICK_CHIPS)[number]) => {
+    if (isTyping) return;
+    setMessages((prev) => [...prev, { id: `${Date.now()}-u`, sender: "user", text: chip.query }]);
+    setIsTyping(true);
+
+    const thinkingDelay = 1000 + Math.random() * 4000;
+    setTimeout(() => {
+      const replyId = `${Date.now()}-b`;
+      const answer = chip.answer;
+      setMessages((prev) => [...prev, { id: replyId, sender: "bot", text: "" }]);
+      setIsTyping(false);
+
+      let shown = 0;
+      const step = Math.max(1, Math.round(answer.length / 40));
+      const interval = setInterval(() => {
+        shown = Math.min(answer.length, shown + step);
+        setMessages((prev) => prev.map((msg) => (msg.id === replyId ? { ...msg, text: answer.slice(0, shown) } : msg)));
+        if (shown >= answer.length) clearInterval(interval);
+      }, 20);
+    }, thinkingDelay);
+  };
 
   const send = async (query: string) => {
     if (!query.trim() || isTyping) return;
@@ -197,18 +348,30 @@ export default function ChatWidget() {
 
       if (!res.ok || !res.body) throw new Error("Chat request failed");
 
+      // The backend resolves tool calls over several non-streaming turns before its final
+      // turn starts streaming text - headers arrive almost instantly, but real content can
+      // take 10-20s. Keep the typing indicator up (not a blank bubble) until the first byte
+      // of actual content shows up, so the wait never looks frozen.
       const replyId = `${Date.now()}-b`;
-      setMessages((prev) => [...prev, { id: replyId, sender: "bot", text: "" }]);
-      setIsTyping(false);
-
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let text = "";
+      let revealed = false;
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
         text += decoder.decode(value, { stream: true });
-        setMessages((prev) => prev.map((msg) => (msg.id === replyId ? { ...msg, text } : msg)));
+        if (!revealed) {
+          if (!text) continue;
+          setMessages((prev) => [...prev, { id: replyId, sender: "bot", text }]);
+          setIsTyping(false);
+          revealed = true;
+        } else {
+          setMessages((prev) => prev.map((msg) => (msg.id === replyId ? { ...msg, text } : msg)));
+        }
+      }
+      if (!revealed) {
+        setMessages((prev) => [...prev, { id: replyId, sender: "bot", text }]);
       }
     } catch {
       setMessages((prev) => [
@@ -244,7 +407,7 @@ export default function ChatWidget() {
                     // User messages and live LLM replies are untrusted/model-generated text -
                     // always rendered as plain text, never through dangerouslySetInnerHTML.
                     <div className="msg-bubble">
-                      <p>{msg.sender === "bot" ? renderTextWithLinks(msg.text) : msg.text}</p>
+                      {msg.sender === "bot" ? renderMarkdown(msg.text, msg.id) : <p>{msg.text}</p>}
                     </div>
                   ) : (
                     // Only our own hardcoded strings (welcome message, offline fallback) use html.
@@ -255,7 +418,10 @@ export default function ChatWidget() {
               {isTyping && (
                 <div className="chat-msg bot">
                   <div className="msg-sender">HAWAT</div>
-                  <div className="msg-bubble" style={{ padding: "0.4rem 0.8rem" }}>
+                  <div className="msg-bubble" style={{ padding: "0.4rem 0.8rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                    <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
+                      {STATUS_MESSAGES[statusIndex]}
+                    </span>
                     <div className="typing-indicator">
                       <div className="typing-dot" />
                       <div className="typing-dot" />
@@ -298,7 +464,7 @@ export default function ChatWidget() {
                 key={chip.label}
                 type="button"
                 className="chat-chip"
-                onClick={() => send(chip.query)}
+                onClick={() => sendChip(chip)}
               >
                 {chip.label}
               </button>
