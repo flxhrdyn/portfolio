@@ -1263,58 +1263,10 @@
     /* TECHNICAL SKILLS */
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(12, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
       align-items: start;
       gap: 1.5rem;
       margin-top: 1.5rem;
-    }
-
-    .skills-grid .skill-category:nth-child(1),
-    .skills-grid .skill-category:nth-child(2),
-    .skills-grid .skill-category:nth-child(3) {
-      grid-column: span 4;
-    }
-
-    .skills-grid .skill-category:nth-child(4) {
-      grid-column: span 8;
-    }
-
-    .skills-grid .skill-category:nth-child(5) {
-      grid-column: span 4;
-    }
-
-    .skills-grid .skill-category:nth-child(1) {
-      border-radius: 18px 14px 16px 12px;
-    }
-
-    .skills-grid .skill-category:nth-child(2) {
-      border-radius: 12px 18px 14px 16px;
-    }
-
-    .skills-grid .skill-category:nth-child(3) {
-      border-radius: 16px 12px 18px 14px;
-    }
-
-    .skills-grid .skill-category:nth-child(4) {
-      border-radius: 14px 16px 12px 18px;
-    }
-
-    .skills-grid .skill-category:nth-child(5) {
-      border-radius: 18px 14px 16px 12px;
-    }
-
-    @media (max-width: 900px) {
-      .skills-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .skills-grid .skill-category:nth-child(1),
-      .skills-grid .skill-category:nth-child(2),
-      .skills-grid .skill-category:nth-child(3),
-      .skills-grid .skill-category:nth-child(4),
-      .skills-grid .skill-category:nth-child(5) {
-        grid-column: span 1;
-      }
     }
 
     .skill-category {
