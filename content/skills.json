@@ -4,12 +4,16 @@
     "items": ["Advanced RAG", "AI Agents", "Deep Learning", "Computer Vision", "Natural Language Processing", "LLMs & GenAI", "Prompt Engineering", "PEFT & QLoRA", "Anomaly Detection"]
   },
   {
-    "category": "Frameworks & Tools",
+    "category": "ML Frameworks & Libraries",
     "items": ["PyTorch", "TensorFlow", "scikit-learn", "LangChain", "Pydantic AI", "LlamaIndex & LlamaParse", "Qdrant", "FAISS", "Hugging Face"]
   },
   {
-    "category": "Engineering Practices",
-    "items": ["Python", "SQL", "TypeScript", "FastAPI", "Pandas", "NumPy", "REST APIs", "React", "Git & GitHub", "Docker", "Microsoft Azure", "Google Cloud (GCP)", "MLOps Pipelines", "CI/CD", "NVIDIA DGX Systems"]
+    "category": "Languages & Backend",
+    "items": ["Python", "SQL", "TypeScript", "FastAPI", "Pandas", "NumPy", "REST APIs", "React", "Git & GitHub"]
+  },
+  {
+    "category": "Cloud & MLOps",
+    "items": ["Docker", "Microsoft Azure", "Google Cloud (GCP)", "MLOps Pipelines", "CI/CD", "NVIDIA DGX Systems"]
   },
   {
     "category": "Languages & Bio",

@@ -10,12 +10,18 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
       <line x1="12" y1="21" x2="12" y2="23"></line>
     </svg>
   ),
-  "Frameworks & Tools": (
+  "ML Frameworks & Libraries": (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
       <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
     </svg>
   ),
-  "Engineering Practices": (
+  "Languages & Backend": (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <polyline points="16 18 22 12 16 6"></polyline>
+      <polyline points="8 6 2 12 8 18"></polyline>
+    </svg>
+  ),
+  "Cloud & MLOps": (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
       <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
       <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
