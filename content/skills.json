@@ -5,11 +5,11 @@
   },
   {
     "category": "Frameworks & Tools",
-    "items": ["LlamaIndex & LlamaParse", "FAISS"]
+    "items": ["PyTorch", "TensorFlow", "scikit-learn", "LangChain", "Pydantic AI", "LlamaIndex & LlamaParse", "Qdrant", "FAISS", "Hugging Face"]
   },
   {
     "category": "Engineering Practices",
-    "items": ["SQL", "REST APIs", "Microsoft Azure", "MLOps Pipelines", "CI/CD"]
+    "items": ["Python", "SQL", "TypeScript", "FastAPI", "Pandas", "NumPy", "REST APIs", "React", "Git & GitHub", "Docker", "Microsoft Azure", "Google Cloud (GCP)", "MLOps Pipelines", "CI/CD", "NVIDIA DGX Systems"]
   },
   {
     "category": "Languages & Bio",
