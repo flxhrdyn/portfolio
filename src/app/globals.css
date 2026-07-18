@@ -1315,6 +1315,11 @@
       .skills-grid .skill-category:nth-child(5) {
         grid-column: span 1;
       }
+
+      .skill-pills,
+      .skills-grid .skill-category:nth-child(4) .skill-pills {
+        grid-template-columns: repeat(2, max-content);
+      }
     }
 
     .skill-category {
@@ -1342,9 +1347,18 @@
     }
 
     .skill-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+      display: grid;
+      grid-template-columns: repeat(2, max-content);
+      gap: 0.6rem 0.75rem;
+      align-items: start;
+    }
+
+    .skills-grid .skill-category:nth-child(4) .skill-pills {
+      grid-template-columns: repeat(3, max-content);
+    }
+
+    .skills-grid .skill-category:nth-child(5) .skill-pills {
+      grid-template-columns: repeat(1, max-content);
     }
 
     .skill-pill {
