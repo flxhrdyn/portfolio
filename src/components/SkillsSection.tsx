@@ -1,12 +1,7 @@
 import skills from "@/content/skills.json";
+import TechStackCarousel from "./TechStackCarousel";
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
-  Programming: (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-      <polyline points="16 18 22 12 16 6"></polyline>
-      <polyline points="8 6 2 12 8 18"></polyline>
-    </svg>
-  ),
   "AI & Machine Learning": (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
       <circle cx="12" cy="12" r="10"></circle>
@@ -20,7 +15,7 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
       <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
     </svg>
   ),
-  "Cloud & MLOps": (
+  "Engineering Practices": (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
       <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
       <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
@@ -46,6 +41,8 @@ export default function SkillsSection() {
         <p style={{ marginBottom: "2rem" }}>
           Systematic indexing of programming languages, machine learning pipelines, MLOps frameworks, and linguistic capabilities.
         </p>
+
+        <TechStackCarousel />
 
         <div className="skills-grid">
           {skills.map((group) => (
