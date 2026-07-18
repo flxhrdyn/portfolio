@@ -1262,44 +1262,19 @@
 
     /* TECHNICAL SKILLS */
     .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(12, 1fr);
-      align-items: start;
-      gap: 1.5rem;
+      columns: 3;
+      column-gap: 1.5rem;
       margin-top: 1.5rem;
     }
 
-    .skills-grid .skill-category:nth-child(1) {
-      grid-column: span 7;
-    }
-
-    .skills-grid .skill-category:nth-child(2) {
-      grid-column: span 5;
-    }
-
-    .skills-grid .skill-category:nth-child(3) {
-      grid-column: span 5;
-    }
-
-    .skills-grid .skill-category:nth-child(4) {
-      grid-column: span 4;
-    }
-
-    .skills-grid .skill-category:nth-child(5) {
-      grid-column: span 3;
+    .skills-grid .skill-category {
+      break-inside: avoid;
+      margin-bottom: 1.5rem;
     }
 
     @media (max-width: 900px) {
       .skills-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .skills-grid .skill-category:nth-child(1),
-      .skills-grid .skill-category:nth-child(2),
-      .skills-grid .skill-category:nth-child(3),
-      .skills-grid .skill-category:nth-child(4),
-      .skills-grid .skill-category:nth-child(5) {
-        grid-column: span 1;
+        columns: 1;
       }
     }
 
