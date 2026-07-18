@@ -1264,7 +1264,7 @@
     .skills-grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      align-items: stretch;
+      align-items: start;
       gap: 1.5rem;
       margin-top: 1.5rem;
     }
@@ -1304,8 +1304,6 @@
     }
 
     .skill-category {
-      display: flex;
-      flex-direction: column;
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 14px;
@@ -1332,9 +1330,7 @@
     .skill-pills {
       display: flex;
       flex-wrap: wrap;
-      align-content: flex-start;
       gap: 0.5rem;
-      flex: 1;
     }
 
     .skill-pill {
