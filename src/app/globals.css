@@ -1264,7 +1264,7 @@
     .skills-grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      align-items: start;
+      align-items: stretch;
       gap: 1.5rem;
       margin-top: 1.5rem;
     }
@@ -1304,6 +1304,8 @@
     }
 
     .skill-category {
+      display: flex;
+      flex-direction: column;
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: 14px;
@@ -1328,32 +1330,16 @@
     }
 
     .skill-pills {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 0.6rem 0.75rem;
-      align-items: start;
-    }
-
-    .skills-grid .skill-category:nth-child(4) .skill-pills {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .skills-grid .skill-category:nth-child(5) .skill-pills {
-      grid-template-columns: repeat(1, minmax(0, 1fr));
-    }
-
-    @media (max-width: 900px) {
-      .skill-pills,
-      .skills-grid .skill-category:nth-child(4) .skill-pills {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+      display: flex;
+      flex-wrap: wrap;
+      align-content: flex-start;
+      gap: 0.5rem;
+      flex: 1;
     }
 
     .skill-pill {
       display: inline-flex;
       align-items: center;
-      justify-self: start;
-      max-width: 100%;
       gap: 0.35rem;
       font-family: var(--font-mono);
       font-size: 0.75rem;
