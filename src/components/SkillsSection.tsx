@@ -27,6 +27,11 @@ const CATEGORY_ICONS: Record<string, React.ReactNode> = {
       <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
     </svg>
   ),
+  "Languages & Bio": (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+    </svg>
+  ),
 };
 
 const BRAND_ITEMS = new Set([
@@ -35,53 +40,39 @@ const BRAND_ITEMS = new Set([
 ]);
 
 export default function SkillsSection() {
-  const technicalGroups = skills.filter((group) => group.category !== "Languages & Bio");
-  const languagesGroup = skills.find((group) => group.category === "Languages & Bio");
-
   return (
     <section className="section" id="skills">
       <div className="container">
-        <h2>Technical Skills</h2>
+        <h2>Skills</h2>
         <p style={{ marginBottom: "2rem" }}>
-          Systematic indexing of programming languages, machine learning pipelines, MLOps frameworks, and linguistic capabilities.
+          Systematic indexing of programming languages, machine learning pipelines, MLOps frameworks, and language proficiency.
         </p>
 
         <TechStackCarousel />
 
         <div className="skills-grid">
-          {technicalGroups.map((group) => (
+          {skills.map((group) => (
             <div key={group.category} className="skill-category">
               <div className="skill-category-title">
                 {CATEGORY_ICONS[group.category]}
                 <span>{group.category}</span>
               </div>
               <div className="skill-pills">
-                {group.items.map((item) => (
-                  <span key={item} className="skill-pill">
-                    <span>{item}</span>
-                  </span>
-                ))}
+                {group.items.map((item) =>
+                  BRAND_ITEMS.has(item) ? (
+                    <span key={item} className="skill-pill">
+                      <strong style={{ color: "var(--accent-text)" }}>{item.split(" (")[0]}</strong> ({item.split(" (")[1]}
+                    </span>
+                  ) : (
+                    <span key={item} className="skill-pill">
+                      <span>{item}</span>
+                    </span>
+                  )
+                )}
               </div>
             </div>
           ))}
         </div>
-
-        {languagesGroup && (
-          <div className="languages-strip">
-            <span className="languages-strip-label">Languages</span>
-            {languagesGroup.items.map((item) =>
-              BRAND_ITEMS.has(item) ? (
-                <span key={item} className="skill-pill">
-                  <strong style={{ color: "var(--accent-text)" }}>{item.split(" (")[0]}</strong> ({item.split(" (")[1]}
-                </span>
-              ) : (
-                <span key={item} className="skill-pill">
-                  <span>{item}</span>
-                </span>
-              )
-            )}
-          </div>
-        )}
       </div>
     </section>
   );
