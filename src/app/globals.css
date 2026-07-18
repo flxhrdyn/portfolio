@@ -1269,18 +1269,24 @@
       margin-top: 1.5rem;
     }
 
-    .skills-grid .skill-category:nth-child(1),
-    .skills-grid .skill-category:nth-child(2),
+    .skills-grid .skill-category:nth-child(1) {
+      grid-column: span 7;
+    }
+
+    .skills-grid .skill-category:nth-child(2) {
+      grid-column: span 5;
+    }
+
     .skills-grid .skill-category:nth-child(3) {
-      grid-column: span 4;
+      grid-column: span 5;
     }
 
     .skills-grid .skill-category:nth-child(4) {
-      grid-column: span 8;
+      grid-column: span 4;
     }
 
     .skills-grid .skill-category:nth-child(5) {
-      grid-column: span 4;
+      grid-column: span 3;
     }
 
     @media (max-width: 900px) {
