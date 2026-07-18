@@ -15,6 +15,8 @@ function TechLogo({ icon }: { icon: string }) {
   );
 }
 
+const REPEAT = 4;
+
 function TechRow({
   items,
   reverse,
@@ -24,11 +26,11 @@ function TechRow({
   reverse?: boolean;
   duration: number;
 }) {
-  const doubled = [...items, ...items];
+  const repeated = Array.from({ length: REPEAT }, () => items).flat();
   return (
     <div className={`tech-carousel-row${reverse ? " reverse" : ""}`}>
       <div className="tech-carousel-track" style={{ animationDuration: `${duration}s` }}>
-        {doubled.map((tech, i) => (
+        {repeated.map((tech, i) => (
           <TechLogo key={`${tech.icon}-${i}`} icon={tech.icon} />
         ))}
       </div>
