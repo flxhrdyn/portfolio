@@ -1328,14 +1328,32 @@
     }
 
     .skill-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.6rem 0.75rem;
+      align-items: start;
+    }
+
+    .skills-grid .skill-category:nth-child(4) .skill-pills {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .skills-grid .skill-category:nth-child(5) .skill-pills {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    @media (max-width: 900px) {
+      .skill-pills,
+      .skills-grid .skill-category:nth-child(4) .skill-pills {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
     }
 
     .skill-pill {
       display: inline-flex;
       align-items: center;
+      justify-self: start;
+      max-width: 100%;
       gap: 0.35rem;
       font-family: var(--font-mono);
       font-size: 0.75rem;
