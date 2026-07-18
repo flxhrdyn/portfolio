@@ -1270,7 +1270,7 @@
     }
 
     .skills-grid .skill-category:nth-child(1) {
-      grid-column: span 5;
+      grid-column: span 4;
     }
 
     .skills-grid .skill-category:nth-child(2) {
@@ -1278,7 +1278,7 @@
     }
 
     .skills-grid .skill-category:nth-child(3) {
-      grid-column: span 3;
+      grid-column: span 4;
     }
 
     .skills-grid .skill-category:nth-child(4) {
