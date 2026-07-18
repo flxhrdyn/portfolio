@@ -1205,6 +1205,71 @@
       margin-bottom: 0.35rem;
     }
 
+    /* TECH STACK CAROUSEL */
+    .tech-carousel {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+      mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+    }
+
+    .tech-carousel-row {
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .tech-carousel-track {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      width: max-content;
+      padding-right: 2.5rem;
+      will-change: transform;
+      animation-name: techScrollLeft;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    .tech-carousel-row.reverse .tech-carousel-track {
+      animation-name: techScrollRight;
+    }
+
+    .tech-carousel-row:hover .tech-carousel-track {
+      animation-play-state: paused;
+    }
+
+    .tech-carousel-logo {
+      width: 28px;
+      height: 28px;
+      flex-shrink: 0;
+      color: var(--text-secondary);
+      opacity: 0.6;
+      transition: opacity var(--transition-speed) ease, color var(--transition-speed) ease;
+    }
+
+    .tech-carousel-logo:hover {
+      opacity: 1;
+      color: var(--accent-text);
+    }
+
+    @keyframes techScrollLeft {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    @keyframes techScrollRight {
+      from { transform: translateX(-50%); }
+      to { transform: translateX(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .tech-carousel-track {
+        animation: none;
+      }
+    }
+
     /* TECHNICAL SKILLS */
     .skills-grid {
       display: grid;
