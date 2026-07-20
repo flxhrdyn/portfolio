@@ -36,7 +36,7 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
 
   return (
     <nav className="navbar" id="top-nav">
-      <div className="container nav-container">
+      <div className="nav-container">
         <Link href="/" className="nav-brand">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--accent-color)" }}>
             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
@@ -56,7 +56,16 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
           </div>
         )}
 
-        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", gridColumn: 3, justifySelf: "end" }}>
+          <a
+            href="/resume.pdf"
+            download
+            className="btn-pill btn-pill-secondary"
+            style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem", textDecoration: "none" }}
+          >
+            Download CV
+          </a>
+
           {variant === "chat" ? (
             <Link href="/portfolio/" className="btn-pill btn-pill-accent-blue" style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem", textDecoration: "none" }}>
               <span>Enter Portfolio &rarr;</span>

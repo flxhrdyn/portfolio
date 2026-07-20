@@ -55,9 +55,9 @@
       "title": "Machine Learning Specialization",
       "company": "Bangkit Academy",
       "date": "Feb 2024 – July 2024",
-      "accentColor": "#34a853",
+      "accentColor": "var(--accent-color)",
       "statLabel": "Graduated with Distinction",
-      "statColor": "#34a853",
+      "statColor": "var(--accent-text)",
       "description": "Graduated with Distinction from Google-led ML program covering Deep Learning, Computer Vision, and NLP. Built CrashSnap as capstone, a YOLOv8-based vehicle damage detection system for automated visual inspection and damage assessment."
     }
   ]

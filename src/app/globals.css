@@ -210,9 +210,14 @@
     }
 
     .nav-container {
-      display: flex;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
       align-items: center;
-      justify-content: space-between;
+      position: relative;
+      width: 100%;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 2rem;
       height: 4.5rem;
     }
 
@@ -245,6 +250,10 @@
     .nav-links {
       display: flex;
       align-items: center;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
       gap: 1.75rem;
     }
 
@@ -1151,6 +1160,7 @@
       bottom: 4px;
       left: 0px;
       width: 1px;
+      transform: translateX(-50%);
       background-color: var(--border-color);
     }
 
@@ -1165,7 +1175,8 @@
 
     .timeline-dot {
       position: absolute;
-      left: -27.5px;
+      left: -1.5rem;
+      transform: translateX(-50%);
       top: 6px;
       width: 11px;
       height: 11px;
@@ -1847,6 +1858,7 @@
         top: 4.5rem;
         left: 0;
         right: 0;
+        transform: none;
         background-color: var(--bg-primary);
         border-bottom: 1px solid var(--border-color);
         padding: 1.5rem;
