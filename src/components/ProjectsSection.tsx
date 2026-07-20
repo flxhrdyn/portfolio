@@ -27,7 +27,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
       <div className="container">
         <h2>Featured Projects</h2>
         <p style={{ marginBottom: "2rem" }}>
-          Selected projects demonstrating end-to-end model training, production pipelines, and empirical diagnostic metrics.
+          Projects spanning model development, pipelines, and deployment.
         </p>
 
         <div className="projects-grid">
@@ -65,9 +65,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                     <polyline points="12 5 19 12 12 19"></polyline>
                   </svg>
                 </span>
-                <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.75rem", color: "var(--text-secondary)" }}>
-                  {project.tagStack}
-                </span>
+
               </div>
             </div>
           ))}
@@ -92,7 +90,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
             Open Source Contributions
           </h3>
           <p style={{ marginBottom: "1.5rem", fontSize: "0.92rem", color: "var(--text-secondary)", maxWidth: "650px" }}>
-            A live calendar tracking open-source commits, repository updates, and active model development pipelines.
+            Open-source work and contributions, updated in real time.
           </p>
           <GithubHeatmap contributions={contributions} />
         </div>
