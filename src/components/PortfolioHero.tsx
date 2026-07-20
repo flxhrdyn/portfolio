@@ -4,7 +4,7 @@ const ParticlesCanvas = dynamic(() => import("./ParticlesCanvas"));
 
 export default function PortfolioHero() {
   return (
-    <div className="hero-wrapper">
+    <div id="about" className="hero-wrapper">
       <ParticlesCanvas />
 
       <div className="ambient-auras">
