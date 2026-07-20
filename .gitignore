@@ -9,3 +9,5 @@ coverage/
 !.env.example
 *.tsbuildinfo
 bash.exe.stackdump
+.impeccable/
+docs/design-references/
