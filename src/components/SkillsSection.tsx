@@ -45,7 +45,7 @@ export default function SkillsSection() {
       <div className="container">
         <h2>Skills</h2>
         <p style={{ marginBottom: "2rem" }}>
-          Systematic indexing of programming languages, machine learning pipelines, MLOps frameworks, and language proficiency.
+          Tools, languages, and frameworks I work with.
         </p>
 
         <TechStackCarousel />

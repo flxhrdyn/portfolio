@@ -6,7 +6,7 @@ export default function ExperienceSection() {
       <div className="container">
         <h2>Experience &amp; Education</h2>
         <p style={{ marginBottom: "2.5rem" }}>
-          Timeline tracing professional engineering roles, research, and rigorous academic foundations.
+          Professional roles, research experience, and academic background.
         </p>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "3rem" }}>

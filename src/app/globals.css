@@ -833,6 +833,9 @@
     }
 
     .project-header {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
       margin-bottom: 1.25rem;
     }
 
@@ -841,6 +844,9 @@
       flex-wrap: wrap;
       gap: 0.45rem;
       margin-bottom: 1rem;
+      height: 4rem;
+      overflow: hidden;
+      align-content: flex-start;
     }
 
     .project-title {
@@ -848,12 +854,17 @@
       font-weight: 700;
       margin-bottom: 0.5rem;
       color: var(--text-primary);
+      height: 5.5rem;
+      overflow: hidden;
+      display: flex;
+      align-items: flex-start;
     }
 
     .project-summary {
       font-size: 0.92rem;
       color: var(--text-secondary);
       margin-bottom: 1.25rem;
+      flex: 1;
     }
 
     .project-footer {
@@ -904,11 +915,12 @@
       border: 1px solid var(--border-color);
       border-radius: 6px;
       padding: 1.25rem;
-      overflow-x: auto;
+      overflow-x: hidden;
       max-width: 100%;
       margin-top: 1rem;
       box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     }
+
     
     [data-theme="dark"] .github-contrib-card {
       background-color: #0d1117; /* Precise GitHub Dark card background */
@@ -930,7 +942,6 @@
     }
     
     .github-contrib-body {
-      min-width: 720px;
       width: 100%;
     }
     
@@ -1013,18 +1024,18 @@
       cursor: pointer;
     }
     
-    /* Heatmap cell coloring */
+    /* Heatmap cell coloring — Signal Cobalt scale */
     [data-theme="light"] .heatmap-cell[data-level="0"] { background-color: #ebedf0; }
-    [data-theme="light"] .heatmap-cell[data-level="1"] { background-color: #9be9a8; }
-    [data-theme="light"] .heatmap-cell[data-level="2"] { background-color: #40c463; }
-    [data-theme="light"] .heatmap-cell[data-level="3"] { background-color: #30a14e; }
-    [data-theme="light"] .heatmap-cell[data-level="4"] { background-color: #216e39; }
-    
+    [data-theme="light"] .heatmap-cell[data-level="1"] { background-color: #c5d0f8; }
+    [data-theme="light"] .heatmap-cell[data-level="2"] { background-color: #9baef5; }
+    [data-theme="light"] .heatmap-cell[data-level="3"] { background-color: #4d6de8; }
+    [data-theme="light"] .heatmap-cell[data-level="4"] { background-color: #1d3fd6; }
+
     [data-theme="dark"] .heatmap-cell[data-level="0"] { background-color: #161b22; }
-    [data-theme="dark"] .heatmap-cell[data-level="1"] { background-color: #0e4429; }
-    [data-theme="dark"] .heatmap-cell[data-level="2"] { background-color: #006d32; }
-    [data-theme="dark"] .heatmap-cell[data-level="3"] { background-color: #26a641; }
-    [data-theme="dark"] .heatmap-cell[data-level="4"] { background-color: #39d353; }
+    [data-theme="dark"] .heatmap-cell[data-level="1"] { background-color: #2a3570; }
+    [data-theme="dark"] .heatmap-cell[data-level="2"] { background-color: #2d3f99; }
+    [data-theme="dark"] .heatmap-cell[data-level="3"] { background-color: #5070d4; }
+    [data-theme="dark"] .heatmap-cell[data-level="4"] { background-color: #8fa4ff; }
     
     .github-contrib-footer {
       display: flex;
@@ -1077,16 +1088,16 @@
     }
     
     [data-theme="light"] .legend-box[data-level="0"] { background-color: #ebedf0; }
-    [data-theme="light"] .legend-box[data-level="1"] { background-color: #9be9a8; }
-    [data-theme="light"] .legend-box[data-level="2"] { background-color: #40c463; }
-    [data-theme="light"] .legend-box[data-level="3"] { background-color: #30a14e; }
-    [data-theme="light"] .legend-box[data-level="4"] { background-color: #216e39; }
+    [data-theme="light"] .legend-box[data-level="1"] { background-color: #c5d0f8; }
+    [data-theme="light"] .legend-box[data-level="2"] { background-color: #9baef5; }
+    [data-theme="light"] .legend-box[data-level="3"] { background-color: #4d6de8; }
+    [data-theme="light"] .legend-box[data-level="4"] { background-color: #1d3fd6; }
     
     [data-theme="dark"] .legend-box[data-level="0"] { background-color: #161b22; }
-    [data-theme="dark"] .legend-box[data-level="1"] { background-color: #0e4429; }
-    [data-theme="dark"] .legend-box[data-level="2"] { background-color: #006d32; }
-    [data-theme="dark"] .legend-box[data-level="3"] { background-color: #26a641; }
-    [data-theme="dark"] .legend-box[data-level="4"] { background-color: #39d353; }
+    [data-theme="dark"] .legend-box[data-level="1"] { background-color: #2a3570; }
+    [data-theme="dark"] .legend-box[data-level="2"] { background-color: #2d3f99; }
+    [data-theme="dark"] .legend-box[data-level="3"] { background-color: #5070d4; }
+    [data-theme="dark"] .legend-box[data-level="4"] { background-color: #8fa4ff; }
 
     /* TOOLTIP POPUP */
     .heatmap-cell .tooltip {
@@ -1105,7 +1116,7 @@
       opacity: 0;
       transition: opacity 0.1s;
       font-family: var(--font-mono);
-      font-size: 0.68rem;
+      font-size: 0.75rem;
       pointer-events: none;
       box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
