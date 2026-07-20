@@ -6,21 +6,16 @@ export default function ResearchPaperBody({ paper }: { paper: Paper }) {
   return (
     <>
       <div className="modal-section">
-        <h4>Abstract</h4>
+        <h4>Background</h4>
         <p>{paper.abstract}</p>
       </div>
 
       <div className="modal-section">
         <h4>Methodology</h4>
         <ul>
-          {paper.methodology.map((m) => {
-            const [label, ...rest] = m.split(": ");
-            return (
-              <li key={label}>
-                <strong>{label}:</strong> {rest.join(": ")}
-              </li>
-            );
-          })}
+          {paper.methodology.map((m, i) => (
+            <li key={i}>{m}</li>
+          ))}
         </ul>
       </div>
 

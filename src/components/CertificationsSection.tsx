@@ -33,7 +33,7 @@ export default function CertificationsSection() {
       <div className="container">
         <h2>Accomplishments &amp; Research</h2>
         <p style={{ marginBottom: "2rem" }}>
-          Peer-reviewed scientific contributions, professional certifications, and technical milestones.
+          Published research, certifications, and key milestones.
         </p>
 
         <div className="grid-two-column">
@@ -71,7 +71,7 @@ export default function CertificationsSection() {
                 ))}
               </div>
               <span style={{ fontSize: "0.78rem", fontFamily: "var(--font-mono)", color: "var(--accent-text)", fontWeight: 700, letterSpacing: "0.05em" }}>
-                READ CASE STUDY
+                READ ABSTRACT
               </span>
             </div>
           </div>
@@ -165,13 +165,13 @@ export default function CertificationsSection() {
         </div>
         <ResearchPaperBody paper={paper} />
         <div className="modal-section" style={{ paddingTop: "0.5rem", borderTop: "1px solid var(--border-color)" }}>
-          <Link href={`/writing/${paper.slug}`} className="project-link">
-            View full research page
+          <a href={paper.doi} target="_blank" rel="noopener noreferrer" className="project-link">
+            View full research paper
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
             </svg>
-          </Link>
+          </a>
         </div>
       </Modal>
     </section>
