@@ -1,7 +1,7 @@
 [
-  { "code": "BNSP", "color": "#1a73e8", "title": "Associate Data Scientist", "issuer": "Badan Nasional Sertifikasi Profesi", "date": "Sept 2025", "badge": "National Cert." },
-  { "code": "TF_DD", "color": "#FF6F00", "title": "TensorFlow: Data and Deployment", "issuer": "DeepLearning.AI", "date": "May 2024", "badge": "Specialization" },
-  { "code": "TF_DV", "color": "#FF6F00", "title": "DeepLearning.AI TensorFlow Developer", "issuer": "DeepLearning.AI", "date": "Apr 2024", "badge": "Developer" },
-  { "code": "STANF", "color": "#4285F4", "title": "Machine Learning Specialization", "issuer": "Stanford University / DeepLearning.AI", "date": "Mar 2024", "badge": "Specialization" },
-  { "code": "SQL", "color": "#336791", "title": "SQL Server for Intermediate", "issuer": "Universitas Gunadarma", "date": "Feb 2024", "badge": "Database" }
+  { "code": "BNSP", "logo": "/certs/bnsp.png", "color": "#1a73e8", "title": "Associate Data Scientist", "issuer": "Badan Nasional Sertifikasi Profesi", "date": "Sept 2025", "badge": "National Cert.", "description": "National professional certification validating competency in data science practices and standards." },
+  { "code": "TF_DD", "logo": "/certs/tf_dd.png", "color": "#FF6F00", "title": "TensorFlow: Data and Deployment", "issuer": "DeepLearning.AI", "date": "May 2024", "badge": "Specialization", "description": "Specialization covering data pipelines, model deployment, and serving TensorFlow models in production." },
+  { "code": "TF_DV", "logo": "/certs/tf_dv.png", "color": "#FF6F00", "title": "DeepLearning.AI TensorFlow Developer", "issuer": "DeepLearning.AI", "date": "Apr 2024", "badge": "Developer", "description": "Professional certification validating expertise in building and training powerful models using TensorFlow." },
+  { "code": "STANF", "logo": "/certs/stanford.png", "color": "#4285F4", "title": "Machine Learning Specialization", "issuer": "Stanford University / DeepLearning.AI", "date": "Mar 2024", "badge": "Specialization", "description": "Foundational specialization on supervised, unsupervised, and reinforcement learning, taught by Andrew Ng." },
+  { "code": "SQL", "logo": "/certs/sql.png", "color": "#336791", "title": "SQL Server for Intermediate", "issuer": "Universitas Gunadarma", "date": "Feb 2024", "badge": "Database", "description": "Intermediate-level coursework on relational database design, querying, and SQL Server administration." }
 ]

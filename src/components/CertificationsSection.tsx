@@ -7,6 +7,46 @@ import ResearchPaperBody from "./ResearchPaperBody";
 import certifications from "@/content/certifications.json";
 import writing from "@/content/writing.json";
 
+function CertLogo({ logo, code, color }: { logo: string; code: string; color: string }) {
+  const [failed, setFailed] = useState(false);
+
+  if (failed) {
+    return (
+      <div
+        style={{
+          background: `${color}1a`,
+          color,
+          fontWeight: 800,
+          fontSize: "0.7rem",
+          fontFamily: "var(--font-mono)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          width: 40,
+          height: 40,
+          borderRadius: 10,
+          border: "1px solid var(--border-color)",
+          flexShrink: 0,
+        }}
+      >
+        {code}
+      </div>
+    );
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={logo}
+      alt=""
+      width={40}
+      height={40}
+      onError={() => setFailed(true)}
+      style={{ width: 40, height: 40, borderRadius: 10, border: "1px solid var(--border-color)", objectFit: "contain", flexShrink: 0, background: "#fff" }}
+    />
+  );
+}
+
 export default function CertificationsSection() {
   const [index, setIndex] = useState(0);
   const [researchOpen, setResearchOpen] = useState(false);
@@ -83,60 +123,24 @@ export default function CertificationsSection() {
             onMouseLeave={() => (hoveringRef.current = false)}
           >
             <div>
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "0.5rem" }}>
-                <span className="meta-mono" style={{ margin: 0 }}>
-                  PROFESSIONAL CERTIFICATIONS
-                </span>
-                <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
-                  <button onClick={prev} aria-label="Previous certification" className="carousel-nav-btn" style={{ background: "none", border: "1px solid var(--border-color)", borderRadius: "50%", width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-secondary)" }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <polyline points="15 18 9 12 15 6"></polyline>
-                    </svg>
-                  </button>
-                  <span style={{ fontSize: "0.75rem", fontFamily: "var(--font-mono)", color: "var(--text-secondary)", minWidth: 28, textAlign: "center" }}>
-                    {index + 1}/{total}
-                  </span>
-                  <button onClick={next} aria-label="Next certification" className="carousel-nav-btn" style={{ background: "none", border: "1px solid var(--border-color)", borderRadius: "50%", width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-secondary)" }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                      <polyline points="9 18 15 12 9 6"></polyline>
-                    </svg>
-                  </button>
+              <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
+                <CertLogo logo={active.logo} code={active.code} color={active.color} />
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h4 style={{ margin: 0, fontSize: "1.1rem", color: "var(--text-primary)", fontWeight: 700, lineHeight: 1.3 }}>{active.title}</h4>
+                  <p style={{ margin: "0.3rem 0 0 0", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
+                    {active.issuer} • {active.date}
+                  </p>
                 </div>
               </div>
 
-              <div style={{ position: "relative", height: 130, marginTop: "1rem", overflow: "hidden" }}>
-                <div style={{ display: "flex", alignItems: "center", gap: "1rem", height: "100%" }}>
-                  <div
-                    style={{
-                      background: `${active.color}1a`,
-                      color: active.color,
-                      fontWeight: 800,
-                      fontSize: "0.8rem",
-                      fontFamily: "var(--font-mono)",
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      width: 48,
-                      height: 48,
-                      borderRadius: 10,
-                      border: "1px solid var(--border-color)",
-                      flexShrink: 0,
-                    }}
-                  >
-                    {active.code}
-                  </div>
-                  <div>
-                    <h4 style={{ margin: 0, fontSize: "1.05rem", color: "var(--text-primary)", fontWeight: 700, lineHeight: 1.3 }}>{active.title}</h4>
-                    <p style={{ margin: "0.25rem 0 0 0", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
-                      {active.issuer} • {active.date}
-                    </p>
-                  </div>
-                </div>
+              <div style={{ borderTop: "1px solid var(--border-color)", marginTop: "1rem", paddingTop: "1rem" }}>
+                <p style={{ margin: 0, fontSize: "0.92rem", color: "var(--text-secondary)", lineHeight: 1.5 }}>
+                  {active.description}
+                </p>
               </div>
             </div>
 
-            <div style={{ marginTop: "auto", display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: "1px solid var(--border-color)", paddingTop: "1rem" }}>
-              <span className="badge">{active.badge}</span>
+            <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
                 {certifications.map((cert, i) => (
                   <span
@@ -152,6 +156,18 @@ export default function CertificationsSection() {
                     }}
                   />
                 ))}
+              </div>
+              <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
+                <button onClick={prev} aria-label="Previous certification" className="carousel-nav-btn" style={{ background: "none", border: "1px solid var(--border-color)", borderRadius: "50%", width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-secondary)" }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                </button>
+                <button onClick={next} aria-label="Next certification" className="carousel-nav-btn" style={{ background: "none", border: "1px solid var(--border-color)", borderRadius: "50%", width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-secondary)" }}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
