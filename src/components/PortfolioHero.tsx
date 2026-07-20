@@ -20,14 +20,13 @@ export default function PortfolioHero() {
             AI Engineer &amp; Data Scientist
           </p>
           <p className="hero-description">
-            Focused on computer vision, applied NLP, and retrieval-augmented generation. Designing and scaling machine
-            learning pipelines and shipping them as production-ready applications.
+            Building production AI systems across GenAI, NLP, and Computer Vision. From RAG pipelines and AI agents to deep learning models, shipped end-to-end.
           </p>
         </div>
 
         <div className="hero-actions">
           <a href="#projects" className="btn-pill btn-pill-primary">
-            <span>Explore Case Studies</span>
+            <span>Explore Projects</span>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <line x1="5" y1="12" x2="19" y2="12"></line>
               <polyline points="12 5 19 12 12 19"></polyline>
