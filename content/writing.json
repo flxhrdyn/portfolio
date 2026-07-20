@@ -1,16 +1,21 @@
 [
   {
     "slug": "coral-bleaching-detection",
-    "title": "Automating Coral Bleaching Detection with Deep Learning",
+    "title": "Model CoralNet, InceptionV3, dan MobileNetV2 untuk Klasifikasi Kondisi Terumbu Karang",
     "kind": "PEER-REVIEWED PUBLICATION",
-    "summary": "Developed and published research utilizing advanced deep learning architectures (CoralNet, InceptionV3, MobileNetV2) to automate the detection and quantification of coral bleaching, achieving 89% accuracy in marine biodiversity monitoring tasks.",
+    "journal": "JITET (Jurnal Informatika dan Teknik Elektro Terapan)",
+    "volume": "Vol. 13 No. 3",
+    "issn": "pISSN: 2303-0577 | eISSN: 2830-7062",
+    "doi": "http://dx.doi.org/10.23960/jitet.v13i3.6591",
+    "authors": "Ulfa Hidayati, Felix Windriyareksa Hardyan, Faizah Rizki Auliawati, Ali Akbar Rafsanjani, Fanka Arie Reza, Mario Mora Siregar",
+    "summary": "Comparative study of CoralNet, InceptionV3, and MobileNetV2 for classifying coral reef conditions into healthy, bleached, and dead categories. MobileNetV2 achieved the best performance with 97% training accuracy and 89% test accuracy.",
     "tags": ["CoralNet", "InceptionV3", "MobileNetV2"],
-    "abstract": "Automated monitoring of coral reef ecosystems is critical for tracking the global impacts of rising ocean temperatures. This paper presents a deep learning-based framework to identify and quantify coral bleaching events from underwater imagery. Integrating model features from CoralNet, InceptionV3, and MobileNetV2 with localized patch classifier structures, we establish a robust computational pipeline that reduces manual annotation loads while maintaining high diagnostic precision.",
+    "abstract": "Indonesia hosts the highest marine biodiversity in the world, with approximately 569 species and 83 genus of stony corals, accounting for 69% of global coral species and 76% of genera. Coral reefs are highly vulnerable to climate change, as environmental factors can damage photosystem II, causing corals to lose their symbiotic algae and resulting in coral bleaching. The application of Support Vector Machine (SVM) and Bag of Features (BoF) models has been explored as AI-based solutions for classifying coral reef conditions. However, these approaches rely on manual feature extraction and involve a more complex workflow compared to end-to-end deep learning methods such as CoralNet, InceptionV3, and MobileNetV2. This study aims to analyze and compare the performance of these three models in classifying coral conditions into three categories: healthy, bleached, and dead.",
     "methodology": [
-      "Pretrained Backbones: Comparative validation of features extracted from CoralNet-v2, InceptionV3, and MobileNetV2 models.",
-      "Data Pipeline: Dense color correction and histogram matching to resolve lighting variances in underwater optical channels.",
-      "Classifier Calibration: Softmax classification heads trained on public and proprietary labeled benthic surveys with automated augmentation layers."
+      "Compared CoralNet, InceptionV3, and MobileNetV2 against traditional SVM and Bag of Features approaches.",
+      "Classified coral conditions into three categories: healthy, bleached, and dead.",
+      "Evaluated end-to-end deep learning as a replacement for manual feature extraction workflows."
     ],
-    "keyFindings": "The ensemble model achieved an 89% overall classification accuracy for bleached vs. healthy coral structures. Deployed on high-performance computing resources, the pipeline processes extensive video transects in real-time, providing critical, automated insights for marine biodiversity conservation efforts."
+    "keyFindings": "MobileNetV2 achieved the best performance with 97% training accuracy, 88% validation accuracy, and 89% test accuracy for coral reef classification."
   }
 ]

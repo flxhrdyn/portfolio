@@ -49,7 +49,7 @@
       "accentColor": "var(--accent-color)",
       "statLabel": "GPA: 3.85 / 4.00",
       "statColor": "var(--accent-text)",
-      "description": "Rigorous coursework in computational complexity, software engineering, relational databases, and high-performance neural computing."
+      "description": "Studied computer science while actively building AI systems, publishing research, and teaching data science."
     },
     {
       "title": "Machine Learning Specialization",
@@ -58,7 +58,7 @@
       "accentColor": "#34a853",
       "statLabel": "Graduated with Distinction",
       "statColor": "#34a853",
-      "description": "Google-led cohort centered on mathematics for ML, computer vision architectures, advanced transformers, and robust pipeline engineering."
+      "description": "Graduated with Distinction from Google-led ML program covering Deep Learning, Computer Vision, and NLP. Built CrashSnap as capstone, a YOLOv8-based vehicle damage detection system for automated visual inspection and damage assessment."
     }
   ]
 }
