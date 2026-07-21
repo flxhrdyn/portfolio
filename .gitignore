@@ -11,3 +11,7 @@ coverage/
 bash.exe.stackdump
 .impeccable/
 docs/design-references/
+test-results/
+playwright-report/
+blob-report/
+playwright/.cache/
