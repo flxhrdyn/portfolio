@@ -137,6 +137,21 @@ export default function CertificationsSection() {
                 <p style={{ margin: 0, fontSize: "0.92rem", color: "var(--text-secondary)", lineHeight: 1.5 }}>
                   {active.description}
                 </p>
+                {active.url && (
+                  <a
+                    href={active.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="project-link"
+                    style={{ marginTop: "0.75rem", fontSize: "0.78rem" }}
+                  >
+                    Verify Certificate
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
+                )}
               </div>
             </div>
 
