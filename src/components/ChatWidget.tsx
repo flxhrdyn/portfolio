@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { AnimatePresence, m } from "motion/react";
 
 interface Message {
   id: string;
@@ -264,6 +265,10 @@ const STATUS_MESSAGES = [
   "Putting together an answer...",
 ];
 
+function randomThinkingDelay(): number {
+  return 1000 + Math.random() * 4000;
+}
+
 export default function ChatWidget() {
   const [messages, setMessages] = useState<Message[]>([
     {
@@ -279,10 +284,7 @@ export default function ChatWidget() {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!isTyping) {
-      setStatusIndex(0);
-      return;
-    }
+    if (!isTyping) return;
     const id = setInterval(() => {
       setStatusIndex((i) => (i + 1) % STATUS_MESSAGES.length);
     }, 2200);
@@ -309,8 +311,9 @@ export default function ChatWidget() {
     if (isTyping) return;
     setMessages((prev) => [...prev, { id: `${Date.now()}-u`, sender: "user", text: chip.query }]);
     setIsTyping(true);
+    setStatusIndex(0);
 
-    const thinkingDelay = 1000 + Math.random() * 4000;
+    const thinkingDelay = randomThinkingDelay();
     setTimeout(() => {
       const replyId = `${Date.now()}-b`;
       const answer = chip.answer;
@@ -338,6 +341,7 @@ export default function ChatWidget() {
     setMessages((prev) => [...prev, { id: `${Date.now()}-u`, sender: "user", text: query }]);
     setInput("");
     setIsTyping(true);
+    setStatusIndex(0);
 
     try {
       const res = await fetch("/api/chat", {
@@ -415,21 +419,29 @@ export default function ChatWidget() {
                   )}
                 </div>
               ))}
-              {isTyping && (
-                <div className="chat-msg bot">
-                  <div className="msg-sender">HAWAT</div>
-                  <div className="msg-bubble" style={{ padding: "0.4rem 0.8rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
-                      {STATUS_MESSAGES[statusIndex]}
-                    </span>
-                    <div className="typing-indicator">
-                      <div className="typing-dot" />
-                      <div className="typing-dot" />
-                      <div className="typing-dot" />
+              <AnimatePresence>
+                {isTyping && (
+                  <m.div
+                    className="chat-msg bot"
+                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <div className="msg-sender">HAWAT</div>
+                    <div className="msg-bubble" style={{ padding: "0.4rem 0.8rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                      <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
+                        {STATUS_MESSAGES[statusIndex]}
+                      </span>
+                      <div className="typing-indicator">
+                        <div className="typing-dot" />
+                        <div className="typing-dot" />
+                        <div className="typing-dot" />
+                      </div>
                     </div>
-                  </div>
-                </div>
-              )}
+                  </m.div>
+                )}
+              </AnimatePresence>
             </div>
           </div>
 

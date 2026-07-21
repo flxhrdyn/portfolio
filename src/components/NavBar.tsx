@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { scrollToAnchor } from "@/lib/scrollToAnchor";
 
 const NAV_LINKS = [
   { href: "#projects", label: "Projects" },
@@ -34,6 +35,11 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
     setTheme(next);
   };
 
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    setMenuOpen(false);
+    scrollToAnchor(e, href);
+  };
+
   return (
     <nav className="navbar" id="top-nav">
       <div className="nav-container">
@@ -49,7 +55,7 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
         {variant === "portfolio" && (
           <div className={`nav-links${menuOpen ? " active" : ""}`} id="nav-links">
             {NAV_LINKS.map((link) => (
-              <a key={link.href} href={link.href} className="nav-link" onClick={() => setMenuOpen(false)}>
+              <a key={link.href} href={link.href} className="nav-link" onClick={(e) => handleNavClick(e, link.href)}>
                 {link.label}
               </a>
             ))}
