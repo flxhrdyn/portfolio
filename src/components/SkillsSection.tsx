@@ -1,5 +1,9 @@
+"use client";
+
+import { m, useReducedMotion } from "motion/react";
 import skills from "@/content/skills.json";
 import TechStackCarousel from "./TechStackCarousel";
+import Reveal, { revealVariants } from "./Reveal";
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
   "AI & Machine Learning": (
@@ -40,38 +44,66 @@ const BRAND_ITEMS = new Set([
 ]);
 
 export default function SkillsSection() {
+  const reduceMotion = useReducedMotion();
+
   return (
     <section className="section" id="skills">
       <div className="container">
-        <h2>Skills</h2>
-        <p style={{ marginBottom: "2rem" }}>
-          Tools, languages, and frameworks I work with.
-        </p>
+        <Reveal>
+          <h2>Skills</h2>
+          <p style={{ marginBottom: "2rem" }}>
+            Tools, languages, and frameworks I work with.
+          </p>
+        </Reveal>
 
         <TechStackCarousel />
 
         <div className="skills-grid">
-          {skills.map((group) => (
-            <div key={group.category} className="skill-category">
-              <div className="skill-category-title">
-                {CATEGORY_ICONS[group.category]}
-                <span>{group.category}</span>
-              </div>
-              <div className="skill-pills">
-                {group.items.map((item) =>
-                  BRAND_ITEMS.has(item) ? (
-                    <span key={item} className="skill-pill">
-                      <strong style={{ color: "var(--accent-text)" }}>{item.split(" (")[0]}</strong> ({item.split(" (")[1]}
-                    </span>
-                  ) : (
-                    <span key={item} className="skill-pill">
-                      <span>{item}</span>
-                    </span>
-                  )
-                )}
-              </div>
-            </div>
-          ))}
+          {skills.map((group, i) => {
+            const content = (
+              <>
+                <div className="skill-category-title">
+                  {CATEGORY_ICONS[group.category]}
+                  <span>{group.category}</span>
+                </div>
+                <div className="skill-pills">
+                  {group.items.map((item) =>
+                    BRAND_ITEMS.has(item) ? (
+                      <span key={item} className="skill-pill">
+                        <strong style={{ color: "var(--accent-text)" }}>{item.split(" (")[0]}</strong> ({item.split(" (")[1]}
+                      </span>
+                    ) : (
+                      <span key={item} className="skill-pill">
+                        <span>{item}</span>
+                      </span>
+                    )
+                  )}
+                </div>
+              </>
+            );
+
+            if (reduceMotion) {
+              return (
+                <div key={group.category} className="skill-category">
+                  {content}
+                </div>
+              );
+            }
+
+            return (
+              <m.div
+                key={group.category}
+                className="skill-category"
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, margin: "-80px" }}
+                variants={revealVariants}
+                transition={{ duration: 0.5, delay: Math.min(i, 4) * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {content}
+              </m.div>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { m } from "motion/react";
 import Modal from "./Modal";
 import GithubHeatmap from "./GithubHeatmap";
 import ProjectCaseStudyBody from "./ProjectCaseStudyBody";
+import Reveal from "./Reveal";
 import projects from "@/content/projects.json";
 import archiveProjects from "@/content/archive-projects.json";
 import type { ContributionDay } from "@/lib/github-contributions";
@@ -25,49 +27,55 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
   return (
     <section className="section" id="projects">
       <div className="container">
-        <h2>Featured Projects</h2>
-        <p style={{ marginBottom: "2rem" }}>
-          Projects spanning model development, pipelines, and deployment.
-        </p>
+        <Reveal>
+          <h2>Featured Projects</h2>
+          <p style={{ marginBottom: "2rem" }}>
+            Projects spanning model development, pipelines, and deployment.
+          </p>
+        </Reveal>
 
         <div className="projects-grid">
-          {projects.map((project) => (
-            <div
-              key={project.slug}
-              className="project-card"
-              role="button"
-              tabIndex={0}
-              onClick={() => setOpenSlug(project.slug)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setOpenSlug(project.slug);
-                }
-              }}
-            >
-              <div className="project-header">
-                <div className="project-tags">
-                  <span className="badge badge-accent">{project.tags[0]}</span>
-                  {project.tags.slice(1).map((tag) => (
-                    <span key={tag} className="badge">
-                      {tag}
-                    </span>
-                  ))}
+          {projects.map((project, i) => (
+            <Reveal key={project.slug} delay={Math.min(i, 4) * 0.08}>
+              <m.div
+                className="project-card"
+                role="button"
+                tabIndex={0}
+                whileHover={{ y: -6 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                onClick={() => setOpenSlug(project.slug)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setOpenSlug(project.slug);
+                  }
+                }}
+              >
+                <div className="project-header">
+                  <div className="project-tags">
+                    <span className="badge badge-accent">{project.tags[0]}</span>
+                    {project.tags.slice(1).map((tag) => (
+                      <span key={tag} className="badge">
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <h3 className="project-title">{project.title}</h3>
+                  <p className="project-summary">{project.summary}</p>
                 </div>
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-summary">{project.summary}</p>
-              </div>
-              <div className="project-footer">
-                <span className="project-link">
-                  Explore Project
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </span>
+                <div className="project-footer">
+                  <span className="project-link">
+                    Explore Project
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </span>
 
-              </div>
-            </div>
+                </div>
+              </m.div>
+            </Reveal>
           ))}
         </div>
 
@@ -82,18 +90,20 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
 
         <div style={{ borderTop: "1px solid var(--border-color)", marginBottom: "2.5rem", opacity: 0.6 }} />
 
-        <div id="activity" style={{ scrollMarginTop: "5rem" }}>
-          <h3 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--accent-color)" }}>
-              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-            </svg>
-            Open Source Contributions
-          </h3>
-          <p style={{ marginBottom: "1.5rem", fontSize: "0.92rem", color: "var(--text-secondary)", maxWidth: "650px" }}>
-            Open-source work and contributions, updated in real time.
-          </p>
-          <GithubHeatmap contributions={contributions} />
-        </div>
+        <Reveal>
+          <div id="activity" style={{ scrollMarginTop: "5rem" }}>
+            <h3 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--accent-color)" }}>
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+              </svg>
+              Open Source Contributions
+            </h3>
+            <p style={{ marginBottom: "1.5rem", fontSize: "0.92rem", color: "var(--text-secondary)", maxWidth: "650px" }}>
+              Open-source work and contributions, updated in real time.
+            </p>
+            <GithubHeatmap contributions={contributions} />
+          </div>
+        </Reveal>
       </div>
 
       {projects.map((project) => (

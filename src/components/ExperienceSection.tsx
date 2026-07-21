@@ -1,13 +1,40 @@
+"use client";
+
+import { m, useReducedMotion } from "motion/react";
 import experience from "@/content/experience.json";
+import Reveal, { revealVariants } from "./Reveal";
+
+function TimelineReveal({ delay, children }: { delay: number; children: React.ReactNode }) {
+  const reduceMotion = useReducedMotion();
+
+  if (reduceMotion) {
+    return <div className="timeline-item">{children}</div>;
+  }
+
+  return (
+    <m.div
+      className="timeline-item"
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-80px" }}
+      variants={revealVariants}
+      transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
+    >
+      {children}
+    </m.div>
+  );
+}
 
 export default function ExperienceSection() {
   return (
     <section className="section" id="experience">
       <div className="container">
-        <h2>Experience &amp; Education</h2>
-        <p style={{ marginBottom: "2.5rem" }}>
-          Professional roles, research experience, and academic background.
-        </p>
+        <Reveal>
+          <h2>Experience &amp; Education</h2>
+          <p style={{ marginBottom: "2.5rem" }}>
+            Professional roles, research experience, and academic background.
+          </p>
+        </Reveal>
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "3rem" }}>
           <div>
@@ -19,8 +46,8 @@ export default function ExperienceSection() {
               Work Experience
             </h3>
             <div className="timeline">
-              {experience.work.map((item) => (
-                <div key={item.title} className="timeline-item">
+              {experience.work.map((item, i) => (
+                <TimelineReveal key={item.title} delay={Math.min(i, 4) * 0.1}>
                   <div className="timeline-dot" />
                   <div className="timeline-header">
                     <div>
@@ -38,7 +65,7 @@ export default function ExperienceSection() {
                       ))}
                     </ul>
                   </div>
-                </div>
+                </TimelineReveal>
               ))}
             </div>
           </div>
@@ -52,8 +79,8 @@ export default function ExperienceSection() {
               Education
             </h3>
             <div className="timeline">
-              {experience.education.map((item) => (
-                <div key={item.title} className="timeline-item">
+              {experience.education.map((item, i) => (
+                <TimelineReveal key={item.title} delay={Math.min(i, 4) * 0.1}>
                   <div className="timeline-dot" style={{ borderColor: item.accentColor }} />
                   <div className="timeline-header">
                     <div>
@@ -70,7 +97,7 @@ export default function ExperienceSection() {
                     </p>
                     <p style={{ marginTop: "0.35rem" }}>{item.description}</p>
                   </div>
-                </div>
+                </TimelineReveal>
               ))}
             </div>
           </div>
