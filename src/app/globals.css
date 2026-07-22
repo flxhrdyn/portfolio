@@ -857,18 +857,12 @@
     .github-contrib-card {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 6px;
+      border-radius: var(--radius-md);
       padding: 1.25rem;
       overflow-x: hidden;
       max-width: 100%;
       margin-top: 1rem;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-    }
-
-    
-    [data-theme="dark"] .github-contrib-card {
-      background-color: #0d1117; /* Precise GitHub Dark card background */
-      border-color: #30363d;
+      box-shadow: none;
     }
     
     .github-contrib-header {
@@ -1539,12 +1533,12 @@
     .contact-card {
       background-color: var(--bg-secondary);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
+      border-radius: var(--radius-lg);
       padding: 3rem 1.5rem;
       text-align: center;
       max-width: 680px;
       margin: 0 auto;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      box-shadow: none;
     }
 
     .contact-text {
@@ -1565,7 +1559,7 @@
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
       padding: 0.65rem 1.25rem;
-      border-radius: 10px;
+      border-radius: var(--radius-md);
       font-size: 0.92rem;
     }
 
@@ -1648,7 +1642,7 @@
     .modal-card {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
+      border-radius: var(--radius-lg);
       width: 100%;
       max-width: 800px;
       max-height: 85vh;
@@ -1686,7 +1680,7 @@
     .modal-close-btn {
       background: none;
       border: 1px solid var(--border-color);
-      border-radius: 8px;
+      border-radius: var(--radius-md);
       width: 2.25rem;
       height: 2.25rem;
       display: flex;
@@ -1743,7 +1737,7 @@
     .modal-code-block {
       background-color: var(--bg-secondary);
       border: 1px solid var(--border-color);
-      border-radius: 10px;
+      border-radius: var(--radius-md);
       padding: 1rem;
       overflow-x: auto;
       margin: 1rem 0;
