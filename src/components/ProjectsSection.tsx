@@ -49,8 +49,13 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
               }}
             >
               <div className="project-featured-media">
-                <span className="badge badge-accent">Featured</span>
-                <span className="project-featured-code">{featuredProject.tagStack}</span>
+                <div className="project-featured-media-header">
+                  <span className="badge badge-accent">Featured</span>
+                  <span className="project-featured-tab">{featuredProject.tagStack}</span>
+                </div>
+                <pre className="project-featured-code">
+                  <code>{featuredProject.codeBlock}</code>
+                </pre>
               </div>
               <div className="project-featured-body">
                 <div className="project-tags">
