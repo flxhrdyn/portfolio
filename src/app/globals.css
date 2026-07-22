@@ -1,9 +1,10 @@
 @import "tailwindcss";
 
-    /* 
-      GOOGLE ANTIGRAVITY CLONED BRAND DESIGN TOKENS
+    /*
+      SIGNAL CONSOLE DESIGN TOKENS (per DESIGN.md)
       Calibrated to strictly guarantee >= 4.5:1 contrast ratios in both light and dark modes.
-      Features the signature clean neutral surfaces, rounded pill-shapes, and ambient multi-colored accents.
+      Flat neutral surfaces, angular buttons/cards, pill reserved for badges/chips/status dots,
+      one solid Signal Cobalt accent.
     */
     :root {
       /* LIGHT THEME (Signal Console, per DESIGN.md) */
@@ -252,7 +253,7 @@
       color: var(--text-primary);
     }
 
-    /* HERO CONTAINER WITH MULTI-COLORED FLOATING PARTICLES CANVAS BACKGROUND */
+    /* HERO CONTAINER */
     .hero-wrapper {
       position: relative;
       overflow: hidden;
@@ -261,17 +262,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    /* Background particles Canvas */
-    #particles-canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 1;
-      pointer-events: none;
     }
 
     .hero-content {
@@ -315,7 +305,7 @@
       max-width: 650px;
     }
 
-    /* CENTERED PILL BUTTONS (Antigravity Style) */
+    /* HERO ACTION BUTTONS */
     .hero-actions {
       display: flex;
       gap: 1rem;
@@ -329,7 +319,7 @@
       font-size: 0.95rem;
       font-weight: 600;
       padding: 0.75rem 2rem;
-      border-radius: 9999px; /* Absolute pill shape */
+      border-radius: var(--radius-sm);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
@@ -386,7 +376,7 @@
       border: none !important;
       font-weight: 600 !important;
       padding: 0.5rem 1.25rem !important;
-      border-radius: 9999px !important;
+      border-radius: var(--radius-sm) !important;
       display: inline-flex !important;
       align-items: center !important;
       gap: 0.5rem !important;
@@ -510,7 +500,7 @@
 
     .msg-bubble {
       padding: 0.85rem 1.15rem;
-      border-radius: 14px;
+      border-radius: var(--radius-lg);
       font-size: 0.9rem;
       line-height: 1.5;
     }
@@ -595,7 +585,7 @@
       border: 1px solid var(--border-color);
       background-color: var(--bg-secondary);
       color: var(--text-primary);
-      border-radius: 10px;
+      border-radius: var(--radius-sm);
       font-family: var(--font-sans);
       font-size: 0.9rem;
       transition: border-color var(--transition-speed) ease;
@@ -610,7 +600,7 @@
       background-color: var(--accent-color);
       color: #ffffff;
       border: none;
-      border-radius: 10px;
+      border-radius: var(--radius-sm);
       padding: 0 1.25rem;
       font-weight: 600;
       font-size: 0.85rem;
@@ -664,7 +654,7 @@
       color: var(--accent-text);
     }
 
-    /* FEATURED PROJECTS (Antigravity card aesthetic) */
+    /* FEATURED PROJECT (wide card, split from the regular grid) */
     .projects-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -751,25 +741,6 @@
       overflow: hidden;
     }
 
-    /* Subtle ambient glowing corner for each card to clone the Antigravity workspace layout */
-    .project-card::before {
-      content: "";
-      position: absolute;
-      width: 150px;
-      height: 150px;
-      border-radius: 50%;
-      background: radial-gradient(circle, var(--accent-color), transparent 70%);
-      opacity: 0.02;
-      bottom: -75px;
-      right: -75px;
-      pointer-events: none;
-      transition: opacity var(--transition-speed) ease;
-    }
-
-    .project-card:hover::before {
-      opacity: 0.06;
-    }
-
     .project-card:hover {
       transform: translateY(-2px);
       border-color: var(--accent-color);
@@ -843,7 +814,7 @@
       background-color: var(--bg-secondary);
       border: 1px solid var(--border-color);
       padding: 0.6rem 1.5rem;
-      border-radius: 9999px; /* Pill shape */
+      border-radius: var(--radius-sm);
       cursor: pointer;
       transition: background-color var(--transition-speed) ease;
     }
@@ -1485,9 +1456,9 @@
     .cert-publication-card {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 14px;
+      border-radius: var(--radius-lg);
       padding: 1.5rem;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+      box-shadow: none;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -1518,7 +1489,7 @@
 
     .cert-publication-card[onclick]:hover {
       border-color: var(--accent-color);
-      box-shadow: 0 4px 12px var(--accent-bg-muted);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
     }
 
     .meta-mono {

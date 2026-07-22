@@ -1,16 +1,11 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Reveal from "./Reveal";
 import { scrollToAnchor } from "@/lib/scrollToAnchor";
-
-const ParticlesCanvas = dynamic(() => import("./ParticlesCanvas"));
 
 export default function PortfolioHero() {
   return (
     <div id="about" className="hero-wrapper">
-      <ParticlesCanvas />
-
       <header className="container hero-content">
         <Reveal className="hero-title-group">
           <div className="hero-subtitle">PERSONAL PORTFOLIO</div>

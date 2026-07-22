@@ -1,10 +1,7 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { m, useReducedMotion, type Variants } from "motion/react";
 import ChatWidget from "./ChatWidget";
-
-const ParticlesCanvas = dynamic(() => import("./ParticlesCanvas"));
 
 const container: Variants = {
   hidden: {},
@@ -21,8 +18,6 @@ export default function ChatHero() {
 
   return (
     <div className="hero-wrapper" style={{ minHeight: "calc(100vh - 4.5rem)", display: "flex", alignItems: "center" }}>
-      <ParticlesCanvas />
-
       <m.header
         className="container hero-content"
         style={{ paddingTop: "1rem", paddingBottom: "1rem" }}

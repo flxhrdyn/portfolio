@@ -396,7 +396,7 @@ export default function ChatWidget() {
       <div className="portfolio-chat-box">
         <div className="chat-header">
           <div className="chat-header-status">
-            <span className="status-dot" style={{ backgroundColor: "#34a853", boxShadow: "0 0 8px #34a853" }} />
+            <span className="status-dot" />
             <span>Hawat (AI Agent)</span>
           </div>
         </div>
