@@ -233,21 +233,6 @@
       gap: 0.65rem;
     }
 
-    /* Brand Accent Colors */
-    .logo-brand-accent {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-    }
-    .logo-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-    }
-    .dot-red { background-color: #ea4335; }
-    .dot-blue { background-color: #4285f4; }
-    .dot-yellow { background-color: #fbbc05; }
-    .dot-green { background-color: #34a853; }
 
     .nav-links {
       display: flex;
