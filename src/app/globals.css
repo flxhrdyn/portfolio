@@ -1186,49 +1186,41 @@
     .skills-grid {
       display: grid;
       grid-template-columns: repeat(12, 1fr);
-      grid-template-rows: auto auto;
-      grid-template-areas:
-        "c1 c1 c1 c1 c1 c2 c2 c2 c2 c2 c2 c2"
-        "c1 c1 c1 c1 c1 c3 c3 c3 c4 c4 c5 c5";
-      align-items: stretch;
+      align-items: start;
       gap: 1.5rem;
       margin-top: 1.5rem;
     }
 
+    /* Column spans weighted by skill count per category (9/9/9/6/2) - bento width variety
+       without row-spanning, so each card sizes to its own content and no card is stretched
+       into empty space by a taller sibling. */
     .skills-grid .skill-category:nth-child(1) {
-      grid-area: c1;
+      grid-column: span 5;
     }
 
     .skills-grid .skill-category:nth-child(2) {
-      grid-area: c2;
+      grid-column: span 7;
     }
 
     .skills-grid .skill-category:nth-child(3) {
-      grid-area: c3;
+      grid-column: span 5;
     }
 
     .skills-grid .skill-category:nth-child(4) {
-      grid-area: c4;
+      grid-column: span 4;
     }
 
     .skills-grid .skill-category:nth-child(5) {
-      grid-area: c5;
+      grid-column: span 3;
     }
 
     @media (max-width: 900px) {
-      .skills-grid {
-        grid-template-columns: 1fr;
-        grid-template-rows: none;
-        grid-template-areas: none;
-      }
-
       .skills-grid .skill-category:nth-child(1),
       .skills-grid .skill-category:nth-child(2),
       .skills-grid .skill-category:nth-child(3),
       .skills-grid .skill-category:nth-child(4),
       .skills-grid .skill-category:nth-child(5) {
-        grid-area: auto;
-        grid-column: span 1;
+        grid-column: span 12;
       }
     }
 
