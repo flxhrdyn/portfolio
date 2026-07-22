@@ -195,20 +195,16 @@
       border-color: rgba(129, 201, 149, 0.3);
     }
 
-    /* GOOGLE ANTIGRAVITY STYLED STICKY TOP NAV */
+    /* SIGNAL CONSOLE STICKY TOP NAV */
     .navbar {
       position: sticky;
       top: 0;
       z-index: 100;
-      background-color: rgba(255, 255, 255, 0.85);
+      background-color: color-mix(in srgb, var(--bg-secondary) 85%, transparent);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border-color);
       transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
-    }
-
-    [data-theme="dark"] .navbar {
-      background-color: rgba(18, 18, 20, 0.85);
     }
 
     .nav-container {
