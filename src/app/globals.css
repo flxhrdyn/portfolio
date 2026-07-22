@@ -461,7 +461,7 @@
       text-decoration: none;
     }
 
-    /* THE PORTFOLIO TERMINAL CHATBOX (Google Antigravity UI Style) */
+    /* THE PORTFOLIO CONSOLE (Vercel-dominant, per DESIGN.md) */
     .chat-card-container {
       width: 100%;
       max-width: 740px;
@@ -469,49 +469,10 @@
       position: relative;
     }
 
-    /* Rainbow ring glow surrounding the console */
-    .chat-card-container::before {
-      content: "";
-      position: absolute;
-      top: -3px;
-      left: -3px;
-      right: -3px;
-      bottom: -3px;
-      background: linear-gradient(135deg, #0062ff, #34a853, #fbbc05, #ea4335, #0062ff);
-      background-size: 200% 200%;
-      z-index: -1;
-      border-radius: 19px;
-      opacity: 0.35;
-      filter: blur(12px);
-      transition: opacity var(--transition-speed) ease, filter var(--transition-speed) ease;
-      animation: rainbowGlow 8s ease infinite;
-    }
-
-    [data-theme="dark"] .chat-card-container::before {
-      opacity: 0.65;
-      filter: blur(14px);
-    }
-
-    .chat-card-container:hover::before {
-      opacity: 0.55;
-      filter: blur(16px);
-    }
-
-    [data-theme="dark"] .chat-card-container:hover::before {
-      opacity: 0.85;
-      filter: blur(18px);
-    }
-
-    @keyframes rainbowGlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
     .portfolio-chat-box {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
+      border-radius: var(--radius-lg);
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -522,11 +483,12 @@
 
     .chat-header {
       padding: 0.85rem 1.25rem;
-      background-color: var(--bg-secondary);
+      background-color: var(--bg-card);
       border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
       justify-content: space-between;
+      font-family: var(--font-mono);
     }
 
     .chat-header-status {
@@ -541,9 +503,8 @@
     .status-dot {
       width: 8px;
       height: 8px;
-      border-radius: 50%;
-      background-color: #34a853; /* Success Green */
-      box-shadow: 0 0 0 3px rgba(52, 168, 83, 0.2);
+      border-radius: var(--radius-full);
+      background-color: var(--accent-color);
     }
 
     .chat-body {
