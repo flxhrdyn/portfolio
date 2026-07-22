@@ -307,42 +307,6 @@
       justify-content: center;
     }
 
-    /* Ambient Rainbow Aura behind Hero elements */
-    .ambient-auras {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      pointer-events: none;
-      z-index: 1;
-    }
-
-    .aura {
-      position: absolute;
-      width: 350px;
-      height: 350px;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: 0.08;
-    }
-
-    [data-theme="dark"] .aura {
-      opacity: 0.12;
-    }
-
-    .aura-1 {
-      top: 10%;
-      left: 15%;
-      background: radial-gradient(circle, #ea4335, transparent 70%);
-    }
-
-    .aura-2 {
-      bottom: 15%;
-      right: 15%;
-      background: radial-gradient(circle, #4285f4, transparent 70%);
-    }
-
     /* Background particles Canvas */
     #particles-canvas {
       position: absolute;

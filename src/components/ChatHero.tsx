@@ -23,11 +23,6 @@ export default function ChatHero() {
     <div className="hero-wrapper" style={{ minHeight: "calc(100vh - 4.5rem)", display: "flex", alignItems: "center" }}>
       <ParticlesCanvas />
 
-      <div className="ambient-auras">
-        <div className="aura aura-1" />
-        <div className="aura aura-2" />
-      </div>
-
       <m.header
         className="container hero-content"
         style={{ paddingTop: "1rem", paddingBottom: "1rem" }}

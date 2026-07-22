@@ -11,11 +11,6 @@ export default function PortfolioHero() {
     <div id="about" className="hero-wrapper">
       <ParticlesCanvas />
 
-      <div className="ambient-auras">
-        <div className="aura aura-1" />
-        <div className="aura aura-2" />
-      </div>
-
       <header className="container hero-content">
         <Reveal className="hero-title-group">
           <div className="hero-subtitle">PERSONAL PORTFOLIO</div>
