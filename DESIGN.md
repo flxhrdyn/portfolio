@@ -53,9 +53,10 @@ typography:
     lineHeight: 1.4
     letterSpacing: "0.02em"
 rounded:
-  sm: "8px"
-  md: "12px"
-  pill: "9999px"
+  sm: "6px"
+  md: "8px"
+  lg: "12px"
+  full: "9999px"
 spacing:
   sm: "0.75rem"
   md: "1.5rem"
@@ -65,7 +66,7 @@ components:
   button-primary:
     backgroundColor: "{colors.text-primary}"
     textColor: "{colors.bg-primary}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.sm}"
     padding: "0.75rem 2rem"
   button-primary-hover:
     backgroundColor: "{colors.signal-cobalt}"
@@ -73,7 +74,7 @@ components:
   button-accent:
     backgroundColor: "{colors.signal-cobalt}"
     textColor: "#ffffff"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.sm}"
     padding: "0.75rem 2rem"
   button-accent-hover:
     backgroundColor: "{colors.signal-cobalt-hover}"
@@ -81,7 +82,7 @@ components:
   button-secondary:
     backgroundColor: "transparent"
     textColor: "{colors.text-primary}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.sm}"
     padding: "0.75rem 2rem"
   card:
     backgroundColor: "{colors.bg-card}"
@@ -90,7 +91,7 @@ components:
   badge:
     backgroundColor: "{colors.bg-secondary}"
     textColor: "{colors.text-secondary}"
-    rounded: "{rounded.pill}"
+    rounded: "{rounded.full}"
     padding: "0.25rem 0.75rem"
 ---
 
@@ -106,13 +107,15 @@ the chat widget's chrome), and a confident grotesk sans everywhere the content n
 read fast. This is a weighted clone of three references, not an equal blend:
 
 1. **Vercel (dominant, ~60%)**: true near-black bg, chroma-0 neutrals, flat code-panel-style
-   surfaces, tabbed code-block component, small pill buttons (white primary / dark-outline
+   surfaces, tabbed code-block component, small angular buttons (white primary / dark-outline
    secondary) in the nav, provider/logo strip pattern. This is the base every surface starts
-   from.
+   from. Vercel's real shape language is sharp, not rounded-pill — soft-geometric small radius,
+   not the "everything is a capsule" look — and this system follows that lead for buttons and
+   containers.
 2. **Google Antigravity (secondary, ~25%)**: the oversized, confident display headline
-   treatment and the black-pill primary CTA + light-outline secondary CTA pairing under it.
-   Borrow the *type confidence and CTA pairing shape* only — not its color-dot logo, not its
-   rainbow-particle background.
+   treatment and the primary/secondary CTA pairing under it. Borrow the *type confidence and
+   CTA pairing* only — not its pill shape (superseded by Vercel's angular buttons), not its
+   color-dot logo, not its rainbow-particle background.
 3. **LangGraph (accent layer, ~15%)**: the technical mono wordmark-badge next to a product
    name, and thin single-hue line-art/wave motifs as a background accent (in Signal Cobalt,
    not LangGraph's blue) for hero or section backgrounds. Used sparingly as texture, not as a
@@ -130,10 +133,12 @@ restraint, not through decoration.
   style primary button. Both themes are first-class; dark is simply the default.
 - One accent, Signal Cobalt, solid and flat — never a gradient, never multi-hued.
 - Flat elevation: depth comes from border + tonal layering, not drop shadows at rest.
-- Monospace (JetBrains Mono) marks anything system-status-shaped: badges, nav labels, the
-  chat widget's header/status line, timestamps. Grotesk sans (Inter) carries everything else.
-- Pill-shaped buttons for primary actions, carried over from the current implementation
-  because it already reads clean and dev-tool-native; nothing else borrows the pill shape.
+- Monospace (Geist Mono) marks anything system-status-shaped: badges, nav labels, the
+  chat widget's header/status line, timestamps. Geist Sans carries everything else.
+- Shape is deliberately mixed, not uniform: buttons and containers are angular (small radius,
+  6-12px — Vercel's actual sharp-edged look), while badges, chips, and status indicators stay
+  full pill. The pill shape is reserved for small, discrete, tag-like elements; anything with
+  weight or structure (a button, a card, a modal) reads sharp.
 
 ## 2. Colors
 
@@ -200,7 +205,7 @@ focus response only, never a resting-state property.
 
 ### Shadow Vocabulary
 - **hover-lift** (`box-shadow: 0 4px 12px rgba(0,0,0,0.12)` dark / same on light): applied only
-  on `:hover` for pill buttons, signaling interactivity, not resting depth.
+  on `:hover` for buttons, signaling interactivity, not resting depth.
 
 ### Named Rules
 **The Flat-By-Default Rule.** No shadow exists on a surface at rest. Depth is tonal (Void →
@@ -210,8 +215,9 @@ around the chat console is the anti-pattern this rule forbids by name.
 ## 5. Components
 
 ### Buttons
-- **Shape:** full pill (`border-radius: 9999px`), carried forward from the current
-  implementation — it already reads dev-tool-native and doesn't need to change.
+- **Shape:** angular, small radius (`border-radius: 6px`, `{rounded.sm}`) — matches Vercel's
+  actual sharp-edged button, not a rounded capsule. This is the one deliberate departure from
+  the earlier pill-everywhere direction; buttons carry structural weight, so they read sharp.
 - **Primary:** background Signal White / text Void (inverted, high-contrast, like Vercel's
   "Get started" and Antigravity's "Download" buttons); padding `0.75rem 2rem`.
 - **Accent:** solid Signal Cobalt background, white text — reserved for the single highest-
@@ -221,20 +227,24 @@ around the chat console is the anti-pattern this rule forbids by name.
   no shadow. No color gradient shift on hover — solid color to solid color only.
 
 ### Chips / Badges
-- **Style:** Panel background, Muted Signal text, 1px Seam border, full pill shape,
-  Geist Mono label text.
+- **Style:** Panel background, Muted Signal text, 1px Seam border, full pill shape
+  (`{rounded.full}`), Geist Mono label text. Pill stays here deliberately — small, discrete,
+  tag-like elements are where the pill shape belongs in this system.
 - **Accent variant:** Signal Cobalt Muted background, Signal Cobalt Text foreground, no
   border — used for a single highlighted tag (e.g. "Featured project"), never the default.
+- **Status dot:** always a full circle (`{rounded.full}`), regardless of context — dots are
+  never angular.
 
 ### Cards / Containers
-- **Corner Style:** 12px radius (`{rounded.md}`).
+- **Corner Style:** 8px radius (`{rounded.md}`) for standard cards; 12px (`{rounded.lg}`) for
+  large containers and the modal.
 - **Background:** Card surface, one tonal step above Panel.
 - **Shadow Strategy:** none at rest; see Elevation.
 - **Border:** 1px Seam/Hairline.
 - **Internal Padding:** 1.5rem.
 
 ### Inputs / Fields
-- **Style:** Card background, 1px Seam/Hairline border, 8px radius.
+- **Style:** Card background, 1px Seam/Hairline border, 6px radius (`{rounded.sm}`).
 - **Focus:** border shifts to Signal Cobalt, no glow/blur ring.
 
 ### Navigation
@@ -256,8 +266,9 @@ must look like a precise instrument, not a decorative gadget.
   active nav state.
 - **Do** use Geist Mono only for system-shaped text (labels, badges, status, timestamps).
 - **Do** keep every surface flat at rest; shadow only responds to hover/focus.
-- **Do** keep the pill button shape and the nav's backdrop-blur — both already work and match
-  the reference set.
+- **Do** keep buttons and containers angular (small radius, 6-12px) and reserve full pill for
+  badges, chips, and status dots only — Vercel's real shape language is sharp, not capsule.
+- **Do** keep the nav's backdrop-blur — it already works and matches the reference set.
 - **Do** hit ≥4.5:1 contrast for all body text and placeholder text in both themes.
 
 ### Don't:

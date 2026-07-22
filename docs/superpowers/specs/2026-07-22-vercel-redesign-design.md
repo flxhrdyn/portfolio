@@ -29,8 +29,8 @@ Sumber kebenaran strategis dan visual sudah final di `PRODUCT.md` dan `DESIGN.md
 - Elevation tidak konsisten: shadow dipakai di hampir semua card (`--card-shadow`,
   `.project-card`, `.skill-category`, `.cert-publication-card`, `.contact-card`,
   `.github-contrib-card`) padahal DESIGN.md mewajibkan flat-by-default.
-- Radius tersebar di banyak nilai berbeda (6px, 10px, 14px, 16px, 19px) alih-alih 3 token DESIGN.md
-  (sm 8px / md 12px / pill 9999px).
+- Radius tersebar di banyak nilai berbeda (6px, 10px, 14px, 16px, 19px) alih-alih 4 token DESIGN.md
+  (sm 6px / md 8px / lg 12px / full 9999px).
 - `projects-grid` dan `skills-grid` adalah pola yang PRODUCT.md anti-references secara eksplisit
   larang ("uniform card grids... repeated identically"): `projects-grid` render semua project
   sebagai kartu identik; `skills-grid` sudah asymmetric (span 5/4/3/8/4) tapi visualnya masih card
@@ -84,9 +84,11 @@ desktop + mobile 768px breakpoint) sebelum lanjut phase berikutnya.
 - `--card-shadow` diflatten: hapus dari `:root`/`[data-theme="dark"]`, ganti semua pemakaian ke
   `none` kecuali `.modal-card` (satu-satunya surface yang boleh elevated, sesuai Flat-By-Default
   Rule di DESIGN.md).
-- Unify semua `border-radius` literal (6px/10px/14px/16px/19px tersebar di file) ke 3 token:
-  `--radius-sm: 8px`, `--radius-md: 12px`, `--radius-pill: 9999px` sebagai custom property baru,
-  lalu ganti semua pemakaian literal jadi `var(--radius-md)` dsb sesuai konteks komponen.
+- Unify semua `border-radius` literal (6px/10px/14px/16px/19px tersebar di file) ke 4 token:
+  `--radius-sm: 6px` (button, input), `--radius-md: 8px` (card standar), `--radius-lg: 12px`
+  (container besar, modal), `--radius-full: 9999px` (badge, chip, status dot) sebagai custom
+  property baru, lalu ganti semua pemakaian literal sesuai konteks komponen. Shape sengaja
+  dicampur: button/card angular (sharp, ala Vercel asli), badge/chip/status dot tetap pill.
 
 ### Phase 2 — Nav + Hero + Chat widget
 
