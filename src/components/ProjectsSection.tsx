@@ -10,12 +10,6 @@ import projects from "@/content/projects.json";
 import archiveProjects from "@/content/archive-projects.json";
 import type { ContributionDay } from "@/lib/github-contributions";
 
-const STATUS_BADGE_CLASS: Record<string, string> = {
-  yellow: "badge-google-yellow",
-  green: "badge-google-green",
-  blue: "badge-google-blue",
-};
-
 interface ProjectsSectionProps {
   contributions: ContributionDay[] | null;
 }
@@ -23,6 +17,9 @@ interface ProjectsSectionProps {
 export default function ProjectsSection({ contributions }: ProjectsSectionProps) {
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const [archiveOpen, setArchiveOpen] = useState(false);
+
+  const featuredProject = projects.find((project) => project.featured);
+  const gridProjects = projects.filter((project) => !project.featured);
 
   return (
     <section className="section" id="projects">
@@ -34,8 +31,51 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
           </p>
         </Reveal>
 
+        {featuredProject && (
+          <Reveal>
+            <m.div
+              className="project-featured"
+              role="button"
+              tabIndex={0}
+              whileHover={{ y: -4 }}
+              whileTap={{ scale: 0.99 }}
+              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              onClick={() => setOpenSlug(featuredProject.slug)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setOpenSlug(featuredProject.slug);
+                }
+              }}
+            >
+              <div className="project-featured-media">
+                <span className="badge badge-accent">Featured</span>
+                <span className="project-featured-code">{featuredProject.tagStack}</span>
+              </div>
+              <div className="project-featured-body">
+                <div className="project-tags">
+                  {featuredProject.tags.map((tag) => (
+                    <span key={tag} className="badge">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <h3 className="project-featured-title">{featuredProject.title}</h3>
+                <p className="project-featured-summary">{featuredProject.summary}</p>
+                <span className="project-link">
+                  Explore Project
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </span>
+              </div>
+            </m.div>
+          </Reveal>
+        )}
+
         <div className="projects-grid">
-          {projects.map((project, i) => (
+          {gridProjects.map((project, i) => (
             <Reveal key={project.slug} delay={Math.min(i, 4) * 0.08}>
               <m.div
                 className="project-card"
@@ -157,7 +197,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                   <td>{row.category}</td>
                   <td>{row.stack}</td>
                   <td>
-                    <span className={`badge ${STATUS_BADGE_CLASS[row.statusColor]}`}>{row.status}</span>
+                    <span className="badge">{row.status}</span>
                   </td>
                 </tr>
               ))}

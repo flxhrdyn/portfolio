@@ -1,6 +1,7 @@
 [
   {
     "slug": "invenioai",
+    "featured": true,
     "repo": "InvenioAI",
     "title": "InvenioAI — Advanced RAG for Document Q&A",
     "tags": ["GenAI / RAG", "FastAPI", "Streamlit"],
