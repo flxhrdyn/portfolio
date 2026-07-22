@@ -54,7 +54,7 @@ typography:
     letterSpacing: "0.02em"
 rounded:
   sm: "6px"
-  md: "8px"
+  md: "12px"
   lg: "12px"
   full: "9999px"
 spacing:
@@ -194,7 +194,7 @@ of prose.
 
 ### Named Rules
 **The Mono-Means-System Rule.** If it reads like the interface talking about itself (status,
-timestamp, a tag), it's mono. If it's talking about the person or the work, it's Inter.
+timestamp, a tag), it's mono. If it's talking about the person or the work, it's Geist Sans.
 
 ## 4. Elevation
 
@@ -211,6 +211,40 @@ focus response only, never a resting-state property.
 **The Flat-By-Default Rule.** No shadow exists on a surface at rest. Depth is tonal (Void →
 Panel → Card) and bordered (1px Seam/Hairline), full stop. The old ambient rainbow-glow ring
 around the chat console is the anti-pattern this rule forbids by name.
+
+### Geist Foundation Alignment
+
+Checked against Vercel's own public Geist design-system docs
+(vercel.com/geist/{introduction,colors,typography,materials,grid}) to keep this system a real
+clone of Vercel's foundation, not an approximation:
+
+- **Radius (Geist "Materials").** Geist's actual radius scale is `6px` (base/small/tooltip),
+  `12px` (medium/large/menu/modal), `16px` (fullscreen) - there is no 8px step. `rounded.md`
+  above was corrected from 8px to 12px to match Geist's medium/large/modal tier exactly;
+  `rounded.lg` stays 12px since Geist does not radius-differentiate "large container" from
+  "modal." A `16px` fullscreen tier exists in Geist but is unused here (no fullscreen surface
+  in this product) - do not add a `rounded.xl` token speculatively.
+- **Materials elevation levels.** Geist defines four elevation presets by use, not by arbitrary
+  shadow depth: `tooltip` (lightest), `menu` (lift from page), `modal` (further lift),
+  `fullscreen` (biggest lift). This system's `.modal-card` (§2/§4) is the `modal` tier
+  equivalent - the one surface allowed off the flat baseline.
+  hover-lift on buttons is a lighter, interaction-only elevation between `tooltip` and `menu`.
+- **Color system shape.** Geist's color scales use a semantic 100-1000 step convention
+  (100-300 backgrounds, 400-600 borders, 700-800 high-contrast backgrounds, 900-1000
+  text/icons) plus a two-tier background system (Background 1 default, Background 2 for
+  sparing differentiation). This system's Void/Panel/Card progression is the same two-to-three
+  tier idea under different names - intentionally not renamed to Geist's numeric scale, since
+  this is a from-scratch Signal Cobalt palette, not a literal reuse of Geist's own hues (which
+  Vercel's docs do not expose as public hex/oklch values).
+- **Typography.** Geist Sans/Geist Mono are already the correct typefaces (§3). Geist's full
+  scale is much larger (Heading 14-72px, Copy/Label/Button sub-scales) than this system's five
+  roles (Display/Headline/Title/Body/Label) - not adopted wholesale, since this product's
+  surface area doesn't need Geist's full editorial range; the five-role scale stays as the
+  right-sized subset.
+- **Grid.** Geist's grid is a flexible per-instance column/row system with `sm`/`md`/`lg`
+  breakpoints, not a fixed 12-column spec - this system's existing 768px mobile breakpoint is
+  compatible with that philosophy (breakpoints set per-component need, not a rigid global
+  grid) and is left as-is.
 
 ## 5. Components
 
