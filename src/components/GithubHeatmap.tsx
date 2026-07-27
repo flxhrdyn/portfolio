@@ -96,14 +96,27 @@ export default function GithubHeatmap({ contributions }: GithubHeatmapProps) {
             <span className="day-label">Fri</span>
           </div>
           <div className="heatmap-grid">
-            {cells.map((cell, i) => (
-              <div key={i} className="heatmap-cell" data-level={cell.level}>
-                <span className="tooltip">
-                  {cell.commitCount} contributions on{" "}
-                  {cell.date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" })}
-                </span>
-              </div>
-            ))}
+            {cells.map((cell, i) => {
+              const dateLabel = cell.date.toLocaleDateString("en-US", {
+                month: "short",
+                day: "numeric",
+                year: "numeric",
+              });
+              return (
+                <div
+                  key={i}
+                  className="heatmap-cell"
+                  data-level={cell.level}
+                  tabIndex={0}
+                  role="img"
+                  aria-label={`${cell.commitCount} contributions on ${dateLabel}`}
+                >
+                  <span className="tooltip">
+                    {cell.commitCount} contributions on {dateLabel}
+                  </span>
+                </div>
+              );
+            })}
           </div>
         </div>
 

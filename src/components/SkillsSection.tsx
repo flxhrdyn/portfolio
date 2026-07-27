@@ -45,6 +45,8 @@ const BRAND_ITEMS = new Set([
 
 export default function SkillsSection() {
   const reduceMotion = useReducedMotion();
+  const categoryGroups = skills.filter((group) => group.category !== "Languages & Bio");
+  const languageGroup = skills.find((group) => group.category === "Languages & Bio");
 
   return (
     <section className="section" id="skills">
@@ -59,7 +61,7 @@ export default function SkillsSection() {
         <TechStackCarousel />
 
         <div className="skills-grid">
-          {skills.map((group, i) => {
+          {categoryGroups.map((group, i) => {
             const content = (
               <>
                 <div className="skill-category-title">
@@ -105,6 +107,28 @@ export default function SkillsSection() {
             );
           })}
         </div>
+
+        {languageGroup && (
+          <Reveal className="languages-strip" delay={0.32}>
+            <span className="languages-strip-label">
+              {CATEGORY_ICONS[languageGroup.category]}
+              <span>Languages</span>
+            </span>
+            <div className="skill-pills">
+              {languageGroup.items.map((item) =>
+                BRAND_ITEMS.has(item) ? (
+                  <span key={item} className="skill-pill">
+                    <strong style={{ color: "var(--accent-text)" }}>{item.split(" (")[0]}</strong> ({item.split(" (")[1]}
+                  </span>
+                ) : (
+                  <span key={item} className="skill-pill">
+                    <span>{item}</span>
+                  </span>
+                )
+              )}
+            </div>
+          </Reveal>
+        )}
       </div>
     </section>
   );

@@ -25,20 +25,14 @@ export default function ChatHero() {
         animate={reduceMotion ? undefined : "show"}
         variants={container}
       >
-        <div className="hero-title-group" style={{ marginBottom: "0.75rem" }}>
-          <m.div className="hero-subtitle" style={{ marginBottom: "0.25rem" }} variants={item}>
-            PERSONAL PORTFOLIO
-          </m.div>
-          <m.h1 className="hero-title" style={{ fontSize: "2.5rem", marginBottom: "0.15rem" }} variants={item}>
+        <div className="hero-title-group">
+          <m.h1 className="hero-title" variants={item}>
             Felix Windriyareksa Hardyan
           </m.h1>
-          <m.p
-            style={{ fontSize: "1.2rem", fontWeight: 600, color: "var(--text-primary)", marginTop: "0.15rem", marginBottom: "0.4rem" }}
-            variants={item}
-          >
+          <m.p className="hero-role" variants={item}>
             AI Engineer &amp; Data Scientist
           </m.p>
-          <m.p className="hero-description" style={{ marginBottom: "1rem", fontSize: "1rem" }} variants={item}>
+          <m.p className="hero-description" variants={item}>
             Building production-grade AI systems, from Data Science to GenAI.
           </m.p>
         </div>

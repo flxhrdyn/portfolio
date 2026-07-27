@@ -8,11 +8,8 @@ export default function PortfolioHero() {
     <div id="about" className="hero-wrapper">
       <header className="container hero-content">
         <Reveal className="hero-title-group">
-          <div className="hero-subtitle">PERSONAL PORTFOLIO</div>
           <h1 className="hero-title">Felix Windriyareksa Hardyan</h1>
-          <p style={{ fontSize: "1.35rem", fontWeight: 600, color: "var(--text-primary)", marginTop: "0.5rem", marginBottom: "1.25rem" }}>
-            AI Engineer &amp; Data Scientist
-          </p>
+          <p className="hero-role">AI Engineer &amp; Data Scientist</p>
           <p className="hero-description">
             Building production AI systems across GenAI, NLP, and Computer Vision. From RAG pipelines and AI agents to deep learning models, shipped end-to-end.
           </p>

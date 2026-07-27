@@ -30,6 +30,9 @@ export default function EmailReveal() {
           <button className="copy-btn" onClick={copy}>
             {copyLabel}
           </button>
+          <span role="status" aria-live="polite" className="sr-only">
+            {copyLabel === "Copied!" ? "Email address copied to clipboard" : ""}
+          </span>
         </div>
       )}
     </div>

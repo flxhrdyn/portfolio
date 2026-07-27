@@ -9,7 +9,7 @@ import Reveal from "./Reveal";
 import certifications from "@/content/certifications.json";
 import writing from "@/content/writing.json";
 
-function CertLogo({ logo, code, color }: { logo: string; code: string; color: string }) {
+function CertLogo({ logo, code, color, issuer }: { logo: string; code: string; color: string; issuer: string }) {
   const [failed, setFailed] = useState(false);
 
   if (failed) {
@@ -40,9 +40,10 @@ function CertLogo({ logo, code, color }: { logo: string; code: string; color: st
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={logo}
-      alt=""
+      alt={`${issuer} logo`}
       width={40}
       height={40}
+      loading="lazy"
       onError={() => setFailed(true)}
       style={{ width: 40, height: 40, borderRadius: 10, border: "1px solid var(--border-color)", objectFit: "contain", flexShrink: 0, background: "#fff" }}
     />
@@ -52,6 +53,7 @@ function CertLogo({ logo, code, color }: { logo: string; code: string; color: st
 export default function CertificationsSection() {
   const [index, setIndex] = useState(0);
   const [researchOpen, setResearchOpen] = useState(false);
+  const [paused, setPaused] = useState(false);
   const hoveringRef = useRef(false);
   const paper = writing[0];
 
@@ -60,11 +62,12 @@ export default function CertificationsSection() {
   const prev = () => setIndex((i) => (i - 1 + total) % total);
 
   useEffect(() => {
+    if (paused) return;
     const interval = setInterval(() => {
       if (!hoveringRef.current) setIndex((i) => (i + 1) % total);
     }, 5000);
     return () => clearInterval(interval);
-  }, [total]);
+  }, [total, paused]);
 
   const active = certifications[index];
 
@@ -81,19 +84,12 @@ export default function CertificationsSection() {
         </Reveal>
 
         <div className="grid-two-column">
-          <Reveal>
-            <div
+          <Reveal style={{ height: "100%" }}>
+            <button
+              type="button"
               className="cert-publication-card"
-              role="button"
-              tabIndex={0}
               onClick={() => setResearchOpen(true)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setResearchOpen(true);
-                }
-              }}
-              style={{ cursor: "pointer", display: "flex", flexDirection: "column", justifyContent: "space-between" }}
+              style={{ cursor: "pointer", display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" }}
             >
               <div>
                 <div className="meta-mono">{paper.kind}</div>
@@ -119,13 +115,13 @@ export default function CertificationsSection() {
                   READ ABSTRACT
                 </span>
               </div>
-            </div>
+            </button>
           </Reveal>
 
-          <Reveal delay={0.08}>
+          <Reveal delay={0.08} style={{ height: "100%" }}>
           <div
             className="cert-publication-card carousel-card-wrapper"
-            style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", minHeight: "280px", position: "relative", overflow: "hidden" }}
+            style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%", position: "relative", overflow: "hidden" }}
             onMouseEnter={() => (hoveringRef.current = true)}
             onMouseLeave={() => (hoveringRef.current = false)}
           >
@@ -138,7 +134,7 @@ export default function CertificationsSection() {
                 transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
               >
                 <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
-                  <CertLogo logo={active.logo} code={active.code} color={active.color} />
+                  <CertLogo logo={active.logo} code={active.code} color={active.color} issuer={active.issuer} />
                   <div style={{ flex: 1, minWidth: 0 }}>
                     <h4 style={{ margin: 0, fontSize: "1.1rem", color: "var(--text-primary)", fontWeight: 700, lineHeight: 1.3 }}>{active.title}</h4>
                     <p style={{ margin: "0.3rem 0 0 0", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
@@ -173,27 +169,45 @@ export default function CertificationsSection() {
             <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
               <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
                 {certifications.map((cert, i) => (
-                  <span
+                  <button
                     key={cert.code}
+                    type="button"
                     onClick={() => setIndex(i)}
+                    aria-label={`Go to ${cert.title}`}
+                    aria-current={i === index}
+                    className="carousel-dot-btn"
                     style={{
-                      width: 7,
-                      height: 7,
-                      borderRadius: "50%",
-                      backgroundColor: i === index ? "var(--accent-color)" : "var(--text-secondary)",
-                      cursor: "pointer",
+                      color: i === index ? "var(--accent-color)" : "var(--text-secondary)",
                       opacity: i === index ? 1 : 0.35,
                     }}
                   />
                 ))}
               </div>
-              <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
-                <m.button whileTap={{ scale: 0.85 }} onClick={prev} aria-label="Previous certification" className="carousel-nav-btn" style={{ background: "none", border: "1px solid var(--border-color)", borderRadius: "50%", width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-secondary)" }}>
+              <div style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
+                <m.button
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setPaused((p) => !p)}
+                  aria-label={paused ? "Resume auto-advance" : "Pause auto-advance"}
+                  aria-pressed={paused}
+                  className="carousel-nav-btn"
+                >
+                  {paused ? (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="6 3 20 12 6 21 6 3"></polygon>
+                    </svg>
+                  ) : (
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                      <rect x="6" y="4" width="4" height="16"></rect>
+                      <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                  )}
+                </m.button>
+                <m.button whileTap={{ scale: 0.9 }} onClick={prev} aria-label="Previous certification" className="carousel-nav-btn">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <polyline points="15 18 9 12 15 6"></polyline>
                   </svg>
                 </m.button>
-                <m.button whileTap={{ scale: 0.85 }} onClick={next} aria-label="Next certification" className="carousel-nav-btn" style={{ background: "none", border: "1px solid var(--border-color)", borderRadius: "50%", width: 28, height: 28, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "var(--text-secondary)" }}>
+                <m.button whileTap={{ scale: 0.9 }} onClick={next} aria-label="Next certification" className="carousel-nav-btn">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <polyline points="9 18 15 12 9 6"></polyline>
                   </svg>

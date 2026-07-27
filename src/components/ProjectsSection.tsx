@@ -33,20 +33,13 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
 
         {featuredProject && (
           <Reveal>
-            <m.div
+            <m.button
+              type="button"
               className="project-featured"
-              role="button"
-              tabIndex={0}
               whileHover={{ y: -4 }}
               whileTap={{ scale: 0.99 }}
               transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
               onClick={() => setOpenSlug(featuredProject.slug)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  e.preventDefault();
-                  setOpenSlug(featuredProject.slug);
-                }
-              }}
             >
               <div className="project-featured-media">
                 <div className="project-featured-media-header">
@@ -75,27 +68,20 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                   </svg>
                 </span>
               </div>
-            </m.div>
+            </m.button>
           </Reveal>
         )}
 
         <div className="projects-grid">
           {gridProjects.map((project, i) => (
             <Reveal key={project.slug} delay={Math.min(i, 4) * 0.08}>
-              <m.div
+              <m.button
+                type="button"
                 className="project-card"
-                role="button"
-                tabIndex={0}
                 whileHover={{ y: -6 }}
                 whileTap={{ scale: 0.98 }}
                 transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => setOpenSlug(project.slug)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    e.preventDefault();
-                    setOpenSlug(project.slug);
-                  }
-                }}
               >
                 <div className="project-header">
                   <div className="project-tags">
@@ -119,7 +105,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                   </span>
 
                 </div>
-              </m.div>
+              </m.button>
             </Reveal>
           ))}
         </div>

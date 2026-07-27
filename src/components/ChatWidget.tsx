@@ -453,7 +453,11 @@ export default function ChatWidget() {
                 send(input);
               }}
             >
+              <label htmlFor="chat-input" className="sr-only">
+                Ask Hawat a question about Felix&apos;s work, skills, or projects
+              </label>
               <input
+                id="chat-input"
                 type="text"
                 className="chat-input"
                 value={input}
@@ -483,9 +487,9 @@ export default function ChatWidget() {
             ))}
           </div>
 
-          <div style={{ fontSize: "0.70rem", color: "var(--text-secondary)", textAlign: "center", padding: "0.25rem 1.25rem 0.75rem", background: "var(--bg-card)", lineHeight: 1.4, opacity: 0.85 }}>
+          <div className="chat-disclaimer">
             This AI assistant may occasionally get details wrong. For the complete and accurate picture, see the{" "}
-            <a href="/portfolio/" style={{ color: "var(--accent-text)", textDecoration: "underline", fontWeight: 600 }}>
+            <a href="/portfolio/" style={LINK_STYLE}>
               full portfolio
             </a>
             .

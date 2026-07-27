@@ -10,7 +10,7 @@ export default function Footer() {
           </svg>
           <span style={{ fontWeight: 800, fontSize: "0.95rem" }}>flxhrdyn</span>
         </div>
-        <p className="footer-text">© 2026 Felix Windriyareksa Hardyan. All rights reserved.</p>
+        <p className="footer-text">© {new Date().getFullYear()} Felix Windriyareksa Hardyan. All rights reserved.</p>
       </div>
     </footer>
   );

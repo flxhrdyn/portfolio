@@ -66,14 +66,14 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
           <a
             href="/resume.pdf"
             download
-            className="btn-pill btn-pill-secondary"
-            style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem", textDecoration: "none" }}
+            className="btn-pill btn-pill-secondary btn-pill-sm"
+            style={{ textDecoration: "none" }}
           >
             Download CV
           </a>
 
           {variant === "chat" ? (
-            <Link href="/portfolio/" className="btn-pill btn-pill-accent-blue" style={{ padding: "0.5rem 1.25rem", fontSize: "0.85rem", textDecoration: "none" }}>
+            <Link href="/portfolio/" className="btn-pill btn-pill-accent-blue btn-pill-sm" style={{ textDecoration: "none" }}>
               <span>Enter Portfolio &rarr;</span>
             </Link>
           ) : (
@@ -87,7 +87,12 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
             </Link>
           )}
 
-          <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle user theme preference" suppressHydrationWarning>
+          <button
+            className="theme-toggle"
+            onClick={toggleTheme}
+            aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+            suppressHydrationWarning
+          >
             {theme === "dark" ? (
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="5"></circle>
@@ -108,7 +113,12 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
           </button>
 
           {variant === "portfolio" && (
-            <button className="mobile-menu-btn" onClick={() => setMenuOpen((v) => !v)} aria-label="Toggle navigation menu">
+            <button
+              className="mobile-menu-btn"
+              onClick={() => setMenuOpen((v) => !v)}
+              aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={menuOpen}
+            >
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="3" y1="12" x2="21" y2="12"></line>
                 <line x1="3" y1="6" x2="21" y2="6"></line>
