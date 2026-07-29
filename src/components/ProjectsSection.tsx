@@ -43,14 +43,6 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
               onClick={() => setOpenSlug(featuredProject.slug)}
             >
               <div className="project-featured-media">
-                <div className="project-featured-media-header">
-                  <div className="project-featured-dots" aria-hidden="true">
-                    <span />
-                    <span />
-                    <span />
-                  </div>
-                  <span className="project-featured-tab">{featuredProject.tagStack}</span>
-                </div>
                 <pre className="project-featured-code">
                   <code>
                     <CodeBlock code={featuredProject.codeBlock} />

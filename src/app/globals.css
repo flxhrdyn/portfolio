@@ -756,34 +756,6 @@
       overflow: hidden;
     }
 
-    .project-featured-media-header {
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.85rem 1.25rem;
-    }
-
-    .project-featured-dots {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .project-featured-dots span {
-      width: 0.55rem;
-      height: 0.55rem;
-      border-radius: var(--radius-full);
-      background-color: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-    }
-
-    .project-featured-tab {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--text-secondary);
-      margin-left: auto;
-    }
-
     .project-featured-code {
       flex: 1;
       margin: 0;
