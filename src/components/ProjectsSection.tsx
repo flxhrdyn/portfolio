@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { m } from "motion/react";
+import CodeBlock from "./CodeBlock";
 import Modal from "./Modal";
 import GithubHeatmap from "./GithubHeatmap";
 import ProjectCaseStudyBody from "./ProjectCaseStudyBody";
@@ -43,11 +44,18 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
             >
               <div className="project-featured-media">
                 <div className="project-featured-media-header">
+                  <div className="project-featured-dots" aria-hidden="true">
+                    <span />
+                    <span />
+                    <span />
+                  </div>
                   <span className="badge badge-accent">Featured</span>
                   <span className="project-featured-tab">{featuredProject.tagStack}</span>
                 </div>
                 <pre className="project-featured-code">
-                  <code>{featuredProject.codeBlock}</code>
+                  <code>
+                    <CodeBlock code={featuredProject.codeBlock} />
+                  </code>
                 </pre>
               </div>
               <div className="project-featured-body">
