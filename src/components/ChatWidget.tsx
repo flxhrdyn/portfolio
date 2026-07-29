@@ -445,6 +445,19 @@ export default function ChatWidget() {
             </div>
           </div>
 
+          <div className="chat-chips-container">
+            {QUICK_CHIPS.map((chip) => (
+              <button
+                key={chip.label}
+                type="button"
+                className="chat-chip"
+                onClick={() => sendChip(chip)}
+              >
+                {chip.label}
+              </button>
+            ))}
+          </div>
+
           <div className="chat-input-wrapper">
             <form
               className="chat-form"
@@ -472,19 +485,6 @@ export default function ChatWidget() {
                 </svg>
               </button>
             </form>
-          </div>
-
-          <div className="chat-chips-container">
-            {QUICK_CHIPS.map((chip) => (
-              <button
-                key={chip.label}
-                type="button"
-                className="chat-chip"
-                onClick={() => sendChip(chip)}
-              >
-                {chip.label}
-              </button>
-            ))}
           </div>
 
           <div className="chat-disclaimer">
