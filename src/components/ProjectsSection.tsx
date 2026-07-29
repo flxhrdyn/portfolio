@@ -49,7 +49,6 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                     <span />
                     <span />
                   </div>
-                  <span className="badge badge-accent">Featured</span>
                   <span className="project-featured-tab">{featuredProject.tagStack}</span>
                 </div>
                 <pre className="project-featured-code">
@@ -60,7 +59,8 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
               </div>
               <div className="project-featured-body">
                 <div className="project-tags">
-                  {featuredProject.tags.map((tag) => (
+                  <span className="badge badge-accent">{featuredProject.tags[0]}</span>
+                  {featuredProject.tags.slice(1).map((tag) => (
                     <span key={tag} className="badge">
                       {tag}
                     </span>
