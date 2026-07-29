@@ -112,10 +112,10 @@ the content needs to be read fast. This is a weighted clone of references, not a
    not the "everything is a capsule" look — and this system follows that lead for buttons and
    containers.
 2. **Geist Engineering (secondary, ~30%)**: strict black-and-white monochrome ("Primary: Pure
-   black/white, no accent hue"), a faint dot-matrix texture behind hero/feature sections, and
-   terminal-window chrome (three minimal dots, defined header bar) for code and agent-console
-   surfaces. This layer is why the system carries no colored accent at all — primary action
-   color *is* the neutral scale, not a separate hue.
+   black/white, no accent hue"). This layer is why the system carries no colored accent at all
+   — primary action color *is* the neutral scale, not a separate hue. Decorative flourishes
+   from that reference (dot-matrix background texture, terminal-window dot chrome) are
+   deliberately not adopted here — see the Zero-Decoration note below.
 3. **Google Antigravity (tertiary, ~15%)**: the oversized, confident display headline
    treatment and the primary/secondary CTA pairing under it. Borrow the *type confidence and
    CTA pairing* only — not its pill shape (superseded by Vercel's angular buttons), not its
@@ -142,8 +142,6 @@ of engineering taste — it earns trust through restraint, not through decoratio
   4-8px), while badges, chips, and status indicators stay full pill. The pill shape is reserved
   for small, discrete, tag-like elements; anything with weight or structure (a button, a card,
   a modal) reads sharp.
-- A faint dot-matrix background texture (dots spaced ~24px) may appear behind hero or feature
-  sections for texture without distraction — used sparingly, never behind body text.
 
 ## 2. Colors
 
@@ -180,6 +178,12 @@ exactly what this one replaces. If a component needs more than black/white/gray 
 **Data is the one exception.** Sequential data visualizations (e.g. the GitHub contribution
 heatmap) use a grayscale intensity ramp, not color, to encode magnitude — consistent with the
 Zero-Hue Rule rather than an exception to it.
+
+**The Zero-Decoration Rule.** No purely decorative texture or chrome that doesn't carry real
+information: no tiled dot-matrix / grid-line background fields, no terminal-window traffic-
+light dots on code panels. Both read as generated-UI signatures rather than intentional design
+and have been explicitly rejected in this project — restraint here means bare surfaces, not
+added texture.
 
 ## 3. Typography
 

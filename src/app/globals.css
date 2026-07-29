@@ -295,18 +295,10 @@
       position: relative;
       overflow: hidden;
       background-color: var(--bg-primary);
-      background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
-      background-size: 24px 24px;
       min-height: calc(100vh - 4.5rem);
       display: flex;
       align-items: center;
       justify-content: center;
-    }
-
-    @media (prefers-contrast: more) {
-      .hero-wrapper {
-        background-image: none;
-      }
     }
 
     .hero-content {
