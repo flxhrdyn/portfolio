@@ -36,9 +36,9 @@
       --btn-secondary-bg: #ffffff;
       --btn-secondary-text: #1f1f1f;
 
-      --radius-sm: 4px;
-      --radius-md: 8px;
-      --radius-lg: 8px;
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
       --radius-full: 9999px;
 
       --font-sans: var(--font-geist-sans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -227,10 +227,7 @@
     .nav-links {
       display: flex;
       align-items: center;
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
+      margin-left: 3rem;
       gap: 1.75rem;
     }
 
@@ -295,10 +292,35 @@
       position: relative;
       overflow: hidden;
       background-color: var(--bg-primary);
+      background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
+      background-size: 24px 24px;
+      background-position: -12px -12px;
       min-height: calc(100vh - 4.5rem);
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--text-secondary);
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-full);
+      padding: 0.4rem 1rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero-eyebrow svg {
+      width: 13px;
+      height: 13px;
+      color: var(--accent-color);
     }
 
     .hero-content {
@@ -471,7 +493,7 @@
 
     .chat-header {
       padding: 0.85rem 1.25rem;
-      background-color: var(--bg-card);
+      background-color: var(--bg-secondary);
       border-bottom: 1px solid var(--border-color);
       display: flex;
       align-items: center;
@@ -479,13 +501,28 @@
       font-family: var(--font-mono);
     }
 
+    .chat-header-dots {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .chat-header-dots span {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--border-color);
+    }
+
     .chat-header-status {
       display: flex;
       align-items: center;
       gap: 0.65rem;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-primary);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
     }
 
     .status-dot {
@@ -1271,7 +1308,7 @@
     /* SKILLS */
     .skills-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       align-items: start;
       gap: 1.5rem;
       margin-top: 1.5rem;

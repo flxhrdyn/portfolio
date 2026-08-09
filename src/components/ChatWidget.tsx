@@ -395,9 +395,14 @@ export default function ChatWidget() {
     <div className="chat-card-container">
       <div className="portfolio-chat-box">
         <div className="chat-header">
+          <div className="chat-header-dots" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+          </div>
           <div className="chat-header-status">
+            <span>HAWAT-AGENT --v1.0</span>
             <span className="status-dot" />
-            <span>Hawat (AI Agent)</span>
           </div>
         </div>
 

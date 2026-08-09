@@ -8,8 +8,13 @@ export default function PortfolioHero() {
     <div id="about" className="hero-wrapper">
       <header className="container hero-content">
         <Reveal className="hero-title-group">
+          <div className="hero-eyebrow">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z" />
+            </svg>
+            <span>AI ENGINEER &amp; DATA SCIENTIST</span>
+          </div>
           <h1 className="hero-title">Felix Windriyareksa Hardyan</h1>
-          <p className="hero-role">AI Engineer &amp; Data Scientist</p>
           <p className="hero-description">
             Building production AI systems across GenAI, NLP, and Computer Vision. From RAG pipelines and AI agents to deep learning models, shipped end-to-end.
           </p>
