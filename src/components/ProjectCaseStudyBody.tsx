@@ -1,10 +1,13 @@
 import projects from "@/content/projects.json";
+import ProjectThumbnail from "./ProjectThumbnail";
 
 type Project = (typeof projects)[number];
 
 export default function ProjectCaseStudyBody({ project }: { project: Project }) {
   return (
     <>
+      <ProjectThumbnail src={project.image} alt={project.imageAlt} variant="featured" />
+
       <div className="modal-section">
         <h4>Overview</h4>
         <p>{project.overview}</p>

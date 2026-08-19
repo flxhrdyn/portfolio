@@ -3,6 +3,8 @@
     "slug": "invenioai",
     "featured": true,
     "repo": "InvenioAI",
+    "image": "",
+    "imageAlt": "InvenioAI answering a question over a PDF, with its retrieved sources listed beside the answer",
     "title": "InvenioAI — Advanced RAG for Document Q&A",
     "tags": ["GenAI / RAG", "FastAPI", "Streamlit"],
     "summary": "A RAG system for document Q&A over PDFs combining hybrid dense + sparse retrieval (Qdrant BM42), RAG Fusion multi-query, cross-encoder reranking, and structured Chain-of-Thought reasoning. FastAPI backend, Streamlit frontend, Docker deployment.",
@@ -21,6 +23,8 @@
   {
     "slug": "omnius",
     "repo": "Omnius",
+    "image": "",
+    "imageAlt": "The Omnius dashboard scoring a news article against Entman's four framing pillars",
     "title": "Omnius — Automated Media Intelligence",
     "tags": ["AI Agents", "Microsoft Azure", "Llama 3.3"],
     "summary": "A media intelligence platform that applies Robert Entman's (1993) framing theory to news articles using an autonomous Pydantic AI research agent and Llama 3.3 / Qwen3 analysis on Groq Cloud, deployed on Azure with a React frontend.",
@@ -39,6 +43,8 @@
   {
     "slug": "lucian",
     "repo": "LUCIAN",
+    "image": "",
+    "imageAlt": "A histopathology slide beside its Grad-CAM heatmap, showing which tissue regions drove the classification",
     "title": "LUCIAN — Lung Carcinoma Histopathology Imaging & Analysis",
     "tags": ["Computer Vision", "Healthcare", "TensorFlow"],
     "summary": "A lung cancer histopathology classification system built on a fine-tuned ConvNeXt-Base backbone (TensorFlow/Keras), achieving 93.67% test accuracy. Includes Grad-CAM explainability so clinicians can see which tissue regions drove each classification.",

@@ -6,6 +6,7 @@ import CodeBlock from "./CodeBlock";
 import Modal from "./Modal";
 import GithubHeatmap from "./GithubHeatmap";
 import ProjectCaseStudyBody from "./ProjectCaseStudyBody";
+import ProjectThumbnail from "./ProjectThumbnail";
 import Reveal from "./Reveal";
 import projects from "@/content/projects.json";
 import archiveProjects from "@/content/archive-projects.json";
@@ -72,11 +73,15 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
               onClick={() => setOpenSlug(featuredProject.slug)}
             >
               <div className="project-featured-media">
-                <pre className="project-featured-code">
-                  <code>
-                    <CodeBlock code={featuredProject.codeBlock} />
-                  </code>
-                </pre>
+                {featuredProject.image ? (
+                  <ProjectThumbnail src={featuredProject.image} alt={featuredProject.imageAlt} variant="featured" priority />
+                ) : (
+                  <pre className="project-featured-code">
+                    <code>
+                      <CodeBlock code={featuredProject.codeBlock} />
+                    </code>
+                  </pre>
+                )}
               </div>
               <div className="project-featured-body">
                 <div className="project-category">
@@ -115,6 +120,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                 transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                 onClick={() => setOpenSlug(project.slug)}
               >
+                <ProjectThumbnail src={project.image} alt={project.imageAlt} />
                 <div className="project-header">
                   <div className="project-category">
                     <CategoryIcon category={project.tags[0]} />

@@ -370,6 +370,30 @@
       margin-bottom: 1.5rem;
     }
 
+    .profile-photo {
+      margin: 0 0 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .profile-photo img {
+      width: 168px;
+      height: 168px;
+      border-radius: 50%;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-secondary);
+    }
+
+    .profile-photo figcaption {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
     .hero-title-line {
       white-space: nowrap;
     }
@@ -925,6 +949,37 @@
       transform: translateY(-2px);
       border-color: var(--accent-color);
       box-shadow: none;
+    }
+
+    .project-thumb {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background-color: var(--bg-secondary);
+      overflow: hidden;
+    }
+
+    /* Bleeds past the card's own padding so the screenshot meets the card edge. */
+    .project-thumb-card {
+      margin: -1.5rem -1.5rem 0;
+      width: calc(100% + 3rem);
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .project-thumb-featured {
+      border-radius: var(--radius-md);
+      border: 1px solid var(--border-color);
+    }
+
+    .project-featured-media .project-thumb-featured {
+      flex: 1;
+      border: none;
+      border-radius: 0;
+      aspect-ratio: auto;
+    }
+
+    .modal-body .project-thumb-featured {
+      margin-bottom: 1.5rem;
     }
 
     .project-header {
