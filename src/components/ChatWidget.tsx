@@ -53,22 +53,6 @@ const QUICK_CHIPS = [
       "Agents, Deep Learning, Computer Vision, and NLP using PyTorch, TensorFlow, LangChain, and " +
       "Hugging Face - deployed with Docker on Azure and GCP. See [his skills](/portfolio#skills).",
   },
-  {
-    label: "Accomplishments",
-    query: "What are his certifications and accomplishments?",
-    answer:
-      "Felix holds a BNSP Associate Data Scientist certification, the DeepLearning.AI TensorFlow " +
-      "Developer and Data/Deployment Specializations, and Stanford's Machine Learning Specialization. " +
-      "He has also published peer-reviewed deep learning research and co-authored an AI reference " +
-      "book. See [his accomplishments](/portfolio#certifications).",
-  },
-  {
-    label: "Contact",
-    query: "How can I contact Felix?",
-    answer:
-      "You can reach Felix by email at felixhardyanwork@gmail.com or on GitHub at " +
-      "github.com/flxhrdyn. See [his contact details](/portfolio#contact) for more.",
-  },
 ];
 
 function toPlainText(msg: Message): string {
@@ -411,7 +395,7 @@ export default function ChatWidget() {
             <div className="chat-body-content" ref={contentRef}>
               {messages.map((msg) => (
                 <div key={msg.id} className={`chat-msg ${msg.sender === "user" ? "user" : "bot"}`}>
-                  <div className="msg-sender">{msg.sender === "user" ? "YOU" : "ASSISTANT"}</div>
+                  <div className="msg-sender">{msg.sender === "user" ? "GUEST" : "HAWAT"}</div>
                   {msg.text !== undefined ? (
                     // User messages and live LLM replies are untrusted/model-generated text -
                     // always rendered as plain text, never through dangerouslySetInnerHTML.
@@ -433,7 +417,7 @@ export default function ChatWidget() {
                     exit={{ opacity: 0, scale: 0.96 }}
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <div className="msg-sender">ASSISTANT</div>
+                    <div className="msg-sender">HAWAT</div>
                     <div className="msg-bubble" style={{ padding: "0.4rem 0.8rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                       <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
                         {STATUS_MESSAGES[statusIndex]}

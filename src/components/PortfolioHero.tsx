@@ -6,7 +6,7 @@ import { scrollToAnchor } from "@/lib/scrollToAnchor";
 export default function PortfolioHero() {
   return (
     <div id="about" className="hero-wrapper">
-      <header className="container hero-content">
+      <header className="container hero-content hero-content-stacked">
         <Reveal className="hero-title-group">
           <div className="hero-eyebrow">
             <svg viewBox="0 0 24 24" fill="currentColor">
@@ -14,7 +14,11 @@ export default function PortfolioHero() {
             </svg>
             <span>AI ENGINEER &amp; DATA SCIENTIST</span>
           </div>
-          <h1 className="hero-title">Felix Windriyareksa Hardyan</h1>
+          <h1 className="hero-title">
+            <span className="hero-title-line">Felix Windriyareksa</span>
+            <br />
+            Hardyan
+          </h1>
           <p className="hero-description">
             Building production AI systems across GenAI, NLP, and Computer Vision. From RAG pipelines and AI agents to deep learning models, shipped end-to-end.
           </p>
