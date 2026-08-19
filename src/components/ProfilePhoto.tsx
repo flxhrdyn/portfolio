@@ -8,14 +8,16 @@ export default function ProfilePhoto() {
 
   return (
     <figure className="profile-photo">
-      <Image
-        src={profile.photo}
-        alt={profile.photoAlt}
-        width={168}
-        height={168}
-        priority
-        style={{ objectFit: "cover" }}
-      />
+      <div className="profile-photo-frame">
+        <Image
+          src={profile.photo}
+          alt={profile.photoAlt}
+          fill
+          priority
+          sizes="(max-width: 860px) 80vw, 520px"
+          style={{ objectFit: "cover" }}
+        />
+      </div>
       {profile.photoCaption && <figcaption>{profile.photoCaption}</figcaption>}
     </figure>
   );
