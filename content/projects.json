@@ -43,7 +43,7 @@
   {
     "slug": "lucian",
     "repo": "LUCIAN",
-    "image": "/projects/lucian.png",
+    "image": "/projects/lucian-classify.png",
     "imageAlt": "A histopathology slide beside its Grad-CAM heatmap, showing which tissue regions drove the classification",
     "title": "LUCIAN — Lung Carcinoma Histopathology Imaging & Analysis",
     "tags": ["Computer Vision", "Healthcare", "TensorFlow"],

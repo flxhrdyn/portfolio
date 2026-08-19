@@ -3,27 +3,29 @@
     {
       "title": "IT Intern (ML & Data Science)",
       "company": "PT Astra Visteon Indonesia",
+      "logo": "/logos/avi.jpg",
       "date": "June 2026 – Present",
       "highlights": [
-        "Developing an unsupervised predictive maintenance system for industrial air compressors using 121K+ telemetry records for early anomaly detection.",
-        "Engineered an ensemble anomaly detection pipeline (Rule-Based, Isolation Forest, LSTM Autoencoder) that reduced false-positive rates by 45% for industrial air compressor telemetry.",
-        "Performed EDA, feature engineering, model evaluation, and threshold optimization, reducing false-positive alerts by over 50%."
+        "Developed a data-driven monitoring system for industrial air compressors, analyzing 150K+ operational records to identify maintenance-critical conditions and support earlier intervention.",
+        "Introduced the company's first AI-based predictive maintenance system, improving maintenance-critical event detection recall from 0% to 60% through feature engineering and recall-focused model optimization.",
+        "Built an end-to-end monitoring pipeline with Python, SQL, and FastAPI, enabling real-time anomaly detection, automated alerts, and live operational monitoring."
       ]
     },
     {
       "title": "AI Engineer (Part-time)",
       "company": "HPC Universitas Gunadarma (HPC-UG)",
+      "logo": "/logos/hpc_ug.png",
       "date": "Sept 2024 – Present",
       "highlights": [
-        "Built an AI laboratory assistant by fine-tuning Qwen3-8B with PEFT and QLoRA, integrated into a production-ready RAG chatbot with FastAPI, Qwen2.5-VL OCR, and hybrid retrieval (Qdrant + BM25).",
+        "Built a production-ready AI laboratory assistant that helps students troubleshoot laboratory systems and programming issues using a fine-tuned Qwen3-8B model and Retrieval-Augmented Generation (RAG).",
         "Published peer-reviewed research applying deep learning (CoralNet, InceptionV3, MobileNetV2) to automate coral bleaching detection, achieving 89% accuracy to support marine biodiversity monitoring.",
-        "Created Machine Learning and Computer Vision educational modules and co-authored an AI reference book (ISBN 9286020764751), supporting applied AI learning initiatives with IPB University.",
         "Deployed distributed AI workloads on NVIDIA DGX-1 and DGX A100 with infrastructure teams using Docker."
       ]
     },
     {
       "title": "International AI Summer Course Instructor",
       "company": "Universitas Gunadarma",
+      "logo": "/logos/gunadarma.jpg",
       "date": "Feb 2025 – Aug 2025",
       "highlights": [
         "Delivered hands-on training on Generative AI, NLP, and LLM applications to international students and academic faculty, bridging AI theory with practical implementation workflows.",
@@ -33,6 +35,7 @@
     {
       "title": "Data Science Instructor",
       "company": "Lembaga Pengembangan Komputerisasi Universitas Gunadarma (LePKom)",
+      "logo": "/logos/gunadarma.jpg",
       "date": "Jun 2025 – Jun 2026",
       "highlights": [
         "Mentored and assessed 200+ participants building end-to-end ML solutions, from data preprocessing through model deployment.",
@@ -45,6 +48,7 @@
     {
       "title": "Bachelor of Informatics",
       "company": "Universitas Gunadarma",
+      "logo": "/logos/gunadarma.jpg",
       "date": "Sept 2021 – Aug 2025",
       "accentColor": "var(--accent-color)",
       "statLabel": "GPA: 3.85 / 4.00",
@@ -54,6 +58,7 @@
     {
       "title": "Machine Learning Specialization",
       "company": "Bangkit Academy",
+      "logo": "/logos/bangkit.png",
       "date": "Feb 2024 – July 2024",
       "accentColor": "var(--accent-color)",
       "statLabel": "Graduated with Distinction",

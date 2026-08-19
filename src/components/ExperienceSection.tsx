@@ -2,6 +2,7 @@
 
 import { m, useReducedMotion } from "motion/react";
 import experience from "@/content/experience.json";
+import CompanyLogo from "./CompanyLogo";
 import Reveal, { revealVariants } from "./Reveal";
 
 function TimelineReveal({ delay, children }: { delay: number; children: React.ReactNode }) {
@@ -54,7 +55,10 @@ export default function ExperienceSection() {
                       <span className="timeline-title" style={{ display: "block", fontSize: "1.1rem" }}>
                         {item.title}
                       </span>
-                      <span className="timeline-company">{item.company}</span>
+                      <span className="timeline-company-row">
+                        <CompanyLogo src={item.logo} company={item.company} />
+                        <span className="timeline-company">{item.company}</span>
+                      </span>
                     </div>
                     <span className="timeline-date">{item.date}</span>
                   </div>
@@ -87,7 +91,10 @@ export default function ExperienceSection() {
                       <span className="timeline-title" style={{ display: "block", fontSize: "1.1rem" }}>
                         {item.title}
                       </span>
-                      <span className="timeline-company">{item.company}</span>
+                      <span className="timeline-company-row">
+                        <CompanyLogo src={item.logo} company={item.company} />
+                        <span className="timeline-company">{item.company}</span>
+                      </span>
                     </div>
                     <span className="timeline-date">{item.date}</span>
                   </div>
