@@ -274,7 +274,7 @@ export default function ChatWidget() {
     {
       id: "welcome",
       sender: "bot",
-      html: "<p>Hello. I am Hawat, Felix's AI assistant. Let me help you calculate the best fit for your team by exploring his portfolio. Select a chip below or ask me any question.</p>",
+      html: "<p>Hi, I can answer questions about Felix's work, skills, and projects. Select a chip below or ask me anything.</p>",
     },
   ]);
   const [input, setInput] = useState("");
@@ -401,7 +401,7 @@ export default function ChatWidget() {
             <span />
           </div>
           <div className="chat-header-status">
-            <span>HAWAT-AGENT --v1.0</span>
+            <span>ASK MY PORTFOLIO</span>
             <span className="status-dot" />
           </div>
         </div>
@@ -411,7 +411,7 @@ export default function ChatWidget() {
             <div className="chat-body-content" ref={contentRef}>
               {messages.map((msg) => (
                 <div key={msg.id} className={`chat-msg ${msg.sender === "user" ? "user" : "bot"}`}>
-                  <div className="msg-sender">{msg.sender === "user" ? "GUEST" : "HAWAT"}</div>
+                  <div className="msg-sender">{msg.sender === "user" ? "YOU" : "ASSISTANT"}</div>
                   {msg.text !== undefined ? (
                     // User messages and live LLM replies are untrusted/model-generated text -
                     // always rendered as plain text, never through dangerouslySetInnerHTML.
@@ -433,7 +433,7 @@ export default function ChatWidget() {
                     exit={{ opacity: 0, scale: 0.96 }}
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <div className="msg-sender">HAWAT</div>
+                    <div className="msg-sender">ASSISTANT</div>
                     <div className="msg-bubble" style={{ padding: "0.4rem 0.8rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
                       <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
                         {STATUS_MESSAGES[statusIndex]}
@@ -472,7 +472,7 @@ export default function ChatWidget() {
               }}
             >
               <label htmlFor="chat-input" className="sr-only">
-                Ask Hawat a question about Felix&apos;s work, skills, or projects
+                Ask a question about Felix&apos;s work, skills, or projects
               </label>
               <input
                 id="chat-input"

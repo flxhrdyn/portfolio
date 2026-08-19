@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
 import { AnimatePresence, m } from "motion/react";
 import Modal from "./Modal";
 import ResearchPaperBody from "./ResearchPaperBody";
@@ -15,21 +14,8 @@ function CertLogo({ logo, code, color, issuer }: { logo: string; code: string; c
   if (failed) {
     return (
       <div
-        style={{
-          background: `${color}1a`,
-          color,
-          fontWeight: 800,
-          fontSize: "0.7rem",
-          fontFamily: "var(--font-mono)",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          width: 40,
-          height: 40,
-          borderRadius: 10,
-          border: "1px solid var(--border-color)",
-          flexShrink: 0,
-        }}
+        className="accomplishment-icon-badge"
+        style={{ background: `${color}1a`, color, fontWeight: 800, fontSize: "0.65rem", fontFamily: "var(--font-mono)" }}
       >
         {code}
       </div>
@@ -41,11 +27,12 @@ function CertLogo({ logo, code, color, issuer }: { logo: string; code: string; c
     <img
       src={logo}
       alt={`${issuer} logo`}
-      width={40}
-      height={40}
+      width={32}
+      height={32}
       loading="lazy"
       onError={() => setFailed(true)}
-      style={{ width: 40, height: 40, borderRadius: 10, border: "1px solid var(--border-color)", objectFit: "contain", flexShrink: 0, background: "#fff" }}
+      className="accomplishment-icon-badge"
+      style={{ objectFit: "contain", background: "#fff" }}
     />
   );
 }
@@ -92,27 +79,35 @@ export default function CertificationsSection() {
               style={{ cursor: "pointer", display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" }}
             >
               <div>
-                <div className="meta-mono">{paper.kind}</div>
-                <h3 style={{ marginBottom: "0.75rem", fontSize: "1.25rem", color: "var(--text-primary)", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "0.5rem", lineHeight: 1.3 }}>
-                  <span>{paper.title}</span>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ flexShrink: 0, color: "var(--accent-text)" }}>
+                <div className="accomplishment-top">
+                  <span className="badge">{paper.kind}</span>
+                  <span className="accomplishment-icon-badge">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                    </svg>
+                  </span>
+                </div>
+                <h3 className="accomplishment-title">{paper.title}</h3>
+                {paper.stats && (
+                  <div className="accomplishment-stats">
+                    {paper.stats.map((stat) => (
+                      <div key={stat.label}>
+                        <div className="accomplishment-stat-value">{stat.value}</div>
+                        <div className="accomplishment-stat-label">{stat.label}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <p className="accomplishment-desc">{paper.summary}</p>
+              </div>
+              <div className="accomplishment-footer">
+                <span className="accomplishment-link">
+                  READ RESEARCH PAPER
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
                   </svg>
-                </h3>
-                <p style={{ fontSize: "0.92rem", color: "var(--text-secondary)", lineHeight: 1.5, marginBottom: "1rem" }}>{paper.summary}</p>
-              </div>
-              <div style={{ marginTop: "auto", display: "flex", alignItems: "center", justifyContent: "space-between", borderTop: "1px solid var(--border-color)", paddingTop: "1rem", gap: "1rem" }}>
-                <div style={{ display: "flex", flexWrap: "wrap", gap: "0.45rem", alignItems: "center" }}>
-                  <span className="badge badge-accent">{paper.tags[0]}</span>
-                  {paper.tags.slice(1).map((t) => (
-                    <span key={t} className="badge">
-                      {t}
-                    </span>
-                  ))}
-                </div>
-                <span style={{ fontSize: "0.78rem", fontFamily: "var(--font-mono)", color: "var(--accent-text)", fontWeight: 700, letterSpacing: "0.05em" }}>
-                  READ ABSTRACT
                 </span>
               </div>
             </button>
@@ -133,35 +128,36 @@ export default function CertificationsSection() {
                 exit={{ opacity: 0, x: -16 }}
                 transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
               >
-                <div style={{ display: "flex", alignItems: "flex-start", gap: "0.75rem" }}>
+                <div className="accomplishment-top">
                   <CertLogo logo={active.logo} code={active.code} color={active.color} issuer={active.issuer} />
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <h4 style={{ margin: 0, fontSize: "1.1rem", color: "var(--text-primary)", fontWeight: 700, lineHeight: 1.3 }}>{active.title}</h4>
-                    <p style={{ margin: "0.3rem 0 0 0", fontSize: "0.85rem", color: "var(--text-secondary)" }}>
-                      {active.issuer} • {active.date}
-                    </p>
-                  </div>
+                  <span className="badge">{active.badge}</span>
                 </div>
 
-                <div style={{ borderTop: "1px solid var(--border-color)", marginTop: "1rem", paddingTop: "1rem" }}>
-                  <p style={{ margin: 0, fontSize: "0.92rem", color: "var(--text-secondary)", lineHeight: 1.5 }}>
-                    {active.description}
-                  </p>
-                  {active.url && (
-                    <a
-                      href={active.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="project-link"
-                      style={{ marginTop: "0.75rem", fontSize: "0.78rem" }}
-                    >
-                      Verify Certificate
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                      </svg>
-                    </a>
-                  )}
+                <h4 className="accomplishment-title" style={{ marginBottom: "0.3rem" }}>{active.title}</h4>
+                <div className="meta-mono">
+                  {active.issuer} • {active.code}
+                </div>
+
+                <p className="accomplishment-quote" style={{ marginTop: "0.75rem" }}>
+                  &ldquo;{active.description}&rdquo;
+                </p>
+                {active.url && (
+                  <a
+                    href={active.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="project-link"
+                    style={{ marginTop: "0.75rem", fontSize: "0.78rem" }}
+                  >
+                    Verify Certificate
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                      <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                  </a>
+                )}
+                <div style={{ marginTop: "0.75rem", fontSize: "0.78rem", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>
+                  {active.date}
                 </div>
               </m.div>
             </AnimatePresence>

@@ -1,40 +1,52 @@
+import type { ReactNode } from "react";
+
 const KEYWORDS = new Set([
   "def", "return", "if", "else", "elif", "for", "in", "import", "from",
-  "class", "async", "await", "True", "False", "None", "and", "or", "not",
+  "class", "async", "await", "and", "or", "not",
 ]);
 
-const TOKEN_PATTERN = /("[^"]*"|#.*$|\b\w+\b)/g;
+const BUILTINS = new Set(["True", "False", "None", "self"]);
+
+const TOKEN_PATTERN = /"[^"]*"|#.*$|\b\d+(?:\.\d+)?\b|\b\w+(?=\()|\b\w+\b/g;
+
+function classifyToken(token: string): string | null {
+  if (token.startsWith("#")) return "code-comment";
+  if (token.startsWith('"')) return "code-string";
+  if (/^\d+(\.\d+)?$/.test(token)) return "code-number";
+  if (KEYWORDS.has(token)) return "code-keyword";
+  if (BUILTINS.has(token)) return "code-builtin";
+  return null;
+}
 
 function tokenizeLine(line: string, key: number) {
-  const parts = line.split(TOKEN_PATTERN);
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let i = 0;
+
+  for (const match of line.matchAll(TOKEN_PATTERN)) {
+    const token = match[0];
+    const start = match.index ?? 0;
+    if (start > lastIndex) nodes.push(line.slice(lastIndex, start));
+
+    const isCall = /^\w+$/.test(token) && line[start + token.length] === "(";
+    const className = classifyToken(token) ?? (isCall ? "code-function" : null);
+
+    nodes.push(
+      className ? (
+        <span key={i++} className={className}>
+          {token}
+        </span>
+      ) : (
+        token
+      )
+    );
+    lastIndex = start + token.length;
+  }
+  if (lastIndex < line.length) nodes.push(line.slice(lastIndex));
 
   return (
     <span key={key} className="code-line">
-      {parts.map((part, i) => {
-        if (!part) return null;
-        if (part.startsWith("#")) {
-          return (
-            <span key={i} className="code-comment">
-              {part}
-            </span>
-          );
-        }
-        if (part.startsWith('"')) {
-          return (
-            <span key={i} className="code-string">
-              {part}
-            </span>
-          );
-        }
-        if (KEYWORDS.has(part)) {
-          return (
-            <span key={i} className="code-keyword">
-              {part}
-            </span>
-          );
-        }
-        return part;
-      })}
+      {nodes}
       {"\n"}
     </span>
   );

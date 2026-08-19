@@ -15,6 +15,35 @@ interface ProjectsSectionProps {
   contributions: ContributionDay[] | null;
 }
 
+// Maps a project's primary tag to a category icon shown next to its label on grid cards.
+function CategoryIcon({ category }: { category: string }) {
+  const key = category.toLowerCase();
+  if (key.includes("vision") || key.includes("healthcare")) {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"></path>
+        <circle cx="12" cy="12" r="3"></circle>
+      </svg>
+    );
+  }
+  if (key.includes("agent")) {
+    return (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="8" width="18" height="12" rx="2"></rect>
+        <path d="M12 8V4"></path>
+        <circle cx="12" cy="3" r="1"></circle>
+        <path d="M8 14h.01M16 14h.01"></path>
+      </svg>
+    );
+  }
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+      <polyline points="14 2 14 8 20 8"></polyline>
+    </svg>
+  );
+}
+
 export default function ProjectsSection({ contributions }: ProjectsSectionProps) {
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const [archiveOpen, setArchiveOpen] = useState(false);
@@ -50,8 +79,11 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                 </pre>
               </div>
               <div className="project-featured-body">
+                <div className="project-category">
+                  <CategoryIcon category={featuredProject.tags[0]} />
+                  {featuredProject.tags[0]}
+                </div>
                 <div className="project-tags">
-                  <span className="badge badge-accent">{featuredProject.tags[0]}</span>
                   {featuredProject.tags.slice(1).map((tag) => (
                     <span key={tag} className="badge">
                       {tag}
@@ -84,8 +116,11 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                 onClick={() => setOpenSlug(project.slug)}
               >
                 <div className="project-header">
+                  <div className="project-category">
+                    <CategoryIcon category={project.tags[0]} />
+                    {project.tags[0]}
+                  </div>
                   <div className="project-tags">
-                    <span className="badge badge-accent">{project.tags[0]}</span>
                     {project.tags.slice(1).map((tag) => (
                       <span key={tag} className="badge">
                         {tag}

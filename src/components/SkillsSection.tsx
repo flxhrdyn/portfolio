@@ -68,18 +68,12 @@ export default function SkillsSection() {
                   {CATEGORY_ICONS[group.category]}
                   <span>{group.category}</span>
                 </div>
-                <div className="skill-pills">
-                  {group.items.map((item) =>
-                    BRAND_ITEMS.has(item) ? (
-                      <span key={item} className="skill-pill">
-                        <strong style={{ color: "var(--accent-text)" }}>{item.split(" (")[0]}</strong> ({item.split(" (")[1]}
-                      </span>
-                    ) : (
-                      <span key={item} className="skill-pill">
-                        <span>{item}</span>
-                      </span>
-                    )
-                  )}
+                <div className="skill-list">
+                  {group.items.map((item) => (
+                    <div key={item} className="skill-list-item">
+                      {item}
+                    </div>
+                  ))}
                 </div>
               </>
             );
