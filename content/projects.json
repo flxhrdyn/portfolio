@@ -3,7 +3,7 @@
     "slug": "invenioai",
     "featured": true,
     "repo": "InvenioAI",
-    "image": "/projects/invenioai.png",
+    "image": "/projects/invenioai.webp",
     "imageAlt": "InvenioAI answering a question over a PDF, with its retrieved sources listed beside the answer",
     "title": "InvenioAI — Advanced RAG for Document Q&A",
     "tags": ["GenAI / RAG", "FastAPI", "Streamlit"],
@@ -23,7 +23,7 @@
   {
     "slug": "omnius",
     "repo": "Omnius",
-    "image": "/projects/omnius.png",
+    "image": "/projects/omnius.webp",
     "imageAlt": "The Omnius dashboard scoring a news article against Entman's four framing pillars",
     "title": "Omnius — Automated Media Intelligence",
     "tags": ["AI Agents", "Microsoft Azure", "Llama 3.3"],
@@ -43,7 +43,7 @@
   {
     "slug": "lucian",
     "repo": "LUCIAN",
-    "image": "/projects/lucian-classify.png",
+    "image": "/projects/lucian-classify.webp",
     "imageAlt": "A histopathology slide beside its Grad-CAM heatmap, showing which tissue regions drove the classification",
     "title": "LUCIAN — Lung Carcinoma Histopathology Imaging & Analysis",
     "tags": ["Computer Vision", "Healthcare", "TensorFlow"],

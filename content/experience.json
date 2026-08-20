@@ -3,7 +3,7 @@
     {
       "title": "IT Intern (ML & Data Science)",
       "company": "PT Astra Visteon Indonesia",
-      "logo": "/logos/avi.jpg",
+      "logo": "/logos/avi.svg",
       "date": "June 2026 – Present",
       "highlights": [
         "Developed a data-driven monitoring system for industrial air compressors, analyzing 150K+ operational records to identify maintenance-critical conditions and support earlier intervention.",
@@ -14,7 +14,7 @@
     {
       "title": "AI Engineer (Part-time)",
       "company": "HPC Universitas Gunadarma (HPC-UG)",
-      "logo": "/logos/hpc_ug.png",
+      "logo": "/logos/hpc_ug.svg",
       "date": "Sept 2024 – Present",
       "highlights": [
         "Built a production-ready AI laboratory assistant that helps students troubleshoot laboratory systems and programming issues using a fine-tuned Qwen3-8B model and Retrieval-Augmented Generation (RAG).",
@@ -25,7 +25,7 @@
     {
       "title": "International AI Summer Course Instructor",
       "company": "Universitas Gunadarma",
-      "logo": "/logos/gunadarma.jpg",
+      "logo": "/logos/gunadarma.svg",
       "date": "Feb 2025 – Aug 2025",
       "highlights": [
         "Delivered hands-on training on Generative AI, NLP, and LLM applications to international students and academic faculty, bridging AI theory with practical implementation workflows.",
@@ -35,7 +35,7 @@
     {
       "title": "Data Science Instructor",
       "company": "Lembaga Pengembangan Komputerisasi Universitas Gunadarma (LePKom)",
-      "logo": "/logos/gunadarma.jpg",
+      "logo": "/logos/gunadarma.svg",
       "date": "Jun 2025 – Jun 2026",
       "highlights": [
         "Mentored and assessed 200+ participants building end-to-end ML solutions, from data preprocessing through model deployment.",
@@ -48,7 +48,7 @@
     {
       "title": "Bachelor of Informatics",
       "company": "Universitas Gunadarma",
-      "logo": "/logos/gunadarma.jpg",
+      "logo": "/logos/gunadarma.svg",
       "date": "Sept 2021 – Aug 2025",
       "accentColor": "var(--accent-color)",
       "statLabel": "GPA: 3.85 / 4.00",
@@ -58,7 +58,7 @@
     {
       "title": "Machine Learning Specialization",
       "company": "Bangkit Academy",
-      "logo": "/logos/bangkit.png",
+      "logo": "/logos/bangkit.svg",
       "date": "Feb 2024 – July 2024",
       "accentColor": "var(--accent-color)",
       "statLabel": "Graduated with Distinction",
