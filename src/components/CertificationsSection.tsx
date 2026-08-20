@@ -1,14 +1,39 @@
 "use client";
 
 import { useState } from "react";
+import { m, useReducedMotion, type Variants } from "motion/react";
 import Modal from "./Modal";
 import ResearchPaperBody from "./ResearchPaperBody";
 import Reveal from "./Reveal";
 import certifications from "@/content/certifications.json";
 import writing from "@/content/writing.json";
 
+const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.045,
+      delayChildren: 0.08,
+    },
+  },
+};
+
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
 export default function CertificationsSection() {
   const [researchOpen, setResearchOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
   const paper = writing[0];
 
   if (!paper) return null;
@@ -31,53 +56,33 @@ export default function CertificationsSection() {
           {/* LEFT: FEATURED RESEARCH PAPER CARD */}
           <Reveal style={{ height: "100%" }}>
             <article className="research-featured-card">
-              <div className="research-card-header">
-                <div className="research-header-badges">
+              <div>
+                <div className="research-card-header">
                   <span className="research-type-badge">{paper.kind}</span>
-                  <span className="research-journal-tag">{paper.journal}</span>
+                  <span className="research-journal-tag">{paper.journal} · {paper.volume}</span>
                 </div>
-                <span className="research-volume-tag">{paper.volume}</span>
-              </div>
 
-              <div className="research-card-body">
                 <h3 className="research-paper-title">{paper.title}</h3>
                 
-                <div className="research-authors-row">
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="research-icon">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                    <circle cx="12" cy="7" r="4"></circle>
-                  </svg>
-                  <span className="research-authors-text">{paper.authors}</span>
+                <p className="research-authors-clean">
+                  Ulfa Hidayati, Felix Windriyareksa Hardyan, Faizah Rizki Auliawati, et al.
+                </p>
+
+                {/* BENCHMARK HIGHLIGHT */}
+                <div className="research-metrics-strip">
+                  <div className="research-metric-box">
+                    <div className="research-metric-value">89%</div>
+                    <div className="research-metric-label">Test Accuracy (MobileNetV2)</div>
+                  </div>
+                  <div className="research-metric-box">
+                    <div className="research-metric-value">97%</div>
+                    <div className="research-metric-label">Training Convergence</div>
+                  </div>
                 </div>
 
-                {/* BENCHMARK METRICS STRIP */}
-                {paper.stats && (
-                  <div className="research-metrics-strip">
-                    {paper.stats.map((stat) => (
-                      <div key={stat.label} className="research-metric-box">
-                        <div className="research-metric-value">{stat.value}</div>
-                        <div className="research-metric-label">{stat.label}</div>
-                      </div>
-                    ))}
-                    <div className="research-metric-box">
-                      <div className="research-metric-value">3 Classes</div>
-                      <div className="research-metric-label">Healthy · Bleached · Dead</div>
-                    </div>
-                  </div>
-                )}
-
-                <p className="research-summary-text">{paper.summary}</p>
-
-                {/* ARCHITECTURE TAGS */}
-                {paper.tags && (
-                  <div className="research-tags-row">
-                    {paper.tags.map((t) => (
-                      <span key={t} className="research-spec-pill">
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                )}
+                <p className="research-summary-text">
+                  Comparative study evaluating end-to-end deep learning architectures (CoralNet, InceptionV3, MobileNetV2) for automated coral reef health classification across Indonesian marine ecosystems.
+                </p>
               </div>
 
               <div className="research-card-footer">
@@ -100,12 +105,7 @@ export default function CertificationsSection() {
                     rel="noopener noreferrer"
                     className="research-action-btn secondary"
                   >
-                    View DOI Publication
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                      <polyline points="15 3 21 3 21 9"></polyline>
-                      <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
+                    DOI Publication ↗
                   </a>
                 )}
               </div>
@@ -113,43 +113,79 @@ export default function CertificationsSection() {
           </Reveal>
 
           {/* RIGHT: VERIFIED CERTIFICATIONS STACK (VERCEL / SCALE AI STYLE) */}
-          <Reveal delay={0.08} style={{ height: "100%" }}>
+          <Reveal delay={0.06} style={{ height: "100%" }}>
             <div className="certs-stack-container">
               <div className="certs-stack-header">
-                <div className="certs-stack-title-wrap">
-                  <span className="certs-header-badge">VERIFIED CERTIFICATIONS</span>
-                  <span className="certs-count-pill">{certifications.length} Credentials</span>
-                </div>
+                <span className="certs-header-badge">VERIFIED CERTIFICATIONS</span>
+                <span className="certs-count-pill">{certifications.length} Credentials</span>
               </div>
 
-              <div className="certs-list-stack">
-                {certifications.map((cert) => (
-                  <a
-                    key={cert.code}
-                    href={cert.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="cert-stack-item"
-                  >
-                    <div className="cert-item-info">
-                      <h4 className="cert-item-title">{cert.title}</h4>
-                      <div className="cert-item-meta">
-                        <span className="cert-issuer-name">{cert.issuer}</span>
-                        <span className="cert-meta-divider">•</span>
-                        <span className="cert-date-text">{cert.date}</span>
+              {reduceMotion ? (
+                <div className="certs-list-stack">
+                  {certifications.map((cert) => (
+                    <a
+                      key={cert.code}
+                      href={cert.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cert-stack-item"
+                    >
+                      <div className="cert-item-info">
+                        <h4 className="cert-item-title">{cert.title}</h4>
+                        <div className="cert-item-meta">
+                          <span className="cert-issuer-name">{cert.issuer}</span>
+                          <span className="cert-meta-divider">•</span>
+                          <span className="cert-date-text">{cert.date}</span>
+                        </div>
                       </div>
-                    </div>
 
-                    <div className="cert-item-right">
-                      <span className="cert-type-pill">{cert.badge}</span>
-                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="cert-arrow-icon">
-                        <line x1="7" y1="17" x2="17" y2="7"></line>
-                        <polyline points="7 7 17 7 17 17"></polyline>
-                      </svg>
-                    </div>
-                  </a>
-                ))}
-              </div>
+                      <div className="cert-item-right">
+                        <span className="cert-type-pill">{cert.badge}</span>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="cert-arrow-icon">
+                          <line x1="7" y1="17" x2="17" y2="7"></line>
+                          <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <m.div
+                  className="certs-list-stack"
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, margin: "-40px" }}
+                  variants={containerVariants}
+                >
+                  {certifications.map((cert) => (
+                    <m.a
+                      key={cert.code}
+                      href={cert.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="cert-stack-item"
+                      variants={itemVariants}
+                    >
+                      <div className="cert-item-info">
+                        <h4 className="cert-item-title">{cert.title}</h4>
+                        <div className="cert-item-meta">
+                          <span className="cert-issuer-name">{cert.issuer}</span>
+                          <span className="cert-meta-divider">•</span>
+                          <span className="cert-date-text">{cert.date}</span>
+                        </div>
+                      </div>
+
+                      <div className="cert-item-right">
+                        <span className="cert-type-pill">{cert.badge}</span>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="cert-arrow-icon">
+                          <line x1="7" y1="17" x2="17" y2="7"></line>
+                          <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                      </div>
+                    </m.a>
+                  ))}
+                </m.div>
+              )}
             </div>
           </Reveal>
         </div>
