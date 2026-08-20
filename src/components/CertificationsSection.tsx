@@ -118,10 +118,10 @@ export default function CertificationsSection() {
 
         {/* ASYMMETRIC ENGINEERING BENTO */}
         <div className="research-bento-grid">
-          {/* LEFT: FEATURED RESEARCH PAPER CARD (LEADERBOARD BENCHMARK) */}
+          {/* LEFT: FEATURED RESEARCH PAPER CARD (DISTILLED TELEMETRY) */}
           <Reveal style={{ height: "100%" }}>
             <article className="research-featured-card">
-              <div>
+              <div className="research-card-body">
                 <div className="research-card-header">
                   <span className="research-type-badge">{paper.kind}</span>
                   <span className="research-journal-tag">{paper.journal} · {paper.volume}</span>
@@ -133,13 +133,10 @@ export default function CertificationsSection() {
                   Ulfa H., Felix W. Hardyan, Faizah R., Ali A., Fanka A., Mario M.
                 </p>
 
-                {/* EXACT LEADERBOARD MODEL BENCHMARK CARD (GITHUB GREEN ACCENT) */}
-                <div className="leaderboard-benchmark-card">
-                  <div className="leaderboard-header-row">
-                    <div>
-                      <h4 className="leaderboard-title">Model Benchmark</h4>
-                      <p className="leaderboard-subtitle">Classification accuracy across 3-class marine reef health</p>
-                    </div>
+                {/* TELEMETRY BENCHMARK SECTION (GROQ / SCALE AI FLAT INSTRUMENTATION) */}
+                <div className="telemetry-benchmark-section">
+                  <div className="telemetry-header-row">
+                    <span className="telemetry-label">MODEL ACCURACY BENCHMARK</span>
 
                     <div className="leaderboard-tab-switcher">
                       {(["testing", "validation", "training"] as const).map((t) => (
@@ -211,10 +208,6 @@ export default function CertificationsSection() {
                     })}
                   </div>
                 </div>
-
-                <p className="research-summary-text">
-                  Evaluated deep learning architectures on coral reef diagnostics. MobileNetV2 achieved 89.60% testing accuracy, outperforming CoralNet (88.80%) and InceptionV3 (84.80%) while maintaining low parameter footprint.
-                </p>
               </div>
 
               <div className="research-card-footer">
