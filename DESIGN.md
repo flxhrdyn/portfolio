@@ -103,7 +103,11 @@ components:
 The portfolio reads like an advanced AI engineering workstation and telemetry console: near-black by default, high-precision typography (Geist Sans, Geist Mono, Geist Pixel), with a restrained **Pastel Blue Accent** and **interactive vector graphics** inspired by top AI infrastructure platforms:
 
 1. **Vercel (scaffold & structure)**: true near-black canvas, flat code-panel surfaces, tabbed code-block component, small angular buttons, crisp borders, and zero drop shadows at rest.
-2. **Scale AI & Scale Labs (labs.scale.com) (research manifest & data graphics)**: interactive neural topologies, tabular research paper manifests (`• DATE`, `• TITLE`, `• CATEGORY`), monospace bracket headers (`[PAPERS]`, `[LEADERBOARDS]`), and live telemetry HUD indicators.
+2. **Scale AI & Scale Labs (labs.scale.com) (research manifest & data graphics)**:
+   - **Research Paper Manifest (`/papers`)**: dense data table with columns `• DATE`, `• TITLE`, `• CATEGORY`, `• AUTHORS`, interactive hover figure/abstract preview, and square outline filter tags (`[All] [Agents] [Reasoning] [Multimodal]`).
+   - **Model Showdown & Leaderboards (`/showdown`)**: prominent monospace telemetry counters (`PROMPTS COMPARED`, `ACTIVE USERS`), segmented control filters, and solid high-contrast rectangular CTAs (`[ACTION] →`).
+   - **Expandable Insights Manifest (`/blog`)**: minimalist accordion rows with downward indicators (`∨`), category metadata badges, and clean border dividers.
+   - **3D Layered Telemetry (`scale.com`)**: floating transparent glass layer stacks with vector contour lines, crosshair coordinates, and neural topologies.
 3. **Groq & Antigravity (speed & spec density)**: high-throughput changelog/log manifest timelines, high-density silicon core matrix, monospace metric indicators (`[ 04 ROLES ]`), and confident bold display typography.
 
 **Key Characteristics:**
