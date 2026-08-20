@@ -108,11 +108,13 @@ The portfolio reads like an advanced AI engineering workstation and telemetry co
    - **Component Scaffolding**: Tabbed code blocks with line numbers, flat dark surfaces (`#0a0a0c`, `#131316`, `#17171b`), angular buttons, zero drop shadows.
 
 2. **Scale AI & Scale Labs (`scale.com` & `labs.scale.com`)**:
-   - **Research Paper Manifest (`/papers`)**: Tabular data rows with `• DATE`, `• TITLE`, `• CATEGORY`, `• AUTHORS`, interactive hover figure/abstract preview sidebar, and square outline filter tags (`[All] [Agents] [Reasoning] [Multimodal]`).
-   - **Model Showdown & Arena (`/showdown`)**: High-density telemetry metrics (`PROMPTS COMPARED 29,543,305`), segmented control filters, and solid high-contrast rectangular CTAs (`[ACTION] →`).
-   - **Expandable Insights (`/blog`)**: Minimalist accordion rows with downward indicators (`∨`), category metadata badges, and clean border dividers.
-   - **3D Layered Vector Canvas (`scale.com`)**: Floating transparent glass layer stacks with vector contour lines, crosshair coordinates, and neural topologies.
-   - **Editorial Case Study Layout (`/customers`)**: Two-column layout with left-hand monospace category anchor (`OVERVIEW`) and right-hand editorial technical narrative.
+   - **Research Paper Manifest (`labs.scale.com/papers`)**: Tabular data rows with `• DATE`, `• TITLE`, `• CATEGORY`, `• AUTHORS`, interactive hover figure/abstract preview sidebar, and square outline filter tags (`[All] [Agents] [Reasoning] [Multimodal]`).
+   - **Model Showdown & Arena (`labs.scale.com/showdown`)**: High-density telemetry metrics (`PROMPTS COMPARED 29,543,305`), segmented control filters, and solid high-contrast rectangular CTAs (`[ACTION] →`).
+   - **Expandable Insights (`labs.scale.com/blog`)**: Minimalist accordion rows with downward indicators (`∨`), category metadata badges, and clean border dividers.
+   - **3D Layered Vector Canvas (`scale.com/`, `scale.com/data-engine`)**: Floating transparent glass layer stacks with vector contour lines, crosshair coordinates, and neural topologies.
+   - **Autonomous & Mission-Critical Solutions (`scale.com/automotive`, `scale.com/defense`)**: High-depth hero banners with rounded viewports (`border-radius: 24px`), dark-tinted photography, and bold two-part display headers.
+   - **Visual Grid Blog (`scale.com/blog`)**: Bento layout with category pills (`TESTING & EVALS`, `ROBOTICS`, `AUTONOMOUS VEHICLE`), search bar with `⌘K` shortcut symbol, and vector globe overlays.
+   - **Editorial Case Study Layout (`scale.com/customers`)**: Two-column layout with left-hand monospace category anchor (`OVERVIEW`) and right-hand editorial technical narrative.
 
 3. **Groq (`groq.com` & `wow.groq.com`)**:
    - **Silicon Floorplan & LPU Matrix**: High-density hardware core grids, active compute state indicators, and semiconductor tensor nodes.
