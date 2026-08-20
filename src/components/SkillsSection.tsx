@@ -140,8 +140,6 @@ export default function SkillsSection() {
                         key={item}
                         className="spec-matrix-tag"
                         variants={tagItemVariants}
-                        whileHover={{ y: -2, scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
                       >
                         <SkillBrandIcon name={item} />
                         <span className="spec-matrix-tag-text">{item}</span>
