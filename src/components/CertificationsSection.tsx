@@ -112,7 +112,7 @@ export default function CertificationsSection() {
         <Reveal>
           <h2>Research &amp; Certifications</h2>
           <p style={{ marginBottom: "2.25rem", maxWidth: "60ch" }}>
-            Peer-reviewed scientific publications, national competencies, and verified technical credentials.
+            Academic publications and certifications in AI, machine learning, and data science.
           </p>
         </Reveal>
 
