@@ -49,7 +49,7 @@ function SkillBrandIcon({ name }: { name: string }) {
       fill="currentColor"
       aria-hidden="true"
     >
-      <path d={iconData.path} />
+      <path d={iconData.path} fillRule="evenodd" clipRule="evenodd" />
     </svg>
   );
 }
