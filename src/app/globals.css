@@ -46,11 +46,11 @@
       --font-pixel: var(--font-geist-pixel-square), var(--font-geist-mono), monospace;
       --transition-speed: 200ms;
 
-      /* Elevation (hover/focus-only per DESIGN.md flat-by-default rule) */
-      --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.12);
-      --shadow-tooltip: 0 4px 6px rgba(0, 0, 0, 0.1);
-      --shadow-modal: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
-      --shadow-nav: 0 4px 10px rgba(0, 0, 0, 0.03);
+      /* Elevation (Vercel crisp flat standard) */
+      --shadow-hover: none;
+      --shadow-tooltip: 0 2px 4px rgba(0, 0, 0, 0.08);
+      --shadow-modal: 0 16px 32px rgba(0, 0, 0, 0.2);
+      --shadow-nav: none;
     }
 
     [data-theme="dark"] {
@@ -2011,7 +2011,7 @@
       border-color: #3776AB;
       background-color: rgba(55, 118, 171, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(55, 118, 171, 0.15);
+      box-shadow: none;
     }
 
     /* TypeScript brand hover */
@@ -2019,7 +2019,7 @@
       border-color: #3178C6;
       background-color: rgba(49, 120, 198, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(49, 120, 198, 0.15);
+      box-shadow: none;
     }
 
     /* SQL brand hover */
@@ -2027,7 +2027,7 @@
       border-color: #336791;
       background-color: rgba(51, 103, 145, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(51, 103, 145, 0.15);
+      box-shadow: none;
     }
 
     /* Bash brand hover */
@@ -2035,7 +2035,7 @@
       border-color: #4EAA25;
       background-color: rgba(78, 170, 37, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(78, 170, 37, 0.15);
+      box-shadow: none;
     }
 
     /* PyTorch brand hover */
@@ -2043,7 +2043,7 @@
       border-color: #EE4C2C;
       background-color: rgba(238, 76, 44, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(238, 76, 44, 0.15);
+      box-shadow: none;
     }
 
     /* scikit-learn brand hover */
@@ -2051,7 +2051,7 @@
       border-color: #F7931E;
       background-color: rgba(247, 147, 30, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(247, 147, 30, 0.15);
+      box-shadow: none;
     }
 
     /* ConvNeXt brand hover */
@@ -2059,7 +2059,7 @@
       border-color: #4285F4;
       background-color: rgba(66, 133, 244, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(66, 133, 244, 0.15);
+      box-shadow: none;
     }
 
     /* CNNs brand hover */
@@ -2067,7 +2067,7 @@
       border-color: #34A853;
       background-color: rgba(52, 168, 83, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(52, 168, 83, 0.15);
+      box-shadow: none;
     }
 
     /* TensorFlow brand hover */
@@ -2075,7 +2075,7 @@
       border-color: #FF6F00;
       background-color: rgba(255, 111, 0, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(255, 111, 0, 0.15);
+      box-shadow: none;
     }
 
     /* LangChain brand hover */
@@ -2083,7 +2083,7 @@
       border-color: #13C2C2;
       background-color: rgba(19, 194, 194, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(19, 194, 194, 0.15);
+      box-shadow: none;
     }
 
     /* Retrieval-RAG brand hover */
@@ -2091,7 +2091,7 @@
       border-color: #8A3FFC;
       background-color: rgba(138, 63, 252, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(138, 63, 252, 0.15);
+      box-shadow: none;
     }
 
     /* Qdrant brand hover */
@@ -2099,7 +2099,7 @@
       border-color: #D82C20;
       background-color: rgba(216, 44, 32, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(216, 44, 32, 0.15);
+      box-shadow: none;
     }
 
     /* Prompt Eng. brand hover */
@@ -2107,7 +2107,7 @@
       border-color: #F9AB00;
       background-color: rgba(249, 171, 0, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(249, 171, 0, 0.15);
+      box-shadow: none;
     }
 
     /* Pandas brand hover */
@@ -2115,12 +2115,12 @@
       border-color: #150458;
       background-color: rgba(21, 4, 88, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(21, 4, 88, 0.15);
+      box-shadow: none;
     }
     [data-theme="dark"] .skill-pill.pandas-pill:hover {
       border-color: #e70488;
       background-color: rgba(231, 4, 136, 0.08);
-      box-shadow: 0 0 10px rgba(231, 4, 136, 0.15);
+      box-shadow: none;
     }
 
     /* NumPy brand hover */
@@ -2128,12 +2128,12 @@
       border-color: #013243;
       background-color: rgba(1, 50, 67, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(1, 50, 67, 0.15);
+      box-shadow: none;
     }
     [data-theme="dark"] .skill-pill.numpy-pill:hover {
       border-color: #4dabf7;
       background-color: rgba(77, 171, 247, 0.08);
-      box-shadow: 0 0 10px rgba(77, 171, 247, 0.15);
+      box-shadow: none;
     }
 
     /* Streamlit brand hover */
@@ -2141,7 +2141,7 @@
       border-color: #FF4B4B;
       background-color: rgba(255, 75, 75, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(255, 75, 75, 0.15);
+      box-shadow: none;
     }
 
     /* FastAPI brand hover */
@@ -2149,7 +2149,7 @@
       border-color: #009688;
       background-color: rgba(0, 150, 136, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(0, 150, 136, 0.15);
+      box-shadow: none;
     }
 
     /* Docker brand hover */
@@ -2157,7 +2157,7 @@
       border-color: #2496ED;
       background-color: rgba(36, 150, 237, 0.08);
       color: var(--text-primary);
-      box-shadow: 0 0 10px rgba(36, 150, 237, 0.15);
+      box-shadow: none;
     }
 
     /* ACCOMPLISHMENTS & RESEARCH */
