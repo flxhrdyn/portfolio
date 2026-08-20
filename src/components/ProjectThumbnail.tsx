@@ -20,8 +20,9 @@ export default function ProjectThumbnail({ src, alt, variant = "card", priority 
         alt={alt}
         fill
         priority={priority}
-        sizes={variant === "featured" ? "(max-width: 860px) 100vw, 560px" : "(max-width: 860px) 100vw, 380px"}
-        style={{ objectFit: "cover" }}
+        unoptimized
+        sizes={variant === "featured" ? "(max-width: 860px) 100vw, 800px" : "(max-width: 860px) 100vw, 500px"}
+        style={{ objectFit: variant === "featured" ? "contain" : "cover" }}
       />
     </div>
   );
