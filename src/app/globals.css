@@ -2301,17 +2301,17 @@
       font-weight: 700;
       padding: 0.1rem 0.35rem;
       border-radius: 3px;
-      background-color: rgba(46, 160, 67, 0.15);
-      color: #3fb950;
-      border: 1px solid rgba(46, 160, 67, 0.3);
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.22);
       text-transform: uppercase;
       letter-spacing: 0.03em;
     }
 
     [data-theme="light"] .leaderboard-badge {
-      background-color: rgba(26, 127, 55, 0.1);
-      color: #1a7f37;
-      border-color: rgba(26, 127, 55, 0.25);
+      background-color: rgba(0, 0, 0, 0.07);
+      color: #000000;
+      border-color: rgba(0, 0, 0, 0.2);
     }
 
     .leaderboard-rows {
@@ -2401,31 +2401,27 @@
     }
 
     .leaderboard-bar-fill.rank-1 {
-      background-color: #2ea043;
+      background-color: #ffffff;
     }
 
     .leaderboard-bar-fill.rank-2 {
-      background-color: #238636;
-      opacity: 0.85;
+      background-color: #9d9da2;
     }
 
     .leaderboard-bar-fill.rank-3 {
-      background-color: #196c2e;
-      opacity: 0.7;
+      background-color: #6b6b70;
     }
 
     [data-theme="light"] .leaderboard-bar-fill.rank-1 {
-      background-color: #1a7f37;
+      background-color: #000000;
     }
 
     [data-theme="light"] .leaderboard-bar-fill.rank-2 {
-      background-color: #2da44e;
-      opacity: 0.85;
+      background-color: #5e5e5e;
     }
 
     [data-theme="light"] .leaderboard-bar-fill.rank-3 {
-      background-color: #4ac26b;
-      opacity: 0.7;
+      background-color: #9e9394;
     }
 
     .research-summary-text {
