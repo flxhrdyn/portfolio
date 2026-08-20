@@ -2487,11 +2487,26 @@
       gap: 1rem;
     }
 
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
     .footer-text {
       font-size: 0.78rem;
       color: var(--text-secondary);
       font-family: var(--font-mono);
       letter-spacing: 0.02em;
+    }
+
+    .footer-tech-stack {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      opacity: 0.75;
+      letter-spacing: 0.01em;
+      max-width: none;
     }
 
     .footer-links {
