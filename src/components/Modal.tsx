@@ -57,6 +57,7 @@ export default function Modal({ id, title, isOpen, onClose, maxWidth, children }
       previouslyFocused.current?.focus();
     };
   }, [isOpen, onClose]);
+  if (!isOpen) return null;
 
   return (
     <div
