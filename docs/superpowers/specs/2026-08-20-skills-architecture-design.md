@@ -1,48 +1,58 @@
-# Design Spec: Skills & Capabilities — Synaptic Architecture Grid
+# Design Spec: Skills & Capabilities — Interactive Synaptic Neural Network
 
 **Date:** 2026-08-20  
 **Author:** flxhrdyn / Antigravity Impeccable  
 **Status:** Approved for Implementation  
-**Aesthetic References:** Groq Spec Sheet & Scale AI Synaptic Flow  
-**Rule:** 100% preserve existing categories and items from `content/skills.json`
+**Visual Style:** Interactive Neural Network / Synapse Pipeline (Scale AI / AI-Native)  
+**Content:** Exact categories and items from `content/skills.json` (100% preserved)
 
 ---
 
-## 1. Objective & Content Integrity
+## 1. Overview & Conceptual Architecture
 
-Redesign the **Skills & Capabilities** section with a bold, high-craft **Synaptic Grid Architecture** inspired by Groq and Scale AI, while preserving all existing technical items from `content/skills.json` verbatim:
+The **Skills & Capabilities** section is rendered as an **Interactive Synaptic Neural Network** representing the end-to-end AI engineering pipeline from infrastructure to deployed intelligence.
 
-### Categories & Content:
-1. **AI & Machine Learning (9 items)**:
-   - *Advanced RAG*, *AI Agents*, *Deep Learning*, *Computer Vision*, *Natural Language Processing*, *LLMs & GenAI*, *Prompt Engineering*, *PEFT & QLoRA*, *Anomaly Detection*.
-2. **ML Frameworks & Libraries (9 items)**:
-   - *PyTorch*, *TensorFlow*, *scikit-learn*, *LangChain*, *Pydantic AI*, *LlamaIndex & LlamaParse*, *Qdrant*, *FAISS*, *Hugging Face*.
-3. **Languages & Backend (9 items)**:
-   - *Python*, *SQL*, *TypeScript*, *FastAPI*, *Pandas*, *NumPy*, *REST APIs*, *React*, *Git & GitHub*.
-4. **Cloud & MLOps (6 items)**:
-   - *Docker*, *Microsoft Azure*, *Google Cloud (GCP)*, *MLOps Pipelines*, *CI/CD*, *NVIDIA DGX Systems*.
-5. **Languages & Bio (2 items)**:
-   - *Bahasa Indonesia (Native)*, *English (Professional, TOEFL: 650)*.
+The section consists of **4 interconnected Neural Layers** matching the exact categories from `content/skills.json`:
+
+```
+LAYER 1: Cloud & MLOps              LAYER 2: Languages & Backend       LAYER 3: ML Frameworks & Libraries       LAYER 4: AI & Machine Learning
+[ 06 Nodes ]                        [ 09 Nodes ]                       [ 09 Nodes ]                              [ 09 Nodes ]
+──────────────────────────────      ─────────────────────────────      ─────────────────────────────────         ─────────────────────────────
+• NVIDIA DGX Systems   ─────╲      ╱───── • Python            ─────╲  ╱───── • PyTorch                  ─────╲  ╱───── • Advanced RAG
+• Docker               ──────╳─────────── • FastAPI           ──────╳─────── • Qdrant                   ──────╳─────── • AI Agents
+• Google Cloud (GCP)   ─────╱      ╲───── • TypeScript        ─────╱  ╲───── • LangChain                ─────╱  ╲───── • Computer Vision
+• Microsoft Azure                         • SQL                              • TensorFlow                              • Deep Learning
+• MLOps Pipelines                         • Pandas                           • LlamaIndex & LlamaParse                 • LLMs & GenAI
+• CI/CD                                   • NumPy                            • FAISS                                   • Natural Language Proc.
+                                          • REST APIs                        • Hugging Face                            • PEFT & QLoRA
+                                          • React                            • Pydantic AI                             • Prompt Engineering
+                                          • Git & GitHub                     • scikit-learn                            • Anomaly Detection
+```
 
 ---
 
-## 2. Layout & Visual Architecture
+## 2. Interactive Synaptic Visuals & Motion
 
-### 4-Column Synaptic Grid (Desktop: 4 columns / 2x2 grid, Mobile: 1 column):
-- Clean, structured card containers with flat background (`var(--bg-card)`), hairline border (`border: 1px solid var(--border-color)`), and crisp corners (`border-radius: var(--radius-md)`).
-- **Column Header**:
-  - Category name in bold typography (`font-size: 1.05rem`, `font-weight: 700`).
-  - Monospace item counter tag (e.g. `[ 09 ]` / `[ 06 ]`) on the right.
-  - Hairline divider below header.
+### Dynamic Synapse Connectors (SVG Canvas)
+- An SVG background plane connects nodes across adjacent layers with subtle hairline curves (`stroke-width: 1px`, `opacity: 0.15` at rest).
+- **Forward-Pass Activation Pulse on Hover**:
+  - When the user hovers over any node (e.g. `PyTorch`), connecting synapse lines illuminate with high contrast (`opacity: 0.8`), simulating synaptic signal transmission.
+  - Connected upstream/downstream nodes pulse with a subtle highlight.
 
-### Interactive Skill Chips with Embedded SVG Icons:
-- Each item is styled as an interactive chip containing:
-  - SVG monochrome icon for matching tech items (PyTorch, TensorFlow, Docker, Python, Qdrant, etc.) or bespoke neural node icon for concepts (RAG, Agents, CV).
-  - Item name in clear typography (`font-size: 0.85rem`, `font-weight: 600`).
-- **Hover Micro-Motion**:
-  - `transform: translateY(-2px) scale(1.02)`.
-  - Border transition to high-contrast `var(--text-primary)`.
-  - Background transition to `var(--bg-secondary)`.
+### Neuron Node Chips
+- Each node is rendered as a precision interactive chip:
+  - **Embedded SVG Icon** (matching official tech brand or neural symbol).
+  - **Exact Item Name** from `content/skills.json`.
+  - **Hover Reaction**: Smooth lift `translateY(-2px) scale(1.03)` with crisp border highlight.
 
-### Bottom Languages & Bio Bar:
-- Structured horizontal spec bar displaying bilingual proficiency.
+### Bottom Proficiency Strip (Languages & Bio)
+- A clean, horizontal strip at the base of the neural network:
+  - `Bahasa Indonesia (Native)` · `English (Professional, TOEFL: 650)`
+
+---
+
+## 3. Responsive Adaptability
+
+- **Desktop (>= 1024px)**: Full 4-layer horizontal neural network with dynamic SVG synapse lines.
+- **Tablet & Mobile (< 1024px)**: Responsive stacked neural layers with touch-friendly node chips and vertical synaptic flow.
+- **Accessibility**: Respects `prefers-reduced-motion` by disabling pulse animations while keeping crisp interactive hover states.
