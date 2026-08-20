@@ -2195,14 +2195,11 @@
       font-size: 0.7rem;
       font-weight: 600;
       color: var(--text-secondary);
-      background-color: rgba(255, 255, 255, 0.03);
+      background-color: transparent;
       border: 1px solid var(--border-color);
       padding: 0.15rem 0.45rem;
       border-radius: 4px;
-    }
-
-    [data-theme="light"] .research-journal-tag {
-      background-color: rgba(0, 0, 0, 0.03);
+      white-space: nowrap;
     }
 
     .research-paper-title {
@@ -2542,10 +2539,11 @@
       font-size: 0.7rem;
       font-weight: 600;
       color: var(--text-secondary);
-      background-color: rgba(255, 255, 255, 0.03);
+      background-color: transparent;
       border: 1px solid var(--border-color);
       padding: 0.15rem 0.45rem;
       border-radius: 4px;
+      white-space: nowrap;
     }
 
     .certs-list-stack {
