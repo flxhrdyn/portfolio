@@ -24,11 +24,12 @@
       --text-secondary: #5b5d66;
       --border-color: #e2e3e8;
 
-      /* Accent (Geist Engineering: pure monochrome, no hue) */
-      --accent-color: #000000;
-      --accent-bg-muted: #efeded;
-      --accent-text: #000000;
-      --accent-hover: #3f3f46;
+      /* Accent (Pastel Blue AI System — Scale AI / Modern Lab) */
+      --accent-color: #2563eb;
+      --accent-bg-muted: rgba(37, 99, 235, 0.08);
+      --accent-text: #1d4ed8;
+      --accent-hover: #1e40af;
+      --accent-pastel: #3b82f6;
 
       /* Dark pills & premium buttons */
       --btn-primary-bg: #1f1f1f;
@@ -54,7 +55,7 @@
     }
 
     [data-theme="dark"] {
-      /* DARK THEME (Signal Console, per DESIGN.md) */
+      /* DARK THEME (Signal Console + Pastel Blue) */
       --bg-primary: #0a0a0c;
       --bg-secondary: #131316;
       --bg-card: #17171b;
@@ -62,10 +63,11 @@
       --text-secondary: #96979f;
       --border-color: #26272b;
 
-      --accent-color: #ffffff;
-      --accent-bg-muted: #26272b;
-      --accent-text: #ffffff;
-      --accent-hover: #c6c6c6;
+      --accent-color: #60a5fa;
+      --accent-bg-muted: rgba(96, 165, 250, 0.12);
+      --accent-text: #93c5fd;
+      --accent-hover: #bfdbfe;
+      --accent-pastel: #38bdf8;
 
       --btn-primary-bg: #e8eaed;
       --btn-primary-text: #121214;

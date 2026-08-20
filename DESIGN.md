@@ -8,18 +8,19 @@ colors:
   text-primary: "#f2f3f5"
   text-secondary: "#96979f"
   border-color: "#26272b"
-  accent: "#ffffff"
-  accent-hover: "#c6c6c6"
-  accent-muted: "#26272b"
+  accent: "#60a5fa"
+  accent-hover: "#bfdbfe"
+  accent-muted: "rgba(96, 165, 250, 0.12)"
+  accent-pastel: "#38bdf8"
   bg-primary-light: "#ffffff"
   bg-secondary-light: "#f6f7f9"
   bg-card-light: "#ffffff"
   text-primary-light: "#14151a"
   text-secondary-light: "#5b5d66"
   border-color-light: "#e2e3e8"
-  accent-light: "#000000"
-  accent-light-hover: "#3f3f46"
-  accent-light-muted: "#efeded"
+  accent-light: "#2563eb"
+  accent-light-hover: "#1e40af"
+  accent-light-muted: "rgba(37, 99, 235, 0.08)"
 typography:
   display:
     fontFamily: "var(--font-geist-sans), -apple-system, sans-serif"
@@ -98,86 +99,42 @@ components:
 
 ## 1. Overview
 
-**Creative North Star: "Geist Engineering"**
+**Creative North Star: "Precision Systems & Data Graphics"**
 
-The portfolio reads like a well-built developer console: near-black by default, pure
-monochrome (no accent hue at all), monospace where the interface needs to feel exact (labels,
-status, the chat widget's chrome, terminal windows), and a confident grotesk sans everywhere
-the content needs to be read fast. This is a weighted clone of references, not an equal blend:
+The portfolio reads like an advanced AI engineering workstation and telemetry console: near-black by default, high-precision typography (Geist Sans, Geist Mono, Geist Pixel), with a restrained **Pastel Blue Accent** and **interactive vector graphics** inspired by top AI infrastructure platforms:
 
-1. **Vercel (dominant, ~55%)**: true near-black bg, chroma-0 neutrals, flat code-panel-style
-   surfaces, tabbed code-block component, small angular buttons (white primary / dark-outline
-   secondary) in the nav, provider/logo strip pattern. This is the base every surface starts
-   from. Vercel's real shape language is sharp, not rounded-pill — soft-geometric small radius,
-   not the "everything is a capsule" look — and this system follows that lead for buttons and
-   containers.
-2. **Geist Engineering (secondary, ~30%)**: strict black-and-white monochrome ("Primary: Pure
-   black/white, no accent hue"). This layer is why the system carries no colored accent at all
-   — primary action color *is* the neutral scale, not a separate hue. Decorative flourishes
-   from that reference (dot-matrix background texture, terminal-window dot chrome) are
-   deliberately not adopted here — see the Zero-Decoration note below.
-3. **Google Antigravity (tertiary, ~15%)**: the oversized, confident display headline
-   treatment and the primary/secondary CTA pairing under it. Borrow the *type confidence and
-   CTA pairing* only — not its pill shape (superseded by Vercel's angular buttons), not its
-   color-dot logo, not its rainbow-particle background.
-
-This system explicitly rejects two previous directions: the "Google Antigravity clone" (no
-rainbow gradient glow, no four-color Google dot logo, no ambient multi-colored aura blur behind
-the hero) and the "Signal Console" cobalt-accent system that followed it (no blue accent color
-anywhere — action color is monochrome, not a second hue). The interface itself is the evidence
-of engineering taste — it earns trust through restraint, not through decoration or color.
+1. **Vercel (scaffold & structure, ~40%)**: true near-black canvas, flat code-panel surfaces, tabbed code-block component, small angular buttons, crisp borders, and zero drop shadows at rest.
+2. **Scale AI (graphics & visualization, ~30%)**: interactive blueprint grid matrix, generative data stream visuals, sensor/bounding box telemetry, and frosted pastel blue accents (`#60a5fa` / `#38bdf8`) on dark canvas.
+3. **Groq & Antigravity (speed & precision, ~30%)**: high-throughput changelog/log manifest timelines, monospace metric indicators (`[ 04 ROLES ]`), and confident bold display typography.
 
 **Key Characteristics:**
-- Dark-first (near-black `#0a0a0c`), matching Vercel's own dark surface. The light theme is
-  not an afterthought toggle — it's a direct clone of Vercel's own light mode: near-white bg,
-  ink-black text, hairline-gray card borders, zero shadow, same solid black pill "Sign Up"-
-  style primary button. Both themes are first-class; dark is simply the default.
-- Zero accent hue: the "accent" role is filled by the neutral scale itself — pure black on
-  light, pure white on dark — never a gradient, never a second color.
-- Flat elevation: depth comes from border + tonal layering, not drop shadows at rest.
-- Monospace (Geist Mono) marks anything system-status-shaped: badges, nav labels, the
-  chat widget's header/status line, terminal window headers, timestamps. Geist Sans carries
-  everything else.
-- Shape is deliberately mixed, not uniform: buttons and containers are angular (small radius,
-  4-8px), while badges, chips, and status indicators stay full pill. The pill shape is reserved
-  for small, discrete, tag-like elements; anything with weight or structure (a button, a card,
-  a modal) reads sharp.
+- **Dark-first**: near-black `#0a0a0c` default with dark zinc panels (`#131316`) and card surfaces (`#17171b`).
+- **Strategic Pastel Blue Accent (5-8% dosage)**: `#60a5fa` (dark) / `#2563eb` (light) for live indicators, active tabs, telemetry highlights, and primary interactive focus.
+- **Graphic & Motion Vocabulary**: Interactive neural/tensor matrix, blueprint grid backgrounds with crosshairs, telemetry data badges, and smooth physics-based reveal animations.
+- **Typography Matrix**: Geist Sans for headlines and prose; Geist Mono for code, telemetry, and timestamps; Geist Pixel for signature brand mark and metric badges.
 
 ## 2. Colors
 
-Chroma-0 near-black and near-white neutrals only. There is no second hue anywhere in this
-system — "accent" is realized entirely through inversion (black-on-white / white-on-black),
-never through color.
+### Accent (Strategic Pastel Blue)
+- **Accent Primary** (`#60a5fa` dark / `#2563eb` light): Active roles, live status dots, telemetry metrics, and primary focus outlines.
+- **Accent Muted** (`rgba(96, 165, 250, 0.12)` dark / `rgba(37, 99, 235, 0.08)` light): Subtle chip highlights and active background pills.
+- **Accent Pastel Ice** (`#38bdf8` dark / `#1d4ed8` light): Active matrix nodes and subtle glowing accents.
 
-### Primary
-- **Accent** (`#ffffff` dark / `#000000` light): the one "accent," which is really just the
-  opposite end of the neutral scale. Used for primary CTAs when they need to stand out (the
-  "Ask my portfolio" trigger, the chat status dot, active nav state, links). Solid fill only,
-  never tinted.
-
-### Neutral
-- **Void** (`#0a0a0c`): the default body background (dark theme).
-- **Panel** (`#131316`): secondary surface — nav background, section dividers, badge fill.
-- **Card** (`#17171b`): card / chat-console surface, one step lighter than Panel so cards read
-  as a distinct layer without a shadow.
-- **Signal White** (`#f2f3f5`): primary text on dark.
-- **Muted Signal** (`#96979f`): secondary text on dark — captions, descriptions, timestamps.
-- **Seam** (`#26272b`): all borders and dividers on dark.
-- **Paper** (`#ffffff`): body background (light theme).
-- **Paper Panel** (`#f6f7f9`): secondary surface (light theme).
-- **Ink** (`#14151a`): primary text (light theme).
-- **Muted Ink** (`#5b5d66`): secondary text (light theme).
-- **Hairline** (`#e2e3e8`): borders (light theme).
+### Neutral Canvas
+- **Void** (`#0a0a0c`): Body background (dark).
+- **Panel** (`#131316`): Nav bar, secondary surfaces, and table chrome.
+- **Card** (`#17171b`): Card surfaces with 1px hairline border.
+- **Signal White** (`#f2f3f5`): Primary text on dark.
+- **Muted Signal** (`#96979f`): Secondary text, descriptions, and labels.
+- **Seam** (`#26272b`): Hairline dividers and borders.
+- **Paper** (`#ffffff`): Body background (light).
+- **Paper Panel** (`#f6f7f9`): Secondary surface (light).
+- **Ink** (`#14151a`): Primary text (light).
+- **Muted Ink** (`#5b5d66`): Secondary text (light).
+- **Hairline** (`#e2e3e8`): Borders (light).
 
 ### Named Rules
-**The Zero-Hue Rule.** No color anywhere except the neutral scale. No gradients, no
-multi-color glow, no rainbow ring, no blue/cobalt accent — that was the prior system, and it's
-exactly what this one replaces. If a component needs more than black/white/gray to read as
-"alive," redesign the component with weight, size, or motion — don't add a hue.
-
-**Data is the one exception.** Sequential data visualizations (e.g. the GitHub contribution
-heatmap) use a grayscale intensity ramp, not color, to encode magnitude — consistent with the
-Zero-Hue Rule rather than an exception to it.
+**The Single Strategic Accent Rule.** Pastel Blue is used strictly for state, status, active indicators, and interactive focus. It never floods large background areas or turns the interface into a colorful carnival. The canvas stays disciplined, dark-first, and flat.
 
 **The Zero-Decoration Rule.** No purely decorative texture or chrome that doesn't carry real
 information: no tiled dot-matrix / grid-line background fields, no terminal-window traffic-
