@@ -13,19 +13,19 @@ const containerVariants: Variants = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.045,
-      delayChildren: 0.08,
+      staggerChildren: 0.07,
+      delayChildren: 0.05,
     },
   },
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, x: 28 },
   show: {
     opacity: 1,
-    y: 0,
+    x: 0,
     transition: {
-      duration: 0.4,
+      duration: 0.55,
       ease: [0.16, 1, 0.3, 1],
     },
   },
