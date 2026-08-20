@@ -237,7 +237,7 @@ export default function CertificationsSection() {
                 <span className="certs-header-badge">VERIFIED CERTIFICATIONS</span>
                 <div className="certs-header-pills">
                   <span className="certs-domain-tag">{PAGE_DOMAINS[certPage]}</span>
-                  <span className="certs-count-pill">{certifications.length} Credentials</span>
+                  <span className="certs-count-pill">{certifications.length} Certs</span>
                 </div>
               </div>
 
