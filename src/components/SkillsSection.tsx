@@ -52,7 +52,7 @@ export default function SkillsSection() {
     <section className="section" id="skills">
       <div className="container">
         <Reveal>
-          <h2><span className="section-index">[03] //</span> Skills &amp; Capabilities</h2>
+          <h2>Skills &amp; Capabilities</h2>
           <p style={{ marginBottom: "2rem" }}>
             Tools, languages, and frameworks I work with.
           </p>

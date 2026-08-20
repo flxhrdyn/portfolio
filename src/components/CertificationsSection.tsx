@@ -64,7 +64,7 @@ export default function CertificationsSection() {
     <section className="section" id="certifications">
       <div className="container">
         <Reveal>
-          <h2><span className="section-index">[04] //</span> Certifications &amp; Research</h2>
+          <h2>Certifications &amp; Research</h2>
           <p style={{ marginBottom: "2rem" }}>
             Published research, certifications, and key milestones.
           </p>

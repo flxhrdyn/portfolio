@@ -7,7 +7,7 @@ export default function ContactSection() {
       <div className="container">
         <Reveal>
           <div className="contact-card">
-            <h2 style={{ borderBottom: "none", paddingBottom: 0, textAlign: "center", marginBottom: "0.75rem" }}><span className="section-index">[05] //</span> Get in Touch</h2>
+            <h2 style={{ borderBottom: "none", paddingBottom: 0, textAlign: "center", marginBottom: "0.75rem" }}>Get in Touch</h2>
             <p className="contact-text">Have an interesting project, job, or consultation requirement? Let&apos;s build something robust together.</p>
 
             <EmailReveal />
