@@ -2162,6 +2162,11 @@
 
     .research-featured-card:hover {
       border-color: var(--text-secondary);
+      background-color: rgba(255, 255, 255, 0.035);
+    }
+
+    [data-theme="light"] .research-featured-card:hover {
+      background-color: rgba(0, 0, 0, 0.025);
     }
 
     .research-card-header {
