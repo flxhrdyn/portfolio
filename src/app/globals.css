@@ -460,14 +460,13 @@
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 0.65rem;
-      transition: transform 150ms ease, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease, box-shadow 150ms ease;
+      transition: transform 150ms ease, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
       border: 1px solid transparent;
     }
 
     .btn-pill:hover {
       transform: translateY(-1px);
-      box-shadow: var(--shadow-hover);
+      box-shadow: none;
     }
 
     .btn-pill:active {
@@ -1623,7 +1622,8 @@
       font-family: var(--font-mono);
       font-size: 0.75rem;
       pointer-events: none;
-      box-shadow: var(--shadow-tooltip);
+      box-shadow: none;
+      border: 1px solid var(--border-color);
     }
 
     .heatmap-cell .tooltip::after {
@@ -2179,12 +2179,12 @@
       flex-direction: column;
       justify-content: space-between;
       position: relative;
-      transition: border-color var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+      transition: border-color var(--transition-speed) ease;
     }
 
     .cert-publication-card:hover {
       border-color: var(--accent-color);
-      box-shadow: var(--shadow-hover);
+      box-shadow: none;
     }
 
     .accomplishment-top {
@@ -2609,7 +2609,7 @@
         padding: 1.5rem;
         gap: 1.25rem;
         align-items: flex-start;
-        box-shadow: var(--shadow-nav);
+        box-shadow: none;
       }
 
       .nav-links.active {
