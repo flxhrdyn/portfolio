@@ -2794,6 +2794,7 @@
       display: flex;
       flex-direction: column;
       gap: 0.85rem;
+      padding-top: 0.25rem;
     }
 
     .contact-minimal-availability {
@@ -2901,7 +2902,6 @@
     .contact-minimal-right {
       display: flex;
       flex-direction: column;
-      border-top: 1px solid var(--border-color);
     }
 
     .contact-minimal-row {
@@ -2909,7 +2909,7 @@
       flex-direction: row;
       align-items: center;
       justify-content: space-between;
-      padding: 1.1rem 0.65rem;
+      padding: 0.95rem 0.65rem;
       border-bottom: 1px solid var(--border-color);
       text-decoration: none;
       border-radius: var(--radius-sm);
