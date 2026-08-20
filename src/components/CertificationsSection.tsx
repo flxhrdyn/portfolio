@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import { m, useReducedMotion, type Variants } from "motion/react";
 import Modal from "./Modal";
 import ResearchPaperBody from "./ResearchPaperBody";
@@ -64,13 +64,8 @@ const MODEL_ROWS = [
   { id: "inception-v3", rank: 3, colorClass: "rank-3" },
 ] as const;
 
-const PAGE_DOMAINS = [
-  "AI & ML",
-  "Analytics & Math",
-  "Software & Systems",
-] as const;
-
 const ITEMS_PER_PAGE = 4;
+const AUTO_ROTATE_MS = 4000;
 
 export default function CertificationsSection() {
   const [researchOpen, setResearchOpen] = useState(false);
@@ -78,6 +73,7 @@ export default function CertificationsSection() {
   const [certPage, setCertPage] = useState(0);
   const reduceMotion = useReducedMotion();
   const paper = writing[0];
+  const hoveredRef = useRef(false);
 
   if (!paper) return null;
 
@@ -88,6 +84,24 @@ export default function CertificationsSection() {
     (certPage + 1) * ITEMS_PER_PAGE
   );
   const startIndex = certPage * ITEMS_PER_PAGE;
+
+  const goNext = useCallback(
+    () => setCertPage((p) => (p + 1) % totalPages),
+    [totalPages]
+  );
+  const goPrev = useCallback(
+    () => setCertPage((p) => (p - 1 + totalPages) % totalPages),
+    [totalPages]
+  );
+
+  // Auto-rotate — pauses while card is hovered
+  useEffect(() => {
+    if (reduceMotion) return;
+    const id = setInterval(() => {
+      if (!hoveredRef.current) goNext();
+    }, AUTO_ROTATE_MS);
+    return () => clearInterval(id);
+  }, [goNext, reduceMotion]);
 
   return (
     <section className="section" id="research">
@@ -230,9 +244,13 @@ export default function CertificationsSection() {
             </article>
           </Reveal>
 
-          {/* RIGHT: VERIFIED CERTIFICATIONS LEDGER (PAGINATED BY DOMAIN) */}
+          {/* RIGHT: VERIFIED CERTIFICATIONS LEDGER (AUTO-ROTATING, INFINITE NAV) */}
           <Reveal delay={0.06} style={{ height: "100%" }}>
-            <div className="certs-stack-container">
+            <div
+              className="certs-stack-container"
+              onMouseEnter={() => { hoveredRef.current = true; }}
+              onMouseLeave={() => { hoveredRef.current = false; }}
+            >
               <div className="certs-stack-header">
                 <span className="certs-header-badge">VERIFIED CERTIFICATIONS</span>
                 <span className="certs-count-pill">{certifications.length} Certs</span>
@@ -309,7 +327,7 @@ export default function CertificationsSection() {
                 </m.div>
               )}
 
-              {/* PAGINATION FOOTER */}
+              {/* FOOTER: infinite ← → nav only */}
               <div className="certs-pagination-footer">
                 <span className="certs-page-info">
                   Page {certPage + 1} of {totalPages}
@@ -319,29 +337,16 @@ export default function CertificationsSection() {
                   <button
                     type="button"
                     className="certs-page-btn arrow"
-                    onClick={() => setCertPage((p) => Math.max(0, p - 1))}
-                    disabled={certPage === 0}
+                    onClick={goPrev}
                     aria-label="Previous page"
                   >
                     ←
                   </button>
 
-                  {Array.from({ length: totalPages }).map((_, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      className={`certs-page-btn num ${certPage === idx ? "active" : ""}`}
-                      onClick={() => setCertPage(idx)}
-                    >
-                      {idx + 1}
-                    </button>
-                  ))}
-
                   <button
                     type="button"
                     className="certs-page-btn arrow"
-                    onClick={() => setCertPage((p) => Math.min(totalPages - 1, p + 1))}
-                    disabled={certPage === totalPages - 1}
+                    onClick={goNext}
                     aria-label="Next page"
                   >
                     →
