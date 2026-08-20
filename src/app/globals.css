@@ -995,10 +995,23 @@
       height: 100%;
       min-height: 320px;
       display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #050507;
+      align-items: stretch;
+      justify-content: stretch;
+      background-color: var(--bg-secondary);
       overflow: hidden;
+      position: relative;
+    }
+
+    .bento-demo-wrapper .project-thumb {
+      width: 100%;
+      height: 100%;
+      aspect-ratio: auto;
+      min-height: 340px;
+    }
+
+    .bento-demo-wrapper .project-thumb-featured {
+      border: none;
+      border-radius: 0;
     }
 
     .bento-video-player {
@@ -1256,8 +1269,9 @@
     }
 
     .project-thumb-featured {
-      border-radius: var(--radius-md);
-      border: 1px solid var(--border-color);
+      position: relative;
+      width: 100%;
+      height: 100%;
     }
 
     /* Screenshots are wide UI captures - stretching one to the text column's full
