@@ -58,7 +58,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
         <Reveal>
           <h2>Featured Projects</h2>
           <p style={{ marginBottom: "2rem", maxWidth: "55ch" }}>
-            Production AI pipelines, retrieval architectures, and deep learning models shipped end-to-end.
+            AI systems, intelligent agents, and full-stack machine learning applications.
           </p>
         </Reveal>
 
