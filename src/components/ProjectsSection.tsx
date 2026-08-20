@@ -56,7 +56,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
     <section className="section" id="projects">
       <div className="container">
         <Reveal>
-          <div className="section-eyebrow">01 // PROJECTS</div>
+          <div className="section-eyebrow">● [01] // FEATURED PROJECTS</div>
           <h2>Featured Projects</h2>
           <p style={{ marginBottom: "2rem" }}>
             Production AI pipelines, retrieval architectures, and deep learning models shipped end-to-end.

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { GeistPixelSquare } from "geist/font/pixel";
 import ThemeScript from "@/components/ThemeScript";
 import MotionProvider from "@/components/MotionProvider";
 import "./globals.css";
@@ -33,7 +34,12 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" data-theme="light" className={`${GeistSans.variable} ${GeistMono.variable}`} suppressHydrationWarning>
+    <html
+      lang="en"
+      data-theme="light"
+      className={`${GeistSans.variable} ${GeistMono.variable} ${GeistPixelSquare.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <ThemeScript />
       </head>

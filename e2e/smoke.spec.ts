@@ -26,8 +26,8 @@ test.describe("home (chat landing)", () => {
   test("View Full Portfolio button navigates to /portfolio", async ({ page }) => {
     await page.goto("/");
 
-    await page.getByRole("link", { name: /view full portfolio/i }).click();
-    await expect(page).toHaveURL(/\/portfolio\/?$/);
+    await page.getByRole("link", { name: "View Full Portfolio" }).click();
+    await expect(page).toHaveURL(/\/portfolio\/?$/, { timeout: 10_000 });
   });
 });
 

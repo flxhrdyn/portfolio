@@ -11,10 +11,8 @@ export default function PortfolioHero() {
         <div className="hero-text-col">
           <Reveal className="hero-title-group">
             <div className="hero-eyebrow">
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z" />
-              </svg>
-              <span>AI ENGINEER &amp; DATA SCIENTIST</span>
+              <span className="telemetry-status-dot" aria-hidden="true" style={{ width: "6px", height: "6px" }} />
+              <span>ACTIVE // AI ENGINEER &amp; DATA SCIENTIST</span>
             </div>
             <h1 className="hero-title">Felix Windriyareksa Hardyan</h1>
             <p className="hero-description">
