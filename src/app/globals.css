@@ -2060,7 +2060,7 @@
       color: var(--text-secondary);
       flex-shrink: 0;
       opacity: 0.75;
-      transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease, filter 0.2s ease;
+      transition: opacity 0.2s ease, color 0.2s ease, filter 0.2s ease;
     }
 
     .spec-matrix-tag-text {
@@ -2075,29 +2075,27 @@
     .spec-matrix-tag:hover .spec-skill-icon {
       opacity: 1;
       color: #ffffff;
-      transform: scale(1.18);
       filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.75));
     }
 
     .spec-matrix-tag:hover .spec-matrix-tag-text {
       color: #ffffff;
-      font-weight: 600;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+      text-shadow: 0 0 8px rgba(255, 255, 255, 0.45);
     }
 
     [data-theme="light"] .spec-matrix-tag-text {
-      color: var(--text-primary);
+      color: var(--text-secondary);
     }
 
     [data-theme="light"] .spec-matrix-tag:hover .spec-skill-icon {
+      opacity: 1;
       color: #000000;
-      filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.35));
+      filter: drop-shadow(0 0 4px rgba(0, 0, 0, 0.3));
     }
 
     [data-theme="light"] .spec-matrix-tag:hover .spec-matrix-tag-text {
       color: #000000;
-      font-weight: 600;
-      text-shadow: 0 0 1px rgba(0, 0, 0, 0.3);
+      text-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
     }
 
     /* Language row specific */
