@@ -2321,6 +2321,10 @@
       font-weight: 500;
       color: var(--text-secondary);
       margin-bottom: 0.5rem;
+      max-width: 55ch;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     /* CONTACT SECTION & EMAIL REVEAL */
@@ -2328,7 +2332,7 @@
       border-top: 1px solid var(--border-color);
       padding: 3.5rem 1.5rem 0;
       text-align: center;
-      max-width: 680px;
+      max-width: 520px;
       margin: 0 auto;
     }
 
@@ -2336,6 +2340,9 @@
       font-size: 1rem;
       color: var(--text-secondary);
       margin-bottom: 1.5rem;
+      max-width: 48ch;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .email-reveal-wrapper {

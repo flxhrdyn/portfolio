@@ -32,7 +32,7 @@ export default function ExperienceSection() {
       <div className="container">
         <Reveal>
           <h2>Experience &amp; Education</h2>
-          <p style={{ marginBottom: "2.5rem" }}>
+          <p style={{ marginBottom: "2.5rem", maxWidth: "55ch" }}>
             Professional roles, research experience, and academic background.
           </p>
         </Reveal>

@@ -65,7 +65,7 @@ export default function CertificationsSection() {
       <div className="container">
         <Reveal>
           <h2>Certifications &amp; Research</h2>
-          <p style={{ marginBottom: "2rem" }}>
+          <p style={{ marginBottom: "2rem", maxWidth: "55ch" }}>
             Published research, certifications, and key milestones.
           </p>
         </Reveal>

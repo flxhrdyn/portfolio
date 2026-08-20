@@ -57,7 +57,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
       <div className="container">
         <Reveal>
           <h2>Featured Projects</h2>
-          <p style={{ marginBottom: "2rem" }}>
+          <p style={{ marginBottom: "2rem", maxWidth: "55ch" }}>
             Production AI pipelines, retrieval architectures, and deep learning models shipped end-to-end.
           </p>
         </Reveal>

@@ -53,7 +53,7 @@ export default function SkillsSection() {
       <div className="container">
         <Reveal>
           <h2>Skills &amp; Capabilities</h2>
-          <p style={{ marginBottom: "2rem" }}>
+          <p style={{ marginBottom: "2rem", maxWidth: "55ch" }}>
             Tools, languages, and frameworks I work with.
           </p>
         </Reveal>
