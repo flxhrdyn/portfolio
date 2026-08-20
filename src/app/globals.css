@@ -2301,16 +2301,17 @@
       font-weight: 700;
       padding: 0.1rem 0.35rem;
       border-radius: 3px;
-      background-color: rgba(59, 130, 246, 0.15);
-      color: #60a5fa;
-      border: 1px solid rgba(59, 130, 246, 0.3);
+      background-color: rgba(46, 160, 67, 0.15);
+      color: #3fb950;
+      border: 1px solid rgba(46, 160, 67, 0.3);
       text-transform: uppercase;
       letter-spacing: 0.03em;
     }
 
     [data-theme="light"] .leaderboard-badge {
-      background-color: rgba(59, 130, 246, 0.1);
-      color: #2563eb;
+      background-color: rgba(26, 127, 55, 0.1);
+      color: #1a7f37;
+      border-color: rgba(26, 127, 55, 0.25);
     }
 
     .leaderboard-rows {
@@ -2400,48 +2401,31 @@
     }
 
     .leaderboard-bar-fill.rank-1 {
-      background-color: #3b82f6;
+      background-color: #2ea043;
     }
 
     .leaderboard-bar-fill.rank-2 {
-      background-color: #ea580c;
+      background-color: #238636;
+      opacity: 0.85;
     }
 
     .leaderboard-bar-fill.rank-3 {
-      background-color: #d97706;
+      background-color: #196c2e;
+      opacity: 0.7;
     }
 
-    /* ERROR BAR / CONFIDENCE INTERVAL WHISKER (Scale / AI Benchmark style) */
-    .error-bar-whisker {
-      position: absolute;
-      right: 0;
-      top: 50%;
-      transform: translate(50%, -50%);
-      width: 16px;
-      height: 8px;
-      pointer-events: none;
+    [data-theme="light"] .leaderboard-bar-fill.rank-1 {
+      background-color: #1a7f37;
     }
 
-    .error-bar-whisker::before {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 50%;
-      height: 1.5px;
-      background-color: var(--text-primary);
-      transform: translateY(-50%);
+    [data-theme="light"] .leaderboard-bar-fill.rank-2 {
+      background-color: #2da44e;
+      opacity: 0.85;
     }
 
-    .error-bar-whisker::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 1.5px;
-      background-color: var(--text-primary);
-      box-shadow: 14.5px 0 0 0 var(--text-primary);
+    [data-theme="light"] .leaderboard-bar-fill.rank-3 {
+      background-color: #4ac26b;
+      opacity: 0.7;
     }
 
     .research-summary-text {

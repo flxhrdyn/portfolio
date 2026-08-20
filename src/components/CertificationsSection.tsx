@@ -31,35 +31,38 @@ const itemVariants: Variants = {
   },
 };
 
-const BENCHMARK_DATA = {
+const BENCHMARK_METRICS = {
   testing: {
-    label: "Testing Accuracy",
-    subtitle: "Generalization performance on unseen test dataset",
-    ranks: [
-      { name: "mobilenet-v2", score: "89.60%", val: 89.6, color: "rank-1", badge: "Optimal" },
-      { name: "coralnet-baseline", score: "88.80%", val: 88.8, color: "rank-2", badge: null },
-      { name: "inception-v3", score: "84.80%", val: 84.8, color: "rank-3", badge: null },
-    ],
+    label: "Testing",
+    scores: {
+      "mobilenet-v2": { score: "89.60%", val: 89.6, badge: "Optimal" },
+      "coralnet-baseline": { score: "88.80%", val: 88.8, badge: null },
+      "inception-v3": { score: "84.80%", val: 84.8, badge: null },
+    },
   },
   validation: {
-    label: "Validation Accuracy",
-    subtitle: "Checkpoint evaluation across training epochs",
-    ranks: [
-      { name: "mobilenet-v2", score: "88.00%", val: 88.0, color: "rank-1", badge: "Optimal" },
-      { name: "inception-v3", score: "86.40%", val: 86.4, color: "rank-2", badge: null },
-      { name: "coralnet-baseline", score: "85.60%", val: 85.6, color: "rank-3", badge: null },
-    ],
+    label: "Validation",
+    scores: {
+      "mobilenet-v2": { score: "88.00%", val: 88.0, badge: "Optimal" },
+      "coralnet-baseline": { score: "85.60%", val: 85.6, badge: null },
+      "inception-v3": { score: "86.40%", val: 86.4, badge: null },
+    },
   },
   training: {
-    label: "Training Accuracy",
-    subtitle: "Convergence accuracy across 50 epochs",
-    ranks: [
-      { name: "mobilenet-v2", score: "97.20%", val: 97.2, color: "rank-1", badge: "Optimal" },
-      { name: "inception-v3", score: "96.90%", val: 96.9, color: "rank-2", badge: null },
-      { name: "coralnet-baseline", score: "89.10%", val: 89.1, color: "rank-3", badge: null },
-    ],
+    label: "Training",
+    scores: {
+      "mobilenet-v2": { score: "97.20%", val: 97.2, badge: "Optimal" },
+      "coralnet-baseline": { score: "89.10%", val: 89.1, badge: null },
+      "inception-v3": { score: "96.90%", val: 96.9, badge: null },
+    },
   },
 } as const;
+
+const MODEL_ROWS = [
+  { id: "mobilenet-v2", rank: 1, colorClass: "rank-1" },
+  { id: "coralnet-baseline", rank: 2, colorClass: "rank-2" },
+  { id: "inception-v3", rank: 3, colorClass: "rank-3" },
+] as const;
 
 export default function CertificationsSection() {
   const [researchOpen, setResearchOpen] = useState(false);
@@ -69,7 +72,7 @@ export default function CertificationsSection() {
 
   if (!paper) return null;
 
-  const currentBenchmark = BENCHMARK_DATA[metricType];
+  const currentScores = BENCHMARK_METRICS[metricType].scores;
 
   return (
     <section className="section" id="research">
@@ -101,12 +104,12 @@ export default function CertificationsSection() {
                   Ulfa H., Felix W. Hardyan, Faizah R., Ali A., Fanka A., Mario M.
                 </p>
 
-                {/* EXACT LEADERBOARD MODEL BENCHMARK CARD */}
+                {/* EXACT LEADERBOARD MODEL BENCHMARK CARD (GITHUB GREEN ACCENT) */}
                 <div className="leaderboard-benchmark-card">
                   <div className="leaderboard-header-row">
                     <div>
                       <h4 className="leaderboard-title">Model Benchmark</h4>
-                      <p className="leaderboard-subtitle">{currentBenchmark.subtitle}</p>
+                      <p className="leaderboard-subtitle">Classification accuracy across 3-class marine reef health</p>
                     </div>
 
                     <div className="leaderboard-tab-switcher">
@@ -135,28 +138,29 @@ export default function CertificationsSection() {
                   </div>
 
                   <div className="leaderboard-rows">
-                    {currentBenchmark.ranks.map((model, idx) => (
-                      <div key={model.name} className="leaderboard-row">
-                        <div className="leaderboard-rank-badge">{idx + 1}</div>
-                        <div className="leaderboard-row-content">
-                          <div className="leaderboard-meta-top">
-                            <div className="leaderboard-model-info">
-                              <span className="leaderboard-model-name">{model.name}</span>
-                              {model.badge && <span className="leaderboard-badge">{model.badge}</span>}
+                    {MODEL_ROWS.map((model) => {
+                      const data = currentScores[model.id];
+                      return (
+                        <div key={model.id} className="leaderboard-row">
+                          <div className="leaderboard-rank-badge">{model.rank}</div>
+                          <div className="leaderboard-row-content">
+                            <div className="leaderboard-meta-top">
+                              <div className="leaderboard-model-info">
+                                <span className="leaderboard-model-name">{model.id}</span>
+                                {data.badge && <span className="leaderboard-badge">{data.badge}</span>}
+                              </div>
+                              <span className="leaderboard-score-val">{data.score}</span>
                             </div>
-                            <span className="leaderboard-score-val">{model.score}</span>
-                          </div>
-                          <div className="leaderboard-bar-track">
-                            <div
-                              className={`leaderboard-bar-fill ${model.color}`}
-                              style={{ width: `${model.val}%` }}
-                            >
-                              <span className="error-bar-whisker" />
+                            <div className="leaderboard-bar-track">
+                              <div
+                                className={`leaderboard-bar-fill ${model.colorClass}`}
+                                style={{ width: `${data.val}%` }}
+                              />
                             </div>
                           </div>
                         </div>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
