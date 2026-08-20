@@ -113,27 +113,25 @@ export default function CertificationsSection() {
                     </div>
 
                     <div className="leaderboard-tab-switcher">
-                      <button
-                        type="button"
-                        className={`leaderboard-tab-btn ${metricType === "testing" ? "active" : ""}`}
-                        onClick={() => setMetricType("testing")}
-                      >
-                        Testing
-                      </button>
-                      <button
-                        type="button"
-                        className={`leaderboard-tab-btn ${metricType === "validation" ? "active" : ""}`}
-                        onClick={() => setMetricType("validation")}
-                      >
-                        Validation
-                      </button>
-                      <button
-                        type="button"
-                        className={`leaderboard-tab-btn ${metricType === "training" ? "active" : ""}`}
-                        onClick={() => setMetricType("training")}
-                      >
-                        Training
-                      </button>
+                      {(["testing", "validation", "training"] as const).map((t) => (
+                        <button
+                          key={t}
+                          type="button"
+                          className={`leaderboard-tab-btn ${metricType === t ? "active" : ""}`}
+                          onClick={() => setMetricType(t)}
+                        >
+                          {metricType === t && !reduceMotion && (
+                            <m.span
+                              layoutId="activeMetricPill"
+                              className="leaderboard-tab-active-pill"
+                              transition={{ type: "spring", stiffness: 450, damping: 35 }}
+                            />
+                          )}
+                          <span className="leaderboard-tab-label">
+                            {t.charAt(0).toUpperCase() + t.slice(1)}
+                          </span>
+                        </button>
+                      ))}
                     </div>
                   </div>
 
@@ -149,13 +147,34 @@ export default function CertificationsSection() {
                                 <span className="leaderboard-model-name">{model.id}</span>
                                 {data.badge && <span className="leaderboard-badge">{data.badge}</span>}
                               </div>
-                              <span className="leaderboard-score-val">{data.score}</span>
+                              {reduceMotion ? (
+                                <span className="leaderboard-score-val">{data.score}</span>
+                              ) : (
+                                <m.span
+                                  key={`${model.id}-${data.score}`}
+                                  initial={{ opacity: 0, y: -3 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ duration: 0.25 }}
+                                  className="leaderboard-score-val"
+                                >
+                                  {data.score}
+                                </m.span>
+                              )}
                             </div>
                             <div className="leaderboard-bar-track">
-                              <div
-                                className={`leaderboard-bar-fill ${model.colorClass}`}
-                                style={{ width: `${data.val}%` }}
-                              />
+                              {reduceMotion ? (
+                                <div
+                                  className={`leaderboard-bar-fill ${model.colorClass}`}
+                                  style={{ width: `${data.val}%` }}
+                                />
+                              ) : (
+                                <m.div
+                                  className={`leaderboard-bar-fill ${model.colorClass}`}
+                                  initial={false}
+                                  animate={{ width: `${data.val}%` }}
+                                  transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                                />
+                              )}
                             </div>
                           </div>
                         </div>

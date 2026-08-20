@@ -2268,16 +2268,20 @@
     }
 
     .leaderboard-tab-btn {
+      position: relative;
       font-family: var(--font-mono);
       font-size: 0.65rem;
       font-weight: 600;
-      padding: 0.2rem 0.45rem;
+      padding: 0.22rem 0.5rem;
       border-radius: 3px;
       border: none;
       background: transparent;
       color: var(--text-secondary);
       cursor: pointer;
-      transition: all 0.16s ease;
+      transition: color 0.16s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .leaderboard-tab-btn:hover {
@@ -2285,8 +2289,20 @@
     }
 
     .leaderboard-tab-btn.active {
-      background-color: var(--text-primary);
       color: var(--bg-primary);
+    }
+
+    .leaderboard-tab-active-pill {
+      position: absolute;
+      inset: 0;
+      background-color: var(--text-primary);
+      border-radius: 3px;
+      z-index: 1;
+    }
+
+    .leaderboard-tab-label {
+      position: relative;
+      z-index: 2;
     }
 
     .leaderboard-model-info {
