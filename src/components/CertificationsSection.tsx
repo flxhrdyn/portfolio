@@ -1,233 +1,221 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { AnimatePresence, m } from "motion/react";
+import { useState } from "react";
 import Modal from "./Modal";
 import ResearchPaperBody from "./ResearchPaperBody";
 import Reveal from "./Reveal";
 import certifications from "@/content/certifications.json";
 import writing from "@/content/writing.json";
 
-function CertLogo({ logo, code, color, issuer }: { logo: string; code: string; color: string; issuer: string }) {
-  const [failed, setFailed] = useState(false);
-
-  if (failed) {
-    return (
-      <div
-        className="accomplishment-icon-badge"
-        style={{ background: `${color}1a`, color, fontWeight: 800, fontSize: "0.8rem", fontFamily: "var(--font-mono)" }}
-      >
-        {code}
-      </div>
-    );
-  }
+function IssuerBadge({ code }: { code: string }) {
+  const getLabel = () => {
+    switch (code) {
+      case "BNSP":
+        return "BNSP";
+      case "STANF":
+        return "STANFORD";
+      case "TF_DD":
+      case "TF_DV":
+        return "DL.AI";
+      case "SQL":
+        return "SQL";
+      default:
+        return code;
+    }
+  };
 
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={logo}
-      alt={`${issuer} logo`}
-      width={32}
-      height={32}
-      loading="lazy"
-      onError={() => setFailed(true)}
-      className="accomplishment-icon-badge"
-      style={{ objectFit: "contain", background: "#fff" }}
-    />
+    <span className="cert-issuer-monogram" aria-hidden="true">
+      {getLabel()}
+    </span>
   );
 }
 
 export default function CertificationsSection() {
-  const [index, setIndex] = useState(0);
   const [researchOpen, setResearchOpen] = useState(false);
-  const [paused, setPaused] = useState(false);
-  const hoveringRef = useRef(false);
   const paper = writing[0];
-
-  const total = certifications.length;
-  const next = () => setIndex((i) => (i + 1) % total);
-  const prev = () => setIndex((i) => (i - 1 + total) % total);
-
-  useEffect(() => {
-    if (paused) return;
-    const interval = setInterval(() => {
-      if (!hoveringRef.current) setIndex((i) => (i + 1) % total);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [total, paused]);
-
-  const active = certifications[index];
 
   if (!paper) return null;
 
   return (
-    <section className="section" id="certifications">
+    <section className="section" id="research">
+      {/* Anchor fallback for legacy links */}
+      <span id="certifications" style={{ position: "absolute", top: 0, pointerEvents: "none" }} />
+
       <div className="container">
         <Reveal>
-          <h2>Certifications &amp; Research</h2>
-          <p style={{ marginBottom: "2rem", maxWidth: "55ch" }}>
-            Published research, certifications, and key milestones.
+          <h2>Research &amp; Certifications</h2>
+          <p style={{ marginBottom: "2.25rem", maxWidth: "60ch" }}>
+            Peer-reviewed scientific publications, national competencies, and verified technical credentials.
           </p>
         </Reveal>
 
-        <div className="grid-two-column">
+        {/* ASYMMETRIC ENGINEERING BENTO */}
+        <div className="research-bento-grid">
+          {/* LEFT: FEATURED RESEARCH PAPER CARD */}
           <Reveal style={{ height: "100%" }}>
-            <button
-              type="button"
-              className="cert-publication-card"
-              onClick={() => setResearchOpen(true)}
-              style={{ cursor: "pointer", display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%" }}
-            >
-              <div>
-                <div className="accomplishment-top">
-                  <span className="badge">{paper.kind}</span>
-                  <span className="accomplishment-icon-badge">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                      <polyline points="14 2 14 8 20 8"></polyline>
-                    </svg>
-                  </span>
+            <article className="research-featured-card">
+              <div className="research-card-header">
+                <div className="research-header-badges">
+                  <span className="research-type-badge">{paper.kind}</span>
+                  <span className="research-journal-tag">{paper.journal}</span>
                 </div>
-                <h3 className="accomplishment-title">{paper.title}</h3>
+                <span className="research-volume-tag">{paper.volume}</span>
+              </div>
+
+              <div className="research-card-body">
+                <h3 className="research-paper-title">{paper.title}</h3>
+                
+                <div className="research-authors-row">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="research-icon">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+                  </svg>
+                  <span className="research-authors-text">{paper.authors}</span>
+                </div>
+
+                {/* BENCHMARK METRICS STRIP */}
                 {paper.stats && (
-                  <div className="accomplishment-stats">
+                  <div className="research-metrics-strip">
                     {paper.stats.map((stat) => (
-                      <div key={stat.label}>
-                        <div className="accomplishment-stat-value">{stat.value}</div>
-                        <div className="accomplishment-stat-label">{stat.label}</div>
+                      <div key={stat.label} className="research-metric-box">
+                        <div className="research-metric-value">{stat.value}</div>
+                        <div className="research-metric-label">{stat.label}</div>
                       </div>
+                    ))}
+                    <div className="research-metric-box">
+                      <div className="research-metric-value">3 Classes</div>
+                      <div className="research-metric-label">Healthy · Bleached · Dead</div>
+                    </div>
+                  </div>
+                )}
+
+                <p className="research-summary-text">{paper.summary}</p>
+
+                {/* ARCHITECTURE TAGS */}
+                {paper.tags && (
+                  <div className="research-tags-row">
+                    {paper.tags.map((t) => (
+                      <span key={t} className="research-spec-pill">
+                        {t}
+                      </span>
                     ))}
                   </div>
                 )}
-                <p className="accomplishment-desc">{paper.summary}</p>
               </div>
-              <div className="accomplishment-footer">
-                <span className="accomplishment-link">
-                  READ RESEARCH PAPER
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+
+              <div className="research-card-footer">
+                <button
+                  type="button"
+                  onClick={() => setResearchOpen(true)}
+                  className="research-action-btn primary"
+                >
+                  Read Abstract &amp; Methods
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <polyline points="12 5 19 12 12 19"></polyline>
                   </svg>
-                </span>
-              </div>
-            </button>
-          </Reveal>
+                </button>
 
-          <Reveal delay={0.08} style={{ height: "100%" }}>
-          <div
-            className="cert-publication-card carousel-card-wrapper"
-            style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", height: "100%", position: "relative", overflow: "hidden" }}
-            onMouseEnter={() => (hoveringRef.current = true)}
-            onMouseLeave={() => (hoveringRef.current = false)}
-          >
-            <AnimatePresence mode="wait" initial={false}>
-              <m.div
-                key={active.code}
-                initial={{ opacity: 0, x: 16 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -16 }}
-                transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-              >
-                <div className="accomplishment-top">
-                  <CertLogo logo={active.logo} code={active.code} color={active.color} issuer={active.issuer} />
-                  <span className="badge">{active.badge}</span>
-                </div>
-
-                <h4 className="accomplishment-title" style={{ marginBottom: "0.3rem" }}>{active.title}</h4>
-                <div className="meta-mono">
-                  {active.issuer} • {active.code}
-                </div>
-
-                <p className="accomplishment-quote" style={{ marginTop: "0.75rem" }}>
-                  &ldquo;{active.description}&rdquo;
-                </p>
-                {active.url && (
+                {paper.doi && (
                   <a
-                    href={active.url}
+                    href={paper.doi}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="project-link"
-                    style={{ marginTop: "0.75rem", fontSize: "0.78rem" }}
+                    className="research-action-btn secondary"
                   >
-                    Verify Certificate
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
+                    View DOI Publication
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
                     </svg>
                   </a>
                 )}
-                <div style={{ marginTop: "0.75rem", fontSize: "0.78rem", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>
-                  {active.date}
-                </div>
-              </m.div>
-            </AnimatePresence>
+              </div>
+            </article>
+          </Reveal>
 
-            <div style={{ marginTop: "1.25rem", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-              <div style={{ display: "flex", gap: "0.4rem", alignItems: "center" }}>
-                {certifications.map((cert, i) => (
-                  <button
+          {/* RIGHT: VERIFIED ACCREDITATIONS STACK */}
+          <Reveal delay={0.08} style={{ height: "100%" }}>
+            <div className="certs-stack-container">
+              <div className="certs-stack-header">
+                <div className="certs-stack-title-wrap">
+                  <span className="certs-header-badge">VERIFIED ACCREDITATIONS</span>
+                  <span className="certs-count-pill">{certifications.length} Credentials</span>
+                </div>
+              </div>
+
+              <div className="certs-list-stack">
+                {certifications.map((cert) => (
+                  <a
                     key={cert.code}
-                    type="button"
-                    onClick={() => setIndex(i)}
-                    aria-label={`Go to ${cert.title}`}
-                    aria-current={i === index}
-                    className="carousel-dot-btn"
-                    style={{
-                      color: i === index ? "var(--accent-color)" : "var(--text-secondary)",
-                      opacity: i === index ? 1 : 0.35,
-                    }}
-                  />
+                    href={cert.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cert-stack-item"
+                  >
+                    <div className="cert-item-left">
+                      <IssuerBadge code={cert.code} />
+                      <div className="cert-item-info">
+                        <h4 className="cert-item-title">{cert.title}</h4>
+                        <div className="cert-item-meta">
+                          <span className="cert-issuer-name">{cert.issuer}</span>
+                          <span className="cert-meta-divider">•</span>
+                          <span className="cert-date-text">{cert.date}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="cert-item-right">
+                      <span className="cert-type-pill">{cert.badge}</span>
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="cert-arrow-icon">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                      </svg>
+                    </div>
+                  </a>
                 ))}
               </div>
-              <div style={{ display: "flex", gap: "0.25rem", alignItems: "center" }}>
-                <m.button
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => setPaused((p) => !p)}
-                  aria-label={paused ? "Resume auto-advance" : "Pause auto-advance"}
-                  aria-pressed={paused}
-                  className="carousel-nav-btn"
-                >
-                  {paused ? (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                      <polygon points="6 3 20 12 6 21 6 3"></polygon>
-                    </svg>
-                  ) : (
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                      <rect x="6" y="4" width="4" height="16"></rect>
-                      <rect x="14" y="4" width="4" height="16"></rect>
-                    </svg>
-                  )}
-                </m.button>
-                <m.button whileTap={{ scale: 0.9 }} onClick={prev} aria-label="Previous certification" className="carousel-nav-btn">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <polyline points="15 18 9 12 15 6"></polyline>
-                  </svg>
-                </m.button>
-                <m.button whileTap={{ scale: 0.9 }} onClick={next} aria-label="Next certification" className="carousel-nav-btn">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <polyline points="9 18 15 12 9 6"></polyline>
-                  </svg>
-                </m.button>
-              </div>
             </div>
-          </div>
           </Reveal>
         </div>
       </div>
 
-      <Modal id="research-modal" title="Research Paper Abstract & Details" isOpen={researchOpen} onClose={() => setResearchOpen(false)}>
+      {/* RESEARCH PAPER ABSTRACT MODAL */}
+      <Modal
+        id="research-modal"
+        title="Peer-Reviewed Research Abstract &amp; Architecture"
+        isOpen={researchOpen}
+        onClose={() => setResearchOpen(false)}
+      >
         <div className="modal-section">
-          <div className="meta-mono">{paper.kind}</div>
-          <h3 style={{ fontSize: "1.25rem", marginBottom: "0.75rem", color: "var(--text-primary)" }}>{paper.title}</h3>
+          <div className="meta-mono" style={{ color: "var(--text-secondary)", marginBottom: "0.4rem" }}>
+            {paper.journal} • {paper.volume}
+          </div>
+          <h3 style={{ fontSize: "1.25rem", marginBottom: "0.5rem", color: "var(--text-primary)", lineHeight: 1.35 }}>
+            {paper.title}
+          </h3>
+          <div style={{ fontSize: "0.82rem", color: "var(--text-secondary)", fontFamily: "var(--font-mono)", marginBottom: "1rem" }}>
+            {paper.issn}
+          </div>
         </div>
+
         <ResearchPaperBody paper={paper} />
-        <div className="modal-section" style={{ paddingTop: "0.5rem", borderTop: "1px solid var(--border-color)" }}>
-          <a href={paper.doi} target="_blank" rel="noopener noreferrer" className="project-link">
-            View full research paper
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
+
+        <div className="modal-section" style={{ paddingTop: "0.85rem", borderTop: "1px solid var(--border-color)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <span style={{ fontSize: "0.8rem", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>
+            DOI: 10.23960/jitet.v13i3.6591
+          </span>
+          <a
+            href={paper.doi}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-link"
+            style={{ fontSize: "0.85rem", fontWeight: 600 }}
+          >
+            Direct Journal Access ↗
           </a>
         </div>
       </Modal>

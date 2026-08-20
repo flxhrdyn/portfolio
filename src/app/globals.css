@@ -2129,156 +2129,415 @@
       font-size: 0.76rem;
     }
 
-    /* ACCOMPLISHMENTS & RESEARCH */
-    .grid-two-column {
+    /* RESEARCH & CERTIFICATIONS (ASYMMETRIC ENGINEERING BENTO) */
+    .research-bento-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      align-items: stretch;
+      grid-template-columns: 1.15fr 0.85fr;
       gap: 1.5rem;
       margin-top: 1.5rem;
+      align-items: stretch;
     }
 
-    .cert-publication-card {
+    @media (max-width: 960px) {
+      .research-bento-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+      }
+    }
+
+    /* LEFT: FEATURED RESEARCH PAPER CARD */
+    .research-featured-card {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius-lg);
-      padding: 1.5rem;
-      box-shadow: none;
+      padding: 1.75rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      height: 100%;
       position: relative;
-      transition: border-color var(--transition-speed) ease;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
     }
 
-    .cert-publication-card:hover {
-      border-color: var(--accent-color);
-      box-shadow: none;
+    .research-featured-card:hover {
+      border-color: var(--text-secondary);
     }
 
-    .accomplishment-top {
+    .research-card-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
     }
 
-    .accomplishment-icon-badge {
-      width: 32px;
-      height: 32px;
-      border-radius: var(--radius-sm);
+    .research-header-badges {
       display: flex;
       align-items: center;
-      justify-content: center;
-      background-color: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      color: var(--accent-text);
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .research-type-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: 4px;
+      background-color: var(--text-primary);
+      color: var(--bg-primary);
+    }
+
+    .research-journal-tag {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .research-volume-tag {
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      color: var(--text-secondary);
+      opacity: 0.85;
+    }
+
+    .research-card-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .research-paper-title {
+      font-size: 1.22rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1.35;
+      margin-bottom: 0.65rem;
+      letter-spacing: -0.01em;
+    }
+
+    .research-authors-row {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .research-icon {
+      color: var(--text-secondary);
       flex-shrink: 0;
     }
 
-    .accomplishment-icon-badge svg {
-      width: 16px;
-      height: 16px;
+    .research-authors-text {
+      font-family: var(--font-mono);
+      font-size: 0.76rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
     }
 
-    .accomplishment-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      line-height: 1.3;
-      margin-bottom: 1rem;
-    }
-
-    .accomplishment-stats {
+    /* Metrics Strip inside Research Card */
+    .research-metrics-strip {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 1rem;
-      padding-bottom: 1rem;
-      margin-bottom: 1rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+      padding: 0.95rem 0;
+      margin-bottom: 1.15rem;
+      border-top: 1px solid var(--border-color);
       border-bottom: 1px solid var(--border-color);
     }
 
-    .accomplishment-stat-value {
-      font-size: 1.5rem;
+    @media (max-width: 540px) {
+      .research-metrics-strip {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+      }
+    }
+
+    .research-metric-box {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .research-metric-value {
+      font-size: 1.35rem;
       font-weight: 700;
       color: var(--text-primary);
       line-height: 1.2;
+      font-family: var(--font-sans);
     }
 
-    .accomplishment-stat-label {
+    .research-metric-label {
       font-family: var(--font-mono);
       font-size: 0.68rem;
       font-weight: 600;
       letter-spacing: 0.03em;
       text-transform: uppercase;
       color: var(--text-secondary);
-      margin-top: 0.25rem;
+      margin-top: 0.2rem;
     }
 
-    .accomplishment-desc {
-      font-size: 0.9rem;
+    .research-summary-text {
+      font-size: 0.885rem;
       color: var(--text-secondary);
-      line-height: 1.55;
+      line-height: 1.6;
+      margin-bottom: 1.15rem;
     }
 
-    .accomplishment-quote {
-      font-size: 0.9rem;
+    .research-tags-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .research-spec-pill {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      background-color: rgba(255, 255, 255, 0.02);
       color: var(--text-secondary);
-      line-height: 1.55;
-      font-style: italic;
     }
 
-    .accomplishment-footer {
-      margin-top: 1.25rem;
+    [data-theme="light"] .research-spec-pill {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    .research-card-footer {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .research-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      padding: 0.55rem 0.95rem;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .research-action-btn.primary {
+      background-color: var(--text-primary);
+      color: var(--bg-primary);
+      border: 1px solid var(--text-primary);
+    }
+
+    .research-action-btn.primary:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+    }
+
+    .research-action-btn.secondary {
+      background-color: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border-color);
+    }
+
+    .research-action-btn.secondary:hover {
+      color: var(--text-primary);
+      border-color: var(--text-secondary);
+      transform: translateY(-1px);
+    }
+
+    /* RIGHT: VERIFIED ACCREDITATIONS STACK */
+    .certs-stack-container {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+    }
+
+    .certs-stack-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      padding-bottom: 1rem;
+      margin-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border-color);
     }
 
-    .accomplishment-link {
-      font-size: 0.78rem;
-      font-family: var(--font-mono);
-      color: var(--accent-text);
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .carousel-nav-btn {
-      background: none;
-      border: 1px solid var(--border-color);
-      border-radius: 50%;
-      width: 44px;
-      height: 44px;
+    .certs-stack-title-wrap {
       display: flex;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
+      justify-content: space-between;
+      width: 100%;
+    }
+
+    .certs-header-badge {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       color: var(--text-secondary);
     }
 
-    .carousel-dot-btn {
-      appearance: none;
-      background: none;
-      border: none;
-      padding: 0;
-      width: 44px;
-      height: 44px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+    .certs-count-pill {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      background-color: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-color);
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
     }
 
-    .carousel-dot-btn::before {
-      content: "";
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background-color: currentColor;
+    .certs-list-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex: 1;
+    }
+
+    .cert-stack-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.85rem;
+      padding: 0.85rem 0.75rem;
+      border-radius: 6px;
+      text-decoration: none;
+      border: 1px solid transparent;
+      transition: background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .cert-stack-item:not(:last-child) {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    [data-theme="light"] .cert-stack-item:not(:last-child) {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+    }
+
+    .cert-stack-item:hover {
+      background-color: rgba(255, 255, 255, 0.035);
+      border-color: var(--border-color);
+    }
+
+    [data-theme="light"] .cert-stack-item:hover {
+      background-color: rgba(0, 0, 0, 0.025);
+    }
+
+    .cert-item-left {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      min-width: 0;
+    }
+
+    .cert-issuer-monogram {
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      padding: 0.2rem 0.4rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      background-color: rgba(255, 255, 255, 0.04);
+      color: var(--text-secondary);
+      flex-shrink: 0;
+      margin-top: 0.15rem;
+    }
+
+    [data-theme="light"] .cert-issuer-monogram {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    .cert-item-info {
+      min-width: 0;
+    }
+
+    .cert-item-title {
+      font-family: var(--font-sans);
+      font-size: 0.885rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+      margin: 0;
+      transition: color 0.18s ease;
+    }
+
+    .cert-item-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-family: var(--font-mono);
+      font-size: 0.73rem;
+      color: var(--text-secondary);
+      margin-top: 0.25rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cert-issuer-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cert-meta-divider {
+      opacity: 0.5;
+      flex-shrink: 0;
+    }
+
+    .cert-date-text {
+      flex-shrink: 0;
+      opacity: 0.85;
+    }
+
+    .cert-item-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-shrink: 0;
+    }
+
+    .cert-type-pill {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-secondary);
+      background-color: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+    }
+
+    [data-theme="light"] .cert-type-pill {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    .cert-arrow-icon {
+      color: var(--text-secondary);
+      opacity: 0.5;
+      transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), color 0.18s ease;
+    }
+
+    .cert-stack-item:hover .cert-arrow-icon {
+      opacity: 1;
+      color: var(--text-primary);
+      transform: translate(2px, -2px);
     }
 
     .meta-mono {
