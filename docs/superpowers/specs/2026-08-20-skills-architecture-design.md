@@ -1,53 +1,48 @@
-# Design Spec: Skills & Capabilities — Bold Bento Grid with Scale/Groq Craft
+# Design Spec: Skills & Capabilities — Synaptic Architecture Grid
 
 **Date:** 2026-08-20  
 **Author:** flxhrdyn / Antigravity Impeccable  
 **Status:** Approved for Implementation  
-**Aesthetic References:** Groq Spec Grids, Scale AI interactive cards, Vercel clean flat architecture
+**Aesthetic References:** Groq Spec Sheet & Scale AI Synaptic Flow  
+**Rule:** 100% preserve existing categories and items from `content/skills.json`
 
 ---
 
-## 1. Vision & Copy Principle
+## 1. Objective & Content Integrity
 
-The **Skills & Capabilities** section presents Felix's technical toolkit with **bold, high-craft visual design** while keeping the copywriting **grounded, clear, and professional** — zero pretentious buzzwords or confusing labels.
+Redesign the **Skills & Capabilities** section with a bold, high-craft **Synaptic Grid Architecture** inspired by Groq and Scale AI, while preserving all existing technical items from `content/skills.json` verbatim:
 
-### Copywriting:
-- **Heading**: `Skills & Capabilities`
-- **Subtitle**: `Technologies, frameworks, and tools I use to build production AI systems.`
-- **Categories**:
-  1. `AI & Machine Learning` (9 core domains)
-  2. `ML Frameworks & Libraries` (9 frameworks & vector engines)
-  3. `Languages & Backend` (9 programming languages & backend runtimes)
-  4. `Cloud & Infrastructure` (6 deployment, MLOps, and hardware platforms)
-  5. `Languages & Communication` (English & Indonesian proficiency bar)
-
----
-
-## 2. Visual & Layout Architecture
-
-### Bento Grid Layout (2x2 Desktop, 1-col Mobile):
-- 4 primary modular cards with clean hairline borders (`border: 1px solid var(--border-color)`), flat surfaces (`background: var(--bg-card)`), and sharp corners (`border-radius: var(--radius-md)`).
-- **Category Header**:
-  - Number index + Category Title in bold Geist Sans (`1.1rem`, `font-weight: 700`).
-  - Subtle count tag in Geist Mono (e.g. `[ 09 ]` or `[ 9 tools ]`) aligned to the right.
-  - Hairline separator line beneath the header.
-
-### Skill Pill Grid (Interactive Chips):
-- Each skill is rendered inside a structured chip containing:
-  - **Custom SVG Logo** (16px, monochrome grayscale at rest, crisp high-contrast on hover).
-  - **Tool Name** in clean typography (`font-size: 0.88rem`, `font-weight: 600`).
-- **Interactive Micro-Motion (Groq & Scale AI)**:
-  - Hover: `transform: translateY(-2px)`, subtle background shift to `var(--bg-secondary)`, border highlight to `var(--text-primary)`.
-  - Icon lift: SVG logo scales to `1.08` with a smooth 150ms ease.
-
-### Bottom Metadata Strip (Languages & Bio):
-- A minimal full-width footer strip highlighting communication and bilingual proficiency:
-  - `Bahasa Indonesia (Native)`
-  - `English (Professional · TOEFL: 650)`
+### Categories & Content:
+1. **AI & Machine Learning (9 items)**:
+   - *Advanced RAG*, *AI Agents*, *Deep Learning*, *Computer Vision*, *Natural Language Processing*, *LLMs & GenAI*, *Prompt Engineering*, *PEFT & QLoRA*, *Anomaly Detection*.
+2. **ML Frameworks & Libraries (9 items)**:
+   - *PyTorch*, *TensorFlow*, *scikit-learn*, *LangChain*, *Pydantic AI*, *LlamaIndex & LlamaParse*, *Qdrant*, *FAISS*, *Hugging Face*.
+3. **Languages & Backend (9 items)**:
+   - *Python*, *SQL*, *TypeScript*, *FastAPI*, *Pandas*, *NumPy*, *REST APIs*, *React*, *Git & GitHub*.
+4. **Cloud & MLOps (6 items)**:
+   - *Docker*, *Microsoft Azure*, *Google Cloud (GCP)*, *MLOps Pipelines*, *CI/CD*, *NVIDIA DGX Systems*.
+5. **Languages & Bio (2 items)**:
+   - *Bahasa Indonesia (Native)*, *English (Professional, TOEFL: 650)*.
 
 ---
 
-## 3. Tech Stack & Logos Integration
+## 2. Layout & Visual Architecture
 
-- Directly integrate SVG logos for all tools: PyTorch, TensorFlow, scikit-learn, LangChain, PydanticAI, LlamaIndex, Qdrant, FAISS, Hugging Face, Python, TypeScript, SQL, FastAPI, Docker, NVIDIA DGX, GCP, Azure, React, Pandas, NumPy, Git.
-- Remove redundant standalone carousel marquee to create a unified, intentional presentation.
+### 4-Column Synaptic Grid (Desktop: 4 columns / 2x2 grid, Mobile: 1 column):
+- Clean, structured card containers with flat background (`var(--bg-card)`), hairline border (`border: 1px solid var(--border-color)`), and crisp corners (`border-radius: var(--radius-md)`).
+- **Column Header**:
+  - Category name in bold typography (`font-size: 1.05rem`, `font-weight: 700`).
+  - Monospace item counter tag (e.g. `[ 09 ]` / `[ 06 ]`) on the right.
+  - Hairline divider below header.
+
+### Interactive Skill Chips with Embedded SVG Icons:
+- Each item is styled as an interactive chip containing:
+  - SVG monochrome icon for matching tech items (PyTorch, TensorFlow, Docker, Python, Qdrant, etc.) or bespoke neural node icon for concepts (RAG, Agents, CV).
+  - Item name in clear typography (`font-size: 0.85rem`, `font-weight: 600`).
+- **Hover Micro-Motion**:
+  - `transform: translateY(-2px) scale(1.02)`.
+  - Border transition to high-contrast `var(--text-primary)`.
+  - Background transition to `var(--bg-secondary)`.
+
+### Bottom Languages & Bio Bar:
+- Structured horizontal spec bar displaying bilingual proficiency.
