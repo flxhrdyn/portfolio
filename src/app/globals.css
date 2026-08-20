@@ -2510,8 +2510,17 @@
       flex-direction: column;
       height: 100%;
       min-width: 0;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
     }
 
+    .certs-stack-container:hover {
+      border-color: var(--text-secondary);
+      background-color: rgba(255, 255, 255, 0.035);
+    }
+
+    [data-theme="light"] .certs-stack-container:hover {
+      background-color: rgba(0, 0, 0, 0.025);
+    }
     .certs-stack-header {
       display: flex;
       align-items: center;
