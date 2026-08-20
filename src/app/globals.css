@@ -2547,6 +2547,7 @@
     .certs-list-stack {
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
       flex: 1;
       gap: 0.35rem;
     }

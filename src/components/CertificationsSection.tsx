@@ -70,7 +70,7 @@ const PAGE_DOMAINS = [
   "Software & Systems",
 ] as const;
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 4;
 
 export default function CertificationsSection() {
   const [researchOpen, setResearchOpen] = useState(false);
