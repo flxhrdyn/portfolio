@@ -2917,13 +2917,13 @@
       transition: background-color 0.2s ease, padding 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .contact-minimal-row:not(.static-row):hover {
+    .contact-minimal-row:hover {
       background-color: rgba(255, 255, 255, 0.035);
       padding-left: 0.85rem;
       padding-right: 0.85rem;
     }
 
-    [data-theme="light"] .contact-minimal-row:not(.static-row):hover {
+    [data-theme="light"] .contact-minimal-row:hover {
       background-color: rgba(0, 0, 0, 0.025);
     }
 
@@ -2943,7 +2943,7 @@
       transition: color 0.2s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .contact-minimal-row:not(.static-row):hover .row-icon {
+    .contact-minimal-row:hover .row-icon {
       color: var(--text-primary);
       transform: scale(1.12);
     }
@@ -2957,7 +2957,7 @@
       transition: color 0.18s ease;
     }
 
-    .contact-minimal-row:not(.static-row):hover .row-title {
+    .contact-minimal-row:hover .row-title {
       color: var(--text-primary);
     }
 
@@ -2971,7 +2971,7 @@
       transition: color 0.18s ease;
     }
 
-    .contact-minimal-row:not(.static-row):hover .row-value {
+    .contact-minimal-row:hover .row-value {
       color: var(--text-primary);
     }
 
@@ -2982,7 +2982,7 @@
       transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease;
     }
 
-    .contact-minimal-row:not(.static-row):hover .row-arrow {
+    .contact-minimal-row:hover .row-arrow {
       transform: translate(2px, -2px);
       color: var(--text-primary);
     }
