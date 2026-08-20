@@ -5,7 +5,7 @@ export default function Footer() {
         <div className="footer-left">
           <p className="footer-text">© {new Date().getFullYear()} FLXHRDYN • AI ENGINEER</p>
           <p className="footer-tech-stack">
-            Built with Next.js 16 · TypeScript · Tailwind CSS · Motion · Groq Llama-3.3
+            Built with Next.js 16 · TypeScript · Tailwind CSS · Motion · Groq GPT-OSS-120B
           </p>
         </div>
         <div className="footer-links">
