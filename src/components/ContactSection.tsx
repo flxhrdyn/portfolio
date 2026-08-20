@@ -93,13 +93,13 @@ export default function ContactSection() {
               </a>
 
               <a
-                href="https://linkedin.com/in/flxhrdyn"
+                href="https://linkedin.com/in/felixhrdyn"
                 target="_blank"
                 rel="noreferrer"
                 className="contact-minimal-row"
               >
                 <span className="row-title">LinkedIn</span>
-                <span className="row-value">flxhrdyn ↗</span>
+                <span className="row-value">felixhrdyn ↗</span>
               </a>
 
               <div className="contact-minimal-row static-row">
@@ -115,6 +115,8 @@ export default function ContactSection() {
     </section>
   );
 }
+
+
 
 
 
