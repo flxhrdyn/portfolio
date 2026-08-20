@@ -102,15 +102,15 @@ components:
 
 The portfolio reads like an advanced AI engineering workstation and telemetry console: near-black by default, high-precision typography (Geist Sans, Geist Mono, Geist Pixel), with a restrained **Pastel Blue Accent** and **interactive vector graphics** inspired by top AI infrastructure platforms:
 
-1. **Vercel (scaffold & structure, ~40%)**: true near-black canvas, flat code-panel surfaces, tabbed code-block component, small angular buttons, crisp borders, and zero drop shadows at rest.
-2. **Scale AI (graphics & visualization, ~30%)**: interactive blueprint grid matrix, generative data stream visuals, sensor/bounding box telemetry, and frosted pastel blue accents (`#60a5fa` / `#38bdf8`) on dark canvas.
-3. **Groq & Antigravity (speed & precision, ~30%)**: high-throughput changelog/log manifest timelines, monospace metric indicators (`[ 04 ROLES ]`), and confident bold display typography.
+1. **Vercel (scaffold & structure)**: true near-black canvas, flat code-panel surfaces, tabbed code-block component, small angular buttons, crisp borders, and zero drop shadows at rest.
+2. **Scale AI & Scale Labs (labs.scale.com) (research manifest & data graphics)**: interactive neural topologies, tabular research paper manifests (`• DATE`, `• TITLE`, `• CATEGORY`), monospace bracket headers (`[PAPERS]`, `[LEADERBOARDS]`), and live telemetry HUD indicators.
+3. **Groq & Antigravity (speed & spec density)**: high-throughput changelog/log manifest timelines, high-density silicon core matrix, monospace metric indicators (`[ 04 ROLES ]`), and confident bold display typography.
 
 **Key Characteristics:**
-- **Dark-first**: near-black `#0a0a0c` default with dark zinc panels (`#131316`) and card surfaces (`#17171b`).
-- **Strategic Pastel Blue Accent (5-8% dosage)**: `#60a5fa` (dark) / `#2563eb` (light) for live indicators, active tabs, telemetry highlights, and primary interactive focus.
-- **Graphic & Motion Vocabulary**: Interactive neural/tensor matrix, blueprint grid backgrounds with crosshairs, telemetry data badges, and smooth physics-based reveal animations.
-- **Typography Matrix**: Geist Sans for headlines and prose; Geist Mono for code, telemetry, and timestamps; Geist Pixel for signature brand mark and metric badges.
+- **Dark-first & High-Contrast Light**: near-black `#0a0a0c` default with dark zinc panels (`#131316`) and card surfaces (`#17171b`), paired with a sterile, crisp research paper light mode.
+- **Pure High-Contrast Monochrome (Zero-Hue Rule)**: `#ffffff` (dark) / `#000000` (light) for crisp authoritative contrast.
+- **Graphic & Motion Vocabulary**: Interactive neural/synaptic networks, blueprint grid backgrounds with crosshairs, telemetry data badges, and smooth physics-based reveal animations.
+- **Typography Matrix**: Geist Sans for headlines and prose; Geist Mono for code, telemetry, research tables, and timestamps; Geist Pixel for signature brand mark and metric badges.
 
 ## 2. Colors
 
