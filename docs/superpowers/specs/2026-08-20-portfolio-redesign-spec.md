@@ -15,6 +15,7 @@ Transform the portfolio from a uniform card-grid layout into a high-craft, asymm
 3. **Google Antigravity**: Confident display typography (`Geist Sans 700`), generous breathing room between sections, and clean interactive media presentation.
 
 ### Core Value Proposition:
+* **Unique & Memorable Spatial Rhythm:** No two sections share the same geometry. The layout moves dynamically from **Display Hero** $\to$ **Dense Monospace Telemetry Band** $\to$ **Asymmetric Bento Console** $\to$ **Circuit Timeline** $\to$ **Marquee & Grid Matrix** $\to$ **Split Publication Reader**.
 * **Recruiter-First Scannability (5-Second Rule):** A hiring manager or recruiter immediately grasps role, years of experience, number of projects, and national certification without parsing dense jargon.
 * **Tech Lead Depth:** An engineering lead can inspect real Python hybrid retrieval pipelines, Grad-CAM explainability, and technical parameter datasheets.
 * **100% Anti-AI Slop & Zero-Hue:** No rainbow/neon gradients, no floating particle orbs, no fake metrics, no purple ambient auras. Strict monochrome contrast ($\ge 4.5:1$).
