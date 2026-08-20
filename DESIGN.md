@@ -102,13 +102,25 @@ components:
 
 The portfolio reads like an advanced AI engineering workstation and telemetry console: near-black by default, high-precision typography (Geist Sans, Geist Mono, Geist Pixel), with a restrained **Pastel Blue Accent** and **interactive vector graphics** inspired by top AI infrastructure platforms:
 
-1. **Vercel (scaffold & structure)**: true near-black canvas, flat code-panel surfaces, tabbed code-block component, small angular buttons, crisp borders, and zero drop shadows at rest.
-2. **Scale AI & Scale Labs (labs.scale.com) (research manifest & data graphics)**:
-   - **Research Paper Manifest (`/papers`)**: dense data table with columns `• DATE`, `• TITLE`, `• CATEGORY`, `• AUTHORS`, interactive hover figure/abstract preview, and square outline filter tags (`[All] [Agents] [Reasoning] [Multimodal]`).
-   - **Model Showdown & Leaderboards (`/showdown`)**: prominent monospace telemetry counters (`PROMPTS COMPARED`, `ACTIVE USERS`), segmented control filters, and solid high-contrast rectangular CTAs (`[ACTION] →`).
-   - **Expandable Insights Manifest (`/blog`)**: minimalist accordion rows with downward indicators (`∨`), category metadata badges, and clean border dividers.
-   - **3D Layered Telemetry (`scale.com`)**: floating transparent glass layer stacks with vector contour lines, crosshair coordinates, and neural topologies.
-3. **Groq & Antigravity (speed & spec density)**: high-throughput changelog/log manifest timelines, high-density silicon core matrix, monospace metric indicators (`[ 04 ROLES ]`), and confident bold display typography.
+1. **Vercel (Geist Design System & Scaffold)**:
+   - **Typography Matrix (`/geist/typography`)**: Structured typesetting tables (`Aa Example`, `Class name`, `Usage`), crisp mono scale labels.
+   - **Timeline Manifest (`/changelog`)**: Continuous vertical hairline divider connecting left-column date badges (`19 August`) to bold right-column updates.
+   - **Component Scaffolding**: Tabbed code blocks with line numbers, flat dark surfaces (`#0a0a0c`, `#131316`, `#17171b`), angular buttons, zero drop shadows.
+
+2. **Scale AI & Scale Labs (`scale.com` & `labs.scale.com`)**:
+   - **Research Paper Manifest (`/papers`)**: Tabular data rows with `• DATE`, `• TITLE`, `• CATEGORY`, `• AUTHORS`, interactive hover figure/abstract preview sidebar, and square outline filter tags (`[All] [Agents] [Reasoning] [Multimodal]`).
+   - **Model Showdown & Arena (`/showdown`)**: High-density telemetry metrics (`PROMPTS COMPARED 29,543,305`), segmented control filters, and solid high-contrast rectangular CTAs (`[ACTION] →`).
+   - **Expandable Insights (`/blog`)**: Minimalist accordion rows with downward indicators (`∨`), category metadata badges, and clean border dividers.
+   - **3D Layered Vector Canvas (`scale.com`)**: Floating transparent glass layer stacks with vector contour lines, crosshair coordinates, and neural topologies.
+   - **Editorial Case Study Layout (`/customers`)**: Two-column layout with left-hand monospace category anchor (`OVERVIEW`) and right-hand editorial technical narrative.
+
+3. **Groq (`groq.com` & `wow.groq.com`)**:
+   - **Silicon Floorplan & LPU Matrix**: High-density hardware core grids, active compute state indicators, and semiconductor tensor nodes.
+   - **High-Throughput Manifest**: Ultra-bold editorial hierarchy, speed benchmarks (`tokens/sec`), and raw technical performance spec sheets.
+
+4. **Google Antigravity (Console Authority & Verification)**:
+   - **Console Truth**: Bracketed telemetry counters (`[ 04 ROLES ]`, `[ 09 NODES ]`), live status dots (`[● ACTIVE]`), and deterministic UI feedback.
+   - **Restrained Motion**: Snappy physics transitions (150-200ms ease), zero decorative blur, high-contrast monochrome dominance.
 
 **Key Characteristics:**
 - **Dark-first & High-Contrast Light**: near-black `#0a0a0c` default with dark zinc panels (`#131316`) and card surfaces (`#17171b`), paired with a sterile, crisp research paper light mode.
