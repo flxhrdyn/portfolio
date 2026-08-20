@@ -2547,12 +2547,11 @@
     .certs-list-stack {
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       flex: 1;
-      gap: 0.35rem;
     }
 
     .cert-stack-item {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -2709,8 +2708,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-top: 0.85rem;
-      margin-top: 0.4rem;
+      padding-top: 1.15rem;
       border-top: 1px solid var(--border-color);
     }
 
@@ -2740,8 +2738,8 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-width: 26px;
-      height: 26px;
+      min-width: 36px;
+      height: 36px;
     }
 
     .certs-page-btn:hover:not(:disabled) {
