@@ -44,12 +44,34 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
     <nav className="navbar" id="top-nav">
       <div className="nav-container">
         <Link href="/" className="nav-brand">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--accent-color)" }}>
-            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-            <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
-            <line x1="12" y1="22.08" x2="12" y2="12"></line>
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="square"
+            strokeLinejoin="miter"
+            style={{ color: "var(--accent-color)", flexShrink: 0 }}
+          >
+            {/* Matrix brackets */}
+            <path d="M5 4H2V20H5" />
+            <path d="M19 4H22V20H19" />
+            {/* 3x3 Tensor Data Matrix */}
+            <rect x="7" y="6" width="2.5" height="2.5" fill="currentColor" stroke="none" />
+            <rect x="11" y="6" width="2.5" height="2.5" fill="currentColor" stroke="none" opacity="0.3" />
+            <rect x="15" y="6" width="2.5" height="2.5" fill="currentColor" stroke="none" />
+            
+            <rect x="7" y="11" width="2.5" height="2.5" fill="currentColor" stroke="none" opacity="0.3" />
+            <rect x="11" y="11" width="2.5" height="2.5" fill="currentColor" stroke="none" />
+            <rect x="15" y="11" width="2.5" height="2.5" fill="currentColor" stroke="none" opacity="0.3" />
+            
+            <rect x="7" y="16" width="2.5" height="2.5" fill="currentColor" stroke="none" />
+            <rect x="11" y="16" width="2.5" height="2.5" fill="currentColor" stroke="none" opacity="0.3" />
+            <rect x="15" y="16" width="2.5" height="2.5" fill="currentColor" stroke="none" />
           </svg>
-          <span style={{ fontWeight: 800, letterSpacing: "-0.02em" }}>flxhrdyn</span>
+          <span className="brand-wordmark">flxhrdyn</span>
         </Link>
 
         {variant === "portfolio" && (
