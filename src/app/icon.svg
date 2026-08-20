@@ -1,4 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="7" fill="#16309f"/>
-  <text x="16" y="22" font-family="JetBrains Mono, monospace" font-size="16" font-weight="700" fill="#ffffff" text-anchor="middle">FH</text>
+  <rect width="32" height="32" rx="6" fill="#0a0a0c"/>
+  <!-- Matrix brackets -->
+  <path d="M8 6H4V26H8" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" fill="none"/>
+  <path d="M24 6H28V26H24" stroke="#ffffff" stroke-width="2.5" stroke-linecap="square" fill="none"/>
+  <!-- 3x3 Tensor Data Matrix -->
+  <rect x="9.5" y="8.5" width="3" height="3" fill="#ffffff"/>
+  <rect x="14.5" y="8.5" width="3" height="3" fill="#ffffff" opacity="0.35"/>
+  <rect x="19.5" y="8.5" width="3" height="3" fill="#ffffff"/>
+  
+  <rect x="9.5" y="14.5" width="3" height="3" fill="#ffffff" opacity="0.35"/>
+  <rect x="14.5" y="14.5" width="3" height="3" fill="#ffffff"/>
+  <rect x="19.5" y="14.5" width="3" height="3" fill="#ffffff" opacity="0.35"/>
+  
+  <rect x="9.5" y="20.5" width="3" height="3" fill="#ffffff"/>
+  <rect x="14.5" y="20.5" width="3" height="3" fill="#ffffff" opacity="0.35"/>
+  <rect x="19.5" y="20.5" width="3" height="3" fill="#ffffff"/>
 </svg>

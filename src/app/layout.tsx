@@ -7,7 +7,7 @@ import MotionProvider from "@/components/MotionProvider";
 import "./globals.css";
 
 const SITE_URL = "https://flxhrdyn.vercel.app";
-const TITLE = "Felix Windriyareksa Hardyan — AI Engineer & Data Scientist";
+const TITLE = "flxhrdyn — AI Engineer & Data Scientist";
 const DESCRIPTION =
   "AI/ML Engineer & Data Scientist portfolio — computer vision, applied NLP, and retrieval-augmented generation.";
 
@@ -15,14 +15,14 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: TITLE,
-    template: "%s — Felix Windriyareksa Hardyan",
+    template: "%s — flxhrdyn",
   },
   description: DESCRIPTION,
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
     url: SITE_URL,
-    siteName: "Felix Windriyareksa Hardyan",
+    siteName: "flxhrdyn",
     type: "website",
   },
   twitter: {

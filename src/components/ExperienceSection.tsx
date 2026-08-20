@@ -117,7 +117,7 @@ export default function ExperienceSection() {
         <div className="exp-block" style={{ marginTop: "4rem" }}>
           <div className="exp-block-header">
             <span className="exp-block-label">Education</span>
-            <span className="exp-block-count">[ 02 CREDENTIALS ]</span>
+            <span className="exp-block-count">[ 02 ACADEMIC ]</span>
           </div>
           <div className="exp-log-list">
             {experience.education.map((item, i) => (
