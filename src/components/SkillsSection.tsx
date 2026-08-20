@@ -1,128 +1,188 @@
 "use client";
 
+import { useState } from "react";
 import { m, useReducedMotion } from "motion/react";
-import skills from "@/content/skills.json";
-import TechStackCarousel from "./TechStackCarousel";
+import { TECH_ICONS, getSkillIconKey } from "./techStackIcons";
 import Reveal, { revealVariants } from "./Reveal";
 
-const CATEGORY_ICONS: Record<string, React.ReactNode> = {
-  "AI & Machine Learning": (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-      <circle cx="12" cy="12" r="10"></circle>
-      <circle cx="12" cy="12" r="4"></circle>
-      <line x1="12" y1="1" x2="12" y2="3"></line>
-      <line x1="12" y1="21" x2="12" y2="23"></line>
-    </svg>
-  ),
-  "ML Frameworks & Libraries": (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-    </svg>
-  ),
-  "Languages & Backend": (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-      <polyline points="16 18 22 12 16 6"></polyline>
-      <polyline points="8 6 2 12 8 18"></polyline>
-    </svg>
-  ),
-  "Cloud & MLOps": (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-      <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-      <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-    </svg>
-  ),
-  "Languages & Bio": (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-    </svg>
-  ),
-};
+interface SynapticLayer {
+  id: string;
+  code: string;
+  title: string;
+  description: string;
+  nodes: string[];
+}
 
-const BRAND_ITEMS = new Set([
-  "Bahasa Indonesia (Native)",
-  "English (Professional, TOEFL: 650)",
-]);
+const SYNAPTIC_LAYERS: SynapticLayer[] = [
+  {
+    id: "l01",
+    code: "L01 // LANGUAGES & RUNTIMES",
+    title: "Languages & Backend",
+    description: "Core programming languages, computational engines, and backend API runtimes.",
+    nodes: [
+      "Python",
+      "SQL",
+      "TypeScript",
+      "FastAPI",
+      "Pandas",
+      "NumPy",
+      "REST APIs",
+      "React",
+      "Git & GitHub",
+    ],
+  },
+  {
+    id: "l02",
+    code: "L02 // FRAMEWORKS & RETRIEVAL",
+    title: "Frameworks & Vector DBs",
+    description: "Deep learning frameworks, model optimization, vector stores, and orchestration.",
+    nodes: [
+      "PyTorch",
+      "TensorFlow",
+      "Hugging Face",
+      "scikit-learn",
+      "Qdrant",
+      "FAISS",
+      "LangChain",
+      "LlamaIndex & LlamaParse",
+      "Pydantic AI",
+      "PEFT & QLoRA",
+    ],
+  },
+  {
+    id: "l03",
+    code: "L03 // CLOUD & INFRASTRUCTURE",
+    title: "Cloud, MLOps & Hardware",
+    description: "High-performance GPU compute clusters, container orchestration, and CI/CD.",
+    nodes: [
+      "NVIDIA DGX Systems",
+      "Docker",
+      "Google Cloud (GCP)",
+      "Microsoft Azure",
+      "MLOps Pipelines",
+      "CI/CD",
+    ],
+  },
+  {
+    id: "l04",
+    code: "L04 // APPLIED AI & AGENTS",
+    title: "Applied AI & Intelligence",
+    description: "Production RAG architectures, autonomous agent workflows, vision, and NLP.",
+    nodes: [
+      "Advanced RAG",
+      "AI Agents",
+      "Computer Vision",
+      "Natural Language Processing",
+      "LLMs & GenAI",
+      "Prompt Engineering",
+      "Anomaly Detection",
+    ],
+  },
+];
+
+const BIO_LANGUAGES = [
+  { label: "Bahasa Indonesia", level: "Native Proficiency" },
+  { label: "English", level: "Professional Working (TOEFL: 650)" },
+];
+
+function SkillIcon({ name }: { name: string }) {
+  const iconKey = getSkillIconKey(name);
+  const iconData = TECH_ICONS[iconKey] || TECH_ICONS.neural;
+
+  return (
+    <svg
+      className="synaptic-icon"
+      viewBox={iconData.viewBox}
+      fill="currentColor"
+      aria-hidden="true"
+    >
+      <path d={iconData.path} />
+    </svg>
+  );
+}
 
 export default function SkillsSection() {
   const reduceMotion = useReducedMotion();
-  const categoryGroups = skills.filter((group) => group.category !== "Languages & Bio");
-  const languageGroup = skills.find((group) => group.category === "Languages & Bio");
+  const [activeNode, setActiveNode] = useState<string | null>(null);
 
   return (
     <section className="section" id="skills">
       <div className="container">
         <Reveal>
           <h2>Skills &amp; Capabilities</h2>
-          <p style={{ marginBottom: "2rem", maxWidth: "55ch" }}>
-            Tools, languages, and frameworks I work with.
+          <p style={{ marginBottom: "2.5rem", maxWidth: "60ch" }}>
+            The end-to-end AI engineering stack: from core languages and model training to
+            high-performance GPU infrastructure and deployed intelligent systems.
           </p>
         </Reveal>
 
-        <TechStackCarousel />
-
-        <div className="skills-grid">
-          {categoryGroups.map((group, i) => {
-            const content = (
-              <>
-                <div className="skill-category-title">
-                  {CATEGORY_ICONS[group.category]}
-                  <span>{group.category}</span>
-                </div>
-                <div className="skill-list">
-                  {group.items.map((item) => (
-                    <div key={item} className="skill-list-item">
-                      {item}
-                    </div>
-                  ))}
-                </div>
-              </>
-            );
-
-            if (reduceMotion) {
-              return (
-                <div key={group.category} className="skill-category">
-                  {content}
-                </div>
-              );
-            }
-
-            return (
+        {/* SYNAPTIC NEURAL PIPELINE GRID */}
+        <div className="synaptic-pipeline-wrapper">
+          <div className="synaptic-grid">
+            {SYNAPTIC_LAYERS.map((layer, layerIdx) => (
               <m.div
-                key={group.category}
-                className="skill-category"
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: "-80px" }}
+                key={layer.id}
+                className="synaptic-column"
+                initial={reduceMotion ? false : "hidden"}
+                whileInView={reduceMotion ? undefined : "show"}
+                viewport={{ once: true, margin: "-60px" }}
                 variants={revealVariants}
-                transition={{ duration: 0.5, delay: Math.min(i, 4) * 0.08, ease: [0.16, 1, 0.3, 1] }}
+                transition={{
+                  duration: 0.45,
+                  delay: Math.min(layerIdx, 3) * 0.08,
+                  ease: [0.16, 1, 0.3, 1],
+                }}
               >
-                {content}
-              </m.div>
-            );
-          })}
-        </div>
+                {/* Column Header */}
+                <div className="synaptic-col-header">
+                  <div className="synaptic-col-meta">
+                    <span className="synaptic-col-code">{layer.code}</span>
+                    <span className="synaptic-col-count">
+                      [ {String(layer.nodes.length).padStart(2, "0")} ]
+                    </span>
+                  </div>
+                  <h3 className="synaptic-col-title">{layer.title}</h3>
+                  <p className="synaptic-col-desc">{layer.description}</p>
+                </div>
 
-        {languageGroup && (
-          <Reveal className="languages-strip" delay={0.32}>
-            <span className="languages-strip-label">
-              {CATEGORY_ICONS[languageGroup.category]}
-              <span>Languages</span>
-            </span>
-            <div className="skill-pills">
-              {languageGroup.items.map((item) =>
-                BRAND_ITEMS.has(item) ? (
-                  <span key={item} className="skill-pill">
-                    <strong style={{ color: "var(--accent-text)" }}>{item.split(" (")[0]}</strong> ({item.split(" (")[1]}
-                  </span>
-                ) : (
-                  <span key={item} className="skill-pill">
-                    <span>{item}</span>
-                  </span>
-                )
-              )}
+                {/* Nodes List */}
+                <div className="synaptic-nodes-list">
+                  {layer.nodes.map((node) => {
+                    const isHovered = activeNode === node;
+                    return (
+                      <div
+                        key={node}
+                        className={`synaptic-node-chip ${isHovered ? "active" : ""}`}
+                        onMouseEnter={() => setActiveNode(node)}
+                        onMouseLeave={() => setActiveNode(null)}
+                      >
+                        <span className="synaptic-node-icon-wrap">
+                          <SkillIcon name={node} />
+                        </span>
+                        <span className="synaptic-node-label">{node}</span>
+                        <span className="synaptic-node-pulse-dot" aria-hidden="true" />
+                      </div>
+                    );
+                  })}
+                </div>
+              </m.div>
+            ))}
+          </div>
+
+          {/* BASELINE COMMUNICATION & PROFICIENCY */}
+          <div className="synaptic-base-strip">
+            <div className="synaptic-base-label">COMMUNICATION &amp; PROFICIENCY</div>
+            <div className="synaptic-base-items">
+              {BIO_LANGUAGES.map((item) => (
+                <div key={item.label} className="synaptic-base-item">
+                  <span className="synaptic-base-dot">●</span>
+                  <span className="synaptic-base-lang">{item.label}</span>
+                  <span className="synaptic-base-level">({item.level})</span>
+                </div>
+              ))}
             </div>
-          </Reveal>
-        )}
+          </div>
+        </div>
       </div>
     </section>
   );
