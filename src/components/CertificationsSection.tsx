@@ -7,30 +7,6 @@ import Reveal from "./Reveal";
 import certifications from "@/content/certifications.json";
 import writing from "@/content/writing.json";
 
-function IssuerBadge({ code }: { code: string }) {
-  const getLabel = () => {
-    switch (code) {
-      case "BNSP":
-        return "BNSP";
-      case "STANF":
-        return "STANFORD";
-      case "TF_DD":
-      case "TF_DV":
-        return "DL.AI";
-      case "SQL":
-        return "SQL";
-      default:
-        return code;
-    }
-  };
-
-  return (
-    <span className="cert-issuer-monogram" aria-hidden="true">
-      {getLabel()}
-    </span>
-  );
-}
-
 export default function CertificationsSection() {
   const [researchOpen, setResearchOpen] = useState(false);
   const paper = writing[0];
@@ -136,12 +112,12 @@ export default function CertificationsSection() {
             </article>
           </Reveal>
 
-          {/* RIGHT: VERIFIED ACCREDITATIONS STACK */}
+          {/* RIGHT: VERIFIED CERTIFICATIONS STACK (VERCEL / SCALE AI STYLE) */}
           <Reveal delay={0.08} style={{ height: "100%" }}>
             <div className="certs-stack-container">
               <div className="certs-stack-header">
                 <div className="certs-stack-title-wrap">
-                  <span className="certs-header-badge">VERIFIED ACCREDITATIONS</span>
+                  <span className="certs-header-badge">VERIFIED CERTIFICATIONS</span>
                   <span className="certs-count-pill">{certifications.length} Credentials</span>
                 </div>
               </div>
@@ -155,24 +131,20 @@ export default function CertificationsSection() {
                     rel="noopener noreferrer"
                     className="cert-stack-item"
                   >
-                    <div className="cert-item-left">
-                      <IssuerBadge code={cert.code} />
-                      <div className="cert-item-info">
-                        <h4 className="cert-item-title">{cert.title}</h4>
-                        <div className="cert-item-meta">
-                          <span className="cert-issuer-name">{cert.issuer}</span>
-                          <span className="cert-meta-divider">•</span>
-                          <span className="cert-date-text">{cert.date}</span>
-                        </div>
+                    <div className="cert-item-info">
+                      <h4 className="cert-item-title">{cert.title}</h4>
+                      <div className="cert-item-meta">
+                        <span className="cert-issuer-name">{cert.issuer}</span>
+                        <span className="cert-meta-divider">•</span>
+                        <span className="cert-date-text">{cert.date}</span>
                       </div>
                     </div>
 
                     <div className="cert-item-right">
                       <span className="cert-type-pill">{cert.badge}</span>
                       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="cert-arrow-icon">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                        <polyline points="15 3 21 3 21 9"></polyline>
-                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                        <polyline points="7 7 17 7 17 17"></polyline>
                       </svg>
                     </div>
                   </a>
