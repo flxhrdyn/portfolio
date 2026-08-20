@@ -1,32 +1,177 @@
-import EmailReveal from "./EmailReveal";
+"use client";
+
+import { useState, useEffect } from "react";
 import Reveal from "./Reveal";
 
+const EMAIL = "felixhardyanwork@gmail.com";
+
 export default function ContactSection() {
+  const [copied, setCopied] = useState(false);
+  const [wibTime, setWibTime] = useState<string>("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const formatter = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Asia/Jakarta",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      });
+      setWibTime(formatter.format(now));
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const handleCopy = () => {
+    navigator.clipboard.writeText(EMAIL);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
   return (
     <section className="section" id="contact" style={{ paddingBottom: "6rem" }}>
       <div className="container">
         <Reveal>
-          <div className="contact-card">
-            <h2 style={{ borderBottom: "none", paddingBottom: 0, textAlign: "center", marginBottom: "0.75rem" }}>Get in Touch</h2>
-            <p className="contact-text">Have an interesting project, job, or consultation requirement? Let&apos;s build something robust together.</p>
+          <h2>Get in Touch</h2>
+          <p style={{ marginBottom: "2.25rem", maxWidth: "60ch" }}>
+            Interested in working together or discussing a project? Feel free to reach out.
+          </p>
+        </Reveal>
 
-            <EmailReveal />
+        <Reveal delay={0.06}>
+          <div className="contact-telemetry-card">
+            {/* CARD TOP HEADER */}
+            <div className="contact-card-header">
+              <span className="contact-header-badge">COMMUNICATION CHANNELS</span>
+              <span className="contact-status-pill">
+                <span className="contact-status-dot" />
+                AVAILABLE FOR ROLES
+              </span>
+            </div>
 
-            <div className="contact-links">
-              <a href="https://github.com/flxhrdyn" target="_blank" rel="noreferrer" className="social-link">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                </svg>
-                <span>GitHub</span>
-              </a>
-              <a href="https://linkedin.com/in/flxhrdyn" target="_blank" rel="noreferrer" className="social-link">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                  <rect x="2" y="9" width="4" height="12"></rect>
-                  <circle cx="4" cy="4" r="2"></circle>
-                </svg>
-                <span>LinkedIn</span>
-              </a>
+            {/* CARD INTRO */}
+            <div className="contact-hero-wrap">
+              <h3 className="contact-hero-title">Let&apos;s build something together.</h3>
+              <p className="contact-hero-desc">
+                Open for full-time engineering roles, AI consulting, and collaborative research projects.
+              </p>
+            </div>
+
+            {/* PRECISION TELEMETRY ROWS */}
+            <div className="contact-rows-stack">
+              {/* ROW 01: EMAIL */}
+              <div className="contact-row-item">
+                <div className="contact-row-left">
+                  <span className="contact-row-num">01</span>
+                  <span className="contact-row-label">Email</span>
+                </div>
+
+                <div className="contact-row-value">
+                  <span className="contact-value-text">{EMAIL}</span>
+                </div>
+
+                <div className="contact-row-actions">
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    className={`contact-action-btn ${copied ? "copied" : ""}`}
+                    aria-label="Copy email address"
+                  >
+                    {copied ? (
+                      <>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                          <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                        <span>COPIED</span>
+                      </>
+                    ) : (
+                      <>
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                        </svg>
+                        <span>COPY</span>
+                      </>
+                    )}
+                  </button>
+
+                  <a
+                    href={`mailto:${EMAIL}`}
+                    className="contact-action-btn primary-action"
+                  >
+                    <span>EMAIL ↗</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* ROW 02: GITHUB */}
+              <div className="contact-row-item">
+                <div className="contact-row-left">
+                  <span className="contact-row-num">02</span>
+                  <span className="contact-row-label">GitHub</span>
+                </div>
+
+                <div className="contact-row-value">
+                  <span className="contact-value-text">github.com/flxhrdyn</span>
+                </div>
+
+                <div className="contact-row-actions">
+                  <a
+                    href="https://github.com/flxhrdyn"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="contact-action-btn"
+                  >
+                    <span>VISIT ↗</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* ROW 03: LINKEDIN */}
+              <div className="contact-row-item">
+                <div className="contact-row-left">
+                  <span className="contact-row-num">03</span>
+                  <span className="contact-row-label">LinkedIn</span>
+                </div>
+
+                <div className="contact-row-value">
+                  <span className="contact-value-text">linkedin.com/in/flxhrdyn</span>
+                </div>
+
+                <div className="contact-row-actions">
+                  <a
+                    href="https://linkedin.com/in/flxhrdyn"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="contact-action-btn"
+                  >
+                    <span>CONNECT ↗</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* ROW 04: LOCATION & TIME */}
+              <div className="contact-row-item location-row">
+                <div className="contact-row-left">
+                  <span className="contact-row-num">04</span>
+                  <span className="contact-row-label">Location</span>
+                </div>
+
+                <div className="contact-row-value">
+                  <span className="contact-value-text">Jakarta, Indonesia (UTC+7)</span>
+                </div>
+
+                <div className="contact-row-actions">
+                  <span className="contact-time-badge">
+                    {wibTime ? `${wibTime} WIB` : "UTC+7"}
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
         </Reveal>
@@ -34,3 +179,4 @@ export default function ContactSection() {
     </section>
   );
 }
+
