@@ -8,19 +8,18 @@ colors:
   text-primary: "#f2f3f5"
   text-secondary: "#96979f"
   border-color: "#26272b"
-  accent: "#60a5fa"
-  accent-hover: "#bfdbfe"
-  accent-muted: "rgba(96, 165, 250, 0.12)"
-  accent-pastel: "#38bdf8"
+  accent: "#ffffff"
+  accent-hover: "#c6c6c6"
+  accent-muted: "#26272b"
   bg-primary-light: "#ffffff"
   bg-secondary-light: "#f6f7f9"
   bg-card-light: "#ffffff"
   text-primary-light: "#14151a"
   text-secondary-light: "#5b5d66"
   border-color-light: "#e2e3e8"
-  accent-light: "#2563eb"
-  accent-light-hover: "#1e40af"
-  accent-light-muted: "rgba(37, 99, 235, 0.08)"
+  accent-light: "#000000"
+  accent-light-hover: "#3f3f46"
+  accent-light-muted: "#efeded"
 typography:
   display:
     fontFamily: "var(--font-geist-sans), -apple-system, sans-serif"
@@ -115,10 +114,11 @@ The portfolio reads like an advanced AI engineering workstation and telemetry co
 
 ## 2. Colors
 
-### Accent (Strategic Pastel Blue)
-- **Accent Primary** (`#60a5fa` dark / `#2563eb` light): Active roles, live status dots, telemetry metrics, and primary focus outlines.
-- **Accent Muted** (`rgba(96, 165, 250, 0.12)` dark / `rgba(37, 99, 235, 0.08)` light): Subtle chip highlights and active background pills.
-- **Accent Pastel Ice** (`#38bdf8` dark / `#1d4ed8` light): Active matrix nodes and subtle glowing accents.
+Chroma-0 near-black and near-white neutrals only. There is no colored tint on buttons or cards — depth, hierarchy, and identity are realized entirely through high-contrast monochrome typography, precision wireframe graphics, and structural layout.
+
+### Primary
+- **Accent** (`#ffffff` dark / `#000000` light): Solid fill on primary interactive triggers and inverted badges.
+- **Accent Muted** (`#26272b` dark / `#efeded` light): Subtle chip fills and hairline borders.
 
 ### Neutral Canvas
 - **Void** (`#0a0a0c`): Body background (dark).
@@ -134,7 +134,7 @@ The portfolio reads like an advanced AI engineering workstation and telemetry co
 - **Hairline** (`#e2e3e8`): Borders (light).
 
 ### Named Rules
-**The Single Strategic Accent Rule.** Pastel Blue is used strictly for state, status, active indicators, and interactive focus. It never floods large background areas or turns the interface into a colorful carnival. The canvas stays disciplined, dark-first, and flat.
+**The Zero-Hue Monochrome Rule.** No hue fills on buttons, cards, or text. The interface earns its authority and distinct identity through bespoke vector graphics, tensor matrices, and precision typography rather than colored button fills.
 
 **The Zero-Decoration Rule.** No purely decorative texture or chrome that doesn't carry real
 information: no tiled dot-matrix / grid-line background fields, no terminal-window traffic-
