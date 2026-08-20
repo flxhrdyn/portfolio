@@ -10,8 +10,10 @@ import Footer from "@/components/Footer";
 import { fetchGithubContributions } from "@/lib/github-contributions";
 
 export const metadata = {
-  title: "Felix Windriyareksa Hardyan — Portfolio",
-  description: "Projects, experience, skills, and research by Felix Windriyareksa Hardyan, AI Engineer & Data Scientist.",
+  title: {
+    absolute: "flxhrdyn — AI Engineer & Data Scientist",
+  },
+  description: "Projects, experience, skills, and research by flxhrdyn, AI Engineer & Data Scientist.",
 };
 
 export default async function PortfolioPage() {
