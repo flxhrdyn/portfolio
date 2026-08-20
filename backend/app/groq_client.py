@@ -35,17 +35,15 @@ JAILBREAK_RE = re.compile("|".join(JAILBREAK_PATTERNS), re.IGNORECASE)
 # outright when one model's daily/per-minute limit is hit.
 MODEL_CHAIN = [
     "openai/gpt-oss-120b",
-    "llama-3.3-70b-versatile",
-    "qwen/qwen3-32b",
+    "qwen/qwen3.6-27b",
     "openai/gpt-oss-20b",
-    "llama-3.1-8b-instant",
 ]
 MODEL = MODEL_CHAIN[0]
 # These models emit a <think>...</think> reasoning trace by default; without reasoning_format
 # set, that raw trace leaks into the streamed content the user sees. Groq rejects the
 # `reasoning_format` param outright (400) on non-reasoning models like the llama ones, so it
 # must only be sent for models that support it.
-REASONING_MODELS = {"openai/gpt-oss-120b", "qwen/qwen3-32b", "openai/gpt-oss-20b"}
+REASONING_MODELS = {"openai/gpt-oss-120b", "qwen/qwen3.6-27b", "openai/gpt-oss-20b"}
 # Most questions resolve in 1-2 tool calls (see tools.py); each extra iteration resends the
 # full message history - including every tool result loaded so far - so keeping this low
 # matters for staying under Groq's tokens-per-minute rate limit. 4 allows the multi-step tool
