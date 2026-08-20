@@ -2208,44 +2208,137 @@
       opacity: 0.85;
     }
 
-    /* Metrics Strip inside Research Card */
-    .research-metrics-strip {
-      display: flex;
-      gap: 2.25rem;
-      padding: 0.85rem 0;
-      margin-bottom: 1.15rem;
-      border-top: 1px solid var(--border-color);
-      border-bottom: 1px solid var(--border-color);
+    /* SCALE AI STYLE MODEL BENCHMARK CARD */
+    .research-benchmark-card {
+      background-color: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 0.9rem 1rem;
+      margin-bottom: 1.25rem;
     }
 
-    @media (max-width: 540px) {
-      .research-metrics-strip {
-        flex-direction: column;
-        gap: 0.75rem;
+    [data-theme="light"] .research-benchmark-card {
+      background-color: rgba(0, 0, 0, 0.02);
+    }
+
+    .benchmark-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.45rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    [data-theme="light"] .benchmark-header {
+      border-bottom-color: rgba(0, 0, 0, 0.05);
+    }
+
+    .benchmark-title {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .benchmark-scope {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      color: var(--text-secondary);
+      opacity: 0.75;
+    }
+
+    .benchmark-bars {
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+
+    .benchmark-row {
+      display: grid;
+      grid-template-columns: 145px 1fr 45px;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    @media (max-width: 520px) {
+      .benchmark-row {
+        grid-template-columns: 110px 1fr 40px;
+        gap: 0.5rem;
       }
     }
 
-    .research-metric-box {
+    .benchmark-label-wrap {
       display: flex;
-      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      min-width: 0;
     }
 
-    .research-metric-value {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--text-primary);
-      line-height: 1.2;
-      font-family: var(--font-sans);
-    }
-
-    .research-metric-label {
+    .benchmark-name {
       font-family: var(--font-mono);
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
+      font-size: 0.75rem;
       color: var(--text-secondary);
-      margin-top: 0.2rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .benchmark-row.highlight .benchmark-name {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .benchmark-badge {
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 0.1rem 0.3rem;
+      border-radius: 3px;
+      background-color: var(--text-primary);
+      color: var(--bg-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .benchmark-track {
+      height: 6px;
+      background-color: rgba(255, 255, 255, 0.06);
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    [data-theme="light"] .benchmark-track {
+      background-color: rgba(0, 0, 0, 0.06);
+    }
+
+    .benchmark-fill {
+      height: 100%;
+      background-color: var(--text-secondary);
+      opacity: 0.45;
+      border-radius: 999px;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .benchmark-fill.highlight {
+      background-color: var(--text-primary);
+      opacity: 1;
+    }
+
+    .benchmark-score {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      text-align: right;
+    }
+
+    .benchmark-score.highlight {
+      color: var(--text-primary);
+      font-weight: 700;
     }
 
     .research-summary-text {
@@ -2386,6 +2479,22 @@
 
     [data-theme="light"] .cert-stack-item:hover {
       background-color: rgba(0, 0, 0, 0.025);
+    }
+
+    .cert-index-number {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      opacity: 0.45;
+      flex-shrink: 0;
+      width: 1.4rem;
+      transition: opacity 0.18s ease, color 0.18s ease;
+    }
+
+    .cert-stack-item:hover .cert-index-number {
+      opacity: 1;
+      color: var(--text-primary);
     }
 
     .cert-item-info {

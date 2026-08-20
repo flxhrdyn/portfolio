@@ -53,7 +53,7 @@ export default function CertificationsSection() {
 
         {/* ASYMMETRIC ENGINEERING BENTO */}
         <div className="research-bento-grid">
-          {/* LEFT: FEATURED RESEARCH PAPER CARD */}
+          {/* LEFT: FEATURED RESEARCH PAPER CARD (SCALE AI BENCHMARK STYLE) */}
           <Reveal style={{ height: "100%" }}>
             <article className="research-featured-card">
               <div>
@@ -65,23 +65,51 @@ export default function CertificationsSection() {
                 <h3 className="research-paper-title">{paper.title}</h3>
                 
                 <p className="research-authors-clean">
-                  Ulfa Hidayati, Felix Windriyareksa Hardyan, Faizah Rizki Auliawati, et al.
+                  Ulfa H., Felix W. Hardyan, Faizah R., Ali A., Fanka A., Mario M.
                 </p>
 
-                {/* BENCHMARK HIGHLIGHT */}
-                <div className="research-metrics-strip">
-                  <div className="research-metric-box">
-                    <div className="research-metric-value">89%</div>
-                    <div className="research-metric-label">Test Accuracy (MobileNetV2)</div>
+                {/* SCALE AI STYLE MODEL BENCHMARK COMPARISON */}
+                <div className="research-benchmark-card">
+                  <div className="benchmark-header">
+                    <span className="benchmark-title">MODEL ACCURACY BENCHMARK</span>
+                    <span className="benchmark-scope">3-Class Reef Health</span>
                   </div>
-                  <div className="research-metric-box">
-                    <div className="research-metric-value">97%</div>
-                    <div className="research-metric-label">Training Convergence</div>
+                  <div className="benchmark-bars">
+                    <div className="benchmark-row highlight">
+                      <div className="benchmark-label-wrap">
+                        <span className="benchmark-name">MobileNetV2</span>
+                        <span className="benchmark-badge">Optimal</span>
+                      </div>
+                      <div className="benchmark-track">
+                        <div className="benchmark-fill highlight" style={{ width: "89%" }} />
+                      </div>
+                      <span className="benchmark-score highlight">89%</span>
+                    </div>
+
+                    <div className="benchmark-row">
+                      <div className="benchmark-label-wrap">
+                        <span className="benchmark-name">InceptionV3</span>
+                      </div>
+                      <div className="benchmark-track">
+                        <div className="benchmark-fill" style={{ width: "84%" }} />
+                      </div>
+                      <span className="benchmark-score">84%</span>
+                    </div>
+
+                    <div className="benchmark-row">
+                      <div className="benchmark-label-wrap">
+                        <span className="benchmark-name">CoralNet Baseline</span>
+                      </div>
+                      <div className="benchmark-track">
+                        <div className="benchmark-fill" style={{ width: "78%" }} />
+                      </div>
+                      <span className="benchmark-score">78%</span>
+                    </div>
                   </div>
                 </div>
 
                 <p className="research-summary-text">
-                  Comparative study evaluating end-to-end deep learning architectures (CoralNet, InceptionV3, MobileNetV2) for automated coral reef health classification across Indonesian marine ecosystems.
+                  Evaluated deep learning vision models for end-to-end automated coral reef health diagnostics, eliminating manual feature extraction bottlenecks for marine biodiversity monitoring.
                 </p>
               </div>
 
@@ -112,7 +140,7 @@ export default function CertificationsSection() {
             </article>
           </Reveal>
 
-          {/* RIGHT: VERIFIED CERTIFICATIONS STACK (VERCEL / SCALE AI STYLE) */}
+          {/* RIGHT: VERIFIED CERTIFICATIONS LEDGER (SCALE AI / VERCEL STYLE) */}
           <Reveal delay={0.06} style={{ height: "100%" }}>
             <div className="certs-stack-container">
               <div className="certs-stack-header">
@@ -122,7 +150,7 @@ export default function CertificationsSection() {
 
               {reduceMotion ? (
                 <div className="certs-list-stack">
-                  {certifications.map((cert) => (
+                  {certifications.map((cert, i) => (
                     <a
                       key={cert.code}
                       href={cert.url}
@@ -130,6 +158,7 @@ export default function CertificationsSection() {
                       rel="noopener noreferrer"
                       className="cert-stack-item"
                     >
+                      <span className="cert-index-number">{String(i + 1).padStart(2, "0")}</span>
                       <div className="cert-item-info">
                         <h4 className="cert-item-title">{cert.title}</h4>
                         <div className="cert-item-meta">
@@ -157,7 +186,7 @@ export default function CertificationsSection() {
                   viewport={{ once: true, margin: "-40px" }}
                   variants={containerVariants}
                 >
-                  {certifications.map((cert) => (
+                  {certifications.map((cert, i) => (
                     <m.a
                       key={cert.code}
                       href={cert.url}
@@ -166,6 +195,7 @@ export default function CertificationsSection() {
                       className="cert-stack-item"
                       variants={itemVariants}
                     >
+                      <span className="cert-index-number">{String(i + 1).padStart(2, "0")}</span>
                       <div className="cert-item-info">
                         <h4 className="cert-item-title">{cert.title}</h4>
                         <div className="cert-item-meta">
