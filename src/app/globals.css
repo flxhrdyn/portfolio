@@ -2213,10 +2213,18 @@
       opacity: 0.85;
     }
 
+    .research-card-body {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      justify-content: space-between;
+    }
+
     /* TELEMETRY MODEL BENCHMARK (DISTILLED FLAT INSTRUMENTATION) */
     .telemetry-benchmark-section {
-      margin-top: 1.5rem;
+      margin-top: 1.25rem;
       padding-top: 1.25rem;
+      padding-bottom: 1.5rem;
       border-top: 1px solid var(--border-color);
     }
 
