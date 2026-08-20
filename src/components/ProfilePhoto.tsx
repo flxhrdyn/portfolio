@@ -14,7 +14,9 @@ export default function ProfilePhoto() {
           alt={profile.photoAlt}
           fill
           priority
-          sizes="(max-width: 860px) 80vw, 520px"
+          unoptimized
+          quality={100}
+          sizes="(max-width: 860px) 100vw, 1200px"
           style={{ objectFit: "cover" }}
         />
       </div>
