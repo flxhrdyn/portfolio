@@ -235,10 +235,7 @@ export default function CertificationsSection() {
             <div className="certs-stack-container">
               <div className="certs-stack-header">
                 <span className="certs-header-badge">VERIFIED CERTIFICATIONS</span>
-                <div className="certs-header-pills">
-                  <span className="certs-domain-tag">{PAGE_DOMAINS[certPage]}</span>
-                  <span className="certs-count-pill">{certifications.length} Certs</span>
-                </div>
+                <span className="certs-count-pill">{certifications.length} Certs</span>
               </div>
 
               {reduceMotion ? (
