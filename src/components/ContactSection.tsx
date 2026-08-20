@@ -129,7 +129,7 @@ export default function ContactSection() {
                   <span className="row-title">Location</span>
                 </span>
                 <span className="row-value">
-                  <span>Jakarta</span>
+                  <span>Jakarta (UTC+7)</span>
                   {wibTime ? <span className="row-clock">· {wibTime} WIB</span> : null}
                 </span>
               </div>
