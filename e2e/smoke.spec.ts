@@ -52,12 +52,11 @@ test.describe("portfolio page (engineering console)", () => {
     expect(errors).toEqual([]);
   });
 
-  test("featured project bento tab switcher toggles between Demo, Specs, and Code", async ({ page }) => {
+  test("featured project bento tab switcher toggles between Preview, Specs, and Code", async ({ page }) => {
     await page.goto("/portfolio");
 
-    // Default tab is Demo with video
-    const video = page.locator(".bento-video-player");
-    await expect(video).toBeVisible();
+    // Default tab is Preview with image thumbnail
+    await expect(page.locator(".bento-demo-wrapper img")).toBeVisible();
 
     // Switch to Specs tab
     await page.getByRole("tab", { name: /specs/i }).click();
@@ -69,9 +68,9 @@ test.describe("portfolio page (engineering console)", () => {
     await page.getByRole("tab", { name: /code/i }).click();
     await expect(page.locator("pre.project-featured-code")).toBeVisible();
 
-    // Switch back to Demo
-    await page.getByRole("tab", { name: /demo/i }).click();
-    await expect(video).toBeVisible();
+    // Switch back to Preview
+    await page.getByRole("tab", { name: /preview/i }).click();
+    await expect(page.locator(".bento-demo-wrapper img")).toBeVisible();
   });
 
   test("nav links jump to sections cleanly", async ({ page }) => {

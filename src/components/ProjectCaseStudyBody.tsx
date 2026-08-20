@@ -1,12 +1,24 @@
 import projects from "@/content/projects.json";
 import ProjectThumbnail from "./ProjectThumbnail";
 
-type Project = (typeof projects)[number];
+type Project = (typeof projects)[number] & { video?: string };
 
 export default function ProjectCaseStudyBody({ project }: { project: Project }) {
   return (
     <>
-      <ProjectThumbnail src={project.image} alt={project.imageAlt} variant="featured" />
+      {project.video ? (
+        <div style={{ marginBottom: "1.5rem", borderRadius: "var(--radius-md)", overflow: "hidden", border: "1px solid var(--border-color)", backgroundColor: "#000" }}>
+          <video
+            src={project.video}
+            poster={project.image}
+            controls
+            playsInline
+            style={{ width: "100%", height: "auto", display: "block", maxHeight: "420px", objectFit: "contain" }}
+          />
+        </div>
+      ) : (
+        <ProjectThumbnail src={project.image} alt={project.imageAlt} variant="featured" />
+      )}
 
       <div className="modal-section">
         <h4>Overview</h4>
