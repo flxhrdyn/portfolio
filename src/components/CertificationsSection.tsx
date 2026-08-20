@@ -15,7 +15,7 @@ function CertLogo({ logo, code, color, issuer }: { logo: string; code: string; c
     return (
       <div
         className="accomplishment-icon-badge"
-        style={{ background: `${color}1a`, color, fontWeight: 800, fontSize: "0.65rem", fontFamily: "var(--font-mono)" }}
+        style={{ background: `${color}1a`, color, fontWeight: 800, fontSize: "0.8rem", fontFamily: "var(--font-mono)" }}
       >
         {code}
       </div>
@@ -64,7 +64,8 @@ export default function CertificationsSection() {
     <section className="section" id="certifications">
       <div className="container">
         <Reveal>
-          <h2>Accomplishments &amp; Research</h2>
+          <div className="section-eyebrow">04 // CERTIFICATIONS &amp; RESEARCH</div>
+          <h2>Certifications &amp; Research</h2>
           <p style={{ marginBottom: "2rem" }}>
             Published research, certifications, and key milestones.
           </p>
@@ -218,7 +219,7 @@ export default function CertificationsSection() {
       <Modal id="research-modal" title="Research Paper Abstract & Details" isOpen={researchOpen} onClose={() => setResearchOpen(false)}>
         <div className="modal-section">
           <div className="meta-mono">{paper.kind}</div>
-          <h3 style={{ fontSize: "1.3rem", marginBottom: "0.75rem", color: "var(--text-primary)" }}>{paper.title}</h3>
+          <h3 style={{ fontSize: "1.25rem", marginBottom: "0.75rem", color: "var(--text-primary)" }}>{paper.title}</h3>
         </div>
         <ResearchPaperBody paper={paper} />
         <div className="modal-section" style={{ paddingTop: "0.5rem", borderTop: "1px solid var(--border-color)" }}>

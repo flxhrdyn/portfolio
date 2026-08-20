@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { m } from "motion/react";
 import CodeBlock from "./CodeBlock";
 import Modal from "./Modal";
 import GithubHeatmap from "./GithubHeatmap";
@@ -48,6 +47,7 @@ function CategoryIcon({ category }: { category: string }) {
 export default function ProjectsSection({ contributions }: ProjectsSectionProps) {
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const [archiveOpen, setArchiveOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<"demo" | "specs" | "code">("demo");
 
   const featuredProject = projects.find((project) => project.featured);
   const gridProjects = projects.filter((project) => !project.featured);
@@ -56,71 +56,193 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
     <section className="section" id="projects">
       <div className="container">
         <Reveal>
+          <div className="section-eyebrow">01 // PROJECTS</div>
           <h2>Featured Projects</h2>
           <p style={{ marginBottom: "2rem" }}>
-            Projects spanning model development, pipelines, and deployment.
+            Production AI pipelines, retrieval architectures, and deep learning models shipped end-to-end.
           </p>
         </Reveal>
 
         {featuredProject && (
           <Reveal>
-            <m.button
-              type="button"
-              className="project-featured"
-              whileHover={{ y: -4 }}
-              whileTap={{ scale: 0.99 }}
-              transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              onClick={() => setOpenSlug(featuredProject.slug)}
-            >
-              <div className="project-featured-media">
-                {featuredProject.image ? (
-                  <ProjectThumbnail src={featuredProject.image} alt={featuredProject.imageAlt} variant="featured" priority />
-                ) : (
-                  <pre className="project-featured-code">
-                    <code>
-                      <CodeBlock code={featuredProject.codeBlock} />
-                    </code>
-                  </pre>
-                )}
-              </div>
-              <div className="project-featured-body">
-                <div className="project-category">
-                  <CategoryIcon category={featuredProject.tags[0]} />
-                  {featuredProject.tags[0]}
+            <div className="bento-featured-card">
+              {/* Terminal Window Chrome Header */}
+              <div className="bento-terminal-header">
+                <div className="bento-terminal-dots" aria-hidden="true">
+                  <span className="bento-dot" />
+                  <span className="bento-dot" />
+                  <span className="bento-dot" />
+                  <span className="bento-terminal-filename" style={{ marginLeft: "0.5rem" }}>invenio-rag-pipeline.py</span>
                 </div>
-                <div className="project-tags">
-                  {featuredProject.tags.slice(1).map((tag) => (
-                    <span key={tag} className="badge">
-                      {tag}
-                    </span>
-                  ))}
+
+                {/* View Switcher Tabs */}
+                <div className="bento-terminal-tabs" role="tablist" aria-label="Project View Options">
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeTab === "demo"}
+                    className={`bento-tab-btn ${activeTab === "demo" ? "active" : ""}`}
+                    onClick={() => setActiveTab("demo")}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                      <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    <span>Demo</span>
+                  </button>
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeTab === "specs"}
+                    className={`bento-tab-btn ${activeTab === "specs" ? "active" : ""}`}
+                    onClick={() => setActiveTab("specs")}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                    </svg>
+                    <span>Specs</span>
+                  </button>
+                  <button
+                    type="button"
+                    role="tab"
+                    aria-selected={activeTab === "code"}
+                    className={`bento-tab-btn ${activeTab === "code" ? "active" : ""}`}
+                    onClick={() => setActiveTab("code")}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="16 18 22 12 16 6"></polyline>
+                      <polyline points="8 6 2 12 8 18"></polyline>
+                    </svg>
+                    <span>Code</span>
+                  </button>
                 </div>
-                <h3 className="project-featured-title">{featuredProject.title}</h3>
-                <p className="project-featured-summary">{featuredProject.summary}</p>
-                <span className="project-link">
-                  Explore Project
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
-                </span>
               </div>
-            </m.button>
+
+              {/* Bento Grid Interior: Media & Specs on Left, Structured Details on Right */}
+              <div className="bento-featured-content">
+                <div className="bento-media-pane">
+                  {activeTab === "demo" && (
+                    <div className="bento-demo-wrapper">
+                      <video
+                        src="/projects/invenioai_demo.webm"
+                        poster={featuredProject.image}
+                        controls
+                        muted
+                        playsInline
+                        className="bento-video-player"
+                      />
+                    </div>
+                  )}
+
+                  {activeTab === "specs" && (
+                    <div className="bento-specs-pane">
+                      <div className="specs-header">TECHNICAL SPECIFICATIONS</div>
+                      <div className="specs-table">
+                        <div className="specs-row">
+                          <span className="specs-key">Architecture</span>
+                          <span className="specs-val">Dense + Sparse Hybrid Search</span>
+                        </div>
+                        <div className="specs-row">
+                          <span className="specs-key">Vector Engine</span>
+                          <span className="specs-val">Qdrant (HNSW + BM42)</span>
+                        </div>
+                        <div className="specs-row">
+                          <span className="specs-key">Reranker</span>
+                          <span className="specs-val">FlashRank Cross-Encoder</span>
+                        </div>
+                        <div className="specs-row">
+                          <span className="specs-key">Reasoning Engine</span>
+                          <span className="specs-val">4-Step Chain-of-Thought (CoT)</span>
+                        </div>
+                        <div className="specs-row">
+                          <span className="specs-key">Semantic Cache</span>
+                          <span className="specs-val">Dual-Layer (&gt; 0.90 similarity)</span>
+                        </div>
+                        <div className="specs-row">
+                          <span className="specs-key">Deployment</span>
+                          <span className="specs-val">Docker • FastAPI • Azure</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeTab === "code" && (
+                    <pre className="project-featured-code" style={{ margin: 0, height: "100%", borderRadius: 0, border: "none" }}>
+                      <code>
+                        <CodeBlock code={featuredProject.codeBlock} />
+                      </code>
+                    </pre>
+                  )}
+                </div>
+
+                <div className="bento-details-pane">
+                  <div>
+                    <div className="project-category" style={{ marginBottom: "0.5rem" }}>
+                      <CategoryIcon category={featuredProject.tags[0]} />
+                      {featuredProject.tags[0]}
+                    </div>
+                    <div className="project-tags" style={{ marginBottom: "1rem" }}>
+                      {featuredProject.tags.slice(1).map((tag) => (
+                        <span key={tag} className="badge">
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    <h3 className="project-featured-title">{featuredProject.title}</h3>
+                    <p className="project-featured-summary">{featuredProject.summary}</p>
+                  </div>
+
+                  <div className="bento-actions">
+                    <button
+                      type="button"
+                      className="btn-pill btn-pill-primary"
+                      onClick={() => setOpenSlug(featuredProject.slug)}
+                    >
+                      <span>Read Case Study</span>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                      </svg>
+                    </button>
+                    <a
+                      href={`https://github.com/flxhrdyn/${featuredProject.repo}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-pill btn-pill-secondary"
+                    >
+                      <span>GitHub</span>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                      </svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
           </Reveal>
         )}
 
         <div className="projects-grid">
           {gridProjects.map((project, i) => (
             <Reveal key={project.slug} delay={Math.min(i, 4) * 0.08}>
-              <m.button
-                type="button"
-                className="project-card"
-                whileHover={{ y: -6 }}
-                whileTap={{ scale: 0.98 }}
-                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                onClick={() => setOpenSlug(project.slug)}
-              >
-                <ProjectThumbnail src={project.image} alt={project.imageAlt} />
+              <div className="project-card">
+                {project.slug === "lucian" ? (
+                  <div className="project-card-video-wrap">
+                    <video
+                      src="/projects/lucian_demo.webm"
+                      poster={project.image}
+                      controls
+                      muted
+                      playsInline
+                      className="project-card-video"
+                    />
+                  </div>
+                ) : (
+                  <ProjectThumbnail src={project.image} alt={project.imageAlt} />
+                )}
+
                 <div className="project-header">
                   <div className="project-category">
                     <CategoryIcon category={project.tags[0]} />
@@ -137,22 +259,40 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                   <p className="project-summary">{project.summary}</p>
                 </div>
                 <div className="project-footer">
-                  <span className="project-link">
-                    Explore Project
+                  <button
+                    type="button"
+                    className="project-link"
+                    style={{ background: "none", border: "none", padding: 0, cursor: "pointer", font: "inherit", color: "inherit" }}
+                    onClick={() => setOpenSlug(project.slug)}
+                  >
+                    <span>Read Case Study</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="5" y1="12" x2="19" y2="12"></line>
                       <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
-                  </span>
-
+                  </button>
+                  <a
+                    href={`https://github.com/flxhrdyn/${project.repo}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="project-link"
+                    style={{ color: "var(--text-secondary)" }}
+                  >
+                    <span>GitHub</span>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                      <polyline points="15 3 21 3 21 9"></polyline>
+                      <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                  </a>
                 </div>
-              </m.button>
+              </div>
             </Reveal>
           ))}
         </div>
 
-        <div style={{ display: "flex", justifyContent: "center", marginBottom: "3.5rem" }}>
-          <button className="all-projects-btn" onClick={() => setArchiveOpen(true)}>
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: "3.5rem", marginTop: "1rem" }}>
+          <button className="all-projects-btn" onClick={() => setArchiveOpen(false || true)}>
             <span>View all archive projects</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
@@ -170,7 +310,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
               </svg>
               Open Source Contributions
             </h3>
-            <p style={{ marginBottom: "1.5rem", fontSize: "0.92rem", color: "var(--text-secondary)", maxWidth: "650px" }}>
+            <p style={{ marginBottom: "1.5rem", maxWidth: "650px" }}>
               Open-source work and contributions, updated in real time.
             </p>
             <GithubHeatmap contributions={contributions} />

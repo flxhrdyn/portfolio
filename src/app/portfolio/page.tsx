@@ -1,5 +1,6 @@
 import NavBar from "@/components/NavBar";
 import PortfolioHero from "@/components/PortfolioHero";
+import TelemetryStrip from "@/components/TelemetryStrip";
 import ProjectsSection from "@/components/ProjectsSection";
 import ExperienceSection from "@/components/ExperienceSection";
 import SkillsSection from "@/components/SkillsSection";
@@ -20,6 +21,7 @@ export default async function PortfolioPage() {
     <>
       <NavBar variant="portfolio" />
       <PortfolioHero />
+      <TelemetryStrip />
       <ProjectsSection contributions={contributions} />
       <ExperienceSection />
       <SkillsSection />

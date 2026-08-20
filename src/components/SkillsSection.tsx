@@ -52,7 +52,8 @@ export default function SkillsSection() {
     <section className="section" id="skills">
       <div className="container">
         <Reveal>
-          <h2>Skills</h2>
+          <div className="section-eyebrow">03 // SKILLS</div>
+          <h2>Skills &amp; Capabilities</h2>
           <p style={{ marginBottom: "2rem" }}>
             Tools, languages, and frameworks I work with.
           </p>

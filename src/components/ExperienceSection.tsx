@@ -31,6 +31,7 @@ export default function ExperienceSection() {
     <section className="section" id="experience">
       <div className="container">
         <Reveal>
+          <div className="section-eyebrow">02 // EXPERIENCE</div>
           <h2>Experience &amp; Education</h2>
           <p style={{ marginBottom: "2.5rem" }}>
             Professional roles, research experience, and academic background.
@@ -52,7 +53,7 @@ export default function ExperienceSection() {
                   <div className="timeline-dot" />
                   <div className="timeline-header">
                     <div>
-                      <span className="timeline-title" style={{ display: "block", fontSize: "1.1rem" }}>
+                      <span className="timeline-title" style={{ display: "block" }}>
                         {item.title}
                       </span>
                       <span className="timeline-company-row">
@@ -88,7 +89,7 @@ export default function ExperienceSection() {
                   <div className="timeline-dot" style={{ borderColor: item.accentColor }} />
                   <div className="timeline-header">
                     <div>
-                      <span className="timeline-title" style={{ display: "block", fontSize: "1.1rem" }}>
+                      <span className="timeline-title" style={{ display: "block" }}>
                         {item.title}
                       </span>
                       <span className="timeline-company-row">
@@ -99,7 +100,7 @@ export default function ExperienceSection() {
                     <span className="timeline-date">{item.date}</span>
                   </div>
                   <div className="timeline-body">
-                    <p style={{ fontWeight: 700, color: item.statColor, marginTop: "0.25rem", fontFamily: "var(--font-mono)", fontSize: "0.88rem" }}>
+                    <p style={{ fontWeight: 700, color: item.statColor, marginTop: "0.25rem", fontFamily: "var(--font-mono)", fontSize: "0.8rem" }}>
                       {item.statLabel}
                     </p>
                     <p style={{ marginTop: "0.35rem" }}>{item.description}</p>
