@@ -69,7 +69,7 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
             className="btn-pill btn-pill-secondary btn-pill-sm"
             style={{ textDecoration: "none" }}
           >
-            Download CV
+            Resume (PDF)
           </a>
 
           {variant === "chat" ? (
