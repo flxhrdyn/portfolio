@@ -1,63 +1,53 @@
-# Design Spec: Skills & Capabilities — Layered AI Architecture Stack
+# Design Spec: Skills & Capabilities — Bold Bento Grid with Scale/Groq Craft
 
 **Date:** 2026-08-20  
 **Author:** flxhrdyn / Antigravity Impeccable  
 **Status:** Approved for Implementation  
-**Creative Influences:** Scale AI (scale.com), Groq, Vercel Engineering Console
+**Aesthetic References:** Groq Spec Grids, Scale AI interactive cards, Vercel clean flat architecture
 
 ---
 
-## 1. Overview & Vision
+## 1. Vision & Copy Principle
 
-Redesign the **Skills & Capabilities** section from a generic box-grid with an unlinked logo ticker into an **authoritative Layered AI Infrastructure Stack**.
+The **Skills & Capabilities** section presents Felix's technical toolkit with **bold, high-craft visual design** while keeping the copywriting **grounded, clear, and professional** — zero pretentious buzzwords or confusing labels.
 
-Rather than displaying arbitrary lists of keywords, the portfolio models Felix's technical depth as a full-spectrum **Production AI Stack** spanning 4 architectural layers:
-
-1. **LAYER 04 // AGENTIC & INFERENCE SYSTEMS** — RAG Pipelines, AI Agents, Fine-Tuning, Computer Vision, NLP.
-2. **LAYER 03 // VECTOR & RETRIEVAL INFRASTRUCTURE** — Vector DBs, Embedding Engines, Document Parsers, Semantic Search.
-3. **LAYER 02 // CORE ML & MODEL OPTIMIZATION** — Deep Learning Frameworks, Training, Evaluation, scikit-learn.
-4. **LAYER 01 // COMPUTE & PRODUCTION RUNTIME** — NVIDIA DGX Systems, Docker, MLOps, FastAPI, Cloud Infrastructure.
-
----
-
-## 2. Component Architecture
-
-### `src/components/SkillsSection.tsx`
-- Replaces `.skills-grid` and `.tech-carousel` with `.skills-stack`.
-- Renders 4 stacked architectural layer cards with `motion/react` staggered reveal animations.
-- Each layer contains:
-  - **Layer Header**: Monospace layer identifier (`LAYER 04 // AGENTIC SYSTEMS`), domain descriptor, and active telemetry badge `[ 05 TOOLS ]`.
-  - **Tool Chips Grid**: High-density interactive chips containing:
-    - Dedicated SVG logo (16px, monochrome with hover activation).
-    - Tool Name (Geist Sans 600).
-    - Technical Context Tag (Geist Mono 500, e.g. `Vector DB`, `RAG Core`, `DGX A100`).
-  - **Footer Metadata Bar**: Monospace language proficiency badge (*Bahasa Indonesia Native & English Professional TOEFL: 650*).
+### Copywriting:
+- **Heading**: `Skills & Capabilities`
+- **Subtitle**: `Technologies, frameworks, and tools I use to build production AI systems.`
+- **Categories**:
+  1. `AI & Machine Learning` (9 core domains)
+  2. `ML Frameworks & Libraries` (9 frameworks & vector engines)
+  3. `Languages & Backend` (9 programming languages & backend runtimes)
+  4. `Cloud & Infrastructure` (6 deployment, MLOps, and hardware platforms)
+  5. `Languages & Communication` (English & Indonesian proficiency bar)
 
 ---
 
-## 3. Motion & Animation Design (Scale AI Inspired)
+## 2. Visual & Layout Architecture
 
-### Staggered Spring Layer Assembly
-- When scrolled into view, each Layer card enters with a vertical offset and precision spring curve (`ease: [0.16, 1, 0.3, 1]`, duration: `0.45s`).
-- Chips inside each layer cascade into view using `staggerChildren: 0.035s`.
+### Bento Grid Layout (2x2 Desktop, 1-col Mobile):
+- 4 primary modular cards with clean hairline borders (`border: 1px solid var(--border-color)`), flat surfaces (`background: var(--bg-card)`), and sharp corners (`border-radius: var(--radius-md)`).
+- **Category Header**:
+  - Number index + Category Title in bold Geist Sans (`1.1rem`, `font-weight: 700`).
+  - Subtle count tag in Geist Mono (e.g. `[ 09 ]` or `[ 9 tools ]`) aligned to the right.
+  - Hairline separator line beneath the header.
 
-### Interactive Chip Micro-Motion
-- **Hover / Focus**:
-  - Chip transforms `translateY(-2px) scale(1.02)`.
-  - Border highlights from `var(--border-color)` to `var(--text-primary)` with zero blur/drop-shadow.
-  - SVG logo shifts from `opacity: 0.75` to `opacity: 1` with a clean SVG stroke/fill transition.
+### Skill Pill Grid (Interactive Chips):
+- Each skill is rendered inside a structured chip containing:
+  - **Custom SVG Logo** (16px, monochrome grayscale at rest, crisp high-contrast on hover).
+  - **Tool Name** in clean typography (`font-size: 0.88rem`, `font-weight: 600`).
+- **Interactive Micro-Motion (Groq & Scale AI)**:
+  - Hover: `transform: translateY(-2px)`, subtle background shift to `var(--bg-secondary)`, border highlight to `var(--text-primary)`.
+  - Icon lift: SVG logo scales to `1.08` with a smooth 150ms ease.
 
-### Ambient Telemetry Scan Line
-- A subtle, discrete hairline scan effect at the top border of active layers, evoking Scale AI's live telemetry sensors.
+### Bottom Metadata Strip (Languages & Bio):
+- A minimal full-width footer strip highlighting communication and bilingual proficiency:
+  - `Bahasa Indonesia (Native)`
+  - `English (Professional · TOEFL: 650)`
 
 ---
 
-## 4. Design System & Token Alignment
+## 3. Tech Stack & Logos Integration
 
-- **Colors**: Strictly monochrome high-contrast (Zero-Hue Rule). Background `var(--bg-card)` on `var(--border-color)` with `var(--bg-secondary)` hover states.
-- **Typography**:
-  - Layer Headings: `var(--font-mono)`, `0.8rem`, `font-weight: 700`, uppercase.
-  - Tool Labels: `var(--font-sans)`, `0.9rem`, `font-weight: 600`.
-  - Context Tags: `var(--font-mono)`, `0.72rem`, `font-weight: 500`, muted.
-- **Measure**: Full container width with compact internal gap.
-- **Accessibility**: Full `prefers-reduced-motion` bypass, semantic DOM tags, keyboard focus rings.
+- Directly integrate SVG logos for all tools: PyTorch, TensorFlow, scikit-learn, LangChain, PydanticAI, LlamaIndex, Qdrant, FAISS, Hugging Face, Python, TypeScript, SQL, FastAPI, Docker, NVIDIA DGX, GCP, Azure, React, Pandas, NumPy, Git.
+- Remove redundant standalone carousel marquee to create a unified, intentional presentation.
