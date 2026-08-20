@@ -26,15 +26,15 @@
 - Modify: `src/app/globals.css`
 - Modify: `src/app/portfolio/page.tsx`
 
-- [ ] **Step 1: Create `src/components/TelemetryStrip.tsx`**
+- [x] **Step 1: Create `src/components/TelemetryStrip.tsx`**
   Implement the 3-column metric strip with `2+ Yrs` (AI/ML Experience), `10+` (AI Projects Built), and `BNSP` (Certified Data Scientist) using `Geist Mono Bold` tabular figures (`tnum`).
-- [ ] **Step 2: Add CSS rules for `.telemetry-*` in `src/app/globals.css`**
+- [x] **Step 2: Add CSS rules for `.telemetry-*` in `src/app/globals.css`**
   Add styles for `.telemetry-section`, `.telemetry-grid`, `.telemetry-cell`, `.telemetry-index`, `.telemetry-value`, `.telemetry-label`, and responsive media query ($< 768\text{px}$).
-- [ ] **Step 3: Mount `<TelemetryStrip />` in `src/app/portfolio/page.tsx`**
+- [x] **Step 3: Mount `<TelemetryStrip />` in `src/app/portfolio/page.tsx`**
   Insert `<TelemetryStrip />` directly below `<PortfolioHero />`.
-- [ ] **Step 4: Verify Next.js build**
+- [x] **Step 4: Verify Next.js build**
   Run `npm run build` to confirm clean compilation and zero TypeScript errors.
-- [ ] **Step 5: Commit changes**
+- [x] **Step 5: Commit changes**
   Commit as `feat(portfolio): add highlight metrics strip component`.
 
 ---
@@ -45,19 +45,19 @@
 - Modify: `src/components/ProjectsSection.tsx`
 - Modify: `src/app/globals.css`
 
-- [ ] **Step 1: Upgrade `ProjectsSection.tsx` to Bento Grid**
+- [x] **Step 1: Upgrade `ProjectsSection.tsx` to Bento Grid**
   - Add terminal window chrome header (`● ● ●` + `invenio-rag-pipeline.py`).
-  - Add interactive tab switcher state (`demo` | `specs` | `code`).
-  - Embed WebM video player for InvenioAI (`/projects/invenioai_demo.webm`) with poster `/projects/invenioai.webp`.
+  - Add interactive tab switcher state (`preview` | `specs` | `code`).
+  - Embed high-res screenshot & video player for InvenioAI (`/projects/invenioai-ui.webp` & `/projects/invenioai_demo.webm`).
   - Add Groq-style technical parameter datasheet table for InvenioAI (*Dense+Sparse Hybrid, Qdrant BM42, FlashRank Cross-Encoder, 4-Step CoT, Semantic Cache, Docker/Azure*).
   - Add syntax-highlighted Python snippet for the hybrid retrieval pipeline.
-  - Add video embed for LUCIAN (`/projects/lucian_demo.webm`) in the sub-project card.
+  - Add high-res screenshot for LUCIAN (`/projects/lucian-classify.webp`) and full uncropped video demo in case study modal (`/projects/lucian_demo.webm`).
   - Maintain archive project modal and GitHub Heatmap.
-- [ ] **Step 2: Add CSS rules for Bento components in `src/app/globals.css`**
+- [x] **Step 2: Add CSS rules for Bento components in `src/app/globals.css`**
   Add styles for `.bento-featured-card`, `.bento-terminal-header`, `.bento-tab-btn`, `.bento-media-pane`, `.specs-table`, `.specs-row`, `.project-card-video`.
-- [ ] **Step 3: Verify Next.js build & Design Detector**
+- [x] **Step 3: Verify Next.js build & Design Detector**
   Run `npm run build` and mechanical detector to verify zero defects.
-- [ ] **Step 4: Commit changes**
+- [x] **Step 4: Commit changes**
   Commit as `feat(projects): upgrade to asymmetric bento grid with tab switcher and video demos`.
 
 ---
@@ -67,11 +67,11 @@
 **Files:**
 - Modify: `src/components/ChatHero.tsx`
 
-- [ ] **Step 1: Add direct navigation CTA in `ChatHero.tsx`**
+- [x] **Step 1: Add direct navigation CTA in `ChatHero.tsx`**
   Add high-contrast button pair: `[ View Full Portfolio → ]` (`/portfolio`) and `[ GitHub ]` (`https://github.com/flxhrdyn`) under the hero description.
-- [ ] **Step 2: Verify responsive behavior on mobile and desktop**
+- [x] **Step 2: Verify responsive behavior on mobile and desktop**
   Ensure layout stacks cleanly on mobile with no viewport clipping.
-- [ ] **Step 3: Commit changes**
+- [x] **Step 3: Commit changes**
   Commit as `feat(chat): add direct portfolio navigation actions to landing hero`.
 
 ---
@@ -86,24 +86,24 @@
 - Modify: `src/components/ContactSection.tsx`
 - Modify: `src/app/globals.css`
 
-- [ ] **Step 1: Add standardized section eyebrows**
+- [x] **Step 1: Add standardized section eyebrows**
   - `01 // PROJECTS`
   - `02 // EXPERIENCE`
   - `03 // SKILLS`
   - `04 // CERTIFICATIONS & RESEARCH`
   - `05 // CONTACT`
-- [ ] **Step 2: Clean and verify headings**
+- [x] **Step 2: Clean and verify headings**
   Ensure headings are clean, straightforward, and recruiter-friendly (*"Featured Projects"*, *"Experience & Education"*, *"Skills & Capabilities"*, *"Certifications & Research"*, *"Get in Touch"*).
-- [ ] **Step 3: Commit changes**
+- [x] **Step 3: Commit changes**
   Commit as `feat(portfolio): standardize section hierarchy and recruiter-friendly breadcrumbs`.
 
 ---
 
 ### Task 5: End-to-End Verification & Final Polish
 
-- [ ] **Step 1: Run mechanical design detector**
+- [x] **Step 1: Run mechanical design detector**
   Execute `node C:\Users\Felix\.gemini\config\skills\impeccable\scripts/detect.mjs --json` on all modified files.
-- [ ] **Step 2: Run full production build**
+- [x] **Step 2: Run full production build**
   Execute `npm run build` and ensure all static pages generate in $< 2\text{s}$ with 0 errors.
-- [ ] **Step 3: Commit and summarize implementation**
+- [x] **Step 3: Commit and summarize implementation**
   Push all finalized commits to `feat/portfolio-redesign-init`.
