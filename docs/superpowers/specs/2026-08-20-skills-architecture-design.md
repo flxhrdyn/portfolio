@@ -1,58 +1,93 @@
-# Design Spec: Skills & Capabilities — Interactive Synaptic Neural Network
+# Design Spec: Skills & Capabilities — The Synaptic AI Network
 
 **Date:** 2026-08-20  
 **Author:** flxhrdyn / Antigravity Impeccable  
 **Status:** Approved for Implementation  
-**Visual Style:** Interactive Neural Network / Synapse Pipeline (Scale AI / AI-Native)  
-**Content:** Exact categories and items from `content/skills.json` (100% preserved)
+**Visual Style:** Interactive Multi-Layer Synaptic Neural Network (Scale AI & Groq Engineering)  
+**Content:** Complete set of all skills & technologies from `content/skills.json` and `content/tech-stack.json`
 
 ---
 
-## 1. Overview & Conceptual Architecture
+## 1. Architectural Pipeline & Layer Mapping
 
-The **Skills & Capabilities** section is rendered as an **Interactive Synaptic Neural Network** representing the end-to-end AI engineering pipeline from infrastructure to deployed intelligence.
+The section visualizes Felix's technical depth as a full-spectrum **4-Layer Neural Network Architecture**:
 
-The section consists of **4 interconnected Neural Layers** matching the exact categories from `content/skills.json`:
+### Layer 1: `L01 // COMPUTE & INGESTION`
+- **Focus**: Hardware compute, cloud infrastructure, backend runtime, and data ingestion.
+- **Nodes (8 items)**:
+  1. NVIDIA DGX Systems
+  2. Docker
+  3. Google Cloud (GCP)
+  4. Microsoft Azure
+  5. Python
+  6. FastAPI
+  7. SQL
+  8. Git & GitHub
 
-```
-LAYER 1: Cloud & MLOps              LAYER 2: Languages & Backend       LAYER 3: ML Frameworks & Libraries       LAYER 4: AI & Machine Learning
-[ 06 Nodes ]                        [ 09 Nodes ]                       [ 09 Nodes ]                              [ 09 Nodes ]
-──────────────────────────────      ─────────────────────────────      ─────────────────────────────────         ─────────────────────────────
-• NVIDIA DGX Systems   ─────╲      ╱───── • Python            ─────╲  ╱───── • PyTorch                  ─────╲  ╱───── • Advanced RAG
-• Docker               ──────╳─────────── • FastAPI           ──────╳─────── • Qdrant                   ──────╳─────── • AI Agents
-• Google Cloud (GCP)   ─────╱      ╲───── • TypeScript        ─────╱  ╲───── • LangChain                ─────╱  ╲───── • Computer Vision
-• Microsoft Azure                         • SQL                              • TensorFlow                              • Deep Learning
-• MLOps Pipelines                         • Pandas                           • LlamaIndex & LlamaParse                 • LLMs & GenAI
-• CI/CD                                   • NumPy                            • FAISS                                   • Natural Language Proc.
-                                          • REST APIs                        • Hugging Face                            • PEFT & QLoRA
-                                          • React                            • Pydantic AI                             • Prompt Engineering
-                                          • Git & GitHub                     • scikit-learn                            • Anomaly Detection
-```
+### Layer 2: `L02 // TRAINING & MODELING`
+- **Focus**: Deep learning architectures, model training, fine-tuning, and numerical processing.
+- **Nodes (8 items)**:
+  1. PyTorch
+  2. TensorFlow
+  3. Hugging Face
+  4. scikit-learn
+  5. PEFT & QLoRA
+  6. Deep Learning
+  7. Pandas
+  8. NumPy
+
+### Layer 3: `L03 // VECTOR & RETRIEVAL`
+- **Focus**: Vector search engines, indexing, orchestration, and retrieval architectures.
+- **Nodes (7 items)**:
+  1. Qdrant
+  2. FAISS
+  3. LlamaIndex & LlamaParse
+  4. LangChain
+  5. Pydantic AI
+  6. Advanced RAG
+  7. REST APIs
+
+### Layer 4: `L04 // INFERENCE & AGENTS`
+- **Focus**: Autonomous agent systems, applied computer vision, NLP, and deployed intelligence.
+- **Nodes (7 items)**:
+  1. AI Agents
+  2. Computer Vision
+  3. Natural Language Processing
+  4. LLMs & GenAI
+  5. Prompt Engineering
+  6. Anomaly Detection
+  7. TypeScript & React
+
+### Telemetry Baseline: `COMMUNICATION & PROFICIENCY`
+- **Nodes**:
+  - `Bahasa Indonesia (Native)`
+  - `English (Professional · TOEFL: 650)`
 
 ---
 
 ## 2. Interactive Synaptic Visuals & Motion
 
-### Dynamic Synapse Connectors (SVG Canvas)
-- An SVG background plane connects nodes across adjacent layers with subtle hairline curves (`stroke-width: 1px`, `opacity: 0.15` at rest).
-- **Forward-Pass Activation Pulse on Hover**:
-  - When the user hovers over any node (e.g. `PyTorch`), connecting synapse lines illuminate with high contrast (`opacity: 0.8`), simulating synaptic signal transmission.
-  - Connected upstream/downstream nodes pulse with a subtle highlight.
+### Dynamic Synaptic Forward-Pass (SVG Canvas)
+- An SVG canvas connects the layers with delicate bezier curves (`stroke: var(--border-color)`, `opacity: 0.25` at rest).
+- **Hover Activation Signal**:
+  - Hovering a node activates its incoming and outgoing synaptic connections (`opacity: 1`, `stroke: var(--text-primary)`).
+  - A subtle activation pulse flows forward across connected layers.
 
-### Neuron Node Chips
-- Each node is rendered as a precision interactive chip:
-  - **Embedded SVG Icon** (matching official tech brand or neural symbol).
-  - **Exact Item Name** from `content/skills.json`.
-  - **Hover Reaction**: Smooth lift `translateY(-2px) scale(1.03)` with crisp border highlight.
+### Interactive Neuron Nodes
+- Precision geometric pill with monochrome SVG tech icon + label.
+- Hover lift: `transform: translateY(-2px) scale(1.05)` with crisp high-contrast border and background shift.
 
-### Bottom Proficiency Strip (Languages & Bio)
-- A clean, horizontal strip at the base of the neural network:
-  - `Bahasa Indonesia (Native)` · `English (Professional, TOEFL: 650)`
+### Layer Telemetry Headers
+- Monospace layer badges in Geist Mono:
+  - `L01 // COMPUTE & INGESTION [ 08 NODES ]`
+  - `L02 // TRAINING & MODELING [ 08 NODES ]`
+  - `L03 // VECTOR & RETRIEVAL [ 07 NODES ]`
+  - `L04 // INFERENCE & AGENTS [ 07 NODES ]`
 
 ---
 
 ## 3. Responsive Adaptability
 
-- **Desktop (>= 1024px)**: Full 4-layer horizontal neural network with dynamic SVG synapse lines.
-- **Tablet & Mobile (< 1024px)**: Responsive stacked neural layers with touch-friendly node chips and vertical synaptic flow.
-- **Accessibility**: Respects `prefers-reduced-motion` by disabling pulse animations while keeping crisp interactive hover states.
+- **Desktop (>= 1024px)**: 4-layer horizontal neural pipeline with dynamic SVG connecting lines.
+- **Mobile (< 1024px)**: Vertical stacked neural layers with responsive touch interaction.
+- Respects `prefers-reduced-motion`.
