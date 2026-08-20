@@ -2771,10 +2771,7 @@
       font-weight: 500;
       color: var(--text-secondary);
       margin-bottom: 0.5rem;
-      max-width: 55ch;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      line-height: 1.4;
     }
 
     /* CONTACT SECTION & EMAIL REVEAL */
