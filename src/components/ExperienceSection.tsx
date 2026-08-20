@@ -31,8 +31,7 @@ export default function ExperienceSection() {
     <section className="section" id="experience">
       <div className="container">
         <Reveal>
-          <div className="section-eyebrow">● ● [02] // EXPERIENCE &amp; EDUCATION</div>
-          <h2>Experience &amp; Education</h2>
+          <h2><span className="section-index">[02] //</span> Experience &amp; Education</h2>
           <p style={{ marginBottom: "2.5rem" }}>
             Professional roles, research experience, and academic background.
           </p>

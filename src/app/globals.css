@@ -879,18 +879,16 @@
       }
     }
 
-    /* SECTION EYEBROW */
-    .section-eyebrow {
+    /* SECTION INDEX (INLINE WITH H2) */
+    .section-index {
       font-family: var(--font-pixel);
-      font-size: 0.85rem;
+      font-size: 0.65em;
       font-weight: 700;
       color: var(--text-secondary);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.6rem;
+      letter-spacing: 0.04em;
+      margin-right: 0.65rem;
+      opacity: 0.8;
+      vertical-align: 0.08em;
     }
 
     /* ASYMMETRIC BENTO GRID (PROJECTS) */
