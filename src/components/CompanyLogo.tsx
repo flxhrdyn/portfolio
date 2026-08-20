@@ -7,7 +7,7 @@ export default function CompanyLogo({ src, company }: { src: string; company: st
 
   return (
     <span className="company-logo">
-      <Image src={src} alt={`${company} logo`} width={120} height={28} style={{ height: "1.4rem", width: "auto" }} />
+      <Image src={src} alt={`${company} logo`} width={100} height={24} style={{ height: "1.15rem", width: "auto", objectFit: "contain" }} />
     </span>
   );
 }

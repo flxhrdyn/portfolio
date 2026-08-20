@@ -1662,28 +1662,41 @@
       }
     }
 
-    /* EXPERIENCE — LOG MANIFEST SYSTEM
-       Inspired by Vercel changelog, Groq spec sheet, Antigravity terminal.
-       Single-column full-width. Date is a fixed mono column on the left.
-       No decorative dots, lines, or icons. Pure information architecture. */
+    /* EXPERIENCE — BOLDER LOG MANIFEST SYSTEM
+       High-conviction engineering spec format inspired by Vercel, Groq, and Antigravity.
+       Crisp typography scale, tabular mono date column with live role indicators,
+       structured credential badges, and subtle row interaction. */
 
     .exp-block {
       width: 100%;
     }
 
-    /* Section label — mono uppercase, tracked, very small, like Vercel's
-       "CHANGELOG" or Groq's "METRICS" headings */
+    /* Section block header: label + bracketed counter */
+    .exp-block-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
+      user-select: none;
+    }
+
     .exp-block-label {
       font-family: var(--font-mono);
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
+      color: var(--text-primary);
+    }
+
+    .exp-block-count {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
       color: var(--text-secondary);
-      padding-bottom: 0.65rem;
-      border-bottom: 1px solid var(--border-color);
-      margin-bottom: 0;
-      user-select: none;
     }
 
     /* The full list of log entries */
@@ -1692,123 +1705,165 @@
       flex-direction: column;
     }
 
-    /* A single log entry row */
+    /* A single log entry row with subtle hover highlight */
     .exp-log-entry {
       display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 0 2rem;
-      padding: 1.5rem 0;
+      grid-template-columns: 160px 1fr;
+      gap: 0 2.5rem;
+      padding: 1.75rem 1.25rem;
       border-bottom: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
       align-items: start;
+      transition: background-color var(--transition-speed) ease;
+    }
+
+    .exp-log-entry:hover {
+      background-color: var(--bg-secondary);
     }
 
     .exp-log-entry:last-child {
       border-bottom: none;
     }
 
-    /* Date — Geist Mono, muted, small, fixed column */
+    /* Date column with live indicator */
+    .exp-log-meta {
+      padding-top: 0.15rem;
+    }
+
     .exp-log-date {
       font-family: var(--font-mono);
-      font-size: 0.75rem;
+      font-size: 0.78rem;
+      font-weight: 500;
       color: var(--text-secondary);
-      line-height: 1.6;
-      padding-top: 0.18rem; /* optical align with title */
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
       white-space: nowrap;
+    }
+
+    .exp-live-indicator {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+      flex-shrink: 0;
     }
 
     /* Content column */
     .exp-log-content {
       display: flex;
       flex-direction: column;
-      gap: 0.3rem;
+      gap: 0.5rem;
     }
 
-    /* Role / degree title */
+    .exp-log-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    /* Role title — bolder, prominent */
     .exp-log-title {
-      font-size: 0.975rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--text-primary);
-      line-height: 1.4;
-      letter-spacing: -0.015em;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
     }
 
-    /* Company row: tiny logo + name in mono */
+    /* Company row: logo + name in mono */
     .exp-log-company {
-      display: flex;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .exp-company-name {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      line-height: 1.2;
+    }
+
+    /* Credential / Stat Badge */
+    .exp-stat-badge {
+      display: inline-flex;
       align-items: center;
       gap: 0.45rem;
-      margin-top: 0.1rem;
-    }
-
-    .exp-log-company span {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.25rem 0.65rem;
       font-family: var(--font-mono);
       font-size: 0.78rem;
-      color: var(--text-secondary);
-      line-height: 1;
-    }
-
-    /* Education stat label (GPA, Distinction) */
-    .exp-log-stat {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
       font-weight: 600;
       color: var(--text-primary);
-      margin-top: 0.35rem;
-      letter-spacing: 0.01em;
+      width: fit-content;
+      margin-top: 0.2rem;
+      letter-spacing: 0.02em;
     }
 
-    /* Bullet list — compact, scannable */
+    .exp-stat-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: var(--accent-color);
+    }
+
+    /* Bullet list */
     .exp-log-bullets {
       list-style: none;
-      margin: 0.55rem 0 0 0;
+      margin: 0.6rem 0 0 0;
       padding: 0;
       display: flex;
       flex-direction: column;
-      gap: 0.3rem;
+      gap: 0.45rem;
     }
 
     .exp-log-bullets li {
-      font-size: 0.855rem;
+      font-size: 0.885rem;
       color: var(--text-secondary);
-      line-height: 1.55;
-      padding-left: 1rem;
+      line-height: 1.6;
+      padding-left: 1.2rem;
       position: relative;
       max-width: 62ch;
     }
 
-    /* Custom bullet: Geist-weight chevron mark, never colored */
+    /* Custom bullet: crisp chevron mark */
     .exp-log-bullets li::before {
       content: "▸";
       position: absolute;
       left: 0;
       top: 0;
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       color: var(--text-secondary);
-      opacity: 0.5;
-      line-height: 1.7;
+      opacity: 0.65;
+      line-height: 1.6;
     }
 
     /* Education description prose */
     .exp-log-desc {
-      font-size: 0.855rem;
+      font-size: 0.885rem;
       color: var(--text-secondary);
       line-height: 1.6;
-      margin-top: 0.4rem;
+      margin-top: 0.35rem;
       max-width: 60ch;
     }
 
-    /* Company logo — reused across old + new, keep as is */
+    /* Company logo badge */
     .company-logo {
       display: inline-flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
-      padding: 0.2rem 0.35rem;
+      padding: 0.2rem 0.4rem;
       border: 1px solid var(--border-color);
       border-radius: var(--radius-sm);
       background-color: #ffffff;
       filter: grayscale(1);
-      opacity: 0.75;
+      opacity: 0.8;
       transition: filter 0.2s ease, opacity 0.2s ease;
     }
 
@@ -1817,13 +1872,14 @@
       opacity: 1;
     }
 
-    /* Mobile: stack date above content */
-    @media (max-width: 640px) {
+    /* Mobile responsiveness */
+    @media (max-width: 720px) {
       .exp-log-entry {
         grid-template-columns: 1fr;
-        gap: 0.25rem;
+        gap: 0.75rem;
+        padding: 1.5rem 0.5rem;
       }
-      .exp-log-date {
+      .exp-log-meta {
         padding-top: 0;
       }
     }
