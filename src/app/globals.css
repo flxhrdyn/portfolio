@@ -2525,11 +2525,12 @@
 
     .certs-header-badge {
       font-family: var(--font-mono);
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       font-weight: 700;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
       color: var(--text-secondary);
+      white-space: nowrap;
     }
 
     .certs-count-pill {
@@ -2679,6 +2680,88 @@
       opacity: 1;
       color: var(--text-primary);
       transform: translate(2px, -2px);
+    }
+
+    .certs-header-pills {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .certs-domain-tag {
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      background-color: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-color);
+      padding: 0.15rem 0.45rem;
+      border-radius: 4px;
+      letter-spacing: 0.02em;
+    }
+
+    [data-theme="light"] .certs-domain-tag {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    .certs-pagination-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 0.85rem;
+      margin-top: 0.4rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .certs-page-info {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+    }
+
+    .certs-page-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .certs-page-btn {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.16s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 26px;
+      height: 26px;
+    }
+
+    .certs-page-btn:hover:not(:disabled) {
+      background-color: rgba(255, 255, 255, 0.05);
+      color: var(--text-primary);
+      border-color: var(--text-secondary);
+    }
+
+    [data-theme="light"] .certs-page-btn:hover:not(:disabled) {
+      background-color: rgba(0, 0, 0, 0.04);
+    }
+
+    .certs-page-btn.active {
+      background-color: var(--text-primary);
+      color: var(--bg-primary);
+      border-color: var(--text-primary);
+    }
+
+    .certs-page-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
     }
 
     .meta-mono {

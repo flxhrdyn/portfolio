@@ -64,15 +64,30 @@ const MODEL_ROWS = [
   { id: "inception-v3", rank: 3, colorClass: "rank-3" },
 ] as const;
 
+const PAGE_DOMAINS = [
+  "AI & ML",
+  "Analytics & Math",
+  "Software & Systems",
+] as const;
+
+const ITEMS_PER_PAGE = 6;
+
 export default function CertificationsSection() {
   const [researchOpen, setResearchOpen] = useState(false);
   const [metricType, setMetricType] = useState<"testing" | "validation" | "training">("testing");
+  const [certPage, setCertPage] = useState(0);
   const reduceMotion = useReducedMotion();
   const paper = writing[0];
 
   if (!paper) return null;
 
   const currentScores = BENCHMARK_METRICS[metricType].scores;
+  const totalPages = Math.ceil(certifications.length / ITEMS_PER_PAGE);
+  const paginatedCerts = certifications.slice(
+    certPage * ITEMS_PER_PAGE,
+    (certPage + 1) * ITEMS_PER_PAGE
+  );
+  const startIndex = certPage * ITEMS_PER_PAGE;
 
   return (
     <section className="section" id="research">
@@ -215,17 +230,20 @@ export default function CertificationsSection() {
             </article>
           </Reveal>
 
-          {/* RIGHT: VERIFIED CERTIFICATIONS LEDGER (SCALE AI / VERCEL STYLE) */}
+          {/* RIGHT: VERIFIED CERTIFICATIONS LEDGER (PAGINATED BY DOMAIN) */}
           <Reveal delay={0.06} style={{ height: "100%" }}>
             <div className="certs-stack-container">
               <div className="certs-stack-header">
                 <span className="certs-header-badge">VERIFIED CERTIFICATIONS</span>
-                <span className="certs-count-pill">{certifications.length} Credentials</span>
+                <div className="certs-header-pills">
+                  <span className="certs-domain-tag">{PAGE_DOMAINS[certPage]}</span>
+                  <span className="certs-count-pill">{certifications.length} Credentials</span>
+                </div>
               </div>
 
               {reduceMotion ? (
                 <div className="certs-list-stack">
-                  {certifications.map((cert, i) => (
+                  {paginatedCerts.map((cert, i) => (
                     <a
                       key={cert.code}
                       href={cert.url}
@@ -233,7 +251,9 @@ export default function CertificationsSection() {
                       rel="noopener noreferrer"
                       className="cert-stack-item"
                     >
-                      <span className="cert-index-number">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="cert-index-number">
+                        {String(startIndex + i + 1).padStart(2, "0")}
+                      </span>
                       <div className="cert-item-info">
                         <h4 className="cert-item-title">{cert.title}</h4>
                         <div className="cert-item-meta">
@@ -254,13 +274,13 @@ export default function CertificationsSection() {
                 </div>
               ) : (
                 <m.div
+                  key={certPage}
                   className="certs-list-stack"
                   initial="hidden"
-                  whileInView="show"
-                  viewport={{ once: true, margin: "-40px" }}
+                  animate="show"
                   variants={containerVariants}
                 >
-                  {certifications.map((cert, i) => (
+                  {paginatedCerts.map((cert, i) => (
                     <m.a
                       key={cert.code}
                       href={cert.url}
@@ -269,7 +289,9 @@ export default function CertificationsSection() {
                       className="cert-stack-item"
                       variants={itemVariants}
                     >
-                      <span className="cert-index-number">{String(i + 1).padStart(2, "0")}</span>
+                      <span className="cert-index-number">
+                        {String(startIndex + i + 1).padStart(2, "0")}
+                      </span>
                       <div className="cert-item-info">
                         <h4 className="cert-item-title">{cert.title}</h4>
                         <div className="cert-item-meta">
@@ -289,6 +311,46 @@ export default function CertificationsSection() {
                   ))}
                 </m.div>
               )}
+
+              {/* PAGINATION FOOTER */}
+              <div className="certs-pagination-footer">
+                <span className="certs-page-info">
+                  Page {certPage + 1} of {totalPages}
+                </span>
+
+                <div className="certs-page-controls">
+                  <button
+                    type="button"
+                    className="certs-page-btn arrow"
+                    onClick={() => setCertPage((p) => Math.max(0, p - 1))}
+                    disabled={certPage === 0}
+                    aria-label="Previous page"
+                  >
+                    ←
+                  </button>
+
+                  {Array.from({ length: totalPages }).map((_, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      className={`certs-page-btn num ${certPage === idx ? "active" : ""}`}
+                      onClick={() => setCertPage(idx)}
+                    >
+                      {idx + 1}
+                    </button>
+                  ))}
+
+                  <button
+                    type="button"
+                    className="certs-page-btn arrow"
+                    onClick={() => setCertPage((p) => Math.min(totalPages - 1, p + 1))}
+                    disabled={certPage === totalPages - 1}
+                    aria-label="Next page"
+                  >
+                    →
+                  </button>
+                </div>
+              </div>
             </div>
           </Reveal>
         </div>
