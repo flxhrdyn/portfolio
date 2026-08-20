@@ -54,6 +54,33 @@ function SkillBrandIcon({ name }: { name: string }) {
   );
 }
 
+const rowContainerVariants = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.4,
+      ease: [0.16, 1, 0.3, 1] as const,
+      staggerChildren: 0.035,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+const tagItemVariants = {
+  hidden: { opacity: 0, y: 8, scale: 0.96 },
+  show: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.3,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  },
+};
+
 export default function SkillsSection() {
   const reduceMotion = useReducedMotion();
   const categoryGroups = skills.filter((group) => group.category !== "Languages & Bio");
@@ -69,30 +96,26 @@ export default function SkillsSection() {
           </p>
         </Reveal>
 
-        {/* CLEAN SPEC MATRIX LIST */}
+        {/* CLEAN SPEC MATRIX LIST WITH SMOOTH STAGGERED MOTION */}
         <div className="spec-matrix-table">
           {categoryGroups.map((group, i) => {
-            const content = (
-              <div className="spec-matrix-row">
-                <div className="spec-matrix-category">
-                  {CATEGORY_ICONS[group.category]}
-                  <span className="spec-matrix-category-name">{group.category}</span>
-                </div>
-                <div className="spec-matrix-items">
-                  {group.items.map((item) => (
-                    <span key={item} className="spec-matrix-tag">
-                      <SkillBrandIcon name={item} />
-                      <span className="spec-matrix-tag-text">{item}</span>
-                    </span>
-                  ))}
-                </div>
-              </div>
-            );
-
             if (reduceMotion) {
               return (
                 <div key={group.category} className="spec-matrix-row-wrap">
-                  {content}
+                  <div className="spec-matrix-row">
+                    <div className="spec-matrix-category">
+                      {CATEGORY_ICONS[group.category]}
+                      <span className="spec-matrix-category-name">{group.category}</span>
+                    </div>
+                    <div className="spec-matrix-items">
+                      {group.items.map((item) => (
+                        <span key={item} className="spec-matrix-tag">
+                          <SkillBrandIcon name={item} />
+                          <span className="spec-matrix-tag-text">{item}</span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               );
             }
@@ -103,15 +126,29 @@ export default function SkillsSection() {
                 className="spec-matrix-row-wrap"
                 initial="hidden"
                 whileInView="show"
-                viewport={{ once: true, margin: "-60px" }}
-                variants={revealVariants}
-                transition={{
-                  duration: 0.45,
-                  delay: Math.min(i, 4) * 0.07,
-                  ease: [0.16, 1, 0.3, 1],
-                }}
+                viewport={{ once: true, margin: "-40px" }}
+                variants={rowContainerVariants}
               >
-                {content}
+                <div className="spec-matrix-row">
+                  <div className="spec-matrix-category">
+                    {CATEGORY_ICONS[group.category]}
+                    <span className="spec-matrix-category-name">{group.category}</span>
+                  </div>
+                  <div className="spec-matrix-items">
+                    {group.items.map((item) => (
+                      <m.span
+                        key={item}
+                        className="spec-matrix-tag"
+                        variants={tagItemVariants}
+                        whileHover={{ y: -2, scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        <SkillBrandIcon name={item} />
+                        <span className="spec-matrix-tag-text">{item}</span>
+                      </m.span>
+                    ))}
+                  </div>
+                </div>
               </m.div>
             );
           })}

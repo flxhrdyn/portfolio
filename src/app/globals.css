@@ -1955,21 +1955,54 @@
       border-top: 1px solid var(--border-color);
     }
 
+    .spec-matrix-row-wrap {
+      position: relative;
+    }
+
     .spec-matrix-row {
+      position: relative;
       display: grid;
       grid-template-columns: 240px 1fr;
       gap: 1.5rem;
-      padding: 1.35rem 0;
+      padding: 1.35rem 0.75rem 1.35rem 0.75rem;
       border-bottom: 1px solid var(--border-color);
       align-items: flex-start;
-      transition: background-color 0.15s ease;
+      border-radius: 6px;
+      transition: background-color 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .spec-matrix-row::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 20%;
+      bottom: 20%;
+      width: 2px;
+      background: var(--text-primary);
+      border-radius: 2px;
+      opacity: 0;
+      transform: scaleY(0.4);
+      transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .spec-matrix-row:hover {
+      background-color: rgba(255, 255, 255, 0.015);
+    }
+
+    [data-theme="light"] .spec-matrix-row:hover {
+      background-color: rgba(0, 0, 0, 0.015);
+    }
+
+    .spec-matrix-row:hover::before {
+      opacity: 0.8;
+      transform: scaleY(1);
     }
 
     @media (max-width: 768px) {
       .spec-matrix-row {
         grid-template-columns: 1fr;
         gap: 0.75rem;
-        padding: 1.15rem 0;
+        padding: 1.15rem 0.5rem;
       }
     }
 
@@ -1983,7 +2016,12 @@
       letter-spacing: 0.04em;
       text-transform: uppercase;
       color: var(--text-secondary);
-      padding-top: 0.15rem;
+      padding-top: 0.25rem;
+      transition: color 0.2s ease;
+    }
+
+    .spec-matrix-row:hover .spec-matrix-category {
+      color: var(--text-primary);
     }
 
     .spec-cat-icon {
@@ -1991,21 +2029,32 @@
       height: 15px;
       color: var(--text-secondary);
       flex-shrink: 0;
+      transition: color 0.2s ease, transform 0.2s ease;
+    }
+
+    .spec-matrix-row:hover .spec-cat-icon {
+      color: var(--text-primary);
+      transform: scale(1.08);
     }
 
     .spec-matrix-items {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 0.5rem 1.15rem;
+      gap: 0.35rem 0.65rem;
     }
 
     .spec-matrix-tag {
       display: inline-flex;
       align-items: center;
       gap: 0.45rem;
+      padding: 0.3rem 0.55rem;
+      border-radius: 4px;
+      border: 1px solid transparent;
       cursor: default;
-      transition: transform 0.15s ease;
+      transition: background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.18s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .spec-skill-icon {
@@ -2014,7 +2063,7 @@
       color: var(--text-secondary);
       flex-shrink: 0;
       opacity: 0.75;
-      transition: opacity 0.15s ease, transform 0.15s ease, color 0.15s ease;
+      transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), color 0.18s ease;
     }
 
     .spec-matrix-tag-text {
@@ -2023,7 +2072,18 @@
       color: var(--text-primary);
       font-weight: 500;
       white-space: nowrap;
-      transition: color 0.15s ease;
+      transition: color 0.18s ease;
+    }
+
+    .spec-matrix-tag:hover {
+      background-color: var(--surface-hover, rgba(255, 255, 255, 0.04));
+      border-color: var(--border-color);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    [data-theme="light"] .spec-matrix-tag:hover {
+      background-color: rgba(0, 0, 0, 0.035);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
     }
 
     .spec-matrix-tag:hover .spec-skill-icon {
