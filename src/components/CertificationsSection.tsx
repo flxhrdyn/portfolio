@@ -124,7 +124,7 @@ export default function CertificationsSection() {
               <div className="research-card-body">
                 <div className="research-card-header">
                   <span className="research-type-badge">{paper.kind}</span>
-                  <span className="research-journal-tag">{paper.journal} · {paper.volume}</span>
+                  <span className="research-journal-tag">JITET · {paper.volume}</span>
                 </div>
 
                 <h3 className="research-paper-title">{paper.title}</h3>
@@ -166,7 +166,9 @@ export default function CertificationsSection() {
                       const data = currentScores[model.id];
                       return (
                         <div key={model.id} className="leaderboard-row">
-                          <div className="leaderboard-rank-badge">{model.rank}</div>
+                          <span className="leaderboard-rank-badge">
+                            {String(model.rank).padStart(2, "0")}
+                          </span>
                           <div className="leaderboard-row-content">
                             <div className="leaderboard-meta-top">
                               <div className="leaderboard-model-info">
