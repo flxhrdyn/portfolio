@@ -5,28 +5,21 @@ import experience from "@/content/experience.json";
 import CompanyLogo from "./CompanyLogo";
 import Reveal, { revealVariants } from "./Reveal";
 
-const ROLE_METRICS: Record<string, string[]> = {
-  "PT Astra Visteon Indonesia": ["150K+ Records Analyzed", "0% → 60% Recall Boost", "Python • SQL • FastAPI"],
-  "HPC Universitas Gunadarma (HPC-UG)": ["NVIDIA DGX A100 & DGX-1", "Qwen3-8B Fine-Tuning", "89% Research Accuracy"],
-  "Universitas Gunadarma": ["GenAI & LLM Training", "International Academic Faculty", "Prompt Engineering"],
-  "Lembaga Pengembangan Komputerisasi Universitas Gunadarma (LePKom)": ["200+ Engineers Mentored", "End-to-End ML Architecture", "Code Review & Assessment"],
-};
-
-function TimelineItemReveal({ delay, children }: { delay: number; children: React.ReactNode }) {
+function TimelineReveal({ delay, children }: { delay: number; children: React.ReactNode }) {
   const reduceMotion = useReducedMotion();
 
   if (reduceMotion) {
-    return <div className="timeline-circuit-item">{children}</div>;
+    return <div className="timeline-item">{children}</div>;
   }
 
   return (
     <m.div
-      className="timeline-circuit-item"
+      className="timeline-item"
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-60px" }}
+      viewport={{ once: true, margin: "-80px" }}
       variants={revealVariants}
-      transition={{ duration: 0.45, delay, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.5, delay, ease: [0.16, 1, 0.3, 1] }}
     >
       {children}
     </m.div>
@@ -40,106 +33,78 @@ export default function ExperienceSection() {
         <Reveal>
           <h2>Experience &amp; Education</h2>
           <p style={{ marginBottom: "2.5rem" }}>
-            Production engineering roles, high-performance computing lab experience, and academic background.
+            Professional roles, research experience, and academic background.
           </p>
         </Reveal>
 
-        <div className="exp-layout-grid">
-          {/* WORK EXPERIENCE COLUMN WITH CIRCUIT TIMELINE */}
-          <div className="exp-column">
-            <div className="exp-column-header">
-              <div className="exp-column-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                </svg>
-                <span>Work Experience</span>
-              </div>
-              <span className="exp-count-badge">{experience.work.length} Roles</span>
-            </div>
-
-            <div className="timeline-circuit">
-              {experience.work.map((item, i) => {
-                const chips = ROLE_METRICS[item.company] || [];
-                return (
-                  <TimelineItemReveal key={item.title} delay={Math.min(i, 4) * 0.08}>
-                    <div className="timeline-circuit-node" aria-hidden="true" />
-                    <div className="timeline-circuit-content">
-                      <div className="exp-card-header">
-                        <div className="exp-card-main">
-                          <span className="exp-card-title">{item.title}</span>
-                          <div className="exp-card-company-row">
-                            <CompanyLogo src={item.logo} company={item.company} />
-                            <span className="exp-card-company">{item.company}</span>
-                          </div>
-                        </div>
-                        <span className="exp-card-date">{item.date}</span>
-                      </div>
-
-                      {chips.length > 0 && (
-                        <div className="exp-chips-row" aria-label="Key telemetry and technical stack">
-                          {chips.map((chip) => (
-                            <span key={chip} className="exp-chip">
-                              <span className="exp-chip-dot" aria-hidden="true" />
-                              {chip}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-
-                      <div className="exp-card-body">
-                        <ul className="exp-bullet-list">
-                          {item.highlights.map((h) => (
-                            <li key={h}>{h}</li>
-                          ))}
-                        </ul>
-                      </div>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(340px, 1fr))", gap: "3rem", alignItems: "start" }}>
+          <div>
+            <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "1.5rem", color: "var(--text-primary)", borderBottom: "1px solid var(--border-color)", paddingBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--accent-color)" }}>
+                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+              </svg>
+              Work Experience
+            </h3>
+            <div className="timeline">
+              {experience.work.map((item, i) => (
+                <TimelineReveal key={item.title} delay={Math.min(i, 4) * 0.1}>
+                  <div className="timeline-dot" />
+                  <div className="timeline-header">
+                    <div>
+                      <span className="timeline-title" style={{ display: "block" }}>
+                        {item.title}
+                      </span>
+                      <span className="timeline-company-row">
+                        <CompanyLogo src={item.logo} company={item.company} />
+                        <span className="timeline-company">{item.company}</span>
+                      </span>
                     </div>
-                  </TimelineItemReveal>
-                );
-              })}
+                    <span className="timeline-date">{item.date}</span>
+                  </div>
+                  <div className="timeline-body">
+                    <ul>
+                      {item.highlights.map((h) => (
+                        <li key={h}>{h}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </TimelineReveal>
+              ))}
             </div>
           </div>
 
-          {/* EDUCATION & ACADEMIC COLUMN WITH CIRCUIT TIMELINE */}
-          <div className="exp-column">
-            <div className="exp-column-header">
-              <div className="exp-column-title">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
-                  <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
-                </svg>
-                <span>Education &amp; Honors</span>
-              </div>
-              <span className="exp-count-badge">{experience.education.length} Programs</span>
-            </div>
-
-            <div className="timeline-circuit">
+          <div>
+            <h3 style={{ fontSize: "1.25rem", fontWeight: 700, marginBottom: "1.5rem", color: "var(--text-primary)", borderBottom: "1px solid var(--border-color)", paddingBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--accent-color)" }}>
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5"></path>
+              </svg>
+              Education
+            </h3>
+            <div className="timeline">
               {experience.education.map((item, i) => (
-                <TimelineItemReveal key={item.title} delay={Math.min(i, 4) * 0.08}>
-                  <div className="timeline-circuit-node" aria-hidden="true" />
-                  <div className="timeline-circuit-content">
-                    <div className="exp-card-header">
-                      <div className="exp-card-main">
-                        <span className="exp-card-title">{item.title}</span>
-                        <div className="exp-card-company-row">
-                          <CompanyLogo src={item.logo} company={item.company} />
-                          <span className="exp-card-company">{item.company}</span>
-                        </div>
-                      </div>
-                      <span className="exp-card-date">{item.date}</span>
+                <TimelineReveal key={item.title} delay={Math.min(i, 4) * 0.1}>
+                  <div className="timeline-dot" style={{ borderColor: item.accentColor }} />
+                  <div className="timeline-header">
+                    <div>
+                      <span className="timeline-title" style={{ display: "block" }}>
+                        {item.title}
+                      </span>
+                      <span className="timeline-company-row">
+                        <CompanyLogo src={item.logo} company={item.company} />
+                        <span className="timeline-company">{item.company}</span>
+                      </span>
                     </div>
-
-                    <div className="exp-credential-badge">
-                      <span className="exp-credential-dot" aria-hidden="true" />
-                      <span>{item.statLabel}</span>
-                    </div>
-
-                    <div className="exp-card-body">
-                      <p className="exp-edu-description">{item.description}</p>
-                    </div>
+                    <span className="timeline-date">{item.date}</span>
                   </div>
-                </TimelineItemReveal>
+                  <div className="timeline-body">
+                    <p style={{ fontWeight: 700, color: item.statColor, marginTop: "0.25rem", fontFamily: "var(--font-mono)", fontSize: "0.8rem" }}>
+                      {item.statLabel}
+                    </p>
+                    <p style={{ marginTop: "0.35rem" }}>{item.description}</p>
+                  </div>
+                </TimelineReveal>
               ))}
             </div>
           </div>

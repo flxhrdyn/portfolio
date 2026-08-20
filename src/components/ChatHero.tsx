@@ -20,7 +20,7 @@ export default function ChatHero() {
   return (
     <div className="hero-wrapper" style={{ minHeight: "calc(100vh - 4.5rem)", display: "flex", alignItems: "center" }}>
       <m.header
-        className="container hero-content"
+        className="container chat-hero-content"
         style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
         initial={reduceMotion ? undefined : "hidden"}
         animate={reduceMotion ? undefined : "show"}
@@ -56,7 +56,7 @@ export default function ChatHero() {
           </m.div>
         </div>
 
-        <m.div variants={item}>
+        <m.div variants={item} className="chat-widget-col">
           <ChatWidget />
         </m.div>
       </m.header>

@@ -7,7 +7,7 @@ import { scrollToAnchor } from "@/lib/scrollToAnchor";
 export default function PortfolioHero() {
   return (
     <div id="about" className="hero-wrapper">
-      <header className="container hero-content">
+      <header className="container portfolio-hero-content">
         <div className="hero-text-col">
           <Reveal className="hero-title-group">
             <div className="hero-eyebrow">
