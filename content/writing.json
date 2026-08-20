@@ -6,7 +6,7 @@
     "journal": "JITET (Jurnal Informatika dan Teknik Elektro Terapan)",
     "volume": "Vol. 13 No. 3",
     "issn": "pISSN: 2303-0577 | eISSN: 2830-7062",
-    "doi": "http://dx.doi.org/10.23960/jitet.v13i3.6591",
+    "doi": "https://journal.eng.unila.ac.id/index.php/jitet/article/view/6591/3512",
     "authors": "Ulfa Hidayati, Felix Windriyareksa Hardyan, Faizah Rizki Auliawati, Ali Akbar Rafsanjani, Fanka Arie Reza, Mario Mora Siregar",
     "summary": "Comparative study of CoralNet, InceptionV3, and MobileNetV2 for classifying coral reef conditions into healthy, bleached, and dead categories. MobileNetV2 achieved the best performance with 97% training accuracy and 89% test accuracy.",
     "stats": [

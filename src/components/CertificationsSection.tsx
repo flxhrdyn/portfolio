@@ -31,12 +31,45 @@ const itemVariants: Variants = {
   },
 };
 
+const BENCHMARK_DATA = {
+  testing: {
+    label: "Testing Accuracy",
+    subtitle: "Generalization performance on unseen test dataset",
+    ranks: [
+      { name: "mobilenet-v2", score: "89.60%", val: 89.6, color: "rank-1", badge: "Optimal" },
+      { name: "coralnet-baseline", score: "88.80%", val: 88.8, color: "rank-2", badge: null },
+      { name: "inception-v3", score: "84.80%", val: 84.8, color: "rank-3", badge: null },
+    ],
+  },
+  validation: {
+    label: "Validation Accuracy",
+    subtitle: "Checkpoint evaluation across training epochs",
+    ranks: [
+      { name: "mobilenet-v2", score: "88.00%", val: 88.0, color: "rank-1", badge: "Optimal" },
+      { name: "inception-v3", score: "86.40%", val: 86.4, color: "rank-2", badge: null },
+      { name: "coralnet-baseline", score: "85.60%", val: 85.6, color: "rank-3", badge: null },
+    ],
+  },
+  training: {
+    label: "Training Accuracy",
+    subtitle: "Convergence accuracy across 50 epochs",
+    ranks: [
+      { name: "mobilenet-v2", score: "97.20%", val: 97.2, color: "rank-1", badge: "Optimal" },
+      { name: "inception-v3", score: "96.90%", val: 96.9, color: "rank-2", badge: null },
+      { name: "coralnet-baseline", score: "89.10%", val: 89.1, color: "rank-3", badge: null },
+    ],
+  },
+} as const;
+
 export default function CertificationsSection() {
   const [researchOpen, setResearchOpen] = useState(false);
+  const [metricType, setMetricType] = useState<"testing" | "validation" | "training">("testing");
   const reduceMotion = useReducedMotion();
   const paper = writing[0];
 
   if (!paper) return null;
+
+  const currentBenchmark = BENCHMARK_DATA[metricType];
 
   return (
     <section className="section" id="research">
@@ -53,7 +86,7 @@ export default function CertificationsSection() {
 
         {/* ASYMMETRIC ENGINEERING BENTO */}
         <div className="research-bento-grid">
-          {/* LEFT: FEATURED RESEARCH PAPER CARD (SCALE AI BENCHMARK STYLE) */}
+          {/* LEFT: FEATURED RESEARCH PAPER CARD (LEADERBOARD BENCHMARK) */}
           <Reveal style={{ height: "100%" }}>
             <article className="research-featured-card">
               <div>
@@ -68,84 +101,67 @@ export default function CertificationsSection() {
                   Ulfa H., Felix W. Hardyan, Faizah R., Ali A., Fanka A., Mario M.
                 </p>
 
-                {/* SCALE AI / DEEPMIND STYLE TRAINING CONVERGENCE LINE CHART */}
-                <div className="research-chart-card">
-                  <div className="chart-card-header">
-                    <div className="chart-header-left">
-                      <span className="chart-title">MODEL CONVERGENCE CURVE</span>
-                      <span className="chart-subtitle">MobileNetV2 · 50 Epochs</span>
+                {/* EXACT LEADERBOARD MODEL BENCHMARK CARD */}
+                <div className="leaderboard-benchmark-card">
+                  <div className="leaderboard-header-row">
+                    <div>
+                      <h4 className="leaderboard-title">Model Benchmark</h4>
+                      <p className="leaderboard-subtitle">{currentBenchmark.subtitle}</p>
                     </div>
-                    <div className="chart-legend">
-                      <span className="legend-item train">
-                        <span className="legend-line solid" />
-                        Train Acc (97%)
-                      </span>
-                      <span className="legend-item val">
-                        <span className="legend-line dashed" />
-                        Val Acc (89%)
-                      </span>
+
+                    <div className="leaderboard-tab-switcher">
+                      <button
+                        type="button"
+                        className={`leaderboard-tab-btn ${metricType === "testing" ? "active" : ""}`}
+                        onClick={() => setMetricType("testing")}
+                      >
+                        Testing
+                      </button>
+                      <button
+                        type="button"
+                        className={`leaderboard-tab-btn ${metricType === "validation" ? "active" : ""}`}
+                        onClick={() => setMetricType("validation")}
+                      >
+                        Validation
+                      </button>
+                      <button
+                        type="button"
+                        className={`leaderboard-tab-btn ${metricType === "training" ? "active" : ""}`}
+                        onClick={() => setMetricType("training")}
+                      >
+                        Training
+                      </button>
                     </div>
                   </div>
 
-                  {/* HIGH-PRECISION CONVERGENCE SVG CHART */}
-                  <div className="chart-svg-wrap">
-                    <svg
-                      viewBox="0 0 460 115"
-                      className="research-svg-chart"
-                      preserveAspectRatio="none"
-                      aria-label="MobileNetV2 Training and Validation Accuracy Curve"
-                    >
-                      <defs>
-                        <linearGradient id="trainGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stopColor="var(--text-primary)" stopOpacity="0.18" />
-                          <stop offset="100%" stopColor="var(--text-primary)" stopOpacity="0.0" />
-                        </linearGradient>
-                      </defs>
-
-                      {/* Grid Lines */}
-                      <line x1="40" y1="20" x2="450" y2="20" stroke="var(--border-color)" strokeDasharray="3 3" opacity="0.4" />
-                      <line x1="40" y1="55" x2="450" y2="55" stroke="var(--border-color)" strokeDasharray="3 3" opacity="0.4" />
-                      <line x1="40" y1="90" x2="450" y2="90" stroke="var(--border-color)" strokeDasharray="3 3" opacity="0.4" />
-
-                      {/* Y-Axis Labels */}
-                      <text x="32" y="24" textAnchor="end" className="chart-axis-text">100%</text>
-                      <text x="32" y="59" textAnchor="end" className="chart-axis-text">80%</text>
-                      <text x="32" y="94" textAnchor="end" className="chart-axis-text">60%</text>
-
-                      {/* Train Area Fill */}
-                      <path
-                        d="M 40 88 C 100 80, 160 38, 260 28 C 340 22, 400 18, 450 16 L 450 95 L 40 95 Z"
-                        fill="url(#trainGrad)"
-                      />
-
-                      {/* Validation Curve (Dashed) */}
-                      <path
-                        d="M 40 92 C 100 86, 170 54, 260 44 C 330 38, 390 34, 450 33"
-                        fill="none"
-                        stroke="var(--text-secondary)"
-                        strokeWidth="1.8"
-                        strokeDasharray="4 4"
-                        opacity="0.85"
-                      />
-
-                      {/* Training Curve (Solid High-Contrast) */}
-                      <path
-                        d="M 40 88 C 100 80, 160 38, 260 28 C 340 22, 400 18, 450 16"
-                        fill="none"
-                        stroke="var(--text-primary)"
-                        strokeWidth="2.2"
-                        strokeLinecap="round"
-                      />
-
-                      {/* Optimal Checkpoint Dot */}
-                      <circle cx="450" cy="33" r="3.5" fill="var(--bg-card)" stroke="var(--text-primary)" strokeWidth="2" />
-                      <circle cx="450" cy="16" r="3.5" fill="var(--text-primary)" />
-                    </svg>
+                  <div className="leaderboard-rows">
+                    {currentBenchmark.ranks.map((model, idx) => (
+                      <div key={model.name} className="leaderboard-row">
+                        <div className="leaderboard-rank-badge">{idx + 1}</div>
+                        <div className="leaderboard-row-content">
+                          <div className="leaderboard-meta-top">
+                            <div className="leaderboard-model-info">
+                              <span className="leaderboard-model-name">{model.name}</span>
+                              {model.badge && <span className="leaderboard-badge">{model.badge}</span>}
+                            </div>
+                            <span className="leaderboard-score-val">{model.score}</span>
+                          </div>
+                          <div className="leaderboard-bar-track">
+                            <div
+                              className={`leaderboard-bar-fill ${model.color}`}
+                              style={{ width: `${model.val}%` }}
+                            >
+                              <span className="error-bar-whisker" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
 
                 <p className="research-summary-text">
-                  Evaluated deep learning vision models for automated coral reef health diagnostics. MobileNetV2 achieved 89% validation accuracy, outperforming InceptionV3 (84%) and CoralNet baseline (78%) while reducing manual feature extraction latency.
+                  Evaluated deep learning architectures on coral reef diagnostics. MobileNetV2 achieved 89.60% testing accuracy, outperforming CoralNet (88.80%) and InceptionV3 (84.80%) while maintaining low parameter footprint.
                 </p>
               </div>
 
@@ -169,7 +185,7 @@ export default function CertificationsSection() {
                     rel="noopener noreferrer"
                     className="research-action-btn secondary"
                   >
-                    DOI Publication ↗
+                    Read Paper ↗
                   </a>
                 )}
               </div>
