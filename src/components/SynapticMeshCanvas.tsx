@@ -187,13 +187,28 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
 
           if (distSq < mouseRadiusSq) {
             const dist = Math.sqrt(distSq);
-            const factor = (1 - dist / mouseRadius);
-            n.activation = Math.min(1, n.activation + factor * 0.12);
+            const factor = 1 - dist / mouseRadius;
+            n.activation = Math.min(1, n.activation + factor * 0.14);
 
-            // Responsive elastic pull: nodes follow the mouse cursor dynamically
-            const pullDistance = 38 * factor;
-            targetX = n.anchorX + (dx / dist) * pullDistance;
-            targetY = n.anchorY + (dy / dist) * pullDistance;
+            // Magnetic attraction towards cursor, cushioned so nodes encircle/orbit
+            // the mouse organically rather than collapsing into a single clump point
+            const pullDistance = Math.min(dist * 0.45, 52 * factor);
+            const rawTargetX = n.anchorX + (dx / (dist || 1)) * pullDistance;
+            const rawTargetY = n.anchorY + (dy / (dist || 1)) * pullDistance;
+
+            // Core cushion: keep at least 28px breathing radius from exact cursor center
+            const curDx = rawTargetX - mouse.x;
+            const curDy = rawTargetY - mouse.y;
+            const curDist = Math.sqrt(curDx * curDx + curDy * curDy);
+
+            if (curDist < 28) {
+              const pushFactor = (28 - curDist) / 28;
+              targetX = rawTargetX + (curDx / (curDist || 1)) * 18 * pushFactor;
+              targetY = rawTargetY + (curDy / (curDist || 1)) * 18 * pushFactor;
+            } else {
+              targetX = rawTargetX;
+              targetY = rawTargetY;
+            }
           } else {
             n.activation *= 0.94;
           }
@@ -202,8 +217,8 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
         }
 
         // Smooth spring physics towards target position (returns to anchor when mouse moves away)
-        n.x += (targetX - n.x) * 0.12;
-        n.y += (targetY - n.y) * 0.12;
+        n.x += (targetX - n.x) * 0.11;
+        n.y += (targetY - n.y) * 0.11;
       }
 
       // 3. DRAW BALANCED SYNAPSE CONNECTIONS (Uniform across entire canvas)

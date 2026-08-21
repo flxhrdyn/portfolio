@@ -575,6 +575,14 @@
       white-space: nowrap;
       box-shadow: none;
       z-index: 5;
+      opacity: 0;
+      transform: translateY(4px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+    }
+
+    .cv-bounding-box.is-active .cv-detection-tag {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .cv-status-indicator {
