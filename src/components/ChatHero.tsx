@@ -4,6 +4,7 @@ import Link from "next/link";
 import { m, useReducedMotion, type Variants } from "motion/react";
 import ChatWidget from "./ChatWidget";
 import SynapticMeshCanvas from "./SynapticMeshCanvas";
+import DecryptedText from "./DecryptedText";
 
 // Scale AI signature cubic-bezier easing curve: explosive fast start, long butter-smooth deceleration
 const SCALE_AI_EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
@@ -69,7 +70,13 @@ export default function ChatHero() {
               <span>ACTIVE // AI ENGINEER &amp; DATA SCIENTIST</span>
             </m.div>
             <m.h1 className="hero-title" variants={textReveal}>
-              Felix Windriyareksa Hardyan
+              <DecryptedText
+                text="Felix Windriyareksa Hardyan"
+                speed={26}
+                maxIterations={10}
+                animateOnMount={true}
+                onHover={true}
+              />
             </m.h1>
             <m.p className="hero-description" variants={textReveal}>
               Building production-grade AI systems, from Data Science to GenAI.

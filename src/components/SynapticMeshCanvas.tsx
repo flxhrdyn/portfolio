@@ -57,6 +57,31 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
       active: false,
     };
 
+    interface Shockwave {
+      x: number;
+      y: number;
+      radius: number;
+      maxRadius: number;
+      speed: number;
+      alpha: number;
+    }
+
+    let shockwaves: Shockwave[] = [];
+
+    const handleClick = (e: MouseEvent) => {
+      const rect = canvas.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const clickY = e.clientY - rect.top;
+      shockwaves.push({
+        x: clickX,
+        y: clickY,
+        radius: 0,
+        maxRadius: 300,
+        speed: 5.5,
+        alpha: 0.5,
+      });
+    };
+
     const handleMouseMove = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       mouse.targetX = e.clientX - rect.left;
@@ -76,6 +101,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
     if (parent) {
       parent.addEventListener("mousemove", handleMouseMove);
       parent.addEventListener("mouseleave", handleMouseLeave);
+      parent.addEventListener("click", handleClick);
     }
 
     interface WanderingNode {
@@ -96,6 +122,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
     const initNodes = () => {
       nodes = [];
       pulses = [];
+      shockwaves = [];
 
       // High-density Stratified Grid-Jitter Distribution: 120 - 170 nodes across the full screen
       const cols = Math.max(13, Math.floor(width / 92));
@@ -221,7 +248,43 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
         n.y += (targetY - n.y) * 0.11;
       }
 
-      // 3. DRAW BALANCED SYNAPSE CONNECTIONS (Uniform across entire canvas)
+      // 3. UPDATE & DRAW SYNAPTIC SHOCKWAVES
+      for (let s = shockwaves.length - 1; s >= 0; s--) {
+        const sw = shockwaves[s];
+        sw.radius += sw.speed;
+        const progress = sw.radius / sw.maxRadius;
+        const currentAlpha = sw.alpha * (1 - progress);
+
+        if (progress >= 1) {
+          shockwaves.splice(s, 1);
+          continue;
+        }
+
+        // Draw expanding subtle laser ring
+        ctx.strokeStyle = `rgba(${grayRgb}, ${currentAlpha * (isDark ? 0.35 : 0.25)})`;
+        ctx.lineWidth = 0.8;
+        ctx.beginPath();
+        ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // Shockwave excitation of passing nodes
+        for (let i = 0; i < nodes.length; i++) {
+          const n = nodes[i];
+          const dx = n.x - sw.x;
+          const dy = n.y - sw.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          const diff = Math.abs(dist - sw.radius);
+
+          if (diff < 22) {
+            const waveStrength = (1 - diff / 22) * (1 - progress);
+            n.activation = Math.min(1, n.activation + waveStrength * 0.5);
+            n.x += (dx / (dist || 1)) * 3.5 * waveStrength;
+            n.y += (dy / (dist || 1)) * 3.5 * waveStrength;
+          }
+        }
+      }
+
+      // 4. DRAW BALANCED SYNAPSE CONNECTIONS (Uniform across entire canvas)
       for (let i = 0; i < nodes.length; i++) {
         const n1 = nodes[i];
         for (let j = i + 1; j < nodes.length; j++) {
@@ -261,7 +324,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
         }
       }
 
-      // 4. DRAW CALM SIGNAL PULSES
+      // 5. DRAW CALM SIGNAL PULSES
       for (let p = pulses.length - 1; p >= 0; p--) {
         const pulse = pulses[p];
         pulse.progress += pulse.speed;
@@ -287,7 +350,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
         ctx.fill();
       }
 
-      // 5. DRAW MUTED GRAY NEURON NODES
+      // 6. DRAW MUTED GRAY NEURON NODES
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
         const baseAlpha = isDark ? 0.32 : 0.28;
@@ -319,6 +382,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
       if (parent) {
         parent.removeEventListener("mousemove", handleMouseMove);
         parent.removeEventListener("mouseleave", handleMouseLeave);
+        parent.removeEventListener("click", handleClick);
       }
     };
   }, [reduceMotion]);

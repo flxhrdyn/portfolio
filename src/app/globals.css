@@ -806,6 +806,23 @@
       position: relative;
     }
 
+    @keyframes consoleScanSweep {
+      0% {
+        top: -5%;
+        opacity: 0;
+      }
+      25% {
+        opacity: 0.45;
+      }
+      75% {
+        opacity: 0.45;
+      }
+      100% {
+        top: 105%;
+        opacity: 0;
+      }
+    }
+
     .portfolio-chat-box {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
@@ -817,6 +834,20 @@
       min-height: 440px;
       box-shadow: none;
       text-align: left;
+      position: relative;
+    }
+
+    .portfolio-chat-box::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 1.5px;
+      background: linear-gradient(90deg, transparent 0%, var(--text-primary) 50%, transparent 100%);
+      opacity: 0;
+      pointer-events: none;
+      z-index: 10;
+      animation: consoleScanSweep 2.4s cubic-bezier(0.16, 1, 0.3, 1) 0.4s 1 forwards;
     }
 
     [data-theme="light"] .portfolio-chat-box {
