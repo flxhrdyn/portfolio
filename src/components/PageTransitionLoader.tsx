@@ -65,47 +65,17 @@ export default function PageTransitionLoader() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Subtle Geometric Dot Grid */}
+          {/* Subtle Background Dot Grid */}
           <div className="transition-dot-grid" aria-hidden="true" />
 
-          {/* High-Speed Laser Scan Sweep */}
-          <div className="transition-vertical-laser" aria-hidden="true" />
-
-          {/* Top Brand Monogram */}
-          <div className="transition-top-brand">
-            <div className="transition-brand-mark">
-              <span className="transition-brand-brackets">[::]</span>
-              <span className="transition-brand-name">flxhrdyn</span>
-            </div>
-            <div className="transition-brand-tag">
-              <span className="transition-status-dot" />
-              <span>SYSTEM ROUTING</span>
-            </div>
-          </div>
-
-          {/* Center Bold Giant Typography & Kinetic Laser */}
+          {/* Center Title Only */}
           <div className="transition-center-stage">
-            <div className="transition-stage-eyebrow">
-              SWITCHING CONTEXT // 0x7F
-            </div>
-            <h2 className="transition-stage-title">
+            <h1 className="transition-center-title">
               {targetLabel}
-            </h2>
-            <div className="transition-stage-route">
-              <code>TARGET // {targetRoute}</code>
-            </div>
-
-            {/* 1px Hairline Kinetic Laser Progress */}
+            </h1>
             <div className="transition-stage-track">
               <div className="transition-stage-bar" />
             </div>
-          </div>
-
-          {/* Bottom Precision Telemetry */}
-          <div className="transition-bottom-telemetry">
-            <span>FELIX WINDIYAREKSA HARDYAN</span>
-            <span>&bull;</span>
-            <span>PRODUCTION-GRADE AI SYSTEMS</span>
           </div>
         </m.div>
       )}
