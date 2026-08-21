@@ -76,10 +76,37 @@ export default function PageTransitionLoader() {
             <span className="reticle-corner reticle-bl" aria-hidden="true" />
             <span className="reticle-corner reticle-br" aria-hidden="true" />
 
-            {/* Top Micro Monogram */}
+            {/* Top Logo Brandmark Matching Navbar */}
             <div className="transition-pixel-eyebrow">
-              <span className="transition-pixel-brackets">[::]</span>
-              <span>FLXHRDYN // ROUTING</span>
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="square"
+                strokeLinejoin="miter"
+                style={{ color: "var(--accent-color)", flexShrink: 0 }}
+                aria-hidden="true"
+              >
+                <path d="M5 4H2V20H5" />
+                <path d="M19 4H22V20H19" />
+                <rect x="7" y="6" width="2.5" height="2.5" fill="currentColor" stroke="none" />
+                <rect x="11" y="6" width="2.5" height="2.5" fill="currentColor" stroke="none" opacity="0.3" />
+                <rect x="15" y="6" width="2.5" height="2.5" fill="currentColor" stroke="none" />
+                
+                <rect x="7" y="11" width="2.5" height="2.5" fill="currentColor" stroke="none" opacity="0.3" />
+                <rect x="11" y="11" width="2.5" height="2.5" fill="currentColor" stroke="none" />
+                <rect x="15" y="11" width="2.5" height="2.5" fill="currentColor" stroke="none" opacity="0.3" />
+                
+                <rect x="7" y="16" width="2.5" height="2.5" fill="currentColor" stroke="none" />
+                <rect x="11" y="16" width="2.5" height="2.5" fill="currentColor" stroke="none" opacity="0.3" />
+                <rect x="15" y="16" width="2.5" height="2.5" fill="currentColor" stroke="none" />
+              </svg>
+              <span className="brand-wordmark" style={{ fontSize: "0.88rem" }}>flxhrdyn</span>
+              <span style={{ opacity: 0.35 }}>//</span>
+              <span style={{ fontSize: "0.68rem", letterSpacing: "0.14em" }}>ROUTING</span>
             </div>
 
             {/* Center Geist Pixel Title */}
