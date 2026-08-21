@@ -397,15 +397,21 @@
     }
 
     .hero-title-group {
-      max-width: 560px;
+      max-width: 640px;
       margin-bottom: 1.5rem;
+    }
+
+    .hero-photo-col {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
     }
 
     /* SCALE AI 3D COMPUTER VISION & DGX COMPUTE HUD */
     .dgx-hud-perspective-container {
       perspective: 1000px;
       width: 100%;
-      max-width: 480px;
+      max-width: 440px;
       margin: 0 0 0 auto;
       display: flex;
       flex-direction: column;
@@ -539,8 +545,7 @@
     .dgx-photo-frame {
       position: relative;
       width: 100%;
-      aspect-ratio: 4 / 5;
-      max-height: 520px;
+      height: 480px;
       border-top-left-radius: inherit;
       border-top-right-radius: inherit;
       overflow: hidden;
@@ -620,11 +625,11 @@
 
 
     .hero-title {
-      font-size: clamp(2.75rem, 6vw + 1.25rem, 5rem);
+      font-size: clamp(2.4rem, 4.4vw, 3.85rem);
       font-weight: 800;
-      letter-spacing: -0.05em;
-      line-height: 1.04;
-      margin-bottom: 1rem;
+      letter-spacing: -0.04em;
+      line-height: 1.08;
+      margin-bottom: 1.15rem;
     }
 
     .hero-role {
