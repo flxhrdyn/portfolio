@@ -8,14 +8,21 @@ import profile from "@/content/profile.json";
 export default function ProfilePhoto() {
   const reduceMotion = useReducedMotion();
   const [isHovered, setIsHovered] = useState(false);
+  const [cursor, setCursor] = useState({ x: 0, y: 0 });
 
   if (!profile.photo) return null;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
 
   return (
     <figure
       className="cv-portrait-container"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      onMouseMove={handleMouseMove}
       onFocus={() => setIsHovered(true)}
       onBlur={() => setIsHovered(false)}
       tabIndex={0}
@@ -48,35 +55,32 @@ export default function ProfilePhoto() {
         </div>
       </div>
 
-      {/* Interactive Micro Bio Card (Reveals on Hover / Focus) */}
+      {/* Compact Bio Tooltip — follows cursor within the frame */}
       <AnimatePresence>
         {isHovered && (
           <m.div
             className="cv-bio-card"
-            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 10, scale: 0.98 }}
-            animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, scale: 1 }}
-            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6, scale: 0.98 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            style={reduceMotion ? undefined : { left: cursor.x, top: cursor.y }}
+            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
+            animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="cv-bio-header">
-              <span className="cv-bio-name">Felix Windriyareksa Hardyan</span>
-              <span className="cv-bio-role">AI Engineer &amp; Data Scientist</span>
-            </div>
-
-            <div className="cv-bio-divider" />
+            <span className="cv-bio-name">Felix Windriyareksa Hardyan</span>
+            <span className="cv-bio-role">AI Engineer &amp; Data Scientist</span>
 
             <div className="cv-bio-details">
               <div className="cv-bio-row">
-                <span className="cv-bio-key">FOCUS</span>
-                <span className="cv-bio-val">GenAI &middot; Machine Learning &middot; Data Science</span>
+                <span className="cv-bio-key">Focus</span>
+                <span className="cv-bio-val">GenAI &middot; ML &middot; Data Science</span>
               </div>
               <div className="cv-bio-row">
-                <span className="cv-bio-key">BASE</span>
+                <span className="cv-bio-key">Base</span>
                 <span className="cv-bio-val">Indonesia (UTC+7)</span>
               </div>
               <div className="cv-bio-row">
-                <span className="cv-bio-key">STATUS</span>
-                <span className="cv-bio-val cv-status-active">Available for Work &amp; Collab</span>
+                <span className="cv-bio-key">Status</span>
+                <span className="cv-bio-val cv-status-active">Available for work</span>
               </div>
             </div>
           </m.div>

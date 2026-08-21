@@ -97,9 +97,9 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
       nodes = [];
       pulses = [];
 
-      // Stratified Grid-Jitter Distribution across the full screen
-      const cols = Math.max(7, Math.floor(width / 150));
-      const rows = Math.max(5, Math.floor(height / 140));
+      // High-density Stratified Grid-Jitter Distribution: 120 - 170 nodes across the full screen
+      const cols = Math.max(13, Math.floor(width / 92));
+      const rows = Math.max(8, Math.floor(height / 85));
       const cellW = width / cols;
       const cellH = height / rows;
 
@@ -108,7 +108,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
           const x = c * cellW + Math.random() * cellW;
           const y = r * cellH + Math.random() * cellH;
           const angle = Math.random() * Math.PI * 2;
-          const speed = 0.07 + Math.random() * 0.09;
+          const speed = 0.06 + Math.random() * 0.08;
 
           nodes.push({
             x,
@@ -118,7 +118,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
             angle,
             speed,
             angleDelta: (Math.random() - 0.5) * 0.015,
-            radius: Math.random() < 0.25 ? 1.8 : 1.2,
+            radius: Math.random() < 0.2 ? 1.6 : 1.05,
             activation: 0,
           });
         }
@@ -127,9 +127,9 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
 
     initNodes();
 
-    const mouseRadius = 200;
+    const mouseRadius = 210;
     const mouseRadiusSq = mouseRadius * mouseRadius;
-    const connectionDist = 160;
+    const connectionDist = 125;
     const connectionDistSq = connectionDist * connectionDist;
 
     const render = () => {
