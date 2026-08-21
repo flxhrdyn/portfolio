@@ -410,12 +410,12 @@
       width: 100%;
     }
 
-    /* SCALE AI FLAGSHIP 3D NEURAL DECOMPOSITION STACK */
-    .scale-hero-stage {
+    /* SCALE AI PORTRAIT 3D NEURAL DECOMPOSITION STACK */
+    .scale-portrait-viewport {
       perspective: 1600px;
       perspective-origin: 55% 45%;
       width: 100%;
-      max-width: 600px;
+      max-width: 540px;
       margin: 0 0 0 auto;
       display: flex;
       justify-content: center;
@@ -423,27 +423,27 @@
       padding: 1.5rem 0.5rem 2.5rem 0.5rem;
     }
 
-    .scale-3d-stack {
+    .scale-portrait-stack {
       position: relative;
-      width: 480px;
-      height: 300px;
+      width: 360px;
+      height: 480px;
       transform-style: preserve-3d;
       cursor: crosshair;
       will-change: transform;
     }
 
     /* GLASS SHEETS BASE */
-    .scale-sheet {
+    .scale-portrait-sheet {
       position: absolute;
       inset: 0;
       border-radius: 24px;
       pointer-events: none;
       transform-style: preserve-3d;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, filter 0.4s ease;
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, filter 0.4s ease;
       will-change: transform, opacity;
     }
 
-    .sheet-canvas-svg {
+    .sheet-svg-canvas {
       width: 100%;
       height: 100%;
       display: block;
@@ -451,12 +451,12 @@
       filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.4));
     }
 
-    [data-theme="light"] .sheet-canvas-svg {
+    [data-theme="light"] .sheet-svg-canvas {
       color: #000000;
       filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.1));
     }
 
-    /* LAYER 4: BACK-MOST GLASS SHEET (Output Ports) */
+    /* LAYER 4: BACK-MOST GLASS PLATE (Output Classifications) */
     .sheet-back-4 {
       z-index: 1;
       transform: translate3d(0, 0, 0);
@@ -464,13 +464,13 @@
       visibility: hidden;
     }
 
-    .scale-3d-stack.is-hovered .sheet-back-4 {
-      transform: translate3d(85px, 40px, -95px);
+    .scale-portrait-stack.is-hovered .sheet-back-4 {
+      transform: translate3d(155px, 55px, -150px);
       opacity: 0.75;
       visibility: visible;
     }
 
-    /* LAYER 3: MIDDLE-BACK GLASS SHEET (Neural Splines) */
+    /* LAYER 3: MIDDLE-BACK GLASS PLATE (Neural Spline Streams) */
     .sheet-back-3 {
       z-index: 2;
       transform: translate3d(0, 0, 0);
@@ -478,8 +478,8 @@
       visibility: hidden;
     }
 
-    .scale-3d-stack.is-hovered .sheet-back-3 {
-      transform: translate3d(45px, 20px, -50px);
+    .scale-portrait-stack.is-hovered .sheet-back-3 {
+      transform: translate3d(80px, 28px, -75px);
       opacity: 0.88;
       visibility: visible;
     }
@@ -489,21 +489,21 @@
       z-index: 3;
       pointer-events: auto;
       transform: translate3d(0, 0, 0px);
-      border-radius: 20px;
+      border-radius: 24px;
       overflow: hidden;
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
       border: 1px solid var(--border-color);
       background-color: var(--bg-secondary);
       transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
     }
 
-    .scale-3d-stack.is-hovered .sheet-photo-2 {
+    .scale-portrait-stack.is-hovered .sheet-photo-2 {
       transform: translate3d(0, 0, 15px);
-      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.65);
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7);
       border-color: var(--text-primary);
     }
 
-    .photo-inner {
+    .portrait-photo-inner {
       position: relative;
       width: 100%;
       height: 100%;
@@ -511,7 +511,7 @@
       background-color: var(--bg-secondary);
     }
 
-    /* LAYER 1: FRONT GLASS SHEET (Input Feature Wireframe) */
+    /* LAYER 1: FRONT GLASS PLATE (Input Feature Contours) */
     .sheet-front-1 {
       z-index: 4;
       transform: translate3d(0, 0, 0);
@@ -519,23 +519,23 @@
       visibility: hidden;
     }
 
-    .scale-3d-stack.is-hovered .sheet-front-1 {
-      transform: translate3d(-60px, -24px, 75px);
+    .scale-portrait-stack.is-hovered .sheet-front-1 {
+      transform: translate3d(-90px, -30px, 105px);
       opacity: 0.95;
       visibility: visible;
     }
 
-    /* NEURAL ANIMATED SPLINES ON HOVER (NEURAL NETWORK IN ACTION) */
-    .scale-3d-stack.is-hovered .neural-animated-spline {
+    /* NEURAL ANIMATED SPLINES ON HOVER */
+    .scale-portrait-stack.is-hovered .spline-flow-stream {
       stroke-dasharray: 8 6;
       animation: splineStream 1.8s linear infinite;
     }
 
-    .scale-3d-stack.is-hovered .spline-1 { animation-duration: 2.2s; }
-    .scale-3d-stack.is-hovered .spline-2 { animation-duration: 1.8s; }
-    .scale-3d-stack.is-hovered .spline-3 { animation-duration: 1.5s; }
-    .scale-3d-stack.is-hovered .spline-4 { animation-duration: 1.9s; }
-    .scale-3d-stack.is-hovered .spline-5 { animation-duration: 2.4s; }
+    .scale-portrait-stack.is-hovered .flow-1 { animation-duration: 2.2s; }
+    .scale-portrait-stack.is-hovered .flow-2 { animation-duration: 1.8s; }
+    .scale-portrait-stack.is-hovered .flow-3 { animation-duration: 1.5s; }
+    .scale-portrait-stack.is-hovered .flow-4 { animation-duration: 1.9s; }
+    .scale-portrait-stack.is-hovered .flow-5 { animation-duration: 2.4s; }
 
     @keyframes splineStream {
       from { stroke-dashoffset: 28; }
@@ -543,7 +543,7 @@
     }
 
     /* NEURON GATE PULSE ON HOVER */
-    .scale-3d-stack.is-hovered .neuron-gate-node {
+    .scale-portrait-stack.is-hovered .gate-diamond-pulse {
       animation: gatePulse 1.8s ease-in-out infinite alternate;
     }
 
