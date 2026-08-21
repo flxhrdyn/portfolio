@@ -755,7 +755,7 @@
     /* THE PORTFOLIO CONSOLE (VERCEL AI STUDIO ULTRA-FINE 1PX HAIRLINE PRECISION) */
     .chat-card-container {
       width: 100%;
-      max-width: 560px;
+      max-width: 500px;
       position: relative;
     }
 
@@ -766,8 +766,8 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      height: 560px;
-      min-height: 540px;
+      height: 480px;
+      min-height: 440px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       text-align: left;
     }
