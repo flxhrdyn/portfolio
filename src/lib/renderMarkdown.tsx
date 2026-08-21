@@ -8,6 +8,17 @@ const LINK_STYLE: React.CSSProperties = {
   fontWeight: 600,
 };
 
+function sanitizeHref(href: string): string {
+  if (href.startsWith("/") || href.startsWith("#")) return href;
+  try {
+    const url = new URL(href, "https://placeholder.local");
+    if (url.protocol === "http:" || url.protocol === "https:" || url.protocol === "mailto:") return href;
+  } catch {
+    // fall through to reject
+  }
+  return "#";
+}
+
 function parseInline(text: string, keyPrefix: string): ReactNode[] {
   // Matches:
   // 1. Links: [text](url)
@@ -30,7 +41,7 @@ function parseInline(text: string, keyPrefix: string): ReactNode[] {
     if (match[1]) {
       // Link: [text](url)
       const label = match[2];
-      const href = match[3];
+      const href = sanitizeHref(match[3]);
       const external = href.startsWith("http");
       nodes.push(
         <Link

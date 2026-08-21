@@ -8,12 +8,12 @@ from fastapi import FastAPI, HTTPException, Request  # noqa: E402
 from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
 from fastapi.responses import StreamingResponse  # noqa: E402
 
-from .groq_client import STEP_LIMIT_MESSAGE, UNAVAILABLE_MESSAGE, run_agent_stream  # noqa: E402
+from .groq_client import DECLINE_MESSAGE, STEP_LIMIT_MESSAGE, UNAVAILABLE_MESSAGE, run_agent_stream  # noqa: E402
 from .rate_limit import get_client_ip, ratelimit  # noqa: E402
 from .response_cache import get_cached_response, set_cached_response  # noqa: E402
 from .schemas import ChatRequest  # noqa: E402
 
-SKIP_CACHE = {UNAVAILABLE_MESSAGE, STEP_LIMIT_MESSAGE}
+SKIP_CACHE = {UNAVAILABLE_MESSAGE, STEP_LIMIT_MESSAGE, DECLINE_MESSAGE}
 
 
 async def _stream_and_cache(message: str, history: list[dict]):
@@ -23,7 +23,7 @@ async def _stream_and_cache(message: str, history: list[dict]):
         yield chunk
 
     full_response = "".join(chunks)
-    if full_response not in SKIP_CACHE:
+    if full_response not in SKIP_CACHE and "I can only answer questions" not in full_response:
         set_cached_response(message, history, full_response)
 
 

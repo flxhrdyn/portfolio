@@ -26,7 +26,8 @@ JAILBREAK_PATTERNS = [
     r"no restrictions",
     r"developer mode",
     r"\bjailbreak\b",
-    r"\bDAN\b",
+    r"\bdo anything now\b",
+    r"\bdan mode\b",
 ]
 JAILBREAK_RE = re.compile("|".join(JAILBREAK_PATTERNS), re.IGNORECASE)
 

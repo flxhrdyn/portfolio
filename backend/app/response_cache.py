@@ -18,7 +18,13 @@ def get_cached_response(message: str, history: list[dict]) -> str | None:
     # a reply grounded in prior conversation isn't safe to reuse for a different conversation.
     if history:
         return None
-    return _redis.get(_cache_key(message))
+    try:
+        cached = _redis.get(_cache_key(message))
+        if cached and ("I can only answer questions" in cached or "declined" in cached):
+            return None
+        return cached
+    except Exception:
+        return None
 
 
 def set_cached_response(message: str, history: list[dict], response: str) -> None:
