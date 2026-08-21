@@ -326,24 +326,24 @@
     .hero-eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
-      font-family: var(--font-pixel);
-      font-size: 0.82rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      color: var(--text-primary);
-      background-color: var(--bg-card);
+      gap: 0.5rem;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      background-color: var(--bg-secondary);
       border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      padding: 0.25rem 0.75rem;
       margin-bottom: 1.25rem;
       text-transform: uppercase;
     }
 
     .hero-eyebrow svg {
-      width: 13px;
-      height: 13px;
-      color: var(--accent-color);
+      width: 12px;
+      height: 12px;
+      color: var(--text-secondary);
     }
 
     .chat-hero-content {
@@ -405,10 +405,11 @@
     }
 
     .hero-title {
-      font-size: clamp(2.75rem, 4.5vw + 0.5rem, 3.85rem);
-      font-weight: 800;
-      line-height: 1.05;
-      letter-spacing: -0.045em;
+      font-family: var(--font-sans, sans-serif);
+      font-size: clamp(2.5rem, 5vw + 1.5rem, 4.25rem);
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
       color: var(--text-primary);
       margin-bottom: 1.15rem;
     }
@@ -611,30 +612,6 @@
     @keyframes splineStream {
       from { stroke-dashoffset: 28; }
       to { stroke-dashoffset: 0; }
-    }
-
-
-
-    .hero-title {
-      font-size: clamp(2.4rem, 4.4vw, 3.85rem);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1.08;
-      margin-bottom: 1.15rem;
-    }
-
-    .hero-role {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--text-primary);
-      margin-bottom: 0.75rem;
-    }
-
-    .hero-description {
-      font-size: 1.15rem;
-      color: var(--text-secondary);
-      margin: 0;
-      max-width: 520px;
     }
 
     /* HERO ACTION BUTTONS */

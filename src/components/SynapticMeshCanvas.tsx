@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useEffect, useRef } from "react";
 import { useReducedMotion } from "motion/react";
@@ -84,8 +84,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
     const initNodes = () => {
       nodes = [];
       pulses = [];
-      // Clean, distilled node count: approx 28-34 nodes across screen
-      const count = Math.min(36, Math.max(22, Math.floor((width * height) / 38000)));
+      const count = Math.min(85, Math.max(50, Math.floor((width * height) / 16000)));
 
       for (let i = 0; i < count; i++) {
         const x = Math.random() * width;
@@ -95,9 +94,9 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
           y,
           baseX: x,
           baseY: y,
-          vx: (Math.random() - 0.5) * 0.12, // Ultra-slow, serene ambient drift
-          vy: (Math.random() - 0.5) * 0.12,
-          radius: Math.random() < 0.25 ? 1.8 : 1.2, // Tiny minimal micro-dots
+          vx: (Math.random() - 0.5) * 0.14, // Serene ambient drift
+          vy: (Math.random() - 0.5) * 0.14,
+          radius: Math.random() < 0.35 ? 2.4 : 1.8, // Crisp technical dots
           activation: 0,
         });
       }
@@ -105,9 +104,9 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
 
     initNodes();
 
-    const mouseRadius = 150;
+    const mouseRadius = 180;
     const mouseRadiusSq = mouseRadius * mouseRadius;
-    const connectionDist = 120;
+    const connectionDist = 155;
     const connectionDistSq = connectionDist * connectionDist;
 
     const render = () => {
@@ -122,12 +121,12 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
       const isDark = document.documentElement.getAttribute("data-theme") !== "light";
       const primaryRgb = isDark ? "255, 255, 255" : "0, 0, 0";
 
-      // 1. VERCEL SPECULAR AMBIENT MOUSE GLOW
+      // 1. SPECULAR AMBIENT MOUSE GLOW
       if (mouse.active) {
-        const glowRadius = 260;
+        const glowRadius = 280;
         const glow = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, glowRadius);
-        glow.addColorStop(0, `rgba(${primaryRgb}, ${isDark ? 0.045 : 0.035})`);
-        glow.addColorStop(0.5, `rgba(${primaryRgb}, ${isDark ? 0.015 : 0.01})`);
+        glow.addColorStop(0, `rgba(${primaryRgb}, ${isDark ? 0.05 : 0.04})`);
+        glow.addColorStop(0.5, `rgba(${primaryRgb}, ${isDark ? 0.018 : 0.012})`);
         glow.addColorStop(1, `rgba(${primaryRgb}, 0)`);
 
         ctx.fillStyle = glow;
@@ -169,7 +168,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
         }
       }
 
-      // 3. DRAW FOCUSED SYNAPSE CONNECTIONS (Quiet, intentional spotlight near cursor)
+      // 3. DRAW FOCUSED SYNAPSE CONNECTIONS (Dense active neural topology)
       for (let i = 0; i < nodes.length; i++) {
         const n1 = nodes[i];
         for (let j = i + 1; j < nodes.length; j++) {
@@ -183,25 +182,25 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
             const distRatio = 1 - dist / connectionDist;
             const activation = Math.max(n1.activation, n2.activation);
 
-            // Only draw lines when activated or faintly as quiet baseline
-            const baseAlpha = isDark ? 0.04 : 0.035;
-            const alpha = baseAlpha * distRatio + activation * 0.28;
+            // Active technical backdrop baseline
+            const baseAlpha = isDark ? 0.08 : 0.07;
+            const alpha = baseAlpha * distRatio + activation * 0.38;
 
             if (alpha > 0.01) {
-              ctx.strokeStyle = `rgba(${primaryRgb}, ${Math.min(0.5, alpha)})`;
-              ctx.lineWidth = 0.75;
+              ctx.strokeStyle = `rgba(${primaryRgb}, ${Math.min(0.6, alpha)})`;
+              ctx.lineWidth = 0.8;
               ctx.beginPath();
               ctx.moveTo(n1.x, n1.y);
               ctx.lineTo(n2.x, n2.y);
               ctx.stroke();
 
               // Spawn calm, occasional signal packet near cursor
-              if (activation > 0.4 && pulses.length < 8 && Math.random() < 0.008) {
+              if (activation > 0.35 && pulses.length < 10 && Math.random() < 0.012) {
                 pulses.push({
                   fromIndex: i,
                   toIndex: j,
                   progress: 0,
-                  speed: 0.012, // Calm, smooth speed
+                  speed: 0.014,
                 });
               }
             }
@@ -229,21 +228,21 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
         const px = from.x + (to.x - from.x) * pulse.progress;
         const py = from.y + (to.y - from.y) * pulse.progress;
 
-        ctx.fillStyle = `rgba(${primaryRgb}, 0.75)`;
+        ctx.fillStyle = `rgba(${primaryRgb}, 0.85)`;
         ctx.beginPath();
-        ctx.arc(px, py, 1.5, 0, Math.PI * 2);
+        ctx.arc(px, py, 1.8, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // 5. DRAW CLEAN MINIMAL NEURON NODES
+      // 5. DRAW CLEAN NEURON NODES
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
-        const baseAlpha = isDark ? 0.2 : 0.18;
-        const activeAlpha = baseAlpha + n.activation * 0.65;
+        const baseAlpha = isDark ? 0.38 : 0.32;
+        const activeAlpha = baseAlpha + n.activation * 0.55;
 
         // Soft halo on hover
         if (n.activation > 0.05) {
-          ctx.fillStyle = `rgba(${primaryRgb}, ${n.activation * 0.12})`;
+          ctx.fillStyle = `rgba(${primaryRgb}, ${n.activation * 0.14})`;
           ctx.beginPath();
           ctx.arc(n.x, n.y, n.radius * 3.5, 0, Math.PI * 2);
           ctx.fill();
