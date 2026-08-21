@@ -529,36 +529,43 @@
       left: 6.5%;
       width: 28%;
       height: 54%;
-      border: 1px dashed rgba(255, 255, 255, 0.5);
+      border: 1.5px solid var(--text-primary);
+      background-color: rgba(255, 255, 255, 0.04);
       pointer-events: none;
       transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     [data-theme="light"] .cv-bounding-box {
-      border-color: rgba(0, 0, 0, 0.5);
+      border: 1.5px solid #000000;
+      background-color: rgba(0, 0, 0, 0.03);
     }
 
     .cv-bounding-box.is-active {
-      border-style: solid;
+      background-color: rgba(255, 255, 255, 0.08);
       border-color: var(--text-primary);
+    }
+
+    [data-theme="light"] .cv-bounding-box.is-active {
+      background-color: rgba(0, 0, 0, 0.06);
+      border-color: #000000;
     }
 
     /* 4 RETICLES */
     .cv-reticle {
       position: absolute;
       font-family: var(--font-pixel, monospace);
-      font-size: 1.1rem;
-      font-weight: 700;
+      font-size: 1.15rem;
+      font-weight: 800;
       color: var(--text-primary);
       line-height: 1;
       user-select: none;
       transition: transform 0.2s ease, color 0.2s ease;
     }
 
-    .cv-reticle-tl { top: -6px; left: -5px; }
-    .cv-reticle-tr { top: -6px; right: -5px; }
-    .cv-reticle-bl { bottom: -6px; left: -5px; }
-    .cv-reticle-br { bottom: -6px; right: -5px; }
+    .cv-reticle-tl { top: -6px; left: -6px; }
+    .cv-reticle-tr { top: -6px; right: -6px; }
+    .cv-reticle-bl { bottom: -6px; left: -6px; }
+    .cv-reticle-br { bottom: -6px; right: -6px; }
 
     .cv-bounding-box.is-active .cv-reticle-tl { transform: translate(-2px, -2px); }
     .cv-bounding-box.is-active .cv-reticle-tr { transform: translate(2px, -2px); }
@@ -568,7 +575,7 @@
     /* DETECTION LABEL TAG */
     .cv-detection-tag {
       position: absolute;
-      top: -11px;
+      top: -12px;
       left: 0;
       display: inline-flex;
       align-items: center;
@@ -579,8 +586,8 @@
       border-radius: var(--radius-sm);
       font-family: var(--font-mono, monospace);
       font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
+      font-weight: 700;
+      letter-spacing: 0.05em;
       color: var(--text-primary);
       text-transform: uppercase;
       white-space: nowrap;
@@ -590,6 +597,8 @@
 
     [data-theme="light"] .cv-detection-tag {
       background-color: #ffffff;
+      border-color: #000000;
+      color: #000000;
     }
 
     .cv-status-indicator {
@@ -598,6 +607,10 @@
       border-radius: var(--radius-full);
       background-color: var(--text-primary);
       animation: cvPulse 1.4s ease-in-out infinite alternate;
+    }
+
+    [data-theme="light"] .cv-status-indicator {
+      background-color: #000000;
     }
 
     @keyframes cvPulse {
@@ -610,10 +623,10 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 12px;
-      height: 12px;
+      width: 14px;
+      height: 14px;
       transform: translate(-50%, -50%);
-      opacity: 0.4;
+      opacity: 0.5;
       transition: opacity 0.2s ease;
     }
 
@@ -624,37 +637,54 @@
       background-color: var(--text-primary);
     }
 
+    [data-theme="light"] .cv-crosshair::before,
+    [data-theme="light"] .cv-crosshair::after {
+      background-color: #000000;
+    }
+
     .cv-crosshair::before {
-      top: 5px;
+      top: 6px;
       left: 0;
-      width: 12px;
+      width: 14px;
       height: 1px;
     }
 
     .cv-crosshair::after {
       top: 0;
-      left: 5px;
+      left: 6px;
       width: 1px;
-      height: 12px;
+      height: 14px;
     }
 
     .cv-bounding-box.is-active .cv-crosshair {
-      opacity: 0.85;
+      opacity: 0.9;
     }
 
     /* BOTTOM COORDINATES */
     .cv-coord-tag {
       position: absolute;
-      bottom: -15px;
+      bottom: -18px;
       left: 0;
+      display: inline-flex;
+      align-items: center;
+      padding: 0.1rem 0.35rem;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
       font-family: var(--font-mono, monospace);
       font-size: 0.58rem;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text-secondary);
       letter-spacing: 0.04em;
       text-transform: uppercase;
       white-space: nowrap;
-      opacity: 0.85;
+      z-index: 5;
+    }
+
+    [data-theme="light"] .cv-coord-tag {
+      background-color: #ffffff;
+      border-color: #e5e7eb;
+      color: #52525b;
     }
 
     /* INTERACTIVE BIO CARD ON HOVER */
