@@ -3583,79 +3583,193 @@
       }
     }
 
-    /* GLOBAL SNAPPY PAGE TRANSITION LOADER */
-    .route-transition-overlay {
+    /* FULL-SCREEN GROQ × TENSOR PAGE TRANSITION OVERLAY */
+    .fullscreen-transition-overlay {
       position: fixed;
       inset: 0;
-      z-index: 99999;
-      pointer-events: none;
+      z-index: 999999;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: rgba(0, 0, 0, 0.25);
-      backdrop-filter: blur(5px);
-      -webkit-backdrop-filter: blur(5px);
+      background-color: var(--bg-primary);
+      pointer-events: all;
+      user-select: none;
+      overflow: hidden;
     }
 
-    [data-theme="light"] .route-transition-overlay {
-      background: rgba(255, 255, 255, 0.35);
-    }
-
-    .route-laser-beam {
+    .transition-dot-grid {
       position: absolute;
-      top: 0;
+      inset: 0;
+      background-image: radial-gradient(circle, var(--text-primary) 1px, transparent 1px);
+      background-size: 24px 24px;
+      opacity: 0.08;
+      pointer-events: none;
+    }
+
+    [data-theme="dark"] .transition-dot-grid {
+      opacity: 0.14;
+    }
+
+    .transition-vertical-laser {
+      position: absolute;
       left: 0;
-      width: 100%;
-      height: 2.5px;
-      background: linear-gradient(90deg, transparent, var(--text-primary), transparent);
-      animation: laserSweep 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .route-laser-glow {
-      position: absolute;
-      top: -2px;
       right: 0;
-      width: 80px;
-      height: 7px;
-      background: var(--text-primary);
-      filter: blur(3px);
-      border-radius: 9999px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, var(--text-primary) 50%, transparent 100%);
+      box-shadow: 0 0 16px var(--text-primary), 0 0 32px var(--text-primary);
+      animation: verticalLaserSweep 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      pointer-events: none;
     }
 
-    .route-telemetry-badge {
+    @keyframes verticalLaserSweep {
+      0% {
+        top: -5%;
+        opacity: 0;
+      }
+      20% {
+        opacity: 1;
+      }
+      80% {
+        opacity: 1;
+      }
+      100% {
+        top: 105%;
+        opacity: 0;
+      }
+    }
+
+    .transition-tensor-hub {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.15rem;
+      padding: 2.25rem 2.75rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
+      min-width: 320px;
+      text-align: center;
+      animation: tensorHubPop 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes tensorHubPop {
+      0% {
+        transform: scale(0.94) translateY(8px);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .transition-matrix-box {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+    }
+
+    .transition-matrix-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      width: 20px;
+      height: 20px;
+    }
+
+    .tensor-node {
+      width: 4px;
+      height: 4px;
+      border-radius: 1px;
+      background-color: var(--text-primary);
+      opacity: 0.3;
+      animation: tensorPulse 0.45s ease-in-out infinite alternate;
+    }
+
+    @keyframes tensorPulse {
+      0% {
+        opacity: 0.2;
+        transform: scale(0.8);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1.25);
+      }
+    }
+
+    .transition-telemetry-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .transition-telemetry-eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 0.65rem;
-      padding: 0.55rem 1.25rem;
-      background: var(--bg-primary);
-      border: 1px solid var(--border-color);
-      border-radius: 9999px;
-      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
+      justify-content: center;
+      gap: 0.45rem;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--text-secondary);
+    }
+
+    .transition-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #10b981;
+      box-shadow: 0 0 8px #10b981;
+      animation: statusBlink 0.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes statusBlink {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+
+    .transition-telemetry-title {
+      font-family: var(--font-sans, sans-serif);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .transition-telemetry-route {
       font-family: var(--font-mono, monospace);
       font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      color: var(--text-primary);
-      animation: telemetryPulse 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      color: var(--text-secondary);
     }
 
-    .telemetry-spark {
-      color: var(--text-primary);
-      font-size: 0.75rem;
-      animation: spinSpark 0.38s ease-out;
+    .transition-progress-track {
+      width: 100%;
+      height: 2px;
+      background: var(--border-color);
+      border-radius: 9999px;
+      overflow: hidden;
+      position: relative;
     }
 
-    @keyframes laserSweep {
-      0% { transform: scaleX(0); transform-origin: left; opacity: 0; }
-      20% { opacity: 1; }
-      100% { transform: scaleX(1); transform-origin: left; opacity: 0.95; }
+    .transition-progress-bar {
+      height: 100%;
+      width: 0%;
+      background: var(--text-primary);
+      animation: progressFill 0.46s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
-    @keyframes telemetryPulse {
-      0% { transform: scale(0.92); opacity: 0; }
-      30% { transform: scale(1); opacity: 1; }
-      85% { transform: scale(1); opacity: 1; }
-      100% { transform: scale(1.02); opacity: 0; }
+    @keyframes progressFill {
+      0% { width: 0%; }
+      60% { width: 85%; }
+      100% { width: 100%; }
     }
 
     /* CHAT HERO AMBIENT CONSOLE GLOW */
