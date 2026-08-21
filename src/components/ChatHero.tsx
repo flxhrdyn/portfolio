@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { m, useReducedMotion, type Variants } from "motion/react";
 import ChatWidget from "./ChatWidget";
+import SynapticMeshCanvas from "./SynapticMeshCanvas";
 
 const container: Variants = {
   hidden: {},
@@ -18,10 +19,13 @@ export default function ChatHero() {
   const reduceMotion = useReducedMotion();
 
   return (
-    <div className="hero-wrapper" style={{ minHeight: "calc(100vh - 4.5rem)", display: "flex", alignItems: "center" }}>
+    <div className="hero-wrapper chat-hero-wrapper" style={{ minHeight: "calc(100vh - 4.5rem)", display: "flex", alignItems: "center", position: "relative", overflow: "hidden" }}>
+      {/* BACKGROUND INTERACTIVE SYNAPTIC ATTENTION MESH */}
+      <SynapticMeshCanvas />
+
       <m.header
         className="container chat-hero-content"
-        style={{ paddingTop: "1rem", paddingBottom: "1rem" }}
+        style={{ paddingTop: "1.5rem", paddingBottom: "1.5rem", position: "relative", zIndex: 1 }}
         initial={reduceMotion ? undefined : "hidden"}
         animate={reduceMotion ? undefined : "show"}
         variants={container}
@@ -29,10 +33,8 @@ export default function ChatHero() {
         <div className="hero-text-col">
           <div className="hero-title-group">
             <m.div className="hero-eyebrow" variants={item}>
-              <svg viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z" />
-              </svg>
-              <span>AI ENGINEER &amp; DATA SCIENTIST</span>
+              <span className="telemetry-status-dot" aria-hidden="true" style={{ width: "6px", height: "6px" }} />
+              <span>ACTIVE // AI ENGINEER &amp; DATA SCIENTIST</span>
             </m.div>
             <m.h1 className="hero-title" variants={item}>
               Felix Windriyareksa Hardyan
@@ -42,7 +44,7 @@ export default function ChatHero() {
             </m.p>
           </div>
 
-          <m.div variants={item} className="hero-actions" style={{ marginTop: "1.25rem" }}>
+          <m.div variants={item} className="hero-actions" style={{ marginTop: "1.5rem" }}>
             <Link href="/portfolio" className="btn-pill btn-pill-primary">
               <span>View Full Portfolio</span>
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -57,7 +59,10 @@ export default function ChatHero() {
         </div>
 
         <m.div variants={item} className="chat-widget-col">
-          <ChatWidget />
+          <div className="chat-console-glow-wrap">
+            <div className="chat-ambient-glow" />
+            <ChatWidget />
+          </div>
         </m.div>
       </m.header>
     </div>

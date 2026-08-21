@@ -3443,9 +3443,27 @@
       100% { transform: scale(1.02); opacity: 0; }
     }
 
-    @keyframes spinSpark {
-      0% { transform: rotate(0deg) scale(0.5); }
-      100% { transform: rotate(90deg) scale(1); }
+    /* CHAT HERO AMBIENT CONSOLE GLOW */
+    .chat-console-glow-wrap {
+      position: relative;
+      width: 100%;
+      display: flex;
+      justify-content: center;
     }
+
+    .chat-ambient-glow {
+      position: absolute;
+      inset: -12px;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.08), transparent 70%);
+      filter: blur(20px);
+      border-radius: 24px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    [data-theme="light"] .chat-ambient-glow {
+      background: radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.05), transparent 70%);
+    }
+
 
 
