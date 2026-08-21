@@ -479,136 +479,275 @@
       display: none;
     }
 
-    /* SCALE AI PORTRAIT 3D NEURAL DECOMPOSITION STACK (TALL 560PX ARCHITECTURE) */
-    .scale-portrait-viewport {
-      perspective: 1400px;
-      perspective-origin: 55% 50%;
-      width: 100%;
-      max-width: 560px;
-      margin: 0 0 0 auto;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 0;
-      min-height: 560px;
-    }
-
-    .scale-portrait-stack {
+    /* COMPUTER VISION OBJECT-DETECTION PORTRAIT VIEWPORT */
+    .cv-portrait-container {
       position: relative;
-      width: 440px;
-      height: 560px;
-      transform-style: preserve-3d;
-      cursor: crosshair;
-      will-change: transform;
-    }
-
-    /* GLASS SHEETS BASE */
-    .scale-portrait-sheet {
-      position: absolute;
-      inset: 0;
-      border-radius: 26px;
-      pointer-events: none;
-      transform-style: preserve-3d;
-      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.45s ease, filter 0.4s ease;
-      will-change: transform, opacity;
-    }
-
-    .portrait-svg-canvas {
-      width: 100%;
-      height: 100%;
       display: block;
-      color: #ffffff;
-      filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.4));
-    }
-
-    [data-theme="light"] .portrait-svg-canvas {
-      color: #000000;
-      filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.1));
-    }
-
-    /* LAYER 4: BACK-MOST GLASS PLATE (Output Classifications) */
-    .sheet-back-output {
-      z-index: 1;
-      transform: translate3d(0, 0, 0);
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .scale-portrait-stack.is-hovered .sheet-back-output {
-      transform: translate3d(110px, 18px, -100px);
-      opacity: 0.75;
-      visibility: visible;
-    }
-
-    /* LAYER 3: MIDDLE-BACK GLASS PLATE (Neural Spline Streams) */
-    .sheet-middle-splines {
-      z-index: 2;
-      transform: translate3d(0, 0, 0);
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .scale-portrait-stack.is-hovered .sheet-middle-splines {
-      transform: translate3d(58px, 10px, -52px);
-      opacity: 0.88;
-      visibility: visible;
-    }
-
-    /* LAYER 2: PHOTO CARD (Center Layer - Tall 560px) */
-    .sheet-photo-center {
-      z-index: 3;
-      pointer-events: auto;
-      transform: translate3d(0, 0, 0px);
-      border-radius: 26px;
-      overflow: hidden;
-      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
+      width: 100%;
+      max-width: 440px;
+      height: 540px;
+      margin: 0 0 0 auto;
+      border-radius: var(--radius-md);
       border: 1px solid var(--border-color);
-      background-color: var(--bg-secondary);
-      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
+      background-color: var(--bg-card);
+      overflow: hidden;
+      cursor: crosshair;
+      outline: none;
+      transition: border-color 0.2s ease;
     }
 
-    .scale-portrait-stack.is-hovered .sheet-photo-center {
-      transform: translate3d(0, 0, 10px);
-      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7);
+    .cv-portrait-container:hover,
+    .cv-portrait-container:focus-visible {
       border-color: var(--text-primary);
     }
 
-    .photo-portrait-inner {
-      position: relative;
+    .cv-photo-wrapper {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       overflow: hidden;
       background-color: var(--bg-secondary);
     }
 
-    /* LAYER 1: FRONT GLASS PLATE (Input Feature Contours) */
-    .sheet-front-contours {
-      z-index: 4;
-      transform: translate3d(0, 0, 0);
-      opacity: 0;
-      visibility: hidden;
+    .cv-photo-img {
+      object-fit: cover;
+      object-position: center 20%;
+      filter: grayscale(12%) contrast(1.04);
+      transition: filter 0.3s ease, transform 0.3s ease;
     }
 
-    .scale-portrait-stack.is-hovered .sheet-front-contours {
-      transform: translate3d(-75px, -12px, 85px);
-      opacity: 0.95;
-      visibility: visible;
+    .cv-portrait-container:hover .cv-photo-img {
+      filter: grayscale(0%) contrast(1.02);
+      transform: scale(1.015);
     }
 
-    /* NEURAL ANIMATED SPLINES ON HOVER */
-    .scale-portrait-stack.is-hovered .scale-spline-anim {
-      stroke-dasharray: 8 6;
-      animation: splineStream 1.8s linear infinite;
+    /* CV BOUNDING BOX OVERLAY */
+    .cv-bounding-box {
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+      border: 1px dashed rgba(255, 255, 255, 0.35);
+      pointer-events: none;
+      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .scale-portrait-stack.is-hovered .s-flow-1 { animation-duration: 2.2s; }
-    .scale-portrait-stack.is-hovered .s-flow-2 { animation-duration: 1.8s; }
-    .scale-portrait-stack.is-hovered .s-flow-3 { animation-duration: 1.5s; }
-    .scale-portrait-stack.is-hovered .s-flow-4 { animation-duration: 2.0s; }
+    [data-theme="light"] .cv-bounding-box {
+      border-color: rgba(0, 0, 0, 0.3);
+    }
 
-    @keyframes splineStream {
-      from { stroke-dashoffset: 28; }
-      to { stroke-dashoffset: 0; }
+    .cv-bounding-box.is-active {
+      border-style: solid;
+      border-color: var(--text-primary);
+    }
+
+    /* 4 RETICLES */
+    .cv-reticle {
+      position: absolute;
+      font-family: var(--font-pixel, monospace);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+      user-select: none;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+
+    .cv-reticle-tl { top: -6px; left: -5px; }
+    .cv-reticle-tr { top: -6px; right: -5px; }
+    .cv-reticle-bl { bottom: -6px; left: -5px; }
+    .cv-reticle-br { bottom: -6px; right: -5px; }
+
+    .cv-bounding-box.is-active .cv-reticle-tl { transform: translate(-2px, -2px); }
+    .cv-bounding-box.is-active .cv-reticle-tr { transform: translate(2px, -2px); }
+    .cv-bounding-box.is-active .cv-reticle-bl { transform: translate(-2px, 2px); }
+    .cv-bounding-box.is-active .cv-reticle-br { transform: translate(2px, 2px); }
+
+    /* DETECTION LABEL TAG */
+    .cv-detection-tag {
+      position: absolute;
+      top: -12px;
+      left: 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.2rem 0.55rem;
+      background-color: var(--bg-card);
+      border: 1px solid var(--text-primary);
+      border-radius: var(--radius-sm);
+      font-family: var(--font-mono, monospace);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      box-shadow: none;
+    }
+
+    [data-theme="light"] .cv-detection-tag {
+      background-color: #ffffff;
+    }
+
+    .cv-status-indicator {
+      width: 5px;
+      height: 5px;
+      border-radius: var(--radius-full);
+      background-color: var(--text-primary);
+      animation: cvPulse 1.4s ease-in-out infinite alternate;
+    }
+
+    @keyframes cvPulse {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; }
+    }
+
+    /* CENTER OPTICAL CROSSHAIR */
+    .cv-crosshair {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 14px;
+      height: 14px;
+      transform: translate(-50%, -50%);
+      opacity: 0.35;
+      transition: opacity 0.2s ease;
+    }
+
+    .cv-crosshair::before,
+    .cv-crosshair::after {
+      content: "";
+      position: absolute;
+      background-color: var(--text-primary);
+    }
+
+    .cv-crosshair::before {
+      top: 6px;
+      left: 0;
+      width: 14px;
+      height: 1px;
+    }
+
+    .cv-crosshair::after {
+      top: 0;
+      left: 6px;
+      width: 1px;
+      height: 14px;
+    }
+
+    .cv-bounding-box.is-active .cv-crosshair {
+      opacity: 0.75;
+    }
+
+    /* BOTTOM COORDINATES */
+    .cv-coord-tag {
+      position: absolute;
+      bottom: 6px;
+      right: 8px;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.62rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    /* INTERACTIVE BIO CARD ON HOVER */
+    .cv-bio-card {
+      position: absolute;
+      bottom: 14px;
+      left: 14px;
+      right: 14px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 10;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+      text-align: left;
+    }
+
+    [data-theme="light"] .cv-bio-card {
+      background-color: rgba(255, 255, 255, 0.95);
+      border-color: #e5e7eb;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .cv-bio-header {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .cv-bio-name {
+      font-family: var(--font-sans, sans-serif);
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .cv-bio-role {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.68rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      letter-spacing: 0.02em;
+    }
+
+    .cv-bio-divider {
+      height: 1px;
+      background-color: var(--border-color);
+      margin: 0.55rem 0;
+    }
+
+    .cv-bio-details {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+    }
+
+    .cv-bio-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      font-size: 0.7rem;
+    }
+
+    .cv-bio-key {
+      font-family: var(--font-pixel, monospace);
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+    }
+
+    .cv-bio-val {
+      font-family: var(--font-sans, sans-serif);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-primary);
+      text-align: right;
+    }
+
+    .cv-status-active {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.68rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    @media (max-width: 860px) {
+      .cv-portrait-container {
+        max-width: 100%;
+        height: 480px;
+      }
     }
 
     /* HERO ACTION BUTTONS */
