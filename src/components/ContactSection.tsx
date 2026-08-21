@@ -33,25 +33,20 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="section" id="contact">
+    <section className="contact-finale-section" id="contact">
       <div className="container">
         <Reveal>
-          <h2>Get in Touch</h2>
-        </Reveal>
-
-        {/* ULTRA-MINIMALIST & SPACIOUS CONTACT BOARD */}
-        <Reveal delay={0.06}>
           <div className="contact-minimal-canvas">
-            {/* LEFT: EDITORIAL INVITATION */}
+            {/* LEFT: MAIN BOLD FINALE CTA */}
             <div className="contact-minimal-left">
               <span className="contact-minimal-availability">
                 <span className="availability-dot" />
                 Available for opportunities
               </span>
 
-              <h3 className="contact-minimal-headline">
+              <h2 className="contact-minimal-headline">
                 Let&apos;s build something together.
-              </h3>
+              </h2>
 
               <p className="contact-minimal-subtext">
                 Feel free to reach out for full-time engineering roles, AI consulting, or casual technical discussions.
