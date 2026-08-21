@@ -76,10 +76,7 @@ export default function ChatHero() {
         </div>
 
         <m.div variants={item} className="chat-widget-col">
-          <div className="chat-console-glow-wrap">
-            <div className="chat-ambient-glow" />
-            <ChatWidget />
-          </div>
+          <ChatWidget />
         </m.div>
       </m.header>
     </div>

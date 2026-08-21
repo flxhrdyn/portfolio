@@ -740,7 +740,7 @@
       text-decoration: none;
     }
 
-    /* THE PORTFOLIO CONSOLE (VERCEL AI STUDIO PURE MINIMALISM) */
+    /* THE PORTFOLIO CONSOLE (VERCEL AI STUDIO ULTRA-FINE 1PX HAIRLINE PRECISION) */
     .chat-card-container {
       width: 100%;
       max-width: 560px;
@@ -750,22 +750,24 @@
     .portfolio-chat-box {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 16px;
+      border-radius: 12px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
       height: 560px;
       min-height: 540px;
-      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08), 0 24px 56px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
       text-align: left;
     }
 
     [data-theme="light"] .portfolio-chat-box {
-      box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.9), 0 16px 36px rgba(0, 0, 0, 0.05);
+      background-color: #ffffff;
+      border: 1px solid #e5e7eb;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
     }
 
     .chat-header {
-      padding: 0.9rem 1.25rem;
+      padding: 0.85rem 1.25rem;
       background-color: transparent;
       border-bottom: 1px solid var(--border-color);
       display: flex;
@@ -773,9 +775,13 @@
       justify-content: space-between;
     }
 
+    [data-theme="light"] .chat-header {
+      border-bottom: 1px solid #f0f1f3;
+    }
+
     .chat-header-title {
       font-family: var(--font-mono);
-      font-size: 0.78rem;
+      font-size: 0.76rem;
       letter-spacing: 0.04em;
       font-weight: 600;
       color: var(--text-primary);
@@ -907,6 +913,11 @@
       gap: 0.75rem;
     }
 
+    [data-theme="light"] .chat-dock {
+      background-color: #fafbfc;
+      border-top: 1px solid #f0f1f3;
+    }
+
     .chat-chips-container {
       display: flex;
       flex-wrap: wrap;
@@ -926,10 +937,22 @@
       transition: all 0.15s ease;
     }
 
+    [data-theme="light"] .chat-chip {
+      background-color: #ffffff;
+      border: 1px solid #e5e7eb;
+      color: #64748b;
+    }
+
     .chat-chip:hover {
       border-color: var(--text-primary);
       color: var(--text-primary);
       background-color: var(--bg-secondary);
+    }
+
+    [data-theme="light"] .chat-chip:hover {
+      border-color: #0f172a;
+      color: #0f172a;
+      background-color: #f1f5f9;
     }
 
     .chat-input-wrapper {
@@ -955,6 +978,12 @@
       font-size: 0.88rem;
       outline: none;
       transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    [data-theme="light"] .chat-input {
+      background-color: #ffffff;
+      border: 1px solid #e2e8f0;
+      color: #0f172a;
     }
 
     .chat-input:focus {
