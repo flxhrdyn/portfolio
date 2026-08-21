@@ -469,7 +469,7 @@
       background-color: var(--border-color);
     }
 
-    /* SCALE AI PORTRAIT 3D NEURAL DECOMPOSITION STACK (ORIGINAL TALL ARCHITECTURE) */
+    /* SCALE AI PORTRAIT 3D NEURAL DECOMPOSITION STACK (TALL 560PX ARCHITECTURE) */
     .scale-portrait-viewport {
       perspective: 1400px;
       perspective-origin: 55% 50%;
@@ -480,13 +480,13 @@
       justify-content: center;
       align-items: center;
       padding: 0;
-      min-height: 520px;
+      min-height: 560px;
     }
 
     .scale-portrait-stack {
       position: relative;
-      width: 420px;
-      height: 520px;
+      width: 440px;
+      height: 560px;
       transform-style: preserve-3d;
       cursor: crosshair;
       will-change: transform;
@@ -525,7 +525,7 @@
     }
 
     .scale-portrait-stack.is-hovered .sheet-back-output {
-      transform: translate3d(105px, 18px, -95px);
+      transform: translate3d(110px, 18px, -100px);
       opacity: 0.75;
       visibility: visible;
     }
@@ -539,12 +539,12 @@
     }
 
     .scale-portrait-stack.is-hovered .sheet-middle-splines {
-      transform: translate3d(55px, 10px, -50px);
+      transform: translate3d(58px, 10px, -52px);
       opacity: 0.88;
       visibility: visible;
     }
 
-    /* LAYER 2: PHOTO CARD (Center Layer - Original Tall Height) */
+    /* LAYER 2: PHOTO CARD (Center Layer - Tall 560px) */
     .sheet-photo-center {
       z-index: 3;
       pointer-events: auto;
@@ -580,7 +580,7 @@
     }
 
     .scale-portrait-stack.is-hovered .sheet-front-contours {
-      transform: translate3d(-70px, -12px, 80px);
+      transform: translate3d(-75px, -12px, 85px);
       opacity: 0.95;
       visibility: visible;
     }
@@ -754,7 +754,8 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      height: min(520px, calc(100vh - 12rem));
+      height: 560px;
+      min-height: 540px;
       box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.1), 0 20px 48px rgba(0, 0, 0, 0.35);
       text-align: left;
     }
