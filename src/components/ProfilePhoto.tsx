@@ -35,26 +35,11 @@ export default function ProfilePhoto() {
         />
       </div>
 
-      {/* Computer Vision Object Detection Bounding Box */}
+      {/* Detection Bounding Box */}
       <div className={`cv-bounding-box ${isHovered ? "is-active" : ""}`} aria-hidden="true">
-        {/* 4 Cybernetic Corner Reticles */}
-        <span className="cv-reticle cv-reticle-tl">┌</span>
-        <span className="cv-reticle cv-reticle-tr">┐</span>
-        <span className="cv-reticle cv-reticle-bl">└</span>
-        <span className="cv-reticle cv-reticle-br">┘</span>
-
-        {/* Top-Left Detection Tag */}
         <div className="cv-detection-tag">
           <span className="cv-status-indicator" />
-          <span className="cv-tag-text">AI_ENGINEER // CONF: 99.8%</span>
-        </div>
-
-        {/* Subtle Center Optical Crosshair */}
-        <div className="cv-crosshair" />
-
-        {/* Bottom Coordinates Readout */}
-        <div className="cv-coord-tag">
-          <span>OBJ_ID: FLX // BBOX: [14, 18, 92, 94]</span>
+          <span className="cv-tag-text">AI ENGINEER</span>
         </div>
       </div>
 

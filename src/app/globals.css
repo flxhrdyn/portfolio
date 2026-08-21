@@ -525,10 +525,10 @@
     /* CV BOUNDING BOX OVERLAY (ACCURATELY ENCLOSING FULL PERSON: HEAD TO TOE) */
     .cv-bounding-box {
       position: absolute;
-      top: 14.5%;
-      left: 6.8%;
-      width: 29.5%;
-      height: 74%;
+      top: 17%;
+      left: 9.5%;
+      width: 24%;
+      height: 80%;
       border: 1.5px solid var(--text-primary);
       background-color: rgba(255, 255, 255, 0.04);
       pointer-events: none;
@@ -549,28 +549,6 @@
       background-color: rgba(0, 0, 0, 0.06);
       border-color: #000000;
     }
-
-    /* 4 RETICLES */
-    .cv-reticle {
-      position: absolute;
-      font-family: var(--font-pixel, monospace);
-      font-size: 1.15rem;
-      font-weight: 800;
-      color: var(--text-primary);
-      line-height: 1;
-      user-select: none;
-      transition: transform 0.2s ease, color 0.2s ease;
-    }
-
-    .cv-reticle-tl { top: -6px; left: -6px; }
-    .cv-reticle-tr { top: -6px; right: -6px; }
-    .cv-reticle-bl { bottom: -6px; left: -6px; }
-    .cv-reticle-br { bottom: -6px; right: -6px; }
-
-    .cv-bounding-box.is-active .cv-reticle-tl { transform: translate(-2px, -2px); }
-    .cv-bounding-box.is-active .cv-reticle-tr { transform: translate(2px, -2px); }
-    .cv-bounding-box.is-active .cv-reticle-bl { transform: translate(-2px, 2px); }
-    .cv-bounding-box.is-active .cv-reticle-br { transform: translate(2px, 2px); }
 
     /* DETECTION LABEL TAG */
     .cv-detection-tag {
@@ -616,75 +594,6 @@
     @keyframes cvPulse {
       0% { opacity: 0.4; }
       100% { opacity: 1; }
-    }
-
-    /* CENTER OPTICAL CROSSHAIR */
-    .cv-crosshair {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 14px;
-      height: 14px;
-      transform: translate(-50%, -50%);
-      opacity: 0.5;
-      transition: opacity 0.2s ease;
-    }
-
-    .cv-crosshair::before,
-    .cv-crosshair::after {
-      content: "";
-      position: absolute;
-      background-color: var(--text-primary);
-    }
-
-    [data-theme="light"] .cv-crosshair::before,
-    [data-theme="light"] .cv-crosshair::after {
-      background-color: #000000;
-    }
-
-    .cv-crosshair::before {
-      top: 6px;
-      left: 0;
-      width: 14px;
-      height: 1px;
-    }
-
-    .cv-crosshair::after {
-      top: 0;
-      left: 6px;
-      width: 1px;
-      height: 14px;
-    }
-
-    .cv-bounding-box.is-active .cv-crosshair {
-      opacity: 0.9;
-    }
-
-    /* BOTTOM COORDINATES */
-    .cv-coord-tag {
-      position: absolute;
-      bottom: -18px;
-      left: 0;
-      display: inline-flex;
-      align-items: center;
-      padding: 0.1rem 0.35rem;
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      font-family: var(--font-mono, monospace);
-      font-size: 0.58rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      z-index: 5;
-    }
-
-    [data-theme="light"] .cv-coord-tag {
-      background-color: #ffffff;
-      border-color: #e5e7eb;
-      color: #52525b;
     }
 
     /* INTERACTIVE BIO CARD ON HOVER */
