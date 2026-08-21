@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 
 interface SynapticMeshCanvasProps {
   className?: string;
@@ -326,9 +326,12 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
   if (reduceMotion) return null;
 
   return (
-    <canvas
+    <m.canvas
       ref={canvasRef}
       className={`synaptic-mesh-canvas ${className || ""}`}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
       style={{
         position: "absolute",
         inset: 0,

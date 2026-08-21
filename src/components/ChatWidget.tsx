@@ -260,20 +260,28 @@ export default function ChatWidget() {
             </div>
           </div>
 
-          {/* VERCEL PROMPT DECK */}
-          <div className="chat-dock">
-            <div className="chat-chips-container">
-              {QUICK_CHIPS.map((chip) => (
-                <button
-                  key={chip.label}
-                  type="button"
-                  className="chat-chip"
-                  onClick={() => sendChip(chip)}
-                >
-                  {chip.label}
-                </button>
-              ))}
-            </div>
+            {/* VERCEL PROMPT DECK */}
+            <div className="chat-dock">
+              <div className="chat-chips-container">
+                {QUICK_CHIPS.map((chip, idx) => (
+                  <m.button
+                    key={chip.label}
+                    type="button"
+                    className="chat-chip"
+                    onClick={() => sendChip(chip)}
+                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{
+                      delay: 0.3 + idx * 0.06,
+                      duration: 0.45,
+                      ease: [0.16, 1, 0.3, 1],
+                    }}
+                    whileTap={{ scale: 0.95 }}
+                  >
+                    {chip.label}
+                  </m.button>
+                ))}
+              </div>
 
             <div className="chat-input-wrapper">
               <form

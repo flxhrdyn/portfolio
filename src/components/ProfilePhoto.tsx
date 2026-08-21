@@ -1,28 +1,45 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { m, AnimatePresence, useReducedMotion } from "motion/react";
 import profile from "@/content/profile.json";
 
+// Keep in sync with the .cv-bounding-box percentages in globals.css
+const BOX = { top: 0.15, left: 0.07, width: 0.335, height: 0.82 };
+const CARD_WIDTH = 160;
+const CARD_HEIGHT = 168;
+const CARD_GAP = 18;
+
 export default function ProfilePhoto() {
   const reduceMotion = useReducedMotion();
+  const containerRef = useRef<HTMLElement>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [cursor, setCursor] = useState({ x: 0, y: 0 });
+  const [boxHovered, setBoxHovered] = useState(false);
+  const [cardPos, setCardPos] = useState({ top: 0, left: 0 });
 
   if (!profile.photo) return null;
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    setCursor({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  // Position locks to where the cursor entered the box and holds until it leaves —
+  // re-entering picks a fresh spot instead of tracking every move.
+  const handleBoxMouseEnter = (e: React.MouseEvent<HTMLDivElement>) => {
+    const container = containerRef.current;
+    if (!container) return;
+    const rect = container.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const top = Math.min(Math.max(y - CARD_HEIGHT / 2, 8), rect.height - CARD_HEIGHT - 8);
+    const left = Math.min(Math.max(x + CARD_GAP, 8), rect.width - CARD_WIDTH - 8);
+    setCardPos({ top, left });
+    setBoxHovered(true);
   };
 
   return (
     <figure
+      ref={containerRef}
       className="cv-portrait-container"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      onMouseMove={handleMouseMove}
       onFocus={() => setIsHovered(true)}
       onBlur={() => setIsHovered(false)}
       tabIndex={0}
@@ -43,27 +60,36 @@ export default function ProfilePhoto() {
       </div>
 
       {/* Detection Bounding Box (reticle corners match PageTransitionLoader) */}
-      <div className={`cv-bounding-box ${isHovered ? "is-active" : ""}`} aria-hidden="true">
-        <span className="reticle-corner reticle-tl" />
-        <span className="reticle-corner reticle-tr" />
-        <span className="reticle-corner reticle-bl" />
-        <span className="reticle-corner reticle-br" />
+      <div
+        className={`cv-bounding-box ${isHovered ? "is-active" : ""}`}
+        onMouseEnter={handleBoxMouseEnter}
+        onMouseLeave={() => setBoxHovered(false)}
+        style={{
+          top: `${BOX.top * 100}%`,
+          left: `${BOX.left * 100}%`,
+          width: `${BOX.width * 100}%`,
+          height: `${BOX.height * 100}%`,
+        }}
+      >
+        <span className="reticle-corner reticle-tl" aria-hidden="true" />
+        <span className="reticle-corner reticle-tr" aria-hidden="true" />
+        <span className="reticle-corner reticle-bl" aria-hidden="true" />
+        <span className="reticle-corner reticle-br" aria-hidden="true" />
 
-        <div className="cv-detection-tag">
-          <span className="cv-status-indicator" />
-          <span className="cv-tag-text">AI ENGINEER</span>
+        <div className="cv-detection-tag" aria-hidden="true">
+          <span className="cv-tag-text">AI ENGINEER // 0.98</span>
         </div>
       </div>
 
-      {/* Compact Bio Tooltip — follows cursor within the frame */}
+      {/* Compact Bio Tooltip — only while the cursor is inside the bounding box */}
       <AnimatePresence>
-        {isHovered && (
+        {boxHovered && (
           <m.div
             className="cv-bio-card"
-            style={reduceMotion ? undefined : { left: cursor.x, top: cursor.y }}
-            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
-            animate={reduceMotion ? { opacity: 1 } : { opacity: 1, scale: 1 }}
-            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
+            style={reduceMotion ? undefined : { left: cardPos.left, top: cardPos.top }}
+            initial={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }}
+            animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+            exit={reduceMotion ? { opacity: 0 } : { opacity: 0, y: 6 }}
             transition={{ duration: 0.16, ease: [0.16, 1, 0.3, 1] }}
           >
             <span className="cv-bio-name">Felix Windriyareksa Hardyan</span>
