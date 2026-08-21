@@ -65,45 +65,47 @@ export default function PageTransitionLoader() {
           exit={{ opacity: 0 }}
           transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
         >
-          {/* Subtle Background Dot Grid */}
+          {/* Subtle Geometric Dot Grid */}
           <div className="transition-dot-grid" aria-hidden="true" />
 
-          {/* Groq High-Speed Vertical Laser Scanline */}
+          {/* High-Speed Laser Scan Sweep */}
           <div className="transition-vertical-laser" aria-hidden="true" />
 
-          {/* Central Tensor HUD */}
-          <div className="transition-tensor-hub">
-            {/* 3x3 Animated Tensor Matrix Brandmark */}
-            <div className="transition-matrix-box">
-              <div className="transition-matrix-grid">
-                {[0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                  <span
-                    key={i}
-                    className="tensor-node"
-                    style={{ animationDelay: `${(i % 3) * 60 + Math.floor(i / 3) * 80}ms` }}
-                  />
-                ))}
-              </div>
+          {/* Top Brand Monogram */}
+          <div className="transition-top-brand">
+            <div className="transition-brand-mark">
+              <span className="transition-brand-brackets">[::]</span>
+              <span className="transition-brand-name">flxhrdyn</span>
+            </div>
+            <div className="transition-brand-tag">
+              <span className="transition-status-dot" />
+              <span>SYSTEM ROUTING</span>
+            </div>
+          </div>
+
+          {/* Center Bold Giant Typography & Kinetic Laser */}
+          <div className="transition-center-stage">
+            <div className="transition-stage-eyebrow">
+              SWITCHING CONTEXT // 0x7F
+            </div>
+            <h2 className="transition-stage-title">
+              {targetLabel}
+            </h2>
+            <div className="transition-stage-route">
+              <code>TARGET // {targetRoute}</code>
             </div>
 
-            {/* Monospace Telemetry Header */}
-            <div className="transition-telemetry-block">
-              <div className="transition-telemetry-eyebrow">
-                <span className="transition-status-dot" />
-                <span>GROQ LPUS // ROUTING TENSOR</span>
-              </div>
-              <div className="transition-telemetry-title">
-                {targetLabel}
-              </div>
-              <div className="transition-telemetry-route">
-                <code>TARGET: {targetRoute}</code>
-              </div>
+            {/* 1px Hairline Kinetic Laser Progress */}
+            <div className="transition-stage-track">
+              <div className="transition-stage-bar" />
             </div>
+          </div>
 
-            {/* 1px High-Speed Progress Laser */}
-            <div className="transition-progress-track">
-              <div className="transition-progress-bar" />
-            </div>
+          {/* Bottom Precision Telemetry */}
+          <div className="transition-bottom-telemetry">
+            <span>FELIX WINDIYAREKSA HARDYAN</span>
+            <span>&bull;</span>
+            <span>PRODUCTION-GRADE AI SYSTEMS</span>
           </div>
         </m.div>
       )}

@@ -3583,14 +3583,16 @@
       }
     }
 
-    /* FULL-SCREEN GROQ × TENSOR PAGE TRANSITION OVERLAY */
+    /* FULL-SCREEN EDITORIAL BRAND PAGE TRANSITION OVERLAY */
     .fullscreen-transition-overlay {
       position: fixed;
       inset: 0;
       z-index: 999999;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
+      padding: 3rem 2rem;
       background-color: var(--bg-primary);
       pointer-events: all;
       user-select: none;
@@ -3638,87 +3640,40 @@
       }
     }
 
-    .transition-tensor-hub {
+    /* TOP BRAND MONOGRAM */
+    .transition-top-brand {
       position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 1.15rem;
-      padding: 2.25rem 2.75rem;
-      background: var(--card-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 14px;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.25);
-      min-width: 320px;
-      text-align: center;
-      animation: tensorHubPop 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes tensorHubPop {
-      0% {
-        transform: scale(0.94) translateY(8px);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-      }
-    }
-
-    .transition-matrix-box {
+      z-index: 10;
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 44px;
-      height: 44px;
-      border-radius: 10px;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-color);
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1200px;
     }
 
-    .transition-matrix-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 4px;
-      width: 20px;
-      height: 20px;
-    }
-
-    .tensor-node {
-      width: 4px;
-      height: 4px;
-      border-radius: 1px;
-      background-color: var(--text-primary);
-      opacity: 0.3;
-      animation: tensorPulse 0.45s ease-in-out infinite alternate;
-    }
-
-    @keyframes tensorPulse {
-      0% {
-        opacity: 0.2;
-        transform: scale(0.8);
-      }
-      100% {
-        opacity: 1;
-        transform: scale(1.25);
-      }
-    }
-
-    .transition-telemetry-block {
-      display: flex;
-      flex-direction: column;
-      gap: 0.35rem;
-    }
-
-    .transition-telemetry-eyebrow {
+    .transition-brand-mark {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 0.45rem;
       font-family: var(--font-mono, monospace);
-      font-size: 0.65rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+    }
+
+    .transition-brand-brackets {
+      color: var(--text-secondary);
+    }
+
+    .transition-brand-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.68rem;
       font-weight: 600;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.14em;
       color: var(--text-secondary);
     }
 
@@ -3726,50 +3681,101 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background-color: #10b981;
-      box-shadow: 0 0 8px #10b981;
+      background-color: var(--text-primary);
       animation: statusBlink 0.5s ease-in-out infinite alternate;
     }
 
     @keyframes statusBlink {
-      0% { opacity: 0.4; }
+      0% { opacity: 0.3; }
       100% { opacity: 1; }
     }
 
-    .transition-telemetry-title {
-      font-family: var(--font-sans, sans-serif);
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: -0.02em;
-      color: var(--text-primary);
+    /* CENTER HERO STAGE (BOLD & CLEAN) */
+    .transition-center-stage {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 0.85rem;
+      width: 100%;
+      max-width: 760px;
     }
 
-    .transition-telemetry-route {
+    .transition-stage-eyebrow {
       font-family: var(--font-mono, monospace);
-      font-size: 0.72rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.16em;
       color: var(--text-secondary);
     }
 
-    .transition-progress-track {
+    .transition-stage-title {
+      font-family: var(--font-sans, sans-serif);
+      font-size: clamp(2.5rem, 6vw, 4.25rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      animation: titleHeroZoom 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes titleHeroZoom {
+      0% {
+        transform: scale(0.96);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    .transition-stage-route {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+    }
+
+    .transition-stage-track {
       width: 100%;
+      max-width: 320px;
       height: 2px;
       background: var(--border-color);
       border-radius: 9999px;
       overflow: hidden;
+      margin-top: 1rem;
       position: relative;
     }
 
-    .transition-progress-bar {
+    .transition-stage-bar {
       height: 100%;
       width: 0%;
       background: var(--text-primary);
-      animation: progressFill 0.46s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: progressFill 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     @keyframes progressFill {
       0% { width: 0%; }
       60% { width: 85%; }
       100% { width: 100%; }
+    }
+
+    /* BOTTOM TELEMETRY */
+    .transition-bottom-telemetry {
+      position: relative;
+      z-index: 10;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: var(--font-mono, monospace);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      color: var(--text-secondary);
     }
 
     /* CHAT HERO AMBIENT CONSOLE GLOW */
