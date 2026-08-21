@@ -77,54 +77,7 @@ const PATH_LABELS: Record<string, string> = {
   "https://github.com/flxhrdyn/LUCIAN": "LUCIAN",
 };
 
-const LINK_STYLE = { color: "var(--text-primary)", textDecoration: "underline", textUnderlineOffset: "3px", fontWeight: 600 };
-
-function SmartLink({ href, children, linkKey }: { href: string; children: ReactNode; linkKey: string }) {
-  const external = href.startsWith("https://");
-  return (
-    <Link key={linkKey} href={href} style={LINK_STYLE} {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}>
-      {children}
-    </Link>
-  );
-}
-
-function renderMarkdown(text: string, msgId: string): ReactNode {
-  const tokenRegex = new RegExp(
-    `\\[([^\\]]+)\\]\\((${LINK_TARGET})\\)|((?:\\w+\\s){0,1}\\w+)\\s+at\\s+(${LINK_TARGET})|(${LINK_TARGET})`,
-    "gi",
-  );
-
-  const elements: ReactNode[] = [];
-  let lastIndex = 0;
-  let match: RegExpExecArray | null;
-  let matchCount = 0;
-
-  while ((match = tokenRegex.exec(text)) !== null) {
-    if (match.index > lastIndex) {
-      elements.push(text.slice(lastIndex, match.index));
-    }
-
-    const key = `${msgId}-link-${matchCount++}`;
-
-    if (match[1] && match[2]) {
-      elements.push(<SmartLink href={match[2]} linkKey={key}>{match[1]}</SmartLink>);
-    } else if (match[3] && match[4]) {
-      elements.push(<SmartLink href={match[4]} linkKey={key}>{match[3]}</SmartLink>);
-    } else if (match[5]) {
-      const url = match[5];
-      const label = PATH_LABELS[url] ?? (url.startsWith("http") ? new URL(url).pathname.slice(1) : url);
-      elements.push(<SmartLink href={url} linkKey={key}>{label}</SmartLink>);
-    }
-
-    lastIndex = match.index + match[0].length;
-  }
-
-  if (lastIndex < text.length) {
-    elements.push(text.slice(lastIndex));
-  }
-
-  return <p>{elements}</p>;
-}
+import { renderMarkdown } from "@/lib/renderMarkdown";
 
 const STATUS_MESSAGES = [
   "Searching Felix's portfolio...",
@@ -353,7 +306,7 @@ export default function ChatWidget() {
 
             <div className="chat-disclaimer">
               This AI assistant may occasionally get details wrong. For the complete and accurate picture, see the{" "}
-              <a href="/portfolio/" style={LINK_STYLE}>
+              <a href="/portfolio/" style={{ color: "var(--text-primary)", textDecoration: "underline", textUnderlineOffset: "3px", fontWeight: 600 }}>
                 full portfolio
               </a>
               .
