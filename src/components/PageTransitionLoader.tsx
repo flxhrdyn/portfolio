@@ -68,13 +68,33 @@ export default function PageTransitionLoader() {
           {/* Subtle Background Dot Grid */}
           <div className="transition-dot-grid" aria-hidden="true" />
 
-          {/* Center Title Only */}
-          <div className="transition-center-stage">
-            <h1 className="transition-center-title">
+          {/* Center Pixel Stage with Corner Reticles */}
+          <div className="transition-pixel-stage">
+            {/* 4 Corner Geometric Brackets */}
+            <span className="reticle-corner reticle-tl" aria-hidden="true" />
+            <span className="reticle-corner reticle-tr" aria-hidden="true" />
+            <span className="reticle-corner reticle-bl" aria-hidden="true" />
+            <span className="reticle-corner reticle-br" aria-hidden="true" />
+
+            {/* Top Micro Monogram */}
+            <div className="transition-pixel-eyebrow">
+              <span className="transition-pixel-brackets">[::]</span>
+              <span>FLXHRDYN // ROUTING</span>
+            </div>
+
+            {/* Center Geist Pixel Title */}
+            <h1 className="transition-pixel-title">
               {targetLabel}
             </h1>
-            <div className="transition-stage-track">
-              <div className="transition-stage-bar" />
+
+            {/* Kinetic Segmented Progress Bar */}
+            <div className="transition-pixel-track">
+              <div className="transition-pixel-bar" />
+            </div>
+
+            {/* Micro Route Code */}
+            <div className="transition-pixel-route">
+              <code>TARGET &rarr; {targetRoute}</code>
             </div>
           </div>
         </m.div>
