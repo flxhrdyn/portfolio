@@ -525,6 +525,34 @@
       visibility: visible;
     }
 
+    /* NEURAL ANIMATED SPLINES ON HOVER (NEURAL NETWORK IN ACTION) */
+    .scale-3d-stack.is-hovered .neural-animated-spline {
+      stroke-dasharray: 8 6;
+      animation: splineStream 1.8s linear infinite;
+    }
+
+    .scale-3d-stack.is-hovered .spline-1 { animation-duration: 2.2s; }
+    .scale-3d-stack.is-hovered .spline-2 { animation-duration: 1.8s; }
+    .scale-3d-stack.is-hovered .spline-3 { animation-duration: 1.5s; }
+    .scale-3d-stack.is-hovered .spline-4 { animation-duration: 1.9s; }
+    .scale-3d-stack.is-hovered .spline-5 { animation-duration: 2.4s; }
+
+    @keyframes splineStream {
+      from { stroke-dashoffset: 28; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* NEURON GATE PULSE ON HOVER */
+    .scale-3d-stack.is-hovered .neuron-gate-node {
+      animation: gatePulse 1.8s ease-in-out infinite alternate;
+    }
+
+    @keyframes gatePulse {
+      0% { filter: drop-shadow(0 0 2px currentColor); opacity: 0.85; }
+      100% { filter: drop-shadow(0 0 6px currentColor); opacity: 1; }
+    }
+
+
 
     .hero-title {
       font-size: clamp(2.4rem, 4.4vw, 3.85rem);
