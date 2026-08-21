@@ -316,24 +316,28 @@
     .hero-eyebrow {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      font-family: var(--font-mono, monospace);
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
+      gap: 0.55rem;
+      font-family: var(--font-pixel);
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
       color: var(--text-secondary);
-      background-color: var(--bg-secondary);
+      background-color: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: var(--radius-full);
-      padding: 0.25rem 0.75rem;
+      border-radius: var(--radius-sm);
+      padding: 0.3rem 0.75rem;
       margin-bottom: 1.25rem;
       text-transform: uppercase;
     }
 
-    .hero-eyebrow svg {
-      width: 12px;
-      height: 12px;
-      color: var(--text-secondary);
+    .hero-eyebrow svg,
+    .hero-eyebrow .telemetry-status-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--text-primary);
+      opacity: 0.85;
+      display: inline-block;
     }
 
     .chat-hero-content {
@@ -618,15 +622,17 @@
 
     .btn-pill {
       font-family: var(--font-sans);
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 600;
-      padding: 0.75rem 2rem;
+      padding: 0.65rem 1.6rem;
       border-radius: var(--radius-sm);
       cursor: pointer;
       display: inline-flex;
       align-items: center;
+      gap: 0.5rem;
       transition: transform 150ms ease, background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
       border: 1px solid transparent;
+      box-shadow: none;
     }
 
     .btn-pill:hover {
@@ -732,20 +738,20 @@
     .portfolio-chat-box {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 12px;
+      border-radius: var(--radius-md);
       overflow: hidden;
       display: flex;
       flex-direction: column;
       height: 480px;
       min-height: 440px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      box-shadow: none;
       text-align: left;
     }
 
     [data-theme="light"] .portfolio-chat-box {
       background-color: #ffffff;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+      border: 1px solid var(--border-color);
+      box-shadow: none;
     }
 
     .chat-header {
