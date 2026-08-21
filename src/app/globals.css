@@ -2777,7 +2777,9 @@
     /* ULTRA-MINIMALIST & UNIQUE CONTACT FINALE SECTION (INDEPENDENT CTA) */
     .contact-finale-section {
       padding: 7rem 0 6rem;
+      background-color: var(--bg-secondary);
       border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
       position: relative;
     }
 
