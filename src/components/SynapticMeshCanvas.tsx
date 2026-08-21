@@ -57,29 +57,31 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
       active: false,
     };
 
-    interface Shockwave {
+    interface LuxuryShockwave {
       x: number;
       y: number;
       radius: number;
       maxRadius: number;
       speed: number;
+      decay: number;
       alpha: number;
     }
 
-    let shockwaves: Shockwave[] = [];
+    let shockwaves: LuxuryShockwave[] = [];
 
     const handleClick = (e: MouseEvent) => {
       const rect = canvas.getBoundingClientRect();
       const clickX = e.clientX - rect.left;
       const clickY = e.clientY - rect.top;
-      // Spawn smooth synaptic gravitational pulse
+      // Spawn luxury decelerating synaptic wave
       shockwaves.push({
         x: clickX,
         y: clickY,
-        radius: 0,
-        maxRadius: 320,
-        speed: 4.8,
-        alpha: 0.45,
+        radius: 4,
+        maxRadius: 360,
+        speed: 6.8,
+        decay: 0.986,
+        alpha: 0.55,
       });
     };
 
@@ -249,26 +251,41 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
         n.y += (targetY - n.y) * 0.11;
       }
 
-      // 3. UPDATE & DRAW SYNAPTIC GRAVITATIONAL PULSES (On-Click Shockwaves)
+      // 3. UPDATE & DRAW LUXURY SYNAPTIC GRAVITATIONAL PULSES (Dual-Band Harmonic Wavefronts)
       for (let s = shockwaves.length - 1; s >= 0; s--) {
         const sw = shockwaves[s];
         sw.radius += sw.speed;
-        const progress = sw.radius / sw.maxRadius;
-        const currentAlpha = sw.alpha * (1 - progress);
+        sw.speed *= sw.decay; // Fluid drag deceleration
 
-        if (progress >= 1) {
+        const rawProgress = sw.radius / sw.maxRadius;
+        if (rawProgress >= 1 || sw.speed < 0.4) {
           shockwaves.splice(s, 1);
           continue;
         }
 
-        // Draw subtle expanding hairline laser ring
-        ctx.strokeStyle = `rgba(${grayRgb}, ${currentAlpha * (isDark ? 0.32 : 0.24)})`;
-        ctx.lineWidth = 0.75;
+        // Cubic smooth fadeout curve for luxury dissipation
+        const progress = Math.min(1, rawProgress);
+        const fade = Math.pow(1 - progress, 1.4);
+        const currentAlpha = sw.alpha * fade;
+
+        // Band 1: Primary Precision Wavefront Ring (Clean hairline)
+        ctx.strokeStyle = `rgba(${grayRgb}, ${currentAlpha * (isDark ? 0.38 : 0.28)})`;
+        ctx.lineWidth = 0.85;
         ctx.beginPath();
         ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
         ctx.stroke();
 
-        // Gravitational wavefront excitation of passing nodes
+        // Band 2: Trailing Harmonic Echo (Soft secondary ring following behind)
+        if (sw.radius > 24) {
+          const echoRadius = sw.radius * 0.82;
+          ctx.strokeStyle = `rgba(${grayRgb}, ${currentAlpha * (isDark ? 0.14 : 0.1)})`;
+          ctx.lineWidth = 0.6;
+          ctx.beginPath();
+          ctx.arc(sw.x, sw.y, echoRadius, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        // Gravitational excitation of passing nodes
         for (let i = 0; i < nodes.length; i++) {
           const n = nodes[i];
           const dx = n.x - sw.x;
@@ -276,11 +293,13 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
           const dist = Math.sqrt(dx * dx + dy * dy);
           const diff = Math.abs(dist - sw.radius);
 
-          if (diff < 22) {
-            const waveStrength = (1 - diff / 22) * (1 - progress);
-            n.activation = Math.min(1, n.activation + waveStrength * 0.6);
-            n.x += (dx / (dist || 1)) * 2.8 * waveStrength;
-            n.y += (dy / (dist || 1)) * 2.8 * waveStrength;
+          if (diff < 26) {
+            const waveStrength = (1 - diff / 26) * fade;
+            n.activation = Math.min(1, n.activation + waveStrength * 0.75);
+
+            // Subtle harmonic displacement
+            n.x += (dx / (dist || 1)) * 3.2 * waveStrength;
+            n.y += (dy / (dist || 1)) * 3.2 * waveStrength;
           }
         }
       }
