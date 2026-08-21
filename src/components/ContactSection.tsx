@@ -33,7 +33,7 @@ export default function ContactSection() {
   };
 
   return (
-    <section className="section" id="contact" style={{ paddingBottom: "6rem" }}>
+    <section className="section" id="contact">
       <div className="container">
         <Reveal>
           <h2>Get in Touch</h2>

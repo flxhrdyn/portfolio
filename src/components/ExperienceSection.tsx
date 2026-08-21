@@ -87,7 +87,7 @@ export default function ExperienceSection() {
       <div className="container">
         <Reveal>
           <h2>Experience &amp; Education</h2>
-          <p style={{ marginBottom: "3rem", maxWidth: "55ch" }}>
+          <p style={{ marginBottom: "2.25rem", maxWidth: "60ch" }}>
             Professional engineering roles, applied AI research, and academic milestones.
           </p>
         </Reveal>
@@ -114,7 +114,7 @@ export default function ExperienceSection() {
         </div>
 
         {/* EDUCATION BLOCK */}
-        <div className="exp-block" style={{ marginTop: "4rem" }}>
+        <div className="exp-block" style={{ marginTop: "3.5rem" }}>
           <div className="exp-block-header">
             <span className="exp-block-label">Education</span>
             <span className="exp-block-count">[ 02 ACADEMIC ]</span>

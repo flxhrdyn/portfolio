@@ -91,7 +91,7 @@ export default function SkillsSection() {
       <div className="container">
         <Reveal>
           <h2>Skills &amp; Capabilities</h2>
-          <p style={{ marginBottom: "2rem", maxWidth: "60ch" }}>
+          <p style={{ marginBottom: "2.25rem", maxWidth: "60ch" }}>
             Core concepts, frameworks, and infrastructure I work with across the AI engineering lifecycle.
           </p>
         </Reveal>
