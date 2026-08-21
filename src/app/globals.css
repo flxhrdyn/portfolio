@@ -2922,7 +2922,7 @@
       border-bottom: 1px solid var(--border-color);
       text-decoration: none;
       border-radius: var(--radius-sm);
-      transition: background-color 0.2s ease, padding 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: background-color 0.2s ease;
       width: 100%;
       background: transparent;
       border-top: none;
@@ -2935,8 +2935,6 @@
 
     .contact-minimal-row:hover {
       background-color: rgba(255, 255, 255, 0.04);
-      padding-left: 1.15rem;
-      padding-right: 1.15rem;
     }
 
     [data-theme="light"] .contact-minimal-row:hover {
@@ -3002,17 +3000,20 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      width: 4.5rem;
+      text-align: center;
       font-family: var(--font-mono);
       font-size: 0.68rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
-      padding: 0.2rem 0.65rem;
+      padding: 0.2rem 0;
       border-radius: 9999px;
       border: 1px solid var(--border-color);
       color: var(--text-secondary);
       background-color: var(--bg-card);
       margin-left: 0.5rem;
+      flex-shrink: 0;
       transition: all 0.18s ease;
     }
 
