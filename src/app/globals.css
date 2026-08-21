@@ -522,20 +522,20 @@
       transform: scale(1.015);
     }
 
-    /* CV BOUNDING BOX OVERLAY */
+    /* CV BOUNDING BOX OVERLAY (TIGHTLY FITTED TO PERSON) */
     .cv-bounding-box {
       position: absolute;
-      top: 24px;
-      left: 24px;
-      right: 24px;
-      bottom: 24px;
-      border: 1px dashed rgba(255, 255, 255, 0.35);
+      top: 31%;
+      left: 6.5%;
+      width: 28%;
+      height: 54%;
+      border: 1px dashed rgba(255, 255, 255, 0.5);
       pointer-events: none;
       transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     [data-theme="light"] .cv-bounding-box {
-      border-color: rgba(0, 0, 0, 0.3);
+      border-color: rgba(0, 0, 0, 0.5);
     }
 
     .cv-bounding-box.is-active {
@@ -547,7 +547,7 @@
     .cv-reticle {
       position: absolute;
       font-family: var(--font-pixel, monospace);
-      font-size: 1.15rem;
+      font-size: 1.1rem;
       font-weight: 700;
       color: var(--text-primary);
       line-height: 1;
@@ -568,22 +568,24 @@
     /* DETECTION LABEL TAG */
     .cv-detection-tag {
       position: absolute;
-      top: -12px;
-      left: 12px;
+      top: -11px;
+      left: 0;
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
-      padding: 0.2rem 0.55rem;
+      gap: 0.35rem;
+      padding: 0.15rem 0.45rem;
       background-color: var(--bg-card);
       border: 1px solid var(--text-primary);
       border-radius: var(--radius-sm);
       font-family: var(--font-mono, monospace);
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 600;
       letter-spacing: 0.04em;
       color: var(--text-primary);
       text-transform: uppercase;
+      white-space: nowrap;
       box-shadow: none;
+      z-index: 5;
     }
 
     [data-theme="light"] .cv-detection-tag {
@@ -608,10 +610,10 @@
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       transform: translate(-50%, -50%);
-      opacity: 0.35;
+      opacity: 0.4;
       transition: opacity 0.2s ease;
     }
 
@@ -623,35 +625,36 @@
     }
 
     .cv-crosshair::before {
-      top: 6px;
+      top: 5px;
       left: 0;
-      width: 14px;
+      width: 12px;
       height: 1px;
     }
 
     .cv-crosshair::after {
       top: 0;
-      left: 6px;
+      left: 5px;
       width: 1px;
-      height: 14px;
+      height: 12px;
     }
 
     .cv-bounding-box.is-active .cv-crosshair {
-      opacity: 0.75;
+      opacity: 0.85;
     }
 
     /* BOTTOM COORDINATES */
     .cv-coord-tag {
       position: absolute;
-      bottom: 6px;
-      right: 8px;
+      bottom: -15px;
+      left: 0;
       font-family: var(--font-mono, monospace);
-      font-size: 0.62rem;
+      font-size: 0.58rem;
       font-weight: 500;
       color: var(--text-secondary);
       letter-spacing: 0.04em;
       text-transform: uppercase;
-      opacity: 0.8;
+      white-space: nowrap;
+      opacity: 0.85;
     }
 
     /* INTERACTIVE BIO CARD ON HOVER */
