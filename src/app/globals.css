@@ -401,33 +401,223 @@
       margin-bottom: 1.5rem;
     }
 
-    .profile-photo {
-      margin: 0 0 0 auto;
+    /* SCALE AI 3D COMPUTER VISION & DGX COMPUTE HUD */
+    .dgx-hud-perspective-container {
+      perspective: 1000px;
       width: 100%;
       max-width: 480px;
+      margin: 0 0 0 auto;
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
     }
 
-    .profile-photo-frame {
+    .dgx-hud-card {
       position: relative;
       width: 100%;
-      aspect-ratio: 4 / 5;
-      max-height: 540px;
       border-radius: var(--radius-lg);
       border: 1px solid var(--border-color);
       background-color: var(--bg-secondary);
-      overflow: hidden;
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.25);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+      cursor: crosshair;
+      will-change: transform;
     }
 
-    .profile-photo figcaption {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
+    .dgx-hud-card.is-hovered {
+      border-color: var(--text-primary);
+      box-shadow: 0 28px 64px rgba(0, 0, 0, 0.4), 0 0 20px rgba(255, 255, 255, 0.04);
     }
+
+    [data-theme="light"] .dgx-hud-card.is-hovered {
+      box-shadow: 0 28px 64px rgba(0, 0, 0, 0.12), 0 0 20px rgba(0, 0, 0, 0.03);
+    }
+
+    /* VERCEL SPECULAR BACKLIGHT */
+    .dgx-specular-glow {
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      background: radial-gradient(320px circle at var(--cursor-x, 50%) var(--cursor-y, 50%), rgba(255, 255, 255, 0.12), transparent 80%);
+    }
+
+    [data-theme="light"] .dgx-specular-glow {
+      background: radial-gradient(320px circle at var(--cursor-x, 50%) var(--cursor-y, 50%), rgba(0, 0, 0, 0.08), transparent 80%);
+    }
+
+    .dgx-hud-card.is-hovered .dgx-specular-glow {
+      opacity: 1;
+    }
+
+    /* COMPUTER VISION CORNER BRACKETS */
+    .vision-bracket {
+      position: absolute;
+      width: 14px;
+      height: 14px;
+      border-color: var(--text-primary);
+      border-style: solid;
+      pointer-events: none;
+      z-index: 10;
+      opacity: 0.6;
+      transition: opacity 0.2s ease, width 0.2s ease, height 0.2s ease;
+    }
+
+    .dgx-hud-card.is-hovered .vision-bracket {
+      opacity: 1;
+      width: 18px;
+      height: 18px;
+    }
+
+    .vision-top-left {
+      top: -1px;
+      left: -1px;
+      border-width: 2px 0 0 2px;
+      border-top-left-radius: var(--radius-lg);
+    }
+
+    .vision-top-right {
+      top: -1px;
+      right: -1px;
+      border-width: 2px 2px 0 0;
+      border-top-right-radius: var(--radius-lg);
+    }
+
+    .vision-bottom-left {
+      bottom: -1px;
+      left: -1px;
+      border-width: 0 0 2px 2px;
+      border-bottom-left-radius: var(--radius-lg);
+    }
+
+    .vision-bottom-right {
+      bottom: -1px;
+      right: -1px;
+      border-width: 0 2px 2px 0;
+      border-bottom-right-radius: var(--radius-lg);
+    }
+
+    /* TOP FLOATING HARDWARE TELEMETRY TAG */
+    .dgx-floating-tag {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      z-index: 10;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.75rem;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--border-color);
+      border-radius: 9999px;
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    }
+
+    [data-theme="light"] .dgx-floating-tag {
+      background: rgba(255, 255, 255, 0.85);
+      color: #000000;
+    }
+
+    .dgx-tag-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--text-primary);
+      box-shadow: 0 0 6px var(--text-primary);
+    }
+
+    /* PHOTO CONTAINER */
+    .dgx-photo-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      max-height: 520px;
+      border-top-left-radius: inherit;
+      border-top-right-radius: inherit;
+      overflow: hidden;
+      background-color: var(--bg-secondary);
+    }
+
+    /* LASER SCAN LINE SWEEP */
+    .dgx-laser-sweep {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 5%, var(--text-primary) 50%, transparent 95%);
+      box-shadow: 0 0 12px var(--text-primary), 0 0 4px var(--text-primary);
+      pointer-events: none;
+      z-index: 8;
+      opacity: 0;
+    }
+
+    .dgx-hud-card.is-hovered .dgx-laser-sweep {
+      animation: laserSweepDown 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes laserSweepDown {
+      0% {
+        top: 0%;
+        opacity: 0;
+      }
+      15% {
+        opacity: 1;
+      }
+      85% {
+        opacity: 1;
+      }
+      100% {
+        top: 100%;
+        opacity: 0;
+      }
+    }
+
+    /* BOTTOM HARDWARE STATUS BAR */
+    .dgx-bottom-bar {
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+      border-bottom-left-radius: inherit;
+      border-bottom-right-radius: inherit;
+      font-family: var(--font-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+    }
+
+    .dgx-status-left {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    .dgx-status-indicator {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+
+    .dgx-cluster-id {
+      color: var(--text-secondary);
+      font-size: 0.65rem;
+    }
+
 
     .hero-title {
       font-size: clamp(2.75rem, 6vw + 1.25rem, 5rem);
