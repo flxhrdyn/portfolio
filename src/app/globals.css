@@ -410,12 +410,12 @@
       width: 100%;
     }
 
-    /* SCALE AI EXACT 1-TO-1 3D NEURAL DECOMPOSITION STACK */
-    .scale-exact-viewport {
+    /* SCALE AI PORTRAIT 3D NEURAL DECOMPOSITION STACK */
+    .scale-portrait-viewport {
       perspective: 1400px;
       perspective-origin: 55% 50%;
       width: 100%;
-      max-width: 580px;
+      max-width: 540px;
       margin: 0 0 0 auto;
       display: flex;
       justify-content: center;
@@ -423,17 +423,17 @@
       padding: 1.5rem 0.5rem 2.5rem 0.5rem;
     }
 
-    .scale-exact-stack {
+    .scale-portrait-stack {
       position: relative;
-      width: 500px;
-      height: 250px;
+      width: 360px;
+      height: 480px;
       transform-style: preserve-3d;
       cursor: crosshair;
       will-change: transform;
     }
 
     /* GLASS SHEETS BASE */
-    .scale-exact-sheet {
+    .scale-portrait-sheet {
       position: absolute;
       inset: 0;
       border-radius: 24px;
@@ -443,7 +443,7 @@
       will-change: transform, opacity;
     }
 
-    .exact-sheet-svg {
+    .portrait-svg-canvas {
       width: 100%;
       height: 100%;
       display: block;
@@ -451,7 +451,7 @@
       filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.4));
     }
 
-    [data-theme="light"] .exact-sheet-svg {
+    [data-theme="light"] .portrait-svg-canvas {
       color: #000000;
       filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.1));
     }
@@ -464,8 +464,8 @@
       visibility: hidden;
     }
 
-    .scale-exact-stack.is-hovered .sheet-back-output {
-      transform: translate3d(85px, 18px, -90px);
+    .scale-portrait-stack.is-hovered .sheet-back-output {
+      transform: translate3d(95px, 18px, -90px);
       opacity: 0.75;
       visibility: visible;
     }
@@ -478,18 +478,18 @@
       visibility: hidden;
     }
 
-    .scale-exact-stack.is-hovered .sheet-middle-splines {
-      transform: translate3d(45px, 10px, -45px);
+    .scale-portrait-stack.is-hovered .sheet-middle-splines {
+      transform: translate3d(50px, 10px, -45px);
       opacity: 0.88;
       visibility: visible;
     }
 
-    /* LAYER 2: PHOTO CARD (Center Layer) */
+    /* LAYER 2: PHOTO CARD (Center Layer - Portrait) */
     .sheet-photo-center {
       z-index: 3;
       pointer-events: auto;
       transform: translate3d(0, 0, 0px);
-      border-radius: 22px;
+      border-radius: 24px;
       overflow: hidden;
       box-shadow: 0 16px 44px rgba(0, 0, 0, 0.35);
       border: 1px solid var(--border-color);
@@ -497,13 +497,13 @@
       transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
     }
 
-    .scale-exact-stack.is-hovered .sheet-photo-center {
+    .scale-portrait-stack.is-hovered .sheet-photo-center {
       transform: translate3d(0, 0, 10px);
       box-shadow: 0 28px 72px rgba(0, 0, 0, 0.7);
       border-color: var(--text-primary);
     }
 
-    .photo-landscape-inner {
+    .photo-portrait-inner {
       position: relative;
       width: 100%;
       height: 100%;
@@ -519,22 +519,22 @@
       visibility: hidden;
     }
 
-    .scale-exact-stack.is-hovered .sheet-front-contours {
-      transform: translate3d(-60px, -12px, 75px);
+    .scale-portrait-stack.is-hovered .sheet-front-contours {
+      transform: translate3d(-65px, -12px, 75px);
       opacity: 0.95;
       visibility: visible;
     }
 
     /* NEURAL ANIMATED SPLINES ON HOVER */
-    .scale-exact-stack.is-hovered .scale-spline-anim {
+    .scale-portrait-stack.is-hovered .scale-spline-anim {
       stroke-dasharray: 8 6;
       animation: splineStream 1.8s linear infinite;
     }
 
-    .scale-exact-stack.is-hovered .s-flow-1 { animation-duration: 2.2s; }
-    .scale-exact-stack.is-hovered .s-flow-2 { animation-duration: 1.8s; }
-    .scale-exact-stack.is-hovered .s-flow-3 { animation-duration: 1.5s; }
-    .scale-exact-stack.is-hovered .s-flow-4 { animation-duration: 2.0s; }
+    .scale-portrait-stack.is-hovered .s-flow-1 { animation-duration: 2.2s; }
+    .scale-portrait-stack.is-hovered .s-flow-2 { animation-duration: 1.8s; }
+    .scale-portrait-stack.is-hovered .s-flow-3 { animation-duration: 1.5s; }
+    .scale-portrait-stack.is-hovered .s-flow-4 { animation-duration: 2.0s; }
 
     @keyframes splineStream {
       from { stroke-dashoffset: 28; }
