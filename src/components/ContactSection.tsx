@@ -51,32 +51,31 @@ export default function ContactSection() {
               <p className="contact-minimal-subtext">
                 Feel free to reach out for full-time engineering roles, AI consulting, or casual technical discussions.
               </p>
-
-              <div className="contact-minimal-email-row">
-                <button
-                  type="button"
-                  onClick={handleCopy}
-                  className="contact-copy-pill"
-                  title="Click to copy email address"
-                >
-                  <span className="contact-pill-email">{EMAIL}</span>
-                  <span className="contact-pill-action">
-                    {copied ? "Copied!" : "Copy"}
-                  </span>
-                </button>
-
-                <a
-                  href={`mailto:${EMAIL}`}
-                  className="contact-email-link"
-                  aria-label="Send email directly"
-                >
-                  Send email ↗
-                </a>
-              </div>
             </div>
 
-            {/* RIGHT: CLEAN HAIRLINE METADATA LIST WITH LOGOS & ANIMATION */}
+            {/* RIGHT: 4 PARALLEL ROWS (EMAIL, GITHUB, LINKEDIN, LOCATION) */}
             <div className="contact-minimal-right">
+              <button
+                type="button"
+                onClick={handleCopy}
+                className="contact-minimal-row contact-email-row"
+                title="Click to copy email address"
+              >
+                <span className="row-left-group">
+                  <svg className="row-icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect width="20" height="16" x="2" y="4" rx="2"></rect>
+                    <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+                  </svg>
+                  <span className="row-title">Email</span>
+                </span>
+                <span className="row-value">
+                  <span className="email-text-display">{EMAIL}</span>
+                  <span className="email-copy-badge">
+                    {copied ? "Copied!" : "Copy"}
+                  </span>
+                </span>
+              </button>
+
               <a
                 href="https://github.com/flxhrdyn"
                 target="_blank"
