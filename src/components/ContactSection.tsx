@@ -62,20 +62,43 @@ export default function ContactSection() {
       <div className="container">
         <div className="contact-minimal-canvas">
           {/* LEFT: MAIN BOLD FINALE CTA */}
-          <Reveal className="contact-minimal-left">
-            <span className="contact-minimal-availability">
-              <span className="availability-dot" />
-              Available for opportunities
-            </span>
+          {reduceMotion ? (
+            <div className="contact-minimal-left">
+              <span className="contact-minimal-availability">
+                <span className="availability-dot" />
+                Available for opportunities
+              </span>
 
-            <h2 className="contact-minimal-headline">
-              Let&apos;s build something together.
-            </h2>
+              <h2 className="contact-minimal-headline">
+                Let&apos;s build something together.
+              </h2>
 
-            <p className="contact-minimal-subtext">
-              Feel free to reach out for full-time engineering roles, AI consulting, or casual technical discussions.
-            </p>
-          </Reveal>
+              <p className="contact-minimal-subtext">
+                Feel free to reach out for full-time engineering roles, AI consulting, or casual technical discussions.
+              </p>
+            </div>
+          ) : (
+            <m.div
+              className="contact-minimal-left"
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-40px" }}
+              variants={rowItemVariants}
+            >
+              <span className="contact-minimal-availability">
+                <span className="availability-dot" />
+                Available for opportunities
+              </span>
+
+              <h2 className="contact-minimal-headline">
+                Let&apos;s build something together.
+              </h2>
+
+              <p className="contact-minimal-subtext">
+                Feel free to reach out for full-time engineering roles, AI consulting, or casual technical discussions.
+              </p>
+            </m.div>
+          )}
 
           {/* RIGHT: 4 PARALLEL ROWS WITH STAGGERED MOTION CASCADE */}
           {reduceMotion ? (

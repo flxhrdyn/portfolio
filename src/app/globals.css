@@ -2801,8 +2801,9 @@
     .contact-minimal-left {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      padding-top: 0;
+      gap: 1.15rem;
+      padding-top: 0.75rem;
+      padding-bottom: 0.75rem;
     }
 
     .contact-minimal-availability {
