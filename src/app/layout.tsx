@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import { GeistPixelSquare } from "geist/font/pixel";
 import ThemeScript from "@/components/ThemeScript";
 import MotionProvider from "@/components/MotionProvider";
+import PageTransitionLoader from "@/components/PageTransitionLoader";
 import "./globals.css";
 
 const SITE_URL = "https://flxhrdyn.vercel.app";
@@ -44,7 +45,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeScript />
       </head>
       <body>
-        <MotionProvider>{children}</MotionProvider>
+        <MotionProvider>
+          <PageTransitionLoader />
+          {children}
+        </MotionProvider>
       </body>
     </html>
   );
