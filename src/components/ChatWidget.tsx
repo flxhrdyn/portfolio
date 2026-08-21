@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
@@ -196,8 +196,8 @@ export default function ChatWidget() {
     if (!query.trim() || isTyping) return;
 
     const history = messages.slice(-6).map((msg) => ({
-      sender: msg.sender,
-      text: toPlainText(msg),
+      role: msg.sender === "user" ? "user" : "assistant",
+      content: toPlainText(msg),
     }));
 
     setMessages((prev) => [...prev, { id: `${Date.now()}-u`, sender: "user", text: query }]);
@@ -209,7 +209,7 @@ export default function ChatWidget() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ query, history }),
+        body: JSON.stringify({ message: query, history }),
       });
 
       if (!res.ok) throw new Error("API error");
