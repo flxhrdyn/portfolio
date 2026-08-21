@@ -525,10 +525,10 @@
     /* CV BOUNDING BOX OVERLAY (ACCURATELY ENCLOSING FULL PERSON: HEAD TO TOE) */
     .cv-bounding-box {
       position: absolute;
-      top: 13%;
-      left: 5%;
-      width: 31%;
-      height: 75%;
+      top: 14.5%;
+      left: 6.8%;
+      width: 29.5%;
+      height: 74%;
       border: 1.5px solid var(--text-primary);
       background-color: rgba(255, 255, 255, 0.04);
       pointer-events: none;
