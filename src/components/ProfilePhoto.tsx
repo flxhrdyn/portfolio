@@ -35,8 +35,13 @@ export default function ProfilePhoto() {
         />
       </div>
 
-      {/* Detection Bounding Box */}
+      {/* Detection Bounding Box (reticle corners match PageTransitionLoader) */}
       <div className={`cv-bounding-box ${isHovered ? "is-active" : ""}`} aria-hidden="true">
+        <span className="reticle-corner reticle-tl" />
+        <span className="reticle-corner reticle-tr" />
+        <span className="reticle-corner reticle-bl" />
+        <span className="reticle-corner reticle-br" />
+
         <div className="cv-detection-tag">
           <span className="cv-status-indicator" />
           <span className="cv-tag-text">AI ENGINEER</span>

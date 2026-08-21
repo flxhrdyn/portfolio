@@ -487,7 +487,7 @@
       max-width: 440px;
       height: 540px;
       margin: 0 0 0 auto;
-      border-radius: var(--radius-md);
+      border-radius: 0;
       border: 1px solid var(--border-color);
       background-color: var(--bg-card);
       overflow: hidden;
@@ -522,35 +522,32 @@
       transform: scale(1.015);
     }
 
-    /* CV BOUNDING BOX OVERLAY (ACCURATELY ENCLOSING FULL PERSON: HEAD TO TOE) */
+    /* CV BOUNDING BOX OVERLAY — reticle corners match .transition-pixel-stage */
     .cv-bounding-box {
       position: absolute;
       top: 17%;
       left: 9.5%;
       width: 24%;
       height: 80%;
-      border: 1.5px solid var(--text-primary);
-      background-color: rgba(255, 255, 255, 0.04);
+      background-color: transparent;
       pointer-events: none;
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    [data-theme="light"] .cv-bounding-box {
-      border: 1.5px solid #000000;
-      background-color: rgba(0, 0, 0, 0.03);
+      transition: background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .cv-bounding-box.is-active {
-      background-color: rgba(255, 255, 255, 0.08);
-      border-color: var(--text-primary);
+      background-color: rgba(255, 255, 255, 0.05);
     }
 
     [data-theme="light"] .cv-bounding-box.is-active {
-      background-color: rgba(0, 0, 0, 0.06);
-      border-color: #000000;
+      background-color: rgba(0, 0, 0, 0.04);
     }
 
-    /* DETECTION LABEL TAG */
+    .cv-bounding-box .reticle-corner {
+      width: 10px;
+      height: 10px;
+    }
+
+    /* DETECTION LABEL TAG (mono eyebrow, matches .transition-pixel-eyebrow) */
     .cv-detection-tag {
       position: absolute;
       top: -12px;
@@ -560,23 +557,17 @@
       gap: 0.35rem;
       padding: 0.15rem 0.45rem;
       background-color: var(--bg-card);
-      border: 1px solid var(--text-primary);
-      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color);
+      border-radius: 0;
       font-family: var(--font-mono, monospace);
       font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      color: var(--text-primary);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
       text-transform: uppercase;
       white-space: nowrap;
       box-shadow: none;
       z-index: 5;
-    }
-
-    [data-theme="light"] .cv-detection-tag {
-      background-color: #ffffff;
-      border-color: #000000;
-      color: #000000;
     }
 
     .cv-status-indicator {
@@ -604,7 +595,7 @@
       right: 14px;
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
+      border-radius: 0;
       padding: 0.85rem 1rem;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);

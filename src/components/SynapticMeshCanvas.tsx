@@ -78,26 +78,38 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
       parent.addEventListener("mouseleave", handleMouseLeave);
     }
 
-    let nodes: DistilledNode[] = [];
+    interface WanderingNode {
+      x: number;
+      y: number;
+      angle: number;
+      speed: number;
+      angleDelta: number;
+      radius: number;
+      activation: number;
+    }
+
+    let nodes: WanderingNode[] = [];
     let pulses: GentlePulse[] = [];
 
     const initNodes = () => {
       nodes = [];
       pulses = [];
-      // Balanced node count: not sparse, but completely free of spiderweb clutter
-      const count = Math.min(52, Math.max(34, Math.floor((width * height) / 24000)));
+      // Dense & rich node count (60 - 95 nodes across the canvas)
+      const count = Math.min(95, Math.max(60, Math.floor((width * height) / 14000)));
 
       for (let i = 0; i < count; i++) {
         const x = Math.random() * width;
         const y = Math.random() * height;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = 0.08 + Math.random() * 0.12;
+
         nodes.push({
           x,
           y,
-          baseX: x,
-          baseY: y,
-          vx: (Math.random() - 0.5) * 0.05, // Ultra-slow, serene ambient breathing (not distracting)
-          vy: (Math.random() - 0.5) * 0.05,
-          radius: Math.random() < 0.25 ? 1.6 : 1.1, // Subtle, sharp micro-constellation nodes
+          angle,
+          speed,
+          angleDelta: (Math.random() - 0.5) * 0.02,
+          radius: Math.random() < 0.3 ? 1.7 : 1.1,
           activation: 0,
         });
       }
@@ -105,9 +117,9 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
 
     initNodes();
 
-    const mouseRadius = 150;
+    const mouseRadius = 160;
     const mouseRadiusSq = mouseRadius * mouseRadius;
-    const connectionDist = 120;
+    const connectionDist = 145;
     const connectionDistSq = connectionDist * connectionDist;
 
     const render = () => {
@@ -115,20 +127,21 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
 
       // Smooth cursor interpolation
       if (mouse.active) {
-        mouse.x += (mouse.targetX - mouse.x) * 0.08;
-        mouse.y += (mouse.targetY - mouse.y) * 0.08;
+        mouse.x += (mouse.targetX - mouse.x) * 0.09;
+        mouse.y += (mouse.targetY - mouse.y) * 0.09;
       }
 
       const isDark = document.documentElement.getAttribute("data-theme") !== "light";
-      const primaryRgb = isDark ? "255, 255, 255" : "0, 0, 0";
+      // Refined soft gray palette: never competes with pure white text or dark background
+      const grayRgb = isDark ? "156, 163, 175" : "120, 125, 135";
 
       // 1. SUBTLE AMBIENT MOUSE VAPOR GLOW
       if (mouse.active) {
-        const glowRadius = 220;
+        const glowRadius = 240;
         const glow = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, glowRadius);
-        glow.addColorStop(0, `rgba(${primaryRgb}, ${isDark ? 0.035 : 0.025})`);
-        glow.addColorStop(0.6, `rgba(${primaryRgb}, ${isDark ? 0.01 : 0.006})`);
-        glow.addColorStop(1, `rgba(${primaryRgb}, 0)`);
+        glow.addColorStop(0, `rgba(${grayRgb}, ${isDark ? 0.035 : 0.025})`);
+        glow.addColorStop(0.6, `rgba(${grayRgb}, ${isDark ? 0.01 : 0.006})`);
+        glow.addColorStop(1, `rgba(${grayRgb}, 0)`);
 
         ctx.fillStyle = glow;
         ctx.beginPath();
@@ -136,17 +149,24 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
         ctx.fill();
       }
 
-      // 2. UPDATE NODES (Quiet natural drift)
+      // 2. UPDATE NODES (Organic dynamic wandering — forms ever-changing random topologies)
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
-        n.x += n.vx;
-        n.y += n.vy;
 
-        // Gentle wrap around boundaries
-        if (n.x < -10) n.x = width + 10;
-        if (n.x > width + 10) n.x = -10;
-        if (n.y < -10) n.y = height + 10;
-        if (n.y > height + 10) n.y = -10;
+        // Smoothly evolve angle for continuous random wandering
+        n.angle += n.angleDelta;
+        if (Math.random() < 0.02) {
+          n.angleDelta = (Math.random() - 0.5) * 0.025;
+        }
+
+        n.x += Math.cos(n.angle) * n.speed;
+        n.y += Math.sin(n.angle) * n.speed;
+
+        // Wrap around boundaries
+        if (n.x < -15) n.x = width + 15;
+        if (n.x > width + 15) n.x = -15;
+        if (n.y < -15) n.y = height + 15;
+        if (n.y > height + 15) n.y = -15;
 
         if (mouse.active) {
           const dx = mouse.x - n.x;
@@ -158,9 +178,9 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
             const factor = 1 - dist / mouseRadius;
             n.activation = Math.min(1, n.activation + factor * 0.08);
 
-            // Very subtle gravitational lean toward cursor
-            n.x += dx * 0.003 * factor;
-            n.y += dy * 0.003 * factor;
+            // Subtle magnetic pull
+            n.x += dx * 0.004 * factor;
+            n.y += dy * 0.004 * factor;
           } else {
             n.activation *= 0.94;
           }
@@ -169,7 +189,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
         }
       }
 
-      // 3. DRAW UNDERSTATED SYNAPSE CONNECTIONS
+      // 3. DRAW DENSE YET NON-DISTRACTING SYNAPSE CONNECTIONS (Muted soft gray)
       for (let i = 0; i < nodes.length; i++) {
         const n1 = nodes[i];
         for (let j = i + 1; j < nodes.length; j++) {
@@ -183,25 +203,25 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
             const distRatio = 1 - dist / connectionDist;
             const activation = Math.max(n1.activation, n2.activation);
 
-            // Restrained baseline alpha — reads as quiet architectural lines
-            const baseAlpha = isDark ? 0.04 : 0.035;
+            // Soft gray baseline alpha
+            const baseAlpha = isDark ? 0.045 : 0.04;
             const alpha = baseAlpha * distRatio + activation * 0.18;
 
             if (alpha > 0.008) {
-              ctx.strokeStyle = `rgba(${primaryRgb}, ${Math.min(0.35, alpha)})`;
+              ctx.strokeStyle = `rgba(${grayRgb}, ${Math.min(0.35, alpha)})`;
               ctx.lineWidth = 0.65;
               ctx.beginPath();
               ctx.moveTo(n1.x, n1.y);
               ctx.lineTo(n2.x, n2.y);
               ctx.stroke();
 
-              // Rare, elegant micro-pulse
-              if (activation > 0.4 && pulses.length < 5 && Math.random() < 0.008) {
+              // Calm signal pulses near active mouse
+              if (activation > 0.35 && pulses.length < 6 && Math.random() < 0.008) {
                 pulses.push({
                   fromIndex: i,
                   toIndex: j,
                   progress: 0,
-                  speed: 0.016,
+                  speed: 0.015,
                 });
               }
             }
@@ -209,7 +229,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
         }
       }
 
-      // 4. DRAW CALM FIBER MICRO-PULSES
+      // 4. DRAW CALM SIGNAL PULSES
       for (let p = pulses.length - 1; p >= 0; p--) {
         const pulse = pulses[p];
         pulse.progress += pulse.speed;
@@ -229,28 +249,28 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
         const px = from.x + (to.x - from.x) * pulse.progress;
         const py = from.y + (to.y - from.y) * pulse.progress;
 
-        ctx.fillStyle = `rgba(${primaryRgb}, 0.65)`;
+        ctx.fillStyle = `rgba(${grayRgb}, 0.6)`;
         ctx.beginPath();
         ctx.arc(px, py, 1.2, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // 5. DRAW CRISP, ELEGANT NEURON PINS
+      // 5. DRAW MUTED GRAY NEURON NODES
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
-        const baseAlpha = isDark ? 0.22 : 0.18;
+        const baseAlpha = isDark ? 0.25 : 0.22;
         const activeAlpha = baseAlpha + n.activation * 0.45;
 
-        // Subtle aura on hover
-        if (n.activation > 0.1) {
-          ctx.fillStyle = `rgba(${primaryRgb}, ${n.activation * 0.08})`;
+        // Soft halo on hover
+        if (n.activation > 0.08) {
+          ctx.fillStyle = `rgba(${grayRgb}, ${n.activation * 0.08})`;
           ctx.beginPath();
           ctx.arc(n.x, n.y, n.radius * 2.8, 0, Math.PI * 2);
           ctx.fill();
         }
 
-        // Crisp central pinpoint
-        ctx.fillStyle = `rgba(${primaryRgb}, ${Math.min(0.85, activeAlpha)})`;
+        // Crisp central pinpoint in soft gray
+        ctx.fillStyle = `rgba(${grayRgb}, ${Math.min(0.85, activeAlpha)})`;
         ctx.beginPath();
         ctx.arc(n.x, n.y, n.radius + n.activation * 0.3, 0, Math.PI * 2);
         ctx.fill();
