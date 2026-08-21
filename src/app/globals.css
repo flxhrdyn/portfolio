@@ -3623,12 +3623,12 @@
       border: 1px solid var(--border-color);
       border-radius: 12px;
       box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
-      animation: transitionStageZoom 0.38s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: transitionStageZoom 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     @keyframes transitionStageZoom {
       0% {
-        transform: scale(0.95) translateY(6px);
+        transform: scale(0.96) translateY(6px);
         opacity: 0;
       }
       100% {
@@ -3715,7 +3715,14 @@
       height: 100%;
       width: 0%;
       background: var(--text-primary);
-      animation: transitionBarFill 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: transitionBarFill 0.82s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    }
+
+    @keyframes transitionBarFill {
+      0% { width: 0%; }
+      35% { width: 45%; }
+      75% { width: 88%; }
+      100% { width: 100%; }
     }
 
     .transition-pixel-route {

@@ -36,7 +36,7 @@ export default function PageTransitionLoader() {
 
           setTimeout(() => {
             router.push(cleanHref);
-          }, 150);
+          }, 450);
         }
       }
     };
@@ -49,7 +49,7 @@ export default function PageTransitionLoader() {
     if (isTransitioning) {
       const timer = setTimeout(() => {
         setIsTransitioning(false);
-      }, 550);
+      }, 950);
       return () => clearTimeout(timer);
     }
   }, [pathname, isTransitioning]);
@@ -63,7 +63,7 @@ export default function PageTransitionLoader() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
         >
           {/* Subtle Background Dot Grid */}
           <div className="transition-dot-grid" aria-hidden="true" />

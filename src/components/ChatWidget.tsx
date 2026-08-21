@@ -210,7 +210,7 @@ export default function ChatWidget() {
         {/* VERCEL CLEAN CONSOLE HEADER */}
         <div className="chat-header">
           <div className="chat-header-identity">
-            <span className="chat-header-tab">ask-portfolio.tsx</span>
+            <span className="chat-header-title">ASK MY PORTFOLIO</span>
           </div>
           <div className="chat-header-status">
             <span className="status-dot" aria-hidden="true" />
