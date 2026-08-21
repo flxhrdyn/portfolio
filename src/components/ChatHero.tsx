@@ -62,12 +62,10 @@ export default function ChatHero() {
               <span className="metric-rail-value">2+ Yrs</span>
               <span className="metric-rail-label">AI Industry Exp</span>
             </div>
-            <div className="metric-rail-divider" aria-hidden="true" />
             <div className="metric-rail-item">
               <span className="metric-rail-value">10+</span>
               <span className="metric-rail-label">AI Systems Built</span>
             </div>
-            <div className="metric-rail-divider" aria-hidden="true" />
             <div className="metric-rail-item">
               <span className="metric-rail-value">BNSP</span>
               <span className="metric-rail-label">Certified Data Scientist</span>
