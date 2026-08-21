@@ -31,7 +31,7 @@ export default function PageTransitionLoader() {
         if (cleanHref !== currentClean) {
           e.preventDefault();
           setTargetLabel(cleanHref === "/portfolio" ? "TECHNICAL PORTFOLIO" : "AI AGENT CONSOLE");
-          setTargetRoute(cleanHref);
+          setTargetRoute(cleanHref === "/portfolio" ? "/portfolio" : "/landing");
           setIsTransitioning(true);
 
           setTimeout(() => {
