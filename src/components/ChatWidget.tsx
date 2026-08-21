@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import type { ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
@@ -12,8 +12,6 @@ interface Message {
   text?: string;
 }
 
-// Chip answers are hardcoded (not sent to the LLM) so they're instant, free, and never fail -
-// only free-typed questions go through the /api/chat call. Keep this in sync with context/*.md.
 const QUICK_CHIPS = [
   {
     label: "Who is Felix?",
@@ -61,14 +59,6 @@ function toPlainText(msg: Message): string {
   return "";
 }
 
-// Turns links the LLM mentions in plain text into clickable links, without ever injecting raw
-// HTML from model output. Handles three phrasings, in priority order, so the link always shows
-// a readable label instead of a bare URL - even if the model doesn't follow the markdown format:
-//   1. Markdown links: "[full portfolio](/portfolio)"
-//   2. "<label> at /path" - e.g. "his portfolio at /portfolio" -> label becomes the link
-//   3. Bare paths with no label - e.g. "see the repo at https://github.com/flxhrdyn/LUCIAN"
-// Projects link out to their GitHub repo, not an internal page - so both site-relative paths
-// and github.com/flxhrdyn/<repo> URLs are recognized.
 const SITE_PATH = "\\/(?:portfolio|research)(?:[/#][\\w-]*)*";
 const GITHUB_URL = "https:\\/\\/github\\.com\\/flxhrdyn\\/[\\w.-]+";
 const LINK_TARGET = `(?:${SITE_PATH}|${GITHUB_URL})`;
@@ -76,8 +66,6 @@ const MARKDOWN_LINK_PATTERN = new RegExp(`\\[([^\\]]+)\\]\\((${LINK_TARGET})\\)`
 const LABELED_PATH_PATTERN = new RegExp(`((?:\\w+\\s){0,1}\\w+)\\s+at\\s+(${LINK_TARGET})`, "gi");
 const BARE_PATH_PATTERN = new RegExp(LINK_TARGET, "g");
 
-// Readable fallback labels for bare links the model drops in without any surrounding
-// "<label> at" phrasing (e.g. a comma-separated list of repo links).
 const PATH_LABELS: Record<string, string> = {
   "/portfolio": "full portfolio",
   "/portfolio#experience": "his experience",
@@ -89,7 +77,7 @@ const PATH_LABELS: Record<string, string> = {
   "https://github.com/flxhrdyn/LUCIAN": "LUCIAN",
 };
 
-const LINK_STYLE = { color: "var(--accent-text)", textDecoration: "underline", fontWeight: 600 };
+const LINK_STYLE = { color: "var(--text-primary)", textDecoration: "underline", textUnderlineOffset: "3px", fontWeight: 600 };
 
 function SmartLink({ href, children, linkKey }: { href: string; children: ReactNode; linkKey: string }) {
   const external = href.startsWith("https://");
@@ -100,157 +88,52 @@ function SmartLink({ href, children, linkKey }: { href: string; children: ReactN
   );
 }
 
-function titleCase(slug: string): string {
-  return slug
-    .split("-")
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(" ");
-}
+function renderMarkdown(text: string, msgId: string): ReactNode {
+  const tokenRegex = new RegExp(
+    `\\[([^\\]]+)\\]\\((${LINK_TARGET})\\)|((?:\\w+\\s){0,1}\\w+)\\s+at\\s+(${LINK_TARGET})|(${LINK_TARGET})`,
+    "gi",
+  );
 
-// Never show a raw URL to the visitor - fall back to a readable label derived from the
-// link's own segments for anything not covered by the explicit map above (e.g. a repo or
-// research slug added later).
-function labelForPath(path: string): string {
-  if (PATH_LABELS[path]) return PATH_LABELS[path];
+  const elements: ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  let matchCount = 0;
 
-  if (path.startsWith("https://github.com/flxhrdyn/")) {
-    const repo = path.split("/").pop() ?? "";
-    return `${titleCase(repo)} repo`;
+  while ((match = tokenRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      elements.push(text.slice(lastIndex, match.index));
+    }
+
+    const key = `${msgId}-link-${matchCount++}`;
+
+    if (match[1] && match[2]) {
+      elements.push(<SmartLink href={match[2]} linkKey={key}>{match[1]}</SmartLink>);
+    } else if (match[3] && match[4]) {
+      elements.push(<SmartLink href={match[4]} linkKey={key}>{match[3]}</SmartLink>);
+    } else if (match[5]) {
+      const url = match[5];
+      const label = PATH_LABELS[url] ?? (url.startsWith("http") ? new URL(url).pathname.slice(1) : url);
+      elements.push(<SmartLink href={url} linkKey={key}>{label}</SmartLink>);
+    }
+
+    lastIndex = match.index + match[0].length;
   }
 
-  const [base, anchor] = path.split("#");
-  const segments = base.split("/").filter(Boolean);
-
-  if (segments[0] === "research" && segments[1]) return `${titleCase(segments[1])} article`;
-  if (anchor) return `his ${anchor}`;
-  return "full portfolio";
-}
-
-function linkifyLabeledPaths(text: string, keyPrefix: string): ReactNode[] {
-  const parts = text.split(LABELED_PATH_PATTERN);
-  const nodes: ReactNode[] = [];
-
-  for (let i = 0; i < parts.length; i += 3) {
-    const plain = parts[i];
-    const label = parts[i + 1];
-    const href = parts[i + 2];
-
-    if (plain) {
-      const pathParts = plain.split(BARE_PATH_PATTERN);
-      const pathMatches = plain.match(BARE_PATH_PATTERN) ?? [];
-      pathParts.forEach((part, j) => {
-        if (part) nodes.push(part);
-        if (pathMatches[j]) {
-          nodes.push(
-            <SmartLink key={`${keyPrefix}-${i}-${j}`} linkKey={`${keyPrefix}-${i}-${j}`} href={pathMatches[j]}>
-              {labelForPath(pathMatches[j])}
-            </SmartLink>
-          );
-        }
-      });
-    }
-
-    if (label && href) {
-      nodes.push(
-        <SmartLink key={`${keyPrefix}-${i}`} linkKey={`${keyPrefix}-${i}`} href={href}>
-          {label}
-        </SmartLink>
-      );
-    }
+  if (lastIndex < text.length) {
+    elements.push(text.slice(lastIndex));
   }
 
-  return nodes;
+  return <p>{elements}</p>;
 }
 
-function renderTextWithLinks(text: string, keyPrefix: string) {
-  const nodes: ReactNode[] = [];
-
-  const mdParts = text.split(MARKDOWN_LINK_PATTERN);
-  for (let i = 0; i < mdParts.length; i += 3) {
-    const plain = mdParts[i];
-    const label = mdParts[i + 1];
-    const href = mdParts[i + 2];
-
-    if (plain) nodes.push(...linkifyLabeledPaths(plain, `${keyPrefix}-${i}`));
-
-    if (label && href) {
-      nodes.push(
-        <SmartLink key={`${keyPrefix}-${i}`} linkKey={`${keyPrefix}-${i}`} href={href}>
-          {label}
-        </SmartLink>
-      );
-    }
-  }
-
-  return nodes;
-}
-
-// Renders **bold** spans inline, deferring to renderTextWithLinks for everything else so
-// links keep working inside/around bold text.
-function renderInline(text: string, keyPrefix: string): ReactNode[] {
-  const nodes: ReactNode[] = [];
-  const parts = text.split(/\*\*(.+?)\*\*/g);
-  parts.forEach((part, i) => {
-    if (i % 2 === 1) {
-      nodes.push(<strong key={`${keyPrefix}-b-${i}`}>{part}</strong>);
-    } else if (part) {
-      nodes.push(...renderTextWithLinks(part, `${keyPrefix}-${i}`));
-    }
-  });
-  return nodes;
-}
-
-// The model answers list-shaped questions (projects, skills, etc.) with markdown bullets and
-// bold labels - render those as real <ul>/<strong> instead of leaving "**"/"-" visible as text.
-function renderMarkdown(text: string, keyPrefix: string): ReactNode[] {
-  const blocks: ReactNode[] = [];
-  let listBuffer: string[] = [];
-  let blockIndex = 0;
-
-  const flushList = () => {
-    if (listBuffer.length === 0) return;
-    const listKey = blockIndex++;
-    blocks.push(
-      <ul key={`${keyPrefix}-ul-${listKey}`} style={{ margin: "0.4rem 0", paddingLeft: "1.2rem" }}>
-        {listBuffer.map((item, i) => (
-          <li key={`${keyPrefix}-ul-${listKey}-li-${i}`}>
-            {renderInline(item, `${keyPrefix}-ul-${listKey}-li-${i}`)}
-          </li>
-        ))}
-      </ul>
-    );
-    listBuffer = [];
-  };
-
-  text.split("\n").forEach((line) => {
-    const trimmed = line.trim();
-    const listMatch = trimmed.match(/^[-*]\s+(.*)$/);
-    if (listMatch) {
-      listBuffer.push(listMatch[1]);
-      return;
-    }
-    flushList();
-    if (trimmed) {
-      const pKey = blockIndex++;
-      blocks.push(<p key={`${keyPrefix}-p-${pKey}`}>{renderInline(trimmed, `${keyPrefix}-p-${pKey}`)}</p>);
-    }
-  });
-  flushList();
-
-  return blocks;
-}
-
-// Rotated while waiting so a long multi-step tool-calling wait reads as progress rather than
-// a frozen "..." - purely cosmetic, doesn't reflect real backend state.
 const STATUS_MESSAGES = [
-  "Thinking...",
-  "Looking through his projects...",
-  "Checking his experience...",
-  "Putting together an answer...",
+  "Searching Felix's portfolio...",
+  "Retrieving project details...",
+  "Synthesizing response...",
 ];
 
 function randomThinkingDelay(): number {
-  return 1000 + Math.random() * 4000;
+  return Math.floor(Math.random() * (1200 - 600 + 1)) + 600;
 }
 
 export default function ChatWidget() {
@@ -275,8 +158,6 @@ export default function ChatWidget() {
     return () => clearInterval(id);
   }, [isTyping]);
 
-  // Pins scroll to the bottom whenever message content grows - including late reflows
-  // (e.g. web font finishing load after streaming ends) that a one-off scroll call would miss.
   useEffect(() => {
     const body = bodyRef.current;
     const content = contentRef.current;
@@ -288,9 +169,6 @@ export default function ChatWidget() {
     return () => observer.disconnect();
   }, []);
 
-  // Chip answers are hardcoded, so they'd otherwise appear instantly - a dead giveaway that
-  // it's a canned template rather than a live agent response. A short random "thinking" delay
-  // plus a typewriter reveal makes it read the same as a real streamed answer.
   const sendChip = (chip: (typeof QUICK_CHIPS)[number]) => {
     if (isTyping) return;
     setMessages((prev) => [...prev, { id: `${Date.now()}-u`, sender: "user", text: chip.query }]);
@@ -318,8 +196,8 @@ export default function ChatWidget() {
     if (!query.trim() || isTyping) return;
 
     const history = messages.slice(-6).map((msg) => ({
-      role: msg.sender === "user" ? "user" : "assistant",
-      content: toPlainText(msg),
+      sender: msg.sender,
+      text: toPlainText(msg),
     }));
 
     setMessages((prev) => [...prev, { id: `${Date.now()}-u`, sender: "user", text: query }]);
@@ -331,20 +209,18 @@ export default function ChatWidget() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: query, history }),
+        body: JSON.stringify({ query, history }),
       });
 
-      if (!res.ok || !res.body) throw new Error("Chat request failed");
+      if (!res.ok) throw new Error("API error");
+      if (!res.body) throw new Error("No response stream");
 
-      // The backend resolves tool calls over several non-streaming turns before its final
-      // turn starts streaming text - headers arrive almost instantly, but real content can
-      // take 10-20s. Keep the typing indicator up (not a blank bubble) until the first byte
-      // of actual content shows up, so the wait never looks frozen.
-      const replyId = `${Date.now()}-b`;
       const reader = res.body.getReader();
       const decoder = new TextDecoder();
       let text = "";
+      const replyId = `${Date.now()}-b`;
       let revealed = false;
+
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
@@ -378,54 +254,51 @@ export default function ChatWidget() {
   return (
     <div className="chat-card-container">
       <div className="portfolio-chat-box">
+        {/* VERCEL CLEAN CONSOLE HEADER */}
         <div className="chat-header">
-          <div className="chat-header-dots" aria-hidden="true">
-            <span />
-            <span />
-            <span />
+          <div className="chat-header-identity">
+            <span className="chat-header-title">ASK MY PORTFOLIO</span>
           </div>
           <div className="chat-header-status">
-            <span>ASK MY PORTFOLIO</span>
-            <span className="status-dot" />
+            <span className="status-dot" aria-hidden="true" />
+            <span>ONLINE</span>
           </div>
         </div>
 
+        {/* MESSAGES VIEWPORT */}
         <div style={{ display: "flex", flexDirection: "column", flexGrow: 1, overflow: "hidden", minHeight: 0 }}>
           <div className="chat-body" ref={bodyRef}>
             <div className="chat-body-content" ref={contentRef}>
               {messages.map((msg) => (
                 <div key={msg.id} className={`chat-msg ${msg.sender === "user" ? "user" : "bot"}`}>
-                  <div className="msg-sender">{msg.sender === "user" ? "GUEST" : "HAWAT"}</div>
-                  {msg.text !== undefined ? (
-                    // User messages and live LLM replies are untrusted/model-generated text -
-                    // always rendered as plain text, never through dangerouslySetInnerHTML.
-                    <div className="msg-bubble">
-                      {msg.sender === "bot" ? renderMarkdown(msg.text, msg.id) : <p>{msg.text}</p>}
-                    </div>
-                  ) : (
-                    // Only our own hardcoded strings (welcome message, offline fallback) use html.
-                    <div className="msg-bubble" dangerouslySetInnerHTML={{ __html: msg.html ?? "" }} />
-                  )}
+                  <div className="msg-content-wrapper">
+                    {msg.text !== undefined ? (
+                      <div className="msg-text-block">
+                        {msg.sender === "bot" ? renderMarkdown(msg.text, msg.id) : <p>{msg.text}</p>}
+                      </div>
+                    ) : (
+                      <div className="msg-text-block" dangerouslySetInnerHTML={{ __html: msg.html ?? "" }} />
+                    )}
+                  </div>
                 </div>
               ))}
               <AnimatePresence>
                 {isTyping && (
                   <m.div
-                    className="chat-msg bot"
-                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.96 }}
-                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    className="chat-msg bot typing-state"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                   >
-                    <div className="msg-sender">HAWAT</div>
-                    <div className="msg-bubble" style={{ padding: "0.4rem 0.8rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                      <span style={{ fontSize: "0.8rem", color: "var(--text-secondary)" }}>
-                        {STATUS_MESSAGES[statusIndex]}
-                      </span>
-                      <div className="typing-indicator">
-                        <div className="typing-dot" />
-                        <div className="typing-dot" />
-                        <div className="typing-dot" />
+                    <div className="msg-content-wrapper">
+                      <div className="typing-status-pill">
+                        <span className="typing-status-label">{STATUS_MESSAGES[statusIndex]}</span>
+                        <div className="typing-indicator">
+                          <div className="typing-dot" />
+                          <div className="typing-dot" />
+                          <div className="typing-dot" />
+                        </div>
                       </div>
                     </div>
                   </m.div>
@@ -434,54 +307,57 @@ export default function ChatWidget() {
             </div>
           </div>
 
-          <div className="chat-chips-container">
-            {QUICK_CHIPS.map((chip) => (
-              <button
-                key={chip.label}
-                type="button"
-                className="chat-chip"
-                onClick={() => sendChip(chip)}
+          {/* VERCEL PROMPT DECK */}
+          <div className="chat-dock">
+            <div className="chat-chips-container">
+              {QUICK_CHIPS.map((chip) => (
+                <button
+                  key={chip.label}
+                  type="button"
+                  className="chat-chip"
+                  onClick={() => sendChip(chip)}
+                >
+                  {chip.label}
+                </button>
+              ))}
+            </div>
+
+            <div className="chat-input-wrapper">
+              <form
+                className="chat-form"
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  send(input);
+                }}
               >
-                {chip.label}
-              </button>
-            ))}
-          </div>
+                <label htmlFor="chat-input" className="sr-only">
+                  Ask a question about Felix&apos;s work, skills, or projects
+                </label>
+                <input
+                  id="chat-input"
+                  type="text"
+                  className="chat-input"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Ask about Felix's work, skills, or projects..."
+                  autoComplete="off"
+                />
+                <button type="submit" className="chat-send-btn" aria-label="Send message" disabled={!input.trim() || isTyping}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="12" y1="19" x2="12" y2="5"></line>
+                    <polyline points="5 12 12 5 19 12"></polyline>
+                  </svg>
+                </button>
+              </form>
+            </div>
 
-          <div className="chat-input-wrapper">
-            <form
-              className="chat-form"
-              onSubmit={(e) => {
-                e.preventDefault();
-                send(input);
-              }}
-            >
-              <label htmlFor="chat-input" className="sr-only">
-                Ask a question about Felix&apos;s work, skills, or projects
-              </label>
-              <input
-                id="chat-input"
-                type="text"
-                className="chat-input"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about Felix's work, skills, or projects..."
-                autoComplete="off"
-              />
-              <button type="submit" className="chat-send-btn" aria-label="Send message">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="22" y1="2" x2="11" y2="13"></line>
-                  <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                </svg>
-              </button>
-            </form>
-          </div>
-
-          <div className="chat-disclaimer">
-            This AI assistant may occasionally get details wrong. For the complete and accurate picture, see the{" "}
-            <a href="/portfolio/" style={LINK_STYLE}>
-              full portfolio
-            </a>
-            .
+            <div className="chat-disclaimer">
+              This AI assistant may occasionally get details wrong. For the complete and accurate picture, see the{" "}
+              <a href="/portfolio/" style={LINK_STYLE}>
+                full portfolio
+              </a>
+              .
+            </div>
           </div>
         </div>
       </div>
