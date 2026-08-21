@@ -92,16 +92,6 @@
       transition: background-color var(--transition-speed) ease-out, color var(--transition-speed) ease-out;
     }
 
-    .chat-disclaimer {
-      font-size: 0.72rem;
-      color: var(--text-secondary);
-      text-align: center;
-      padding: 0.25rem 1.25rem 0.75rem;
-      background: var(--bg-card);
-      line-height: 1.4;
-      opacity: 0.85;
-    }
-
     .sr-only {
       position: absolute;
       width: 1px;
@@ -898,7 +888,7 @@
     /* VERCEL PROMPT DOCK */
     .chat-dock {
       padding: 1rem 1.25rem 1.25rem 1.25rem;
-      background-color: var(--bg-secondary);
+      background-color: transparent;
       border-top: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
@@ -906,7 +896,7 @@
     }
 
     [data-theme="light"] .chat-dock {
-      background-color: #fafbfc;
+      background-color: transparent;
       border-top: 1px solid #f0f1f3;
     }
 
@@ -1021,11 +1011,16 @@
     }
 
     .chat-disclaimer {
-      font-size: 0.7rem;
+      font-size: 0.72rem;
       color: var(--text-secondary);
       text-align: center;
       line-height: 1.4;
       font-family: var(--font-sans);
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0.25rem 0 0 0;
+      opacity: 0.8;
     }
 
     .chat-chip:hover {
