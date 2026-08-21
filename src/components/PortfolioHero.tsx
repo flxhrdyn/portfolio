@@ -49,23 +49,6 @@ export default function PortfolioHero() {
               <span>Get in Touch</span>
             </a>
           </m.div>
-
-          <m.div variants={item} className="hero-metrics-rail">
-            <div className="metric-rail-item">
-              <span className="metric-rail-value">2+ Yrs</span>
-              <span className="metric-rail-label">AI Industry Exp</span>
-            </div>
-            <div className="metric-rail-divider" aria-hidden="true" />
-            <div className="metric-rail-item">
-              <span className="metric-rail-value">10+</span>
-              <span className="metric-rail-label">AI Systems Built</span>
-            </div>
-            <div className="metric-rail-divider" aria-hidden="true" />
-            <div className="metric-rail-item">
-              <span className="metric-rail-value">BNSP</span>
-              <span className="metric-rail-label">Certified Data Scientist</span>
-            </div>
-          </m.div>
         </div>
 
         <m.div variants={item} className="hero-photo-col">
