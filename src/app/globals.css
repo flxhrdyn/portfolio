@@ -306,7 +306,6 @@
       color: var(--text-primary);
     }
 
-    /* HERO CONTAINER */
     .hero-wrapper {
       position: relative;
       overflow: hidden;
@@ -318,6 +317,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    .chat-hero-wrapper {
+      background-image: none !important;
     }
 
     .hero-eyebrow {
