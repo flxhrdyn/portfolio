@@ -410,176 +410,112 @@
       width: 100%;
     }
 
-    /* SCALE AI ISOMETRIC 3D NEURAL DECOMPOSITION STACK */
-    .scale-isometric-viewport {
-      perspective: 1400px;
-      perspective-origin: 60% 45%;
+    /* SCALE AI FLAGSHIP 3D NEURAL DECOMPOSITION STACK */
+    .scale-hero-stage {
+      perspective: 1600px;
+      perspective-origin: 55% 45%;
       width: 100%;
-      max-width: 520px;
+      max-width: 600px;
       margin: 0 0 0 auto;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 2.5rem 1rem 3.5rem 1rem;
+      padding: 1.5rem 0.5rem 2.5rem 0.5rem;
     }
 
-    .scale-isometric-stack {
+    .scale-3d-stack {
       position: relative;
-      width: 420px;
-      height: 280px;
+      width: 480px;
+      height: 300px;
       transform-style: preserve-3d;
       cursor: crosshair;
       will-change: transform;
     }
 
-    /* FROSTED GLASS SHEETS */
-    .iso-glass-sheet {
+    /* GLASS SHEETS BASE */
+    .scale-sheet {
       position: absolute;
       inset: 0;
-      border-radius: 16px;
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      background: rgba(18, 18, 20, 0.4);
-      backdrop-filter: blur(4px);
-      -webkit-backdrop-filter: blur(4px);
-      color: #ffffff;
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
-      display: flex;
-      flex-direction: column;
+      border-radius: 24px;
+      pointer-events: none;
       transform-style: preserve-3d;
-      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, border-color 0.3s ease;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease, filter 0.4s ease;
       will-change: transform, opacity;
     }
 
-    [data-theme="light"] .iso-glass-sheet {
-      border: 1px solid rgba(0, 0, 0, 0.22);
-      background: rgba(255, 255, 255, 0.45);
-      color: #000000;
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.12);
-    }
-
-    .sheet-header {
-      padding: 0.45rem 0.75rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-family: var(--font-mono);
-      font-size: 0.58rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      background: rgba(0, 0, 0, 0.25);
-    }
-
-    [data-theme="light"] .sheet-header {
-      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
-      background: rgba(255, 255, 255, 0.5);
-    }
-
-    .sheet-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background-color: currentColor;
-    }
-
-    .sheet-svg {
+    .sheet-canvas-svg {
       width: 100%;
       height: 100%;
-      flex: 1;
+      display: block;
+      color: #ffffff;
+      filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.4));
     }
 
-    /* LAYER 4: OUTPUT EMBEDDINGS (Far Back-Right: translateZ: -80px) */
-    .iso-sheet-output {
+    [data-theme="light"] .sheet-canvas-svg {
+      color: #000000;
+      filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.1));
+    }
+
+    /* LAYER 4: BACK-MOST GLASS SHEET (Output Ports) */
+    .sheet-back-4 {
       z-index: 1;
-      transform: translate3d(70px, 38px, -80px);
+      transform: translate3d(75px, 36px, -90px);
       opacity: 0.7;
     }
 
-    .scale-isometric-stack.is-hovered .iso-sheet-output {
-      transform: translate3d(95px, 50px, -110px);
+    .scale-3d-stack.is-hovered .sheet-back-4 {
+      transform: translate3d(105px, 50px, -125px);
       opacity: 0.95;
     }
 
-    /* LAYER 3: HIDDEN ATTENTION SPLINES (Middle-Back: translateZ: -40px) */
-    .iso-sheet-hidden {
+    /* LAYER 3: MIDDLE-BACK GLASS SHEET (Neural Splines) */
+    .sheet-back-3 {
       z-index: 2;
-      transform: translate3d(35px, 20px, -40px);
+      transform: translate3d(38px, 18px, -45px);
       opacity: 0.85;
     }
 
-    .scale-isometric-stack.is-hovered .iso-sheet-hidden {
-      transform: translate3d(48px, 26px, -55px);
+    .scale-3d-stack.is-hovered .sheet-back-3 {
+      transform: translate3d(52px, 25px, -60px);
       opacity: 1;
     }
 
-    /* LAYER 2: THE REAL PHOTO CARD (Center: translateZ: 0px) */
-    .iso-sheet-photo {
+    /* LAYER 2: PHOTO CARD (Center Layer) */
+    .sheet-photo-2 {
       z-index: 3;
+      pointer-events: auto;
       transform: translate3d(0, 0, 0px);
-      opacity: 1;
-      background-color: var(--bg-secondary);
-      border: 1px solid var(--border-color);
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 20px 56px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.55);
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-secondary);
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, border-color 0.3s ease;
     }
 
-    .scale-isometric-stack.is-hovered .iso-sheet-photo {
-      transform: translate3d(0, 0, 10px);
+    .scale-3d-stack.is-hovered .sheet-photo-2 {
+      transform: translate3d(0, 0, 15px);
+      box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7);
       border-color: var(--text-primary);
-      box-shadow: 0 28px 72px rgba(0, 0, 0, 0.55);
     }
 
-    .iso-photo-container {
+    .photo-inner {
       position: relative;
       width: 100%;
-      height: 240px;
+      height: 100%;
       overflow: hidden;
       background-color: var(--bg-secondary);
     }
 
-    .iso-photo-footer {
-      padding: 0.5rem 0.85rem;
-      border-top: 1px solid var(--border-color);
-      background-color: var(--bg-card);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-family: var(--font-mono);
-      font-size: 0.62rem;
-      letter-spacing: 0.05em;
-    }
-
-    .telemetry-tag {
-      display: flex;
-      align-items: center;
-      gap: 0.45rem;
-      color: var(--text-primary);
-      font-weight: 600;
-    }
-
-    .telemetry-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: #10b981;
-      box-shadow: 0 0 8px #10b981;
-    }
-
-    .telemetry-spec {
-      color: var(--text-secondary);
-      font-size: 0.6rem;
-    }
-
-    /* LAYER 1: INPUT VISION (Front-Left: translateZ: +55px) */
-    .iso-sheet-input {
+    /* LAYER 1: FRONT GLASS SHEET (Input Feature Wireframe) */
+    .sheet-front-1 {
       z-index: 4;
-      transform: translate3d(-40px, -22px, 55px);
+      transform: translate3d(-50px, -24px, 65px);
       opacity: 0.9;
     }
 
-    .scale-isometric-stack.is-hovered .iso-sheet-input {
-      transform: translate3d(-56px, -30px, 75px);
+    .scale-3d-stack.is-hovered .sheet-front-1 {
+      transform: translate3d(-70px, -34px, 95px);
       opacity: 1;
     }
 
