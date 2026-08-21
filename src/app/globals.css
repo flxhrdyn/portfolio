@@ -525,10 +525,10 @@
     /* CV BOUNDING BOX OVERLAY — reticle corners match .transition-pixel-stage */
     .cv-bounding-box {
       position: absolute;
-      top: 17%;
-      left: 9.5%;
-      width: 24%;
-      height: 80%;
+      top: 15%;
+      left: 8.5%;
+      width: 32%;
+      height: 82%;
       background-color: transparent;
       pointer-events: none;
       transition: background-color 0.22s cubic-bezier(0.16, 1, 0.3, 1);
@@ -542,16 +542,23 @@
       background-color: rgba(0, 0, 0, 0.04);
     }
 
+    /* mix-blend-mode guarantees the reticle reads against any underlying photo tone */
     .cv-bounding-box .reticle-corner {
-      width: 10px;
-      height: 10px;
+      width: 16px;
+      height: 16px;
+      mix-blend-mode: difference;
     }
+
+    .cv-bounding-box .reticle-tl { border-top-color: #ffffff; border-left-color: #ffffff; border-top-width: 2.5px; border-left-width: 2.5px; }
+    .cv-bounding-box .reticle-tr { border-top-color: #ffffff; border-right-color: #ffffff; border-top-width: 2.5px; border-right-width: 2.5px; }
+    .cv-bounding-box .reticle-bl { border-bottom-color: #ffffff; border-left-color: #ffffff; border-bottom-width: 2.5px; border-left-width: 2.5px; }
+    .cv-bounding-box .reticle-br { border-bottom-color: #ffffff; border-right-color: #ffffff; border-bottom-width: 2.5px; border-right-width: 2.5px; }
 
     /* DETECTION LABEL TAG (mono eyebrow, matches .transition-pixel-eyebrow) */
     .cv-detection-tag {
       position: absolute;
-      top: -12px;
-      left: 0;
+      top: -28px;
+      left: 20px;
       display: inline-flex;
       align-items: center;
       gap: 0.35rem;

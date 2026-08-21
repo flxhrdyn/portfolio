@@ -81,6 +81,8 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
     interface WanderingNode {
       x: number;
       y: number;
+      anchorX: number;
+      anchorY: number;
       angle: number;
       speed: number;
       angleDelta: number;
@@ -95,8 +97,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
       nodes = [];
       pulses = [];
 
-      // Stratified Grid-Jitter Distribution: guarantees completely balanced coverage
-      // across the entire screen (left margin, center, and right margin alike)
+      // Stratified Grid-Jitter Distribution across the full screen
       const cols = Math.max(7, Math.floor(width / 150));
       const rows = Math.max(5, Math.floor(height / 140));
       const cellW = width / cols;
@@ -104,15 +105,16 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
 
       for (let c = 0; c < cols; c++) {
         for (let r = 0; r < rows; r++) {
-          // 1 node per grid cell with random offset
           const x = c * cellW + Math.random() * cellW;
           const y = r * cellH + Math.random() * cellH;
           const angle = Math.random() * Math.PI * 2;
-          const speed = 0.06 + Math.random() * 0.08;
+          const speed = 0.07 + Math.random() * 0.09;
 
           nodes.push({
             x,
             y,
+            anchorX: x,
+            anchorY: y,
             angle,
             speed,
             angleDelta: (Math.random() - 0.5) * 0.015,
@@ -125,9 +127,9 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
 
     initNodes();
 
-    const mouseRadius = 180;
+    const mouseRadius = 200;
     const mouseRadiusSq = mouseRadius * mouseRadius;
-    const connectionDist = 160; // Generous connection reach so all areas form rich networks
+    const connectionDist = 160;
     const connectionDistSq = connectionDist * connectionDist;
 
     const render = () => {
@@ -135,20 +137,19 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
 
       // Smooth cursor interpolation
       if (mouse.active) {
-        mouse.x += (mouse.targetX - mouse.x) * 0.09;
-        mouse.y += (mouse.targetY - mouse.y) * 0.09;
+        mouse.x += (mouse.targetX - mouse.x) * 0.1;
+        mouse.y += (mouse.targetY - mouse.y) * 0.1;
       }
 
       const isDark = document.documentElement.getAttribute("data-theme") !== "light";
-      // Refined soft gray palette: calm, architectural, non-distracting
       const grayRgb = isDark ? "156, 163, 175" : "120, 125, 135";
 
       // 1. SUBTLE AMBIENT MOUSE VAPOR GLOW
       if (mouse.active) {
         const glowRadius = 260;
         const glow = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, glowRadius);
-        glow.addColorStop(0, `rgba(${grayRgb}, ${isDark ? 0.035 : 0.025})`);
-        glow.addColorStop(0.6, `rgba(${grayRgb}, ${isDark ? 0.01 : 0.006})`);
+        glow.addColorStop(0, `rgba(${grayRgb}, ${isDark ? 0.04 : 0.03})`);
+        glow.addColorStop(0.6, `rgba(${grayRgb}, ${isDark ? 0.012 : 0.008})`);
         glow.addColorStop(1, `rgba(${grayRgb}, 0)`);
 
         ctx.fillStyle = glow;
@@ -157,41 +158,52 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
         ctx.fill();
       }
 
-      // 2. UPDATE NODES (Organic wandering without magnetic bunching)
+      // 2. UPDATE NODES (Elastic Interactive Mouse Following + Smooth Spring-Back)
       for (let i = 0; i < nodes.length; i++) {
         const n = nodes[i];
 
-        // Smoothly evolve angle for continuous random organic wandering
+        // Evolve base anchor position organically
         n.angle += n.angleDelta;
         if (Math.random() < 0.015) {
           n.angleDelta = (Math.random() - 0.5) * 0.02;
         }
 
-        n.x += Math.cos(n.angle) * n.speed;
-        n.y += Math.sin(n.angle) * n.speed;
+        n.anchorX += Math.cos(n.angle) * n.speed;
+        n.anchorY += Math.sin(n.angle) * n.speed;
 
-        // Wrap around boundaries smoothly
-        if (n.x < -20) n.x = width + 20;
-        if (n.x > width + 20) n.x = -20;
-        if (n.y < -20) n.y = height + 20;
-        if (n.y > height + 20) n.y = -20;
+        // Wrap anchors around screen boundaries
+        if (n.anchorX < -20) { n.anchorX = width + 20; n.x = width + 20; }
+        if (n.anchorX > width + 20) { n.anchorX = -20; n.x = -20; }
+        if (n.anchorY < -20) { n.anchorY = height + 20; n.y = height + 20; }
+        if (n.anchorY > height + 20) { n.anchorY = -20; n.y = -20; }
 
-        // Light up activation when cursor is near, but DO NOT pull nodes to prevent clumping
+        let targetX = n.anchorX;
+        let targetY = n.anchorY;
+
         if (mouse.active) {
-          const dx = mouse.x - n.x;
-          const dy = mouse.y - n.y;
+          const dx = mouse.x - n.anchorX;
+          const dy = mouse.y - n.anchorY;
           const distSq = dx * dx + dy * dy;
 
           if (distSq < mouseRadiusSq) {
             const dist = Math.sqrt(distSq);
-            const factor = 1 - dist / mouseRadius;
-            n.activation = Math.min(1, n.activation + factor * 0.1);
+            const factor = (1 - dist / mouseRadius);
+            n.activation = Math.min(1, n.activation + factor * 0.12);
+
+            // Responsive elastic pull: nodes follow the mouse cursor dynamically
+            const pullDistance = 38 * factor;
+            targetX = n.anchorX + (dx / dist) * pullDistance;
+            targetY = n.anchorY + (dy / dist) * pullDistance;
           } else {
-            n.activation *= 0.95;
+            n.activation *= 0.94;
           }
         } else {
-          n.activation *= 0.95;
+          n.activation *= 0.94;
         }
+
+        // Smooth spring physics towards target position (returns to anchor when mouse moves away)
+        n.x += (targetX - n.x) * 0.12;
+        n.y += (targetY - n.y) * 0.12;
       }
 
       // 3. DRAW BALANCED SYNAPSE CONNECTIONS (Uniform across entire canvas)
