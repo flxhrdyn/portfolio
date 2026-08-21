@@ -465,7 +465,7 @@
     }
 
     .scale-portrait-stack.is-hovered .sheet-back-4 {
-      transform: translate3d(155px, 55px, -150px);
+      transform: translate3d(140px, 30px, -140px);
       opacity: 0.75;
       visibility: visible;
     }
@@ -479,7 +479,7 @@
     }
 
     .scale-portrait-stack.is-hovered .sheet-back-3 {
-      transform: translate3d(80px, 28px, -75px);
+      transform: translate3d(70px, 15px, -70px);
       opacity: 0.88;
       visibility: visible;
     }
@@ -498,7 +498,7 @@
     }
 
     .scale-portrait-stack.is-hovered .sheet-photo-2 {
-      transform: translate3d(0, 0, 15px);
+      transform: translate3d(0, 0, 10px);
       box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7);
       border-color: var(--text-primary);
     }
@@ -520,7 +520,7 @@
     }
 
     .scale-portrait-stack.is-hovered .sheet-front-1 {
-      transform: translate3d(-90px, -30px, 105px);
+      transform: translate3d(-70px, -15px, 80px);
       opacity: 0.95;
       visibility: visible;
     }
