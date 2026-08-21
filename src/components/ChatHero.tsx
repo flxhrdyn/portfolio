@@ -4,9 +4,8 @@ import Link from "next/link";
 import { m, useReducedMotion, type Variants } from "motion/react";
 import ChatWidget from "./ChatWidget";
 import SynapticMeshCanvas from "./SynapticMeshCanvas";
-import DecryptedText from "./DecryptedText";
 
-// Scale AI signature cubic-bezier easing curve: explosive fast start, long butter-smooth deceleration
+// Scale AI signature cubic-bezier easing curve: high initial momentum, butter-smooth long deceleration
 const SCALE_AI_EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 
 const container: Variants = {
@@ -14,36 +13,33 @@ const container: Variants = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.09,
-      delayChildren: 0.05,
+      staggerChildren: 0.1,
+      delayChildren: 0.08,
     },
   },
 };
 
 const textReveal: Variants = {
-  hidden: { opacity: 0, y: 22, filter: "blur(4px)" },
+  hidden: { opacity: 0, y: 16 },
   show: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: {
-      duration: 0.75,
+      duration: 0.9,
       ease: SCALE_AI_EASE,
     },
   },
 };
 
 const consoleReveal: Variants = {
-  hidden: { opacity: 0, y: 32, scale: 0.98, filter: "blur(6px)" },
+  hidden: { opacity: 0, y: 20 },
   show: {
     opacity: 1,
     y: 0,
-    scale: 1,
-    filter: "blur(0px)",
     transition: {
-      duration: 0.9,
+      duration: 1.0,
       ease: SCALE_AI_EASE,
-      delay: 0.15,
+      delay: 0.18,
     },
   },
 };
@@ -70,13 +66,7 @@ export default function ChatHero() {
               <span>ACTIVE // AI ENGINEER &amp; DATA SCIENTIST</span>
             </m.div>
             <m.h1 className="hero-title" variants={textReveal}>
-              <DecryptedText
-                text="Felix Windriyareksa Hardyan"
-                speed={26}
-                maxIterations={10}
-                animateOnMount={true}
-                onHover={true}
-              />
+              Felix Windriyareksa Hardyan
             </m.h1>
             <m.p className="hero-description" variants={textReveal}>
               Building production-grade AI systems, from Data Science to GenAI.
