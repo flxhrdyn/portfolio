@@ -105,7 +105,7 @@ export default function PageTransitionLoader() {
                 <rect x="15" y="16" width="2.5" height="2.5" fill="currentColor" stroke="none" />
               </svg>
               <span className="brand-wordmark" style={{ fontSize: "0.85rem", color: "var(--text-secondary)" }}>flxhrdyn</span>
-              <span style={{ opacity: 0.4 }}>//</span>
+              <span style={{ opacity: 0.4 }}>{"//"}</span>
               <span style={{ fontSize: "0.68rem", letterSpacing: "0.14em" }}>ROUTING</span>
             </div>
 

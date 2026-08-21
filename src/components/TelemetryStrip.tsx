@@ -56,7 +56,7 @@ function AnimatedMetricValue({ metric, inView }: { metric: MetricItem; inView: b
       const target = metric.targetNum;
       const duration = 1000;
       const startTime = performance.now();
-      setDisplayText(`0${metric.suffix || ""}`);
+      let frameId: number;
 
       const animateCount = (now: number) => {
         const elapsed = now - startTime;
@@ -67,13 +67,14 @@ function AnimatedMetricValue({ metric, inView }: { metric: MetricItem; inView: b
         setDisplayText(`${current}${metric.suffix || ""}`);
 
         if (progress < 1) {
-          requestAnimationFrame(animateCount);
+          frameId = requestAnimationFrame(animateCount);
         } else {
           setDisplayText(`${target}${metric.suffix || ""}`);
         }
       };
 
-      requestAnimationFrame(animateCount);
+      frameId = requestAnimationFrame(animateCount);
+      return () => cancelAnimationFrame(frameId);
     } else if (metric.type === "scramble" && metric.rawText) {
       const target = metric.rawText;
       const duration = 800;

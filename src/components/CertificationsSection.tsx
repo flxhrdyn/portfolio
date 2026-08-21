@@ -75,9 +75,6 @@ export default function CertificationsSection() {
   const paper = writing[0];
   const hoveredRef = useRef(false);
 
-  if (!paper) return null;
-
-  const currentScores = BENCHMARK_METRICS[metricType].scores;
   const totalPages = Math.ceil(certifications.length / ITEMS_PER_PAGE);
   const paginatedCerts = certifications.slice(
     certPage * ITEMS_PER_PAGE,
@@ -102,6 +99,10 @@ export default function CertificationsSection() {
     }, AUTO_ROTATE_MS);
     return () => clearInterval(id);
   }, [goNext, reduceMotion]);
+
+  if (!paper) return null;
+
+  const currentScores = BENCHMARK_METRICS[metricType].scores;
 
   return (
     <section className="section" id="research">
