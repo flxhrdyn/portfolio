@@ -1828,6 +1828,29 @@
       border-radius: 2px;
       position: relative;
       cursor: pointer;
+      opacity: 0;
+      transform: scale(0.6);
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .github-contrib-card.is-inview .heatmap-cell {
+      opacity: 1;
+      transform: scale(1);
+      transition-delay: var(--col-delay, 0ms);
+    }
+
+    .heatmap-cell:hover {
+      transform: scale(1.35) !important;
+      z-index: 10;
+      transition: transform 0.15s ease !important;
+    }
+
+    [data-theme="dark"] .heatmap-cell:hover {
+      outline: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    [data-theme="light"] .heatmap-cell:hover {
+      outline: 1px solid rgba(0, 0, 0, 0.4);
     }
     
     /* Heatmap cell coloring — 100% Pure Neutral Greys (R=G=B, Zero Tint) */

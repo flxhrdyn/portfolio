@@ -1,3 +1,7 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { useInView, useReducedMotion } from "motion/react";
 import type { ContributionDay } from "@/lib/github-contributions";
 
 const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -9,6 +13,7 @@ interface Cell {
   level: number;
   date: Date;
   commitCount: number | "No";
+  colIndex: number;
 }
 
 function buildCells(contributions: ContributionDay[]): Cell[] {
@@ -20,13 +25,16 @@ function buildCells(contributions: ContributionDay[]): Cell[] {
   for (let i = padCount; i > 0; i--) {
     const date = new Date(earliestDate);
     date.setDate(date.getDate() - i);
-    cells.push({ level: 0, date, commitCount: "No" });
+    const cellIdx = cells.length;
+    cells.push({ level: 0, date, commitCount: "No", colIndex: Math.floor(cellIdx / ROWS_PER_COLUMN) });
   }
   for (const day of recent) {
+    const cellIdx = cells.length;
     cells.push({
       level: day.level,
       date: new Date(day.date),
       commitCount: day.count === 0 ? "No" : day.count,
+      colIndex: Math.floor(cellIdx / ROWS_PER_COLUMN),
     });
   }
   return cells;
@@ -53,6 +61,40 @@ interface GithubHeatmapProps {
 }
 
 export default function GithubHeatmap({ contributions }: GithubHeatmapProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(containerRef, { once: true, margin: "-40px" });
+  const reduceMotion = useReducedMotion();
+
+  const total = contributions ? contributions.reduce((sum, day) => sum + day.count, 0) : 0;
+  const [displayCount, setDisplayCount] = useState(0);
+
+  useEffect(() => {
+    if (!inView || reduceMotion || total === 0) {
+      setDisplayCount(total);
+      return;
+    }
+
+    const duration = 1200;
+    const startTime = performance.now();
+    let frameId: number;
+
+    const animateCount = (now: number) => {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+      setDisplayCount(Math.round(ease * total));
+
+      if (progress < 1) {
+        frameId = requestAnimationFrame(animateCount);
+      } else {
+        setDisplayCount(total);
+      }
+    };
+
+    frameId = requestAnimationFrame(animateCount);
+    return () => cancelAnimationFrame(frameId);
+  }, [inView, total, reduceMotion]);
+
   if (!contributions) {
     return (
       <div className="github-contrib-card">
@@ -69,12 +111,13 @@ export default function GithubHeatmap({ contributions }: GithubHeatmapProps) {
 
   const cells = buildCells(contributions);
   const monthLabels = buildMonthLabels(cells);
-  const total = contributions.reduce((sum, day) => sum + day.count, 0);
 
   return (
-    <div className="github-contrib-card">
+    <div className={`github-contrib-card ${inView ? "is-inview" : ""}`} ref={containerRef}>
       <div className="github-contrib-header">
-        <span className="contrib-count">{total} contributions in the last year</span>
+        <span className="contrib-count">
+          <strong>{displayCount.toLocaleString("en-US")}</strong> contributions in the last year
+        </span>
       </div>
 
       <div className="github-contrib-body">
@@ -107,6 +150,10 @@ export default function GithubHeatmap({ contributions }: GithubHeatmapProps) {
                   key={i}
                   className="heatmap-cell"
                   data-level={cell.level}
+                  style={{
+                    // Stagger wave across 53 weeks
+                    ["--col-delay" as string]: `${cell.colIndex * 12}ms`,
+                  }}
                   tabIndex={0}
                   role="img"
                   aria-label={`${cell.commitCount} contributions on ${dateLabel}`}
