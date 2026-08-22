@@ -119,11 +119,8 @@ export default function TelemetryStrip() {
       <div className="container">
         <Reveal>
           <div className="telemetry-grid">
-            {METRICS.map((metric, index) => (
+            {METRICS.map((metric) => (
               <div key={metric.label} className="telemetry-cell">
-                <div className="telemetry-index">
-                  <span>HIGHLIGHT 0{index + 1}</span>
-                </div>
                 <AnimatedMetricValue metric={metric} inView={inView} />
                 <div className="telemetry-label">{metric.label}</div>
                 <div className="telemetry-sublabel">{metric.sublabel}</div>
