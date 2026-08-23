@@ -3347,46 +3347,39 @@
     }
 
     .email-text-display {
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      font-weight: 500;
-      transition: color 0.18s ease;
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
     }
 
-    .contact-minimal-row:hover .email-text-display {
-      color: var(--text-primary);
-    }
-
-    .email-copy-badge {
+    .email-copy-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 4.5rem;
-      text-align: center;
-      font-family: var(--font-mono);
-      font-size: 0.68rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 0.2rem 0;
-      border-radius: 9999px;
-      border: 1px solid var(--border-color);
+      width: 1.5rem;
+      height: 1.5rem;
+      border-radius: 4px;
       color: var(--text-secondary);
-      background-color: var(--bg-card);
-      margin-left: 0.5rem;
+      background: transparent;
+      border: none;
+      padding: 0;
+      cursor: pointer;
       flex-shrink: 0;
-      transition: all 0.18s ease;
+      transition: color 0.18s ease, transform 0.15s ease;
     }
 
-    .contact-minimal-row:hover .email-copy-badge {
-      border-color: var(--text-primary);
+    .contact-minimal-row:hover .email-copy-btn {
       color: var(--text-primary);
-      background-color: rgba(255, 255, 255, 0.08);
     }
 
-    [data-theme="light"] .contact-minimal-row:hover .email-copy-badge {
-      background-color: rgba(0, 0, 0, 0.06);
+    .copy-icon-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .copy-icon-wrap.copied {
+      color: #22c55e;
     }
 
     .row-arrow {

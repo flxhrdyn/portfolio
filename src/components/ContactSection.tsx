@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { m, useReducedMotion, type Variants } from "motion/react";
+import { m, AnimatePresence, useReducedMotion, type Variants } from "motion/react";
 import Reveal from "./Reveal";
 
 const EMAIL = "felixhardyanwork@gmail.com";
@@ -118,8 +118,21 @@ export default function ContactSection() {
                 </span>
                 <span className="row-value">
                   <span className="email-text-display">{EMAIL}</span>
-                  <span className="email-copy-badge">
-                    {copied ? "Copied!" : "Copy"}
+                  <span className="email-copy-btn" aria-label={copied ? "Email copied" : "Copy email"}>
+                    {copied ? (
+                      <span className="copy-icon-wrap copied">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      </span>
+                    ) : (
+                      <span className="copy-icon-wrap">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                          <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                        </svg>
+                      </span>
+                    )}
                   </span>
                 </span>
               </button>
@@ -201,8 +214,37 @@ export default function ContactSection() {
                 </span>
                 <span className="row-value">
                   <span className="email-text-display">{EMAIL}</span>
-                  <span className="email-copy-badge">
-                    {copied ? "Copied!" : "Copy"}
+                  <span className="email-copy-btn" aria-label={copied ? "Email copied" : "Copy email"}>
+                    <AnimatePresence mode="wait" initial={false}>
+                      {copied ? (
+                        <m.span
+                          key="check"
+                          initial={{ scale: 0.5, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.5, opacity: 0 }}
+                          transition={{ duration: 0.16 }}
+                          className="copy-icon-wrap copied"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12" />
+                          </svg>
+                        </m.span>
+                      ) : (
+                        <m.span
+                          key="copy"
+                          initial={{ scale: 0.5, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          exit={{ scale: 0.5, opacity: 0 }}
+                          transition={{ duration: 0.16 }}
+                          className="copy-icon-wrap"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
+                            <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
+                          </svg>
+                        </m.span>
+                      )}
+                    </AnimatePresence>
                   </span>
                 </span>
               </m.button>
