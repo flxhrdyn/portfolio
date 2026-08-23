@@ -14,11 +14,29 @@ export default function Footer() {
             Built with Next.js 16 · TypeScript · Tailwind CSS · Motion · Groq GPT-OSS-120B
           </p>
         </div>
-        <div className="footer-right">
+        <div className="footer-links">
+          <a
+            href="https://github.com/flxhrdyn/portfolio"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-link-item"
+          >
+            <span>Source</span>
+            <span className="footer-link-arrow">↗</span>
+          </a>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="footer-link-item"
+          >
+            <span>Resume</span>
+            <span className="footer-link-arrow">↗</span>
+          </a>
           <button
             type="button"
             onClick={scrollToTop}
-            className="footer-back-to-top"
+            className="footer-link-item footer-back-to-top"
             aria-label="Back to top"
           >
             <span>Back to top</span>
