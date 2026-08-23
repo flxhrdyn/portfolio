@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { m, AnimatePresence, useReducedMotion, type Variants } from "motion/react";
 import Reveal from "./Reveal";
+import WordReveal from "./WordReveal";
 
 const EMAIL = "felixhardyanwork@gmail.com";
 
@@ -97,9 +98,11 @@ export default function ContactSection() {
                 Available for opportunities
               </m.span>
 
-              <m.h2 className="contact-minimal-headline" variants={ctaItemVariants}>
-                Let&apos;s build something together.
-              </m.h2>
+              <WordReveal
+                as="h2"
+                className="contact-minimal-headline"
+                text="Let's build something together."
+              />
 
               <m.p className="contact-minimal-subtext" variants={ctaItemVariants}>
                 Feel free to reach out for full-time engineering roles, AI consulting, or casual technical discussions.

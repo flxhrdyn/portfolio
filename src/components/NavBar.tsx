@@ -2,7 +2,15 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { m, useReducedMotion, type Variants } from "motion/react";
 import { scrollToAnchor } from "@/lib/scrollToAnchor";
+import { EASE_OUT, DUR } from "@/lib/motion";
+
+// Chrome, not content: the bar just fades up. No stagger, nothing to watch.
+const navVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: DUR.transition, ease: EASE_OUT } },
+};
 
 const NAV_LINKS = [
   { href: "#projects", label: "Projects" },
@@ -17,6 +25,7 @@ interface NavBarProps {
 }
 
 export default function NavBar({ variant = "portfolio" }: NavBarProps) {
+  const reduceMotion = useReducedMotion();
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -41,7 +50,13 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
   };
 
   return (
-    <nav className="navbar" id="top-nav">
+    <m.nav
+      className="navbar"
+      id="top-nav"
+      variants={navVariants}
+      initial={reduceMotion ? undefined : "hidden"}
+      animate={reduceMotion ? undefined : "show"}
+    >
       <div className="nav-container">
         <Link href="/" className="nav-brand">
           <svg
@@ -152,6 +167,6 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
           )}
         </div>
       </div>
-    </nav>
+    </m.nav>
   );
 }

@@ -7,6 +7,8 @@ import GithubHeatmap from "./GithubHeatmap";
 import ProjectCaseStudyBody from "./ProjectCaseStudyBody";
 import ProjectThumbnail from "./ProjectThumbnail";
 import Reveal from "./Reveal";
+import ScrollLinked from "./ScrollLinked";
+import WordReveal from "./WordReveal";
 import projects from "@/content/projects.json";
 import archiveProjects from "@/content/archive-projects.json";
 import type { ContributionDay } from "@/lib/github-contributions";
@@ -55,15 +57,15 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
   return (
     <section className="section" id="projects">
       <div className="container">
-        <Reveal>
-          <h2>Featured Projects</h2>
+        <WordReveal text="Featured Projects" />
+        <Reveal delay={0.12}>
           <p style={{ marginBottom: "2.25rem", maxWidth: "60ch" }}>
             AI systems, intelligent agents, and full-stack machine learning applications.
           </p>
         </Reveal>
 
         {featuredProject && (
-          <Reveal>
+          <ScrollLinked>
             <div className="bento-featured-card">
               {/* Terminal Window Chrome Header */}
               <div className="bento-terminal-header">
@@ -219,13 +221,14 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                 </div>
               </div>
             </div>
-          </Reveal>
+          </ScrollLinked>
         )}
 
         <div className="projects-grid">
-          {gridProjects.map((project, i) => (
-            <Reveal key={project.slug} delay={Math.min(i, 4) * 0.08}>
-              <div className="project-card" onClick={() => setOpenSlug(project.slug)}>
+          {/* Cards stay still on purpose: in the reference, the grid is furniture and
+              only the stage above it moves. */}
+          {gridProjects.map((project) => (
+            <div key={project.slug} className="project-card" onClick={() => setOpenSlug(project.slug)}>
                 <ProjectThumbnail src={project.image} alt={project.imageAlt} />
 
                 <div className="project-header">
@@ -275,8 +278,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                     </svg>
                   </a>
                 </div>
-              </div>
-            </Reveal>
+            </div>
           ))}
         </div>
 
@@ -291,7 +293,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
 
         <div style={{ borderTop: "1px solid var(--border-color)", marginBottom: "2.5rem", opacity: 0.6 }} />
 
-        <Reveal>
+        <ScrollLinked>
           <div id="activity" style={{ scrollMarginTop: "5rem" }}>
             <h3 style={{ fontSize: "1.25rem", fontWeight: 700, color: "var(--text-primary)", marginBottom: "0.5rem", display: "flex", alignItems: "center", gap: "0.5rem" }}>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ color: "var(--accent-color)" }}>
@@ -304,7 +306,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
             </p>
             <GithubHeatmap contributions={contributions} />
           </div>
-        </Reveal>
+        </ScrollLinked>
       </div>
 
       {projects.map((project) => (

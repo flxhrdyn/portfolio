@@ -28,6 +28,7 @@ export default function Footer() {
 
   return (
     <footer className="footer">
+      {/* Deliberately unanimated: the footer is chrome, not content. */}
       <div className="container footer-content">
         {/* ROW 1: Brand / Role & Quick Action Links */}
         <div className="footer-grid-row">

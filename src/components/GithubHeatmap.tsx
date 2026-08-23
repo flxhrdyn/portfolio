@@ -66,13 +66,14 @@ export default function GithubHeatmap({ contributions }: GithubHeatmapProps) {
   const reduceMotion = useReducedMotion();
 
   const total = contributions ? contributions.reduce((sum, day) => sum + day.count, 0) : 0;
-  const [displayCount, setDisplayCount] = useState(0);
+  const [countedUp, setCountedUp] = useState(0);
+  // When there is nothing to animate, the final value is derived rather than written
+  // from an effect, so no cascading render is needed to reach it.
+  const shouldCount = inView && !reduceMotion && total > 0;
+  const displayCount = shouldCount ? countedUp : total;
 
   useEffect(() => {
-    if (!inView || reduceMotion || total === 0) {
-      setDisplayCount(total);
-      return;
-    }
+    if (!shouldCount) return;
 
     const duration = 1200;
     const startTime = performance.now();
@@ -82,18 +83,18 @@ export default function GithubHeatmap({ contributions }: GithubHeatmapProps) {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
       const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-      setDisplayCount(Math.round(ease * total));
+      setCountedUp(Math.round(ease * total));
 
       if (progress < 1) {
         frameId = requestAnimationFrame(animateCount);
       } else {
-        setDisplayCount(total);
+        setCountedUp(total);
       }
     };
 
     frameId = requestAnimationFrame(animateCount);
     return () => cancelAnimationFrame(frameId);
-  }, [inView, total, reduceMotion]);
+  }, [shouldCount, total]);
 
   if (!contributions) {
     return (

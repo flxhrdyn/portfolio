@@ -4,9 +4,8 @@ import Link from "next/link";
 import { m, useReducedMotion, type Variants } from "motion/react";
 import ChatWidget from "./ChatWidget";
 import SynapticMeshCanvas from "./SynapticMeshCanvas";
-
-// Scale AI signature cubic-bezier easing curve: high initial momentum, butter-smooth long deceleration
-const SCALE_AI_EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+import WordReveal from "./WordReveal";
+import { EASE_OUT as SCALE_AI_EASE } from "@/lib/motion";
 
 const container: Variants = {
   hidden: { opacity: 0 },
@@ -65,9 +64,7 @@ export default function ChatHero() {
               <span className="telemetry-status-dot" aria-hidden="true" style={{ width: "6px", height: "6px" }} />
               <span>ACTIVE // AI ENGINEER &amp; DATA SCIENTIST</span>
             </m.div>
-            <m.h1 className="hero-title" variants={textReveal}>
-              Felix Windriyareksa Hardyan
-            </m.h1>
+            <WordReveal as="h1" className="hero-title" text="Felix Windriyareksa Hardyan" immediate delay={0.06} />
             <m.p className="hero-description" variants={textReveal}>
               Building production-grade AI systems, from Data Science to GenAI.
             </m.p>

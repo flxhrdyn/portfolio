@@ -5,6 +5,8 @@ import { m, useInView, useReducedMotion, type Variants } from "motion/react";
 import Modal from "./Modal";
 import ResearchPaperBody from "./ResearchPaperBody";
 import Reveal from "./Reveal";
+import ScrollLinked from "./ScrollLinked";
+import WordReveal from "./WordReveal";
 import certifications from "@/content/certifications.json";
 import writing from "@/content/writing.json";
 
@@ -113,8 +115,8 @@ export default function CertificationsSection() {
       <span id="certifications" style={{ position: "absolute", top: 0, pointerEvents: "none" }} />
 
       <div className="container">
-        <Reveal>
-          <h2>Research &amp; Certifications</h2>
+        <WordReveal text="Research & Certifications" />
+        <Reveal delay={0.12}>
           <p style={{ marginBottom: "2.25rem", maxWidth: "60ch" }}>
             Academic publications and certifications in AI, machine learning, and data science.
           </p>
@@ -123,7 +125,7 @@ export default function CertificationsSection() {
         {/* ASYMMETRIC ENGINEERING BENTO */}
         <div className="research-bento-grid">
           {/* LEFT: FEATURED RESEARCH PAPER CARD (DISTILLED TELEMETRY) */}
-          <Reveal style={{ height: "100%" }}>
+          <ScrollLinked style={{ height: "100%" }}>
             <article className="research-featured-card">
               <div className="research-card-body">
                 <div className="research-card-header">
@@ -245,10 +247,10 @@ export default function CertificationsSection() {
                 )}
               </div>
             </article>
-          </Reveal>
+          </ScrollLinked>
 
           {/* RIGHT: VERIFIED CERTIFICATIONS LEDGER (AUTO-ROTATING, INFINITE NAV) */}
-          <Reveal delay={0.06} style={{ height: "100%" }}>
+          <ScrollLinked style={{ height: "100%" }}>
             <div
               className="certs-stack-container"
               onMouseEnter={() => { hoveredRef.current = true; }}
@@ -357,7 +359,7 @@ export default function CertificationsSection() {
                 </div>
               </div>
             </div>
-          </Reveal>
+          </ScrollLinked>
         </div>
       </div>
 

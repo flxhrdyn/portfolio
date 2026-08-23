@@ -2,16 +2,23 @@
 
 import { m, useReducedMotion, type Variants } from "motion/react";
 import ProfilePhoto from "./ProfilePhoto";
+import WordReveal from "./WordReveal";
 import { scrollToAnchor } from "@/lib/scrollToAnchor";
+import { EASE_OUT, DUR, LIST_STAGGER } from "@/lib/motion";
 
 const container: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.08, delayChildren: 0.04 } },
+  show: { transition: { staggerChildren: LIST_STAGGER, delayChildren: 0.04 } },
 };
 
 const item: Variants = {
   hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+  show: { opacity: 1, y: 0, transition: { duration: DUR.entrance, ease: EASE_OUT } },
+};
+
+const photoItem: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: DUR.entrance, ease: EASE_OUT } },
 };
 
 export default function PortfolioHero() {
@@ -32,9 +39,7 @@ export default function PortfolioHero() {
               <span>ACTIVE // AI ENGINEER &amp; DATA SCIENTIST</span>
             </m.div>
 
-            <m.h1 className="hero-title" variants={item}>
-              Felix Windriyareksa Hardyan
-            </m.h1>
+            <WordReveal as="h1" className="hero-title" text="Felix Windriyareksa Hardyan" immediate delay={0.06} />
 
             <m.p className="hero-description" variants={item}>
               Building production-grade AI systems, from Data Science to GenAI.
@@ -51,7 +56,7 @@ export default function PortfolioHero() {
           </m.div>
         </div>
 
-        <m.div variants={item} className="hero-photo-col">
+        <m.div variants={photoItem} className="hero-photo-col">
           <ProfilePhoto />
         </m.div>
       </m.header>

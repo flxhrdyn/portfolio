@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { AnimatePresence, m, useReducedMotion, type Variants } from "motion/react";
+import { EASE_OUT, DUR } from "@/lib/motion";
 
 interface ModalProps {
   id: string;
@@ -14,7 +16,22 @@ interface ModalProps {
 const FOCUSABLE_SELECTOR =
   'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
 
+const overlayVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: DUR.state, ease: EASE_OUT } },
+  exit: { opacity: 0, transition: { duration: DUR.feedback, ease: EASE_OUT } },
+};
+
+// The card resolves out of the backdrop the way a headline resolves out of the page:
+// same easing, same slight rise, so an overlay reads as part of the one motion system.
+const cardVariants: Variants = {
+  hidden: { opacity: 0, y: 12, scale: 0.985 },
+  show: { opacity: 1, y: 0, scale: 1, transition: { duration: DUR.transition, ease: EASE_OUT } },
+  exit: { opacity: 0, y: 8, scale: 0.99, transition: { duration: DUR.state, ease: EASE_OUT } },
+};
+
 export default function Modal({ id, title, isOpen, onClose, maxWidth, children }: ModalProps) {
+  const reduceMotion = useReducedMotion();
   const overlayRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const previouslyFocused = useRef<HTMLElement | null>(null);
@@ -57,32 +74,47 @@ export default function Modal({ id, title, isOpen, onClose, maxWidth, children }
       previouslyFocused.current?.focus();
     };
   }, [isOpen, onClose]);
-  if (!isOpen) return null;
+
+  const motionProps = reduceMotion
+    ? {}
+    : { initial: "hidden" as const, animate: "show" as const, exit: "exit" as const };
 
   return (
-    <div
-      ref={overlayRef}
-      id={id}
-      className={`modal-overlay${isOpen ? " active" : ""}`}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={`${id}-title`}
-      inert={!isOpen}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div className="modal-card" style={{ maxWidth: maxWidth ?? undefined }} ref={cardRef} tabIndex={-1}>
-        <div className="modal-header">
-          <span id={`${id}-title`} className="modal-title">
-            {title}
-          </span>
-          <button className="modal-close-btn" onClick={onClose} aria-label="Close modal">
-            ✕
-          </button>
-        </div>
-        <div className="modal-body">{children}</div>
-      </div>
-    </div>
+    <AnimatePresence>
+      {isOpen && (
+        <m.div
+          ref={overlayRef}
+          id={id}
+          className="modal-overlay active"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby={`${id}-title`}
+          variants={overlayVariants}
+          {...motionProps}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) onClose();
+          }}
+        >
+          <m.div
+            className="modal-card"
+            style={{ maxWidth: maxWidth ?? undefined }}
+            ref={cardRef}
+            tabIndex={-1}
+            variants={cardVariants}
+            {...motionProps}
+          >
+            <div className="modal-header">
+              <span id={`${id}-title`} className="modal-title">
+                {title}
+              </span>
+              <button className="modal-close-btn" onClick={onClose} aria-label="Close modal">
+                ✕
+              </button>
+            </div>
+            <div className="modal-body">{children}</div>
+          </m.div>
+        </m.div>
+      )}
+    </AnimatePresence>
   );
 }

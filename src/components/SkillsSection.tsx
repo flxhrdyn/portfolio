@@ -4,6 +4,7 @@ import { m, useReducedMotion } from "motion/react";
 import skills from "@/content/skills.json";
 import { TECH_ICONS, getSkillIconKey } from "./techStackIcons";
 import Reveal, { revealVariants } from "./Reveal";
+import WordReveal from "./WordReveal";
 
 const CATEGORY_ICONS: Record<string, React.ReactNode> = {
   "AI & Machine Learning": (
@@ -89,8 +90,8 @@ export default function SkillsSection() {
   return (
     <section className="section" id="skills">
       <div className="container">
-        <Reveal>
-          <h2>Skills &amp; Capabilities</h2>
+        <WordReveal text="Skills & Capabilities" />
+        <Reveal delay={0.12}>
           <p style={{ marginBottom: "2.25rem", maxWidth: "60ch" }}>
             Core concepts, frameworks, and infrastructure I work with across the AI engineering lifecycle.
           </p>

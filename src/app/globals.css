@@ -165,6 +165,23 @@
     .section {
       padding: 5rem 0;
       position: relative;
+      /* Sections ride over the pinned hero, so each one needs its own ground. */
+      z-index: 1;
+      background-color: var(--bg-primary);
+    }
+
+    /* The hero is pinned and the page is drawn over it: the reader leaves the hero
+       by covering it, not by pushing it off screen. */
+    .portfolio-hero-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .portfolio-hero-wrapper {
+        position: relative;
+      }
     }
 
     .badge {
@@ -1123,6 +1140,7 @@
       background-color: var(--bg-secondary);
       padding: 2.25rem 0;
       position: relative;
+      z-index: 1;
     }
 
     .telemetry-grid {
@@ -2064,6 +2082,35 @@
     .exp-log-list {
       display: flex;
       flex-direction: column;
+    }
+
+    /* Scroll-tracked timeline rail sitting left of the date column */
+    .exp-rail {
+      position: relative;
+      padding-left: 1.25rem;
+    }
+
+    .exp-rail-track {
+      position: absolute;
+      left: 0;
+      top: 0.75rem;
+      bottom: 0.75rem;
+      width: 1px;
+      background-color: var(--border-color);
+      overflow: hidden;
+    }
+
+    .exp-rail-fill {
+      width: 100%;
+      height: 100%;
+      background-color: var(--accent-color);
+      transform-origin: top;
+    }
+
+    @media (max-width: 720px) {
+      .exp-rail {
+        padding-left: 0.85rem;
+      }
     }
 
     /* A single log entry row with subtle hover highlight */
@@ -3129,12 +3176,17 @@
     }
 
     /* ULTRA-MINIMALIST & UNIQUE CONTACT FINALE SECTION (INDEPENDENT CTA) */
+    /* The closing panel arrives as one solid block that rides over the section above
+       it, rather than as another bordered band in the same stack. */
     .contact-finale-section {
       padding: 7rem 0 6rem;
       background-color: var(--bg-secondary);
-      border-top: 1px solid var(--border-color);
       border-bottom: 1px solid var(--border-color);
+      border-top-left-radius: var(--radius-lg, 1.25rem);
+      border-top-right-radius: var(--radius-lg, 1.25rem);
+      margin-top: -2rem;
       position: relative;
+      z-index: 1;
     }
 
     .contact-minimal-canvas {
@@ -3181,24 +3233,37 @@
       flex-shrink: 0;
     }
 
+    /* The ring is pinned to the dot's centre and scales from that same point, so it
+       stays concentric at every frame instead of drifting as it grows. */
     .availability-dot::after {
       content: "";
       position: absolute;
-      inset: -3px;
+      top: 50%;
+      left: 50%;
+      width: 7px;
+      height: 7px;
       border-radius: 50%;
       border: 1px solid var(--text-primary);
-      opacity: 0.7;
+      transform: translate(-50%, -50%) scale(1);
       animation: availability-pulse 2.8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
     }
 
     @keyframes availability-pulse {
       0% {
-        transform: scale(0.85);
-        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0.5;
       }
-      60%, 100% {
-        transform: scale(2.1);
+      70%, 100% {
+        transform: translate(-50%, -50%) scale(2.6);
         opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .availability-dot::after {
+        animation: none;
+        opacity: 0.35;
+        transform: translate(-50%, -50%) scale(1.9);
       }
     }
 
