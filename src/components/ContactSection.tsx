@@ -172,7 +172,12 @@ export default function ContactSection() {
                 </span>
                 <span className="row-value">
                   <span>Jakarta (UTC +7)</span>
-                  {wibTime ? <span className="row-clock">· {wibTime} WIB</span> : null}
+                  {wibTime ? (
+                    <>
+                      <span className="row-divider-dot" aria-hidden="true" />
+                      <span className="row-clock">{wibTime} WIB</span>
+                    </>
+                  ) : null}
                 </span>
               </div>
             </div>
@@ -259,7 +264,12 @@ export default function ContactSection() {
                 </span>
                 <span className="row-value">
                   <span>Jakarta (UTC +7)</span>
-                  {wibTime ? <span className="row-clock">· {wibTime} WIB</span> : null}
+                  {wibTime ? (
+                    <>
+                      <span className="row-divider-dot" aria-hidden="true" />
+                      <span className="row-clock">{wibTime} WIB</span>
+                    </>
+                  ) : null}
                 </span>
               </m.div>
             </m.div>
