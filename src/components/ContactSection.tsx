@@ -41,7 +41,6 @@ export default function ContactSection() {
         timeZone: "Asia/Jakarta",
         hour: "2-digit",
         minute: "2-digit",
-        second: "2-digit",
         hour12: false,
       });
       setWibTime(formatter.format(now));
@@ -173,12 +172,7 @@ export default function ContactSection() {
                 </span>
                 <span className="row-value">
                   <span>Jakarta (UTC +7)</span>
-                  {wibTime ? (
-                    <span className="row-clock">
-                      <span className="clock-pulse-dot" aria-hidden="true" />
-                      {wibTime} WIB
-                    </span>
-                  ) : null}
+                  {wibTime ? <span className="row-clock">· {wibTime} WIB</span> : null}
                 </span>
               </div>
             </div>
@@ -265,12 +259,7 @@ export default function ContactSection() {
                 </span>
                 <span className="row-value">
                   <span>Jakarta (UTC +7)</span>
-                  {wibTime ? (
-                    <span className="row-clock">
-                      <span className="clock-pulse-dot" aria-hidden="true" />
-                      {wibTime} WIB
-                    </span>
-                  ) : null}
+                  {wibTime ? <span className="row-clock">· {wibTime} WIB</span> : null}
                 </span>
               </m.div>
             </m.div>

@@ -3402,35 +3402,11 @@
     }
 
     .row-clock {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
       opacity: 0.85;
       font-family: var(--font-mono);
-      font-size: 0.82rem;
+      font-size: 0.86rem;
       font-variant-numeric: tabular-nums;
-      margin-left: 0.35rem;
-    }
-
-    .clock-pulse-dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background-color: #22c55e;
-      box-shadow: 0 0 6px rgba(34, 197, 94, 0.6);
-      animation: pulse-clock 2s infinite ease-in-out;
-      display: inline-block;
-    }
-
-    @keyframes pulse-clock {
-      0%, 100% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 0.35;
-        transform: scale(0.8);
-      }
+      margin-left: 0.25rem;
     }
 
     .static-row {
