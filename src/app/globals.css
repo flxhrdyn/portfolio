@@ -3370,14 +3370,20 @@
       cursor: default;
     }
 
-    /* FOOTER */
+    /* FOOTER (DUAL-ROW PARALLEL GRID) */
     .footer {
       border-top: 1px solid var(--border-color);
-      padding: 2rem 0;
+      padding: 2.25rem 0 2rem 0;
       background-color: var(--bg-primary);
     }
 
     .footer-content {
+      display: flex;
+      flex-direction: column;
+      gap: 0.65rem;
+    }
+
+    .footer-grid-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -3385,17 +3391,12 @@
       gap: 1rem;
     }
 
-    .footer-left {
-      display: flex;
-      flex-direction: column;
-      gap: 0.25rem;
-    }
-
     .footer-text {
       font-size: 0.78rem;
       color: var(--text-secondary);
       font-family: var(--font-mono);
       letter-spacing: 0.02em;
+      margin: 0;
     }
 
     .footer-tech-stack {
@@ -3405,6 +3406,7 @@
       opacity: 0.75;
       letter-spacing: 0.01em;
       max-width: none;
+      margin: 0;
     }
 
     .footer-links {
@@ -3451,6 +3453,25 @@
 
     .footer-back-to-top:hover .footer-top-arrow {
       transform: translateY(-2px);
+    }
+
+    .footer-location-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      opacity: 0.75;
+      letter-spacing: 0.01em;
+    }
+
+    @media (max-width: 768px) {
+      .footer-grid-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.35rem;
+      }
+      .footer-content {
+        gap: 1rem;
+      }
     }
 
     /* DETAILED CASE STUDY MODALS */
