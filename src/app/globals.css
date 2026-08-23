@@ -1164,37 +1164,31 @@
 
     .telemetry-value {
       font-family: var(--font-pixel);
-      font-size: clamp(2rem, 3.6vw, 2.65rem);
+      font-size: clamp(2.25rem, 4.2vw, 3.1rem);
       font-weight: 500;
       line-height: 1.1;
       color: var(--text-primary);
       letter-spacing: -0.01em;
-      -webkit-text-stroke: 0.6px currentColor;
+      -webkit-text-stroke: 0.65px currentColor;
       text-shadow: 0.5px 0 0 currentColor;
-      margin-bottom: 0.55rem;
+      margin-bottom: 0.5rem;
       text-align: left;
     }
 
     .telemetry-label {
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      font-weight: 700;
+      font-size: 1rem;
+      font-weight: 600;
       color: var(--text-primary);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      line-height: 1.25;
-      margin-bottom: 0.25rem;
+      line-height: 1.3;
+      margin-bottom: 0.2rem;
       text-align: left;
     }
 
     .telemetry-sublabel {
-      font-family: var(--font-sans);
-      font-size: 0.76rem;
-      font-weight: 400;
+      font-size: 0.84rem;
       color: var(--text-secondary);
       line-height: 1.4;
       text-align: left;
-      opacity: 0.85;
     }
 
     @media (max-width: 768px) {
@@ -1934,27 +1928,35 @@
     [data-theme="dark"] .legend-box[data-level="3"] { background-color: #aaaaaa; }
     [data-theme="dark"] .legend-box[data-level="4"] { background-color: #ffffff; }
 
-    /* TOOLTIP POPUP */
+    /* TOOLTIP POPUP (Sleek Compact Single-Line) */
     .heatmap-cell .tooltip {
       visibility: hidden;
-      width: 140px;
-      background-color: #1f1f1f;
+      white-space: nowrap;
+      width: max-content;
+      background-color: #1a1a1e;
       color: #ffffff;
       text-align: center;
-      border-radius: 6px;
-      padding: 0.35rem 0.5rem;
+      border-radius: 4px;
+      padding: 0.2rem 0.45rem;
       position: absolute;
-      z-index: 10;
-      bottom: 150%;
+      z-index: 100;
+      bottom: calc(100% + 5px);
       left: 50%;
-      margin-left: -70px;
+      transform: translateX(-50%);
       opacity: 0;
-      transition: opacity 0.1s;
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
+      transition: opacity 0.12s ease;
+      font-family: var(--font-sans);
+      font-size: 11px;
+      font-weight: 500;
       pointer-events: none;
-      box-shadow: none;
-      border: 1px solid var(--border-color);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    [data-theme="light"] .heatmap-cell .tooltip {
+      background-color: #18181b;
+      color: #ffffff;
+      border: 1px solid rgba(0, 0, 0, 0.2);
     }
 
     .heatmap-cell .tooltip::after {
@@ -1962,10 +1964,14 @@
       position: absolute;
       top: 100%;
       left: 50%;
-      margin-left: -5px;
-      border-width: 5px;
+      transform: translateX(-50%);
+      border-width: 4px;
       border-style: solid;
-      border-color: #1f1f1f transparent transparent transparent;
+      border-color: #1a1a1e transparent transparent transparent;
+    }
+
+    [data-theme="light"] .heatmap-cell .tooltip::after {
+      border-color: #18181b transparent transparent transparent;
     }
 
     .heatmap-cell:hover .tooltip,
