@@ -3376,10 +3376,20 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      width: 14px;
+      height: 14px;
+      line-height: 1;
+      color: inherit;
+    }
+
+    .copy-icon-wrap svg {
+      width: 14px;
+      height: 14px;
+      display: block;
     }
 
     .copy-icon-wrap.copied {
-      color: #22c55e;
+      color: var(--text-primary);
     }
 
     .row-arrow {
