@@ -1727,10 +1727,11 @@
       border: 1px solid var(--border-color);
       border-radius: var(--radius-md);
       padding: 1.25rem;
-      overflow-x: hidden;
+      overflow: visible;
       max-width: 100%;
       margin-top: 1rem;
       box-shadow: none;
+      position: relative;
     }
     
     .github-contrib-header {
@@ -1928,7 +1929,7 @@
     [data-theme="dark"] .legend-box[data-level="3"] { background-color: #aaaaaa; }
     [data-theme="dark"] .legend-box[data-level="4"] { background-color: #ffffff; }
 
-    /* TOOLTIP POPUP (Sleek Compact Single-Line) */
+    /* TOOLTIP POPUP (Sleek Compact Single-Line & Edge-Aware) */
     .heatmap-cell .tooltip {
       visibility: hidden;
       white-space: nowrap;
@@ -1940,7 +1941,7 @@
       padding: 0.2rem 0.45rem;
       position: absolute;
       z-index: 100;
-      bottom: calc(100% + 5px);
+      bottom: calc(100% + 6px);
       left: 50%;
       transform: translateX(-50%);
       opacity: 0;
@@ -1951,6 +1952,19 @@
       pointer-events: none;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
       border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    /* Edge-aware overrides so tooltips near right/left borders never clip */
+    .heatmap-cell[data-placement="right"] .tooltip {
+      left: auto;
+      right: 0;
+      transform: none;
+    }
+
+    .heatmap-cell[data-placement="left"] .tooltip {
+      left: 0;
+      right: auto;
+      transform: none;
     }
 
     [data-theme="light"] .heatmap-cell .tooltip {
@@ -1968,6 +1982,18 @@
       border-width: 4px;
       border-style: solid;
       border-color: #1a1a1e transparent transparent transparent;
+    }
+
+    .heatmap-cell[data-placement="right"] .tooltip::after {
+      left: auto;
+      right: 6px;
+      transform: none;
+    }
+
+    .heatmap-cell[data-placement="left"] .tooltip::after {
+      left: 6px;
+      right: auto;
+      transform: none;
     }
 
     [data-theme="light"] .heatmap-cell .tooltip::after {

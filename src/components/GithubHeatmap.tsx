@@ -145,11 +145,15 @@ export default function GithubHeatmap({ contributions }: GithubHeatmapProps) {
                 day: "numeric",
                 year: "numeric",
               });
+              // Determine placement so tooltips near edges never get clipped
+              const placement = cell.colIndex >= 44 ? "right" : cell.colIndex <= 6 ? "left" : "center";
+
               return (
                 <div
                   key={i}
                   className="heatmap-cell"
                   data-level={cell.level}
+                  data-placement={placement}
                   style={{
                     // Stagger wave across 53 weeks
                     ["--col-delay" as string]: `${cell.colIndex * 12}ms`,
