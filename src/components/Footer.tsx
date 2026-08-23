@@ -7,10 +7,22 @@ export default function Footer() {
 
   return (
     <footer className="footer">
-      <div className="container footer-container">
-        {/* TOP BAR: Clean label + Back to top */}
-        <div className="footer-top-bar">
-          <span className="footer-brand-tag">PORTFOLIO</span>
+      <div className="container footer-content">
+        <div className="footer-left">
+          <span className="footer-brand">
+            <span className="footer-name">Felix Hardyan</span>
+            <span className="footer-sep">•</span>
+            <span className="footer-year">© {new Date().getFullYear()}</span>
+          </span>
+          <span className="footer-sep">•</span>
+          <span className="footer-stack">
+            Built with Next.js, Tailwind CSS & Motion
+          </span>
+        </div>
+
+        <div className="footer-right">
+          <span className="footer-location">Jakarta, ID</span>
+          <span className="footer-sep">•</span>
           <button
             type="button"
             onClick={scrollToTop}
@@ -20,24 +32,6 @@ export default function Footer() {
             <span>Back to top</span>
             <span className="footer-top-arrow">↑</span>
           </button>
-        </div>
-
-        {/* GIANT BOLD DISPLAY TEXT (GROQ / SCALE AI STYLE) */}
-        <div className="footer-giant-title-wrap">
-          <span className="footer-giant-title">FLXHRDYN</span>
-        </div>
-
-        {/* BOTTOM BAR: Clear, honest metadata */}
-        <div className="footer-bottom-bar">
-          <span className="footer-meta-item">
-            © {new Date().getFullYear()} Felix Hardyan
-          </span>
-          <span className="footer-meta-item footer-stack-text">
-            Built with Next.js, Tailwind CSS & Motion
-          </span>
-          <span className="footer-meta-item">
-            Jakarta, Indonesia
-          </span>
         </div>
       </div>
     </footer>
