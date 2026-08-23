@@ -13,8 +13,8 @@ const container: Variants = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.08,
+      staggerChildren: 0.06,
+      delayChildren: 0.02,
     },
   },
 };
@@ -25,7 +25,7 @@ const textReveal: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.9,
+      duration: 0.5,
       ease: SCALE_AI_EASE,
     },
   },
@@ -37,9 +37,9 @@ const consoleReveal: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 1.0,
+      duration: 0.5,
       ease: SCALE_AI_EASE,
-      delay: 0.18,
+      delay: 0.08,
     },
   },
 };

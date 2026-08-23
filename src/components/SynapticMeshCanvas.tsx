@@ -40,11 +40,15 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
     let width = (canvas.width = canvas.parentElement?.clientWidth || window.innerWidth);
     let height = (canvas.height = canvas.parentElement?.clientHeight || window.innerHeight);
 
+    let resizeTimeoutId: ReturnType<typeof setTimeout>;
     const handleResize = () => {
-      if (!canvas || !canvas.parentElement) return;
-      width = canvas.width = canvas.parentElement.clientWidth;
-      height = canvas.height = canvas.parentElement.clientHeight;
-      initNodes();
+      clearTimeout(resizeTimeoutId);
+      resizeTimeoutId = setTimeout(() => {
+        if (!canvas || !canvas.parentElement) return;
+        width = canvas.width = canvas.parentElement.clientWidth;
+        height = canvas.height = canvas.parentElement.clientHeight;
+        initNodes();
+      }, 150);
     };
 
     window.addEventListener("resize", handleResize);
@@ -398,6 +402,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      clearTimeout(resizeTimeoutId);
       window.removeEventListener("resize", handleResize);
       if (parent) {
         parent.removeEventListener("mousemove", handleMouseMove);
@@ -412,6 +417,7 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
   return (
     <m.canvas
       ref={canvasRef}
+      aria-hidden="true"
       className={`synaptic-mesh-canvas ${className || ""}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
