@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { m, useReducedMotion, type Variants } from "motion/react";
+import { m, useInView, useReducedMotion, type Variants } from "motion/react";
 import Modal from "./Modal";
 import ResearchPaperBody from "./ResearchPaperBody";
 import Reveal from "./Reveal";
@@ -75,6 +75,9 @@ export default function CertificationsSection() {
   const paper = writing[0];
   const hoveredRef = useRef(false);
 
+  const leaderboardRef = useRef<HTMLDivElement>(null);
+  const inView = useInView(leaderboardRef, { once: true, margin: "-40px" });
+
   const totalPages = Math.ceil(certifications.length / ITEMS_PER_PAGE);
   const paginatedCerts = certifications.slice(
     certPage * ITEMS_PER_PAGE,
@@ -135,7 +138,7 @@ export default function CertificationsSection() {
                 </p>
 
                 {/* TELEMETRY BENCHMARK SECTION (GROQ / SCALE AI FLAT INSTRUMENTATION) */}
-                <div className="telemetry-benchmark-section">
+                <div className="telemetry-benchmark-section" ref={leaderboardRef}>
                   <div className="telemetry-header-row">
                     <span className="telemetry-label">MODEL ACCURACY BENCHMARK</span>
 
@@ -199,9 +202,13 @@ export default function CertificationsSection() {
                               ) : (
                                 <m.div
                                   className={`leaderboard-bar-fill ${model.colorClass}`}
-                                  initial={false}
-                                  animate={{ width: `${data.val}%` }}
-                                  transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+                                  initial={{ width: 0 }}
+                                  animate={{ width: inView ? `${data.val}%` : 0 }}
+                                  transition={{ 
+                                    duration: 0.75, 
+                                    delay: model.rank * 0.08,
+                                    ease: [0.16, 1, 0.3, 1] 
+                                  }}
                                 />
                               )}
                             </div>
