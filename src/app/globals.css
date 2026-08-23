@@ -3402,9 +3402,6 @@
     }
 
     .row-clock {
-      opacity: 0.9;
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
       font-variant-numeric: tabular-nums;
     }
 
