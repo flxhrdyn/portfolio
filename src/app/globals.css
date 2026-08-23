@@ -3355,17 +3355,16 @@
     .email-copy-btn {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      width: 1.5rem;
-      height: 1.5rem;
-      border-radius: 4px;
+      justify-content: flex-end;
+      width: 14px;
+      height: 14px;
       color: var(--text-secondary);
       background: transparent;
       border: none;
       padding: 0;
       cursor: pointer;
       flex-shrink: 0;
-      transition: color 0.18s ease, transform 0.15s ease;
+      transition: color 0.18s ease;
     }
 
     .contact-minimal-row:hover .email-copy-btn {

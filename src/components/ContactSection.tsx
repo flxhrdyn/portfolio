@@ -56,7 +56,7 @@ export default function ContactSection() {
       navigator.clipboard.writeText(EMAIL).catch(() => {});
     }
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 1200);
   };
 
   return (
@@ -221,10 +221,10 @@ export default function ContactSection() {
                       {copied ? (
                         <m.span
                           key="check"
-                          initial={{ scale: 0.4, opacity: 0, rotate: -20 }}
+                          initial={{ scale: 0.3, opacity: 0, rotate: -25 }}
                           animate={{ scale: 1, opacity: 1, rotate: 0 }}
-                          exit={{ scale: 0.4, opacity: 0, rotate: 20 }}
-                          transition={{ type: "spring", stiffness: 500, damping: 28 }}
+                          exit={{ scale: 0.3, opacity: 0, rotate: 25 }}
+                          transition={{ type: "spring", stiffness: 650, damping: 30 }}
                           className="copy-icon-wrap copied"
                         >
                           <svg
@@ -241,17 +241,17 @@ export default function ContactSection() {
                               points="20 6 9 17 4 12"
                               initial={{ pathLength: 0 }}
                               animate={{ pathLength: 1 }}
-                              transition={{ duration: 0.2, ease: "easeOut" }}
+                              transition={{ duration: 0.14, ease: "easeOut" }}
                             />
                           </svg>
                         </m.span>
                       ) : (
                         <m.span
                           key="copy"
-                          initial={{ scale: 0.5, opacity: 0 }}
+                          initial={{ scale: 0.4, opacity: 0 }}
                           animate={{ scale: 1, opacity: 1 }}
-                          exit={{ scale: 0.5, opacity: 0 }}
-                          transition={{ duration: 0.15 }}
+                          exit={{ scale: 0.4, opacity: 0 }}
+                          transition={{ duration: 0.12 }}
                           className="copy-icon-wrap"
                         >
                           <svg
