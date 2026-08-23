@@ -3370,10 +3370,10 @@
       cursor: default;
     }
 
-    /* FOOTER (CLEAN & MINIMAL) */
+    /* FOOTER */
     .footer {
       border-top: 1px solid var(--border-color);
-      padding: 2.25rem 0;
+      padding: 2rem 0;
       background-color: var(--bg-primary);
     }
 
@@ -3382,65 +3382,48 @@
       align-items: center;
       justify-content: space-between;
       flex-wrap: wrap;
-      gap: 1.25rem;
+      gap: 1rem;
     }
 
-    .footer-left,
+    .footer-left {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .footer-text {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      letter-spacing: 0.02em;
+    }
+
+    .footer-tech-stack {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      font-family: var(--font-mono);
+      opacity: 0.75;
+      letter-spacing: 0.01em;
+      max-width: none;
+    }
+
     .footer-right {
       display: flex;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 0.65rem;
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      color: var(--text-secondary);
-    }
-
-    .footer-brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.45rem;
-    }
-
-    .footer-name {
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .footer-year {
-      color: var(--text-secondary);
-    }
-
-    .footer-sep {
-      color: var(--border-color);
-      user-select: none;
-      font-size: 0.7rem;
-    }
-
-    .footer-stack {
-      font-size: 0.78rem;
-      color: var(--text-secondary);
-      opacity: 0.85;
-    }
-
-    .footer-location {
-      font-size: 0.82rem;
-      color: var(--text-secondary);
     }
 
     .footer-back-to-top {
       display: inline-flex;
       align-items: center;
-      gap: 0.35rem;
+      gap: 0.4rem;
       font-family: var(--font-mono);
-      font-size: 0.82rem;
-      font-weight: 500;
+      font-size: 0.78rem;
       color: var(--text-secondary);
       background: transparent;
       border: none;
       padding: 0;
       cursor: pointer;
-      transition: color 0.18s ease;
+      transition: color var(--transition-speed) ease;
     }
 
     .footer-back-to-top:hover {
@@ -3454,14 +3437,6 @@
 
     .footer-back-to-top:hover .footer-top-arrow {
       transform: translateY(-2px);
-    }
-
-    @media (max-width: 640px) {
-      .footer-content {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.75rem;
-      }
     }
 
     /* DETAILED CASE STUDY MODALS */

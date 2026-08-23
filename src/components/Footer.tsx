@@ -9,20 +9,12 @@ export default function Footer() {
     <footer className="footer">
       <div className="container footer-content">
         <div className="footer-left">
-          <span className="footer-brand">
-            <span className="footer-name">Felix Hardyan</span>
-            <span className="footer-sep">•</span>
-            <span className="footer-year">© {new Date().getFullYear()}</span>
-          </span>
-          <span className="footer-sep">•</span>
-          <span className="footer-stack">
-            Built with Next.js, Tailwind CSS & Motion
-          </span>
+          <p className="footer-text">© {new Date().getFullYear()} FLXHRDYN • AI ENGINEER</p>
+          <p className="footer-tech-stack">
+            Built with Next.js 16 · TypeScript · Tailwind CSS · Motion · Groq GPT-OSS-120B
+          </p>
         </div>
-
         <div className="footer-right">
-          <span className="footer-location">Jakarta, ID</span>
-          <span className="footer-sep">•</span>
           <button
             type="button"
             onClick={scrollToTop}
