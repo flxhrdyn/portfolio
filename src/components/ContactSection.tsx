@@ -171,7 +171,8 @@ export default function ContactSection() {
                   <span className="row-title">Location</span>
                 </span>
                 <span className="row-value">
-                  <span>Jakarta (UTC +7)</span>
+                  <span>Jakarta</span>
+                  <span>(UTC +7)</span>
                   {wibTime ? <span className="row-clock">{wibTime} WIB</span> : null}
                 </span>
               </div>
@@ -258,7 +259,8 @@ export default function ContactSection() {
                   <span className="row-title">Location</span>
                 </span>
                 <span className="row-value">
-                  <span>Jakarta (UTC +7)</span>
+                  <span>Jakarta</span>
+                  <span>(UTC +7)</span>
                   {wibTime ? <span className="row-clock">{wibTime} WIB</span> : null}
                 </span>
               </m.div>
