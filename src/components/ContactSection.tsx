@@ -6,6 +6,29 @@ import Reveal from "./Reveal";
 
 const EMAIL = "felixhardyanwork@gmail.com";
 
+const ctaContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.04,
+    },
+  },
+};
+
+const ctaItemVariants: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.55,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
 const rowListVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
@@ -85,20 +108,20 @@ export default function ContactSection() {
               initial="hidden"
               whileInView="show"
               viewport={{ once: true, margin: "-40px" }}
-              variants={rowItemVariants}
+              variants={ctaContainerVariants}
             >
-              <span className="contact-minimal-availability">
+              <m.span className="contact-minimal-availability" variants={ctaItemVariants}>
                 <span className="availability-dot" />
                 Available for opportunities
-              </span>
+              </m.span>
 
-              <h2 className="contact-minimal-headline">
+              <m.h2 className="contact-minimal-headline" variants={ctaItemVariants}>
                 Let&apos;s build something together.
-              </h2>
+              </m.h2>
 
-              <p className="contact-minimal-subtext">
+              <m.p className="contact-minimal-subtext" variants={ctaItemVariants}>
                 Feel free to reach out for full-time engineering roles, AI consulting, or casual technical discussions.
-              </p>
+              </m.p>
             </m.div>
           )}
 

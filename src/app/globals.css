@@ -3177,7 +3177,29 @@
       border-radius: 50%;
       background-color: var(--text-primary);
       display: inline-block;
-      opacity: 0.9;
+      position: relative;
+      flex-shrink: 0;
+    }
+
+    .availability-dot::after {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 1px solid var(--text-primary);
+      opacity: 0.7;
+      animation: availability-pulse 2.8s cubic-bezier(0.25, 1, 0.5, 1) infinite;
+    }
+
+    @keyframes availability-pulse {
+      0% {
+        transform: scale(0.85);
+        opacity: 0.8;
+      }
+      60%, 100% {
+        transform: scale(2.1);
+        opacity: 0;
+      }
     }
 
     .contact-minimal-headline {
@@ -3199,71 +3221,6 @@
       margin: 0;
     }
 
-    .contact-minimal-email-row {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      margin-top: 1rem;
-      flex-wrap: wrap;
-    }
-
-    .contact-copy-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.85rem;
-      padding: 0.65rem 1.35rem;
-      border-radius: 9999px;
-      border: 1px solid var(--border-color);
-      background-color: var(--bg-card);
-      cursor: pointer;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .contact-copy-pill:hover {
-      border-color: var(--text-primary);
-      background-color: rgba(255, 255, 255, 0.05);
-    }
-
-    [data-theme="light"] .contact-copy-pill:hover {
-      background-color: rgba(0, 0, 0, 0.04);
-    }
-
-    .contact-pill-email {
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .contact-pill-action {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-secondary);
-      border-left: 1px solid var(--border-color);
-      padding-left: 0.85rem;
-      transition: color 0.18s ease;
-    }
-
-    .contact-copy-pill:hover .contact-pill-action {
-      color: var(--text-primary);
-    }
-
-    .contact-email-link {
-      font-family: var(--font-mono);
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: color 0.18s ease;
-    }
-
-    .contact-email-link:hover {
-      color: var(--text-primary);
-    }
-
     /* RIGHT COLUMN: CLEAN BOLD HAIRLINE LIST WITH LOGOS & HOVER ANIMATION */
     .contact-minimal-right {
       display: flex;
@@ -3279,7 +3236,7 @@
       border-bottom: 1px solid var(--border-color);
       text-decoration: none;
       border-radius: var(--radius-sm);
-      transition: background-color 0.2s ease;
+      transition: background-color 0.2s ease, transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
       width: 100%;
       background: transparent;
       border-top: none;
@@ -3292,10 +3249,12 @@
 
     .contact-minimal-row:hover {
       background-color: rgba(255, 255, 255, 0.04);
+      transform: translateX(4px);
     }
 
     [data-theme="light"] .contact-minimal-row:hover {
       background-color: rgba(0, 0, 0, 0.03);
+      transform: translateX(4px);
     }
 
     .row-left-group {
