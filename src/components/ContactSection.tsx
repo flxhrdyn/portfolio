@@ -55,24 +55,6 @@ const rowItemVariants: Variants = {
 export default function ContactSection() {
   const reduceMotion = useReducedMotion();
   const [copied, setCopied] = useState(false);
-  const [wibTime, setWibTime] = useState<string>("");
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const formatter = new Intl.DateTimeFormat("en-GB", {
-        timeZone: "Asia/Jakarta",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      });
-      setWibTime(formatter.format(now));
-    };
-
-    updateTime();
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleCopy = () => {
     if (typeof navigator !== "undefined" && navigator.clipboard) {
@@ -200,20 +182,28 @@ export default function ContactSection() {
                 </span>
               </a>
 
-              <div className="contact-minimal-row static-row">
+              <a
+                href="https://huggingface.co/felixhrdyn"
+                target="_blank"
+                rel="noreferrer"
+                className="contact-minimal-row"
+              >
                 <span className="row-left-group">
                   <svg className="row-icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M8 9.05v-.1"></path>
+                    <path d="M16 9.05v-.1"></path>
+                    <path d="M8 14c1.5 2 6.5 2 8 0"></path>
+                    <path d="M3 14c1-1.5 2.5-2 4-1.5"></path>
+                    <path d="M21 14c-1-1.5-2.5-2-4-1.5"></path>
                   </svg>
-                  <span className="row-title">Location</span>
+                  <span className="row-title">Hugging Face</span>
                 </span>
                 <span className="row-value">
-                  <span>Jakarta</span>
-                  <span>(UTC +7)</span>
-                  {wibTime ? <span className="row-clock">{wibTime} WIB</span> : null}
+                  <span>felixhrdyn</span>
+                  <span className="row-arrow">↗</span>
                 </span>
-              </div>
+              </a>
             </div>
           ) : (
             <m.div
@@ -337,23 +327,29 @@ export default function ContactSection() {
                 </span>
               </m.a>
 
-              <m.div
-                className="contact-minimal-row static-row"
+              <m.a
+                href="https://huggingface.co/felixhrdyn"
+                target="_blank"
+                rel="noreferrer"
+                className="contact-minimal-row"
                 variants={rowItemVariants}
               >
                 <span className="row-left-group">
                   <svg className="row-icon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M8 9.05v-.1"></path>
+                    <path d="M16 9.05v-.1"></path>
+                    <path d="M8 14c1.5 2 6.5 2 8 0"></path>
+                    <path d="M3 14c1-1.5 2.5-2 4-1.5"></path>
+                    <path d="M21 14c-1-1.5-2.5-2-4-1.5"></path>
                   </svg>
-                  <span className="row-title">Location</span>
+                  <span className="row-title">Hugging Face</span>
                 </span>
                 <span className="row-value">
-                  <span>Jakarta</span>
-                  <span>(UTC +7)</span>
-                  {wibTime ? <span className="row-clock">{wibTime} WIB</span> : null}
+                  <span>felixhrdyn</span>
+                  <span className="row-arrow">↗</span>
                 </span>
-              </m.div>
+              </m.a>
             </m.div>
           )}
         </div>

@@ -1,6 +1,27 @@
 "use client";
 
+import { useState, useEffect } from "react";
+
 export default function Footer() {
+  const [wibTime, setWibTime] = useState<string>("");
+
+  useEffect(() => {
+    const updateTime = () => {
+      const now = new Date();
+      const formatter = new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Asia/Jakarta",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      });
+      setWibTime(formatter.format(now));
+    };
+
+    updateTime();
+    const interval = setInterval(updateTime, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -42,13 +63,13 @@ export default function Footer() {
           </div>
         </div>
 
-        {/* ROW 2: Tech Stack & Location Tag */}
+        {/* ROW 2: Tech Stack & Location with Live Clock */}
         <div className="footer-grid-row">
           <p className="footer-tech-stack">
             Built with Next.js 16 · TypeScript · Tailwind CSS · Motion · Groq GPT-OSS-120B
           </p>
           <span className="footer-location-tag">
-            Jakarta, Indonesia (UTC +7)
+            Jakarta (UTC +7){wibTime ? ` ${wibTime} WIB` : ""}
           </span>
         </div>
       </div>
