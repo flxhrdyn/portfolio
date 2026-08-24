@@ -170,6 +170,8 @@
       /* Sections ride over the pinned hero, so each one needs its own ground. */
       z-index: 1;
       background-color: var(--bg-primary);
+      content-visibility: auto;
+      contain-intrinsic-size: auto 650px;
     }
 
     /* The hero is pinned and the page is drawn over it: the reader leaves the hero

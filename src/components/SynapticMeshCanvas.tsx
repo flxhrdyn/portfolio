@@ -104,11 +104,34 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
       mouse.active = false;
     };
 
+    let isVisible = true;
+    let isTabActive = !document.hidden;
+
+    const handleVisibilityChange = () => {
+      isTabActive = !document.hidden;
+      if (isVisible && isTabActive && !animationFrameId) {
+        animationFrameId = requestAnimationFrame(render);
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        isVisible = entry.isIntersecting;
+        if (isVisible && isTabActive && !animationFrameId) {
+          animationFrameId = requestAnimationFrame(render);
+        }
+      },
+      { threshold: 0.05 }
+    );
+    observer.observe(canvas);
+
     const parent = canvas.parentElement;
     if (parent) {
-      parent.addEventListener("mousemove", handleMouseMove);
-      parent.addEventListener("mouseleave", handleMouseLeave);
-      parent.addEventListener("click", handleClick);
+      parent.addEventListener("mousemove", handleMouseMove, { passive: true });
+      parent.addEventListener("mouseleave", handleMouseLeave, { passive: true });
+      parent.addEventListener("click", handleClick, { passive: true });
     }
 
     interface WanderingNode {
@@ -395,7 +418,11 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
         ctx.fill();
       }
 
-      animationFrameId = requestAnimationFrame(render);
+      if (isVisible && isTabActive) {
+        animationFrameId = requestAnimationFrame(render);
+      } else {
+        animationFrameId = 0;
+      }
     };
 
     animationFrameId = requestAnimationFrame(render);
@@ -403,6 +430,8 @@ export default function SynapticMeshCanvas({ className }: SynapticMeshCanvasProp
     return () => {
       cancelAnimationFrame(animationFrameId);
       clearTimeout(resizeTimeoutId);
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
       window.removeEventListener("resize", handleResize);
       if (parent) {
         parent.removeEventListener("mousemove", handleMouseMove);
