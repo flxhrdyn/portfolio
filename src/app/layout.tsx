@@ -6,6 +6,7 @@ import ThemeScript from "@/components/ThemeScript";
 import MotionProvider from "@/components/MotionProvider";
 import PageTransitionLoader from "@/components/PageTransitionLoader";
 import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
 
 const SITE_URL = "https://flxhrdyn.vercel.app";
@@ -50,6 +51,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <PageTransitionLoader />
           {children}
           <Analytics />
+          <SpeedInsights />
         </MotionProvider>
       </body>
     </html>
