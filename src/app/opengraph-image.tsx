@@ -27,53 +27,50 @@ export default async function Image() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#f9fafb",
+          backgroundColor: "#ffffff",
           backgroundImage:
-            "linear-gradient(to right, #f3f4f6 1px, transparent 1px), linear-gradient(to bottom, #f3f4f6 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
-          padding: "44px 52px",
-          color: "#111827",
-          fontFamily: "GeistSans, sans-serif",
+            "radial-gradient(circle at 100% 0%, #f6f7f9 0%, transparent 60%), radial-gradient(circle at 0% 100%, #f6f7f9 0%, transparent 60%)",
+          padding: "56px 68px",
+          color: "#14151a",
+          fontFamily: "GeistSans, -apple-system, sans-serif",
           position: "relative",
           boxSizing: "border-box",
         }}
       >
-        {/* Subtle Outer Modern Glass Frame */}
+        {/* Subtle Outer Card Precision Border */}
         <div
           style={{
             position: "absolute",
-            inset: "16px",
-            border: "1px solid #e5e7eb",
-            borderRadius: "14px",
+            inset: "20px",
+            border: "1px solid #e2e3e8",
+            borderRadius: "12px",
             pointerEvents: "none",
           }}
         />
 
-        {/* TOP NAVBAR */}
+        {/* TOP NAVBAR: Exact Brand + Navigation Preview */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             width: "100%",
-            paddingBottom: "16px",
-            borderBottom: "1px solid #e5e7eb",
           }}
         >
-          {/* LOGO */}
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          {/* LOGO & BRAND */}
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <div
               style={{
-                width: "36px",
-                height: "36px",
-                borderRadius: "8px",
-                backgroundColor: "#111827",
+                width: "40px",
+                height: "40px",
+                borderRadius: "6px",
+                backgroundColor: "#14151a",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
               }}
             >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.2">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.2">
                 <path d="M5 4H2V20H5" />
                 <path d="M19 4H22V20H19" />
                 <rect x="7" y="6" width="2.5" height="2.5" fill="#ffffff" />
@@ -85,10 +82,10 @@ export default async function Image() {
             </div>
             <span
               style={{
-                fontSize: "20px",
+                fontSize: "22px",
                 fontWeight: 700,
                 letterSpacing: "-0.03em",
-                color: "#111827",
+                color: "#14151a",
                 fontFamily: "GeistSans",
               }}
             >
@@ -96,20 +93,20 @@ export default async function Image() {
             </span>
           </div>
 
-          {/* STATUS PILL */}
+          {/* RIGHT BADGE: Exact Active Status Dot */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
               gap: "8px",
-              padding: "6px 14px",
+              padding: "7px 16px",
               borderRadius: "9999px",
               backgroundColor: "#ffffff",
-              border: "1px solid #e5e7eb",
+              border: "1px solid #e2e3e8",
               fontSize: "12px",
               fontFamily: "GeistMono",
               fontWeight: 500,
-              color: "#374151",
+              color: "#14151a",
             }}
           >
             <div
@@ -124,246 +121,142 @@ export default async function Image() {
           </div>
         </div>
 
-        {/* MAIN SPLIT HERO SECTION */}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            gap: "36px",
-            width: "100%",
-            margin: "12px 0",
-          }}
-        >
-          {/* LEFT COLUMN: HERO INFORMATION */}
+        {/* HERO BODY: Exact Component Structure & Copy */}
+        <div style={{ display: "flex", flexDirection: "column", gap: "14px", marginTop: "16px" }}>
+          {/* EYEBROW */}
           <div
             style={{
               display: "flex",
-              flexDirection: "column",
-              gap: "12px",
-              flex: "1 1 58%",
+              alignItems: "center",
+              gap: "8px",
+              fontSize: "12px",
+              fontFamily: "GeistMono",
+              color: "#5b5d66",
+              letterSpacing: "0.08em",
+              fontWeight: 500,
             }}
           >
             <div
               style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                fontSize: "12px",
-                fontFamily: "GeistMono",
-                color: "#6b7280",
-                letterSpacing: "0.06em",
-                fontWeight: 600,
+                width: "6px",
+                height: "6px",
+                borderRadius: "50%",
+                backgroundColor: "#10b981",
               }}
-            >
-              <span>AI ENGINEER &amp; DATA SCIENTIST</span>
-            </div>
-
-            <h1
-              style={{
-                fontSize: "52px",
-                fontWeight: 700,
-                lineHeight: 1.05,
-                letterSpacing: "-0.04em",
-                margin: 0,
-                color: "#111827",
-                fontFamily: "GeistSans",
-              }}
-            >
-              Felix Windriyareksa Hardyan
-            </h1>
-
-            <p
-              style={{
-                fontSize: "19px",
-                fontWeight: 400,
-                color: "#4b5563",
-                margin: 0,
-                lineHeight: 1.35,
-                fontFamily: "GeistSans",
-              }}
-            >
-              Building production-grade AI systems, from Data Science to GenAI.
-            </p>
-
-            {/* 3 TELEMETRY STRIP CARDS */}
-            <div style={{ display: "flex", gap: "10px", marginTop: "12px" }}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "10px 14px",
-                  backgroundColor: "#ffffff",
-                  border: "1px solid #e5e7eb",
-                  borderRadius: "8px",
-                  gap: "2px",
-                  flex: "1",
-                }}
-              >
-                <span style={{ fontSize: "20px", fontWeight: 700, fontFamily: "GeistMono", color: "#111827" }}>
-                  2+ Yrs
-                </span>
-                <span style={{ fontSize: "11px", color: "#6b7280", fontFamily: "GeistMono" }}>
-                  AI/ML Exp
-                </span>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "10px 14px",
-                  backgroundColor: "#ffffff",
-                  border: "1px solid #e5e7eb",
-                  borderRadius: "8px",
-                  gap: "2px",
-                  flex: "1",
-                }}
-              >
-                <span style={{ fontSize: "20px", fontWeight: 700, fontFamily: "GeistMono", color: "#111827" }}>
-                  10+
-                </span>
-                <span style={{ fontSize: "11px", color: "#6b7280", fontFamily: "GeistMono" }}>
-                  AI Projects
-                </span>
-              </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  padding: "10px 14px",
-                  backgroundColor: "#ffffff",
-                  border: "1px solid #e5e7eb",
-                  borderRadius: "8px",
-                  gap: "2px",
-                  flex: "1",
-                }}
-              >
-                <span style={{ fontSize: "20px", fontWeight: 700, fontFamily: "GeistMono", color: "#111827" }}>
-                  BNSP
-                </span>
-                <span style={{ fontSize: "11px", color: "#6b7280", fontFamily: "GeistMono" }}>
-                  Data Scientist
-                </span>
-              </div>
-            </div>
+            />
+            <span>ACTIVE // AI ENGINEER &amp; DATA SCIENTIST</span>
           </div>
 
-          {/* RIGHT COLUMN: HAWAT CHAT CONSOLE MOCKUP */}
-          <div
+          {/* MAIN HEADLINE */}
+          <h1
             style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "420px",
-              backgroundColor: "#ffffff",
-              border: "1px solid #e5e7eb",
-              borderRadius: "12px",
-              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05)",
-              overflow: "hidden",
+              fontSize: "62px",
+              fontWeight: 700,
+              lineHeight: 1.02,
+              letterSpacing: "-0.04em",
+              margin: 0,
+              color: "#14151a",
+              fontFamily: "GeistSans",
             }}
           >
-            {/* CONSOLE HEADER */}
+            Felix Windriyareksa Hardyan
+          </h1>
+
+          {/* EXACT DESCRIPTION */}
+          <p
+            style={{
+              fontSize: "23px",
+              fontWeight: 400,
+              color: "#5b5d66",
+              margin: 0,
+              lineHeight: 1.3,
+              fontFamily: "GeistSans",
+            }}
+          >
+            Building production-grade AI systems, from Data Science to GenAI.
+          </p>
+
+          {/* CTA PILLS (Exact button styles from Hero) */}
+          <div style={{ display: "flex", gap: "12px", marginTop: "6px" }}>
             <div
               style={{
                 display: "flex",
                 alignItems: "center",
-                justifyContent: "space-between",
-                padding: "10px 14px",
-                backgroundColor: "#f9fafb",
-                borderBottom: "1px solid #e5e7eb",
+                padding: "10px 22px",
+                backgroundColor: "#1f1f1f",
+                color: "#ffffff",
+                borderRadius: "9999px",
+                fontSize: "14px",
+                fontWeight: 600,
+                fontFamily: "GeistSans",
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                <div style={{ width: "9px", height: "9px", borderRadius: "50%", backgroundColor: "#ef4444" }} />
-                <div style={{ width: "9px", height: "9px", borderRadius: "50%", backgroundColor: "#f59e0b" }} />
-                <div style={{ width: "9px", height: "9px", borderRadius: "50%", backgroundColor: "#10b981" }} />
-              </div>
-              <span style={{ fontSize: "11px", fontFamily: "GeistMono", color: "#6b7280", fontWeight: 600 }}>
-                HAWAT // AI AGENT
-              </span>
+              View Full Portfolio &rarr;
             </div>
 
-            {/* CONSOLE BODY */}
-            <div style={{ display: "flex", flexDirection: "column", padding: "14px", gap: "10px" }}>
-              {/* BOT BUBBLE */}
-              <div
-                style={{
-                  display: "flex",
-                  padding: "10px 12px",
-                  backgroundColor: "#f3f4f6",
-                  borderRadius: "8px",
-                  fontSize: "13px",
-                  lineHeight: "1.4",
-                  color: "#1f2937",
-                  fontFamily: "GeistSans",
-                }}
-              >
-                Hi, ask me anything about Felix&apos;s AI systems, RAG pipelines, or projects.
-              </div>
-
-              {/* QUICK CHIPS */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginTop: "4px" }}>
-                <div
-                  style={{
-                    padding: "6px 10px",
-                    backgroundColor: "#ffffff",
-                    border: "1px solid #e5e7eb",
-                    borderRadius: "6px",
-                    fontSize: "11px",
-                    fontFamily: "GeistMono",
-                    color: "#374151",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <span>&bull; InvenioAI RAG Architecture</span>
-                  <span style={{ color: "#9ca3af" }}>&rarr;</span>
-                </div>
-                <div
-                  style={{
-                    padding: "6px 10px",
-                    backgroundColor: "#ffffff",
-                    border: "1px solid #e5e7eb",
-                    borderRadius: "6px",
-                    fontSize: "11px",
-                    fontFamily: "GeistMono",
-                    color: "#374151",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <span>&bull; Omnius Media Intelligence</span>
-                  <span style={{ color: "#9ca3af" }}>&rarr;</span>
-                </div>
-              </div>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                padding: "10px 22px",
+                backgroundColor: "#ffffff",
+                border: "1px solid #e2e3e8",
+                color: "#14151a",
+                borderRadius: "9999px",
+                fontSize: "14px",
+                fontWeight: 500,
+                fontFamily: "GeistSans",
+              }}
+            >
+              Ask AI Assistant (Hawat)
             </div>
           </div>
         </div>
 
-        {/* BOTTOM METADATA BAR */}
+        {/* BOTTOM TELEMETRY STRIP (Exact Telemetry Strip from Portfolio) */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            paddingTop: "14px",
-            borderTop: "1px solid #e5e7eb",
-            fontSize: "13px",
-            color: "#6b7280",
-            fontFamily: "GeistMono",
+            paddingTop: "20px",
+            borderTop: "1px solid #e2e3e8",
+            width: "100%",
           }}
         >
-          <div style={{ display: "flex", gap: "18px" }}>
-            <span>PT Astra Visteon Indonesia</span>
-            <span>&bull;</span>
-            <span>HPC Universitas Gunadarma</span>
+          {/* 3 METRIC PILLS */}
+          <div style={{ display: "flex", gap: "28px" }}>
+            <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+              <span style={{ fontSize: "20px", fontWeight: 700, fontFamily: "GeistMono", color: "#14151a" }}>
+                2+ Yrs
+              </span>
+              <span style={{ fontSize: "12px", color: "#5b5d66", fontFamily: "GeistMono" }}>
+                AI/ML Experience
+              </span>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+              <span style={{ fontSize: "20px", fontWeight: 700, fontFamily: "GeistMono", color: "#14151a" }}>
+                10+
+              </span>
+              <span style={{ fontSize: "12px", color: "#5b5d66", fontFamily: "GeistMono" }}>
+                AI Projects Built
+              </span>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+              <span style={{ fontSize: "20px", fontWeight: 700, fontFamily: "GeistMono", color: "#14151a" }}>
+                BNSP
+              </span>
+              <span style={{ fontSize: "12px", color: "#5b5d66", fontFamily: "GeistMono" }}>
+                Certified Data Scientist
+              </span>
+            </div>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#111827", fontWeight: 600 }}>
-            <span>flxhrdyn.vercel.app</span>
+          {/* SITE URL */}
+          <div style={{ display: "flex", alignItems: "center", fontSize: "13px", fontFamily: "GeistMono", color: "#14151a", fontWeight: 600 }}>
+            flxhrdyn.vercel.app
           </div>
         </div>
       </div>
