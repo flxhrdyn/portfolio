@@ -104,10 +104,11 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
             href="/resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-pill btn-pill-secondary btn-pill-sm"
+            className="btn-pill btn-pill-secondary btn-pill-sm nav-resume-btn"
             style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "0.35rem" }}
           >
-            <span>Resume (PDF)</span>
+            <span className="nav-resume-full">Resume (PDF)</span>
+            <span className="nav-resume-short">Resume</span>
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
               <polyline points="7 10 12 15 17 10"></polyline>
