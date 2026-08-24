@@ -397,8 +397,7 @@ export default function ChatWidget() {
                       <div className="msg-text-block">
                         {msg.sender === "bot" ? (
                           <>
-                            {renderMarkdown(msg.text, msg.id)}
-                            {msg.isStreaming && <span className="chat-stream-caret" aria-hidden="true" />}
+                            {renderMarkdown(msg.text, msg.id, msg.isStreaming)}
                             {msg.trace && !msg.isStreaming && <MentatTrace trace={msg.trace} />}
                           </>
                         ) : (

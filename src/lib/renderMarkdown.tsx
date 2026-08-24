@@ -1,4 +1,4 @@
-﻿import React, { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import Link from "next/link";
 
 const LINK_STYLE: React.CSSProperties = {
@@ -92,8 +92,13 @@ function parseInline(text: string, keyPrefix: string): ReactNode[] {
   return nodes;
 }
 
-export function renderMarkdown(text: string, msgId: string): ReactNode {
-  if (!text) return null;
+export function renderMarkdown(text: string, msgId: string, isStreaming?: boolean): ReactNode {
+  if (!text) {
+    if (isStreaming) {
+      return <span className="chat-stream-caret" aria-hidden="true" />;
+    }
+    return null;
+  }
 
   // Split into block paragraphs
   const blocks = text.trim().split(/\n\s*\n/);
@@ -101,6 +106,7 @@ export function renderMarkdown(text: string, msgId: string): ReactNode {
   return (
     <div className="chat-markdown-body" style={{ display: "flex", flexDirection: "column", gap: "0.65rem" }}>
       {blocks.map((block, bIdx) => {
+        const isLastBlock = bIdx === blocks.length - 1;
         const lines = block.split("\n").map((l) => l.trim()).filter(Boolean);
 
         // Check if block is an unordered list
@@ -109,10 +115,12 @@ export function renderMarkdown(text: string, msgId: string): ReactNode {
           return (
             <ul key={`${msgId}-b-${bIdx}`} style={{ margin: "0.25rem 0", paddingLeft: "1.25rem", listStyleType: "disc" }}>
               {lines.map((line, lIdx) => {
+                const isLastLine = isLastBlock && lIdx === lines.length - 1;
                 const clean = line.replace(/^[-*•]\s+/, "");
                 return (
                   <li key={`${msgId}-b-${bIdx}-l-${lIdx}`} style={{ marginBottom: "0.3rem" }}>
                     {parseInline(clean, `${msgId}-b-${bIdx}-l-${lIdx}`)}
+                    {isLastLine && isStreaming && <span className="chat-stream-caret" aria-hidden="true" />}
                   </li>
                 );
               })}
@@ -126,10 +134,12 @@ export function renderMarkdown(text: string, msgId: string): ReactNode {
           return (
             <ol key={`${msgId}-b-${bIdx}`} style={{ margin: "0.25rem 0", paddingLeft: "1.25rem", listStyleType: "decimal" }}>
               {lines.map((line, lIdx) => {
+                const isLastLine = isLastBlock && lIdx === lines.length - 1;
                 const clean = line.replace(/^\d+\.\s+/, "");
                 return (
                   <li key={`${msgId}-b-${bIdx}-l-${lIdx}`} style={{ marginBottom: "0.3rem" }}>
                     {parseInline(clean, `${msgId}-b-${bIdx}-l-${lIdx}`)}
+                    {isLastLine && isStreaming && <span className="chat-stream-caret" aria-hidden="true" />}
                   </li>
                 );
               })}
@@ -140,12 +150,16 @@ export function renderMarkdown(text: string, msgId: string): ReactNode {
         // Normal paragraph
         return (
           <p key={`${msgId}-b-${bIdx}`} style={{ margin: 0, lineHeight: 1.6 }}>
-            {lines.map((line, lIdx) => (
-              <React.Fragment key={`${msgId}-b-${bIdx}-l-${lIdx}`}>
-                {lIdx > 0 && <br />}
-                {parseInline(line, `${msgId}-b-${bIdx}-l-${lIdx}`)}
-              </React.Fragment>
-            ))}
+            {lines.map((line, lIdx) => {
+              const isLastLine = isLastBlock && lIdx === lines.length - 1;
+              return (
+                <React.Fragment key={`${msgId}-b-${bIdx}-l-${lIdx}`}>
+                  {lIdx > 0 && <br />}
+                  {parseInline(line, `${msgId}-b-${bIdx}-l-${lIdx}`)}
+                  {isLastLine && isStreaming && <span className="chat-stream-caret" aria-hidden="true" />}
+                </React.Fragment>
+              );
+            })}
           </p>
         );
       })}
