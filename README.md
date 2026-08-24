@@ -1,7 +1,7 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/flxhrdyn/portfolio/main/public/svg/top-bar-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/flxhrdyn/portfolio/main/public/svg/top-bar.svg">
-  <img src="https://raw.githubusercontent.com/flxhrdyn/portfolio/main/public/svg/top-bar-dark.svg" alt="Felix Windriyareksa Hardyan | AI Engineer & Data Scientist" width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/flxhrdyn/portfolio/main/public/svg/top-bar-dark.svg?v=2">
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/flxhrdyn/portfolio/main/public/svg/top-bar.svg?v=2">
+  <img src="https://raw.githubusercontent.com/flxhrdyn/portfolio/main/public/svg/top-bar-dark.svg?v=2" alt="Felix Windriyareksa Hardyan | AI Engineer & Data Scientist" width="100%">
 </picture>
 
 <br>
