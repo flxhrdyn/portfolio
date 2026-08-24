@@ -1,0 +1,124 @@
+<svg width="850" height="380" viewBox="0 0 850 380" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600;700;800&amp;family=Geist:wght@400;500;700;800&amp;display=swap');
+
+      .bg-card { fill: #0c0d0e; stroke: #232529; stroke-width: 1.5; rx: 14px; }
+      .header-bar { fill: #131518; stroke: #232529; stroke-width: 1; }
+      .text-title { font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 34px; font-weight: 800; fill: #ffffff; letter-spacing: -0.03em; }
+      .text-tagline { font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 15px; font-weight: 500; fill: #9ca3af; }
+      .text-mono-eyebrow { font-family: 'Geist Mono', monospace; font-size: 11.5px; font-weight: 700; fill: #6b7280; letter-spacing: 0.08em; text-transform: uppercase; }
+      .text-stat-num { font-family: 'Geist Mono', monospace; font-size: 26px; font-weight: 800; fill: #ffffff; letter-spacing: -0.02em; }
+      .text-stat-label { font-family: 'Geist Mono', monospace; font-size: 10.5px; font-weight: 700; fill: #9ca3af; text-transform: uppercase; letter-spacing: 0.06em; }
+      .text-stat-sub { font-family: 'Geist', sans-serif; font-size: 10px; font-weight: 400; fill: #6b7280; }
+      .text-footer { font-family: 'Geist Mono', monospace; font-size: 11.5px; font-weight: 600; fill: #9ca3af; }
+      .text-domain { font-family: 'Geist Mono', monospace; font-size: 12px; font-weight: 700; fill: #ffffff; }
+      .dot-green { fill: #10b981; }
+      .dot-gray { fill: #374151; }
+      .divider { stroke: #232529; stroke-width: 1; }
+    </style>
+
+    <!-- Subtle Dot Grid Background Pattern -->
+    <pattern id="dot-grid" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="0.9" fill="#1f242d" />
+    </pattern>
+  </defs>
+
+  <!-- Card Background with Shadow -->
+  <rect x="2" y="2" width="846" height="376" rx="14" class="bg-card" />
+  <rect x="2" y="2" width="846" height="376" rx="14" fill="url(#dot-grid)" opacity="0.85" />
+
+  <!-- Window Header Bar -->
+  <path d="M 2 16 Q 2 2 16 2 L 834 2 Q 848 2 848 16 L 848 44 L 2 44 Z" class="header-bar" />
+  
+  <!-- Window Controls & File Path -->
+  <circle cx="24" cy="23" r="5.5" fill="#ef4444" />
+  <circle cx="42" cy="23" r="5.5" fill="#eab308" />
+  <circle cx="60" cy="23" r="5.5" fill="#22c55e" />
+  
+  <text x="84" y="27" font-family="'Geist Mono', monospace" font-size="11.5" font-weight="600" fill="#9ca3af">
+    flxhrdyn / <tspan fill="#ffffff">README.md</tspan>
+  </text>
+
+  <!-- Status Indicator in Top-Right -->
+  <g transform="translate(680, 13)">
+    <rect width="146" height="22" rx="11" fill="#181b20" stroke="#2d3139" stroke-width="1" />
+    <circle cx="12" cy="11" r="3.5" class="dot-green" />
+    <text x="22" y="15" font-family="'Geist Mono', monospace" font-size="9.5" font-weight="700" fill="#d1d5db" letter-spacing="0.05em">
+      ACTIVE // JAKARTA, ID
+    </text>
+  </g>
+
+  <!-- Brandmark Logo [::] flxhrdyn -->
+  <g transform="translate(36, 74)">
+    <path d="M4 3H1V17H4" stroke="#ffffff" stroke-width="1.8" stroke-linecap="square" />
+    <path d="M16 3H19V17H16" stroke="#ffffff" stroke-width="1.8" stroke-linecap="square" />
+    <rect x="6" y="5" width="2" height="2" fill="#ffffff" />
+    <rect x="9.5" y="5" width="2" height="2" fill="#ffffff" opacity="0.35" />
+    <rect x="13" y="5" width="2" height="2" fill="#ffffff" />
+    <rect x="6" y="9" width="2" height="2" fill="#ffffff" opacity="0.35" />
+    <rect x="9.5" y="9" width="2" height="2" fill="#ffffff" />
+    <rect x="13" y="9" width="2" height="2" fill="#ffffff" opacity="0.35" />
+    <rect x="6" y="13" width="2" height="2" fill="#ffffff" />
+    <rect x="9.5" y="13" width="2" height="2" fill="#ffffff" opacity="0.35" />
+    <rect x="13" y="13" width="2" height="2" fill="#ffffff" />
+    <text x="26" y="15" font-family="'Geist', sans-serif" font-size="17" font-weight="800" fill="#ffffff" letter-spacing="-0.03em">flxhrdyn</text>
+  </g>
+
+  <!-- Eyebrow -->
+  <g transform="translate(36, 114)">
+    <circle cx="4" cy="-4" r="3" class="dot-green" />
+    <text x="14" y="0" class="text-mono-eyebrow">AI ENGINEER &amp; DATA SCIENTIST</text>
+  </g>
+
+  <!-- Main Hero Title -->
+  <text x="36" y="152" class="text-title">Felix Windriyareksa Hardyan</text>
+  
+  <!-- Subtitle / Tagline -->
+  <text x="36" y="184" class="text-tagline">Building production-grade AI systems, from Data Science to GenAI.</text>
+
+  <!-- Divider Line Above Telemetry Strip -->
+  <line x1="36" y1="216" x2="814" y2="216" class="divider" />
+
+  <!-- Telemetry Metrics Grid (3 Columns) -->
+  <!-- Col 1 -->
+  <g transform="translate(36, 240)">
+    <text x="0" y="24" class="text-stat-num">2+ Yrs</text>
+    <text x="0" y="44" class="text-stat-label">AI/ML EXPERIENCE</text>
+    <text x="0" y="60" class="text-stat-sub">Industry &amp; research lab track record</text>
+  </g>
+
+  <!-- Vertical Divider 1 -->
+  <line x1="260" y1="236" x2="260" y2="304" class="divider" />
+
+  <!-- Col 2 -->
+  <g transform="translate(284, 240)">
+    <text x="0" y="24" class="text-stat-num">10+</text>
+    <text x="0" y="44" class="text-stat-label">AI PROJECTS BUILT</text>
+    <text x="0" y="60" class="text-stat-sub">GenAI, RAG, Vision &amp; Predictive ML</text>
+  </g>
+
+  <!-- Vertical Divider 2 -->
+  <line x1="510" y1="236" x2="510" y2="304" class="divider" />
+
+  <!-- Col 3 -->
+  <g transform="translate(534, 240)">
+    <text x="0" y="24" class="text-stat-num">BNSP</text>
+    <text x="0" y="44" class="text-stat-label">CERTIFIED DATA SCIENTIST</text>
+    <text x="0" y="60" class="text-stat-sub">National professional certification</text>
+  </g>
+
+  <!-- Bottom Bar Divider -->
+  <line x1="36" y1="324" x2="814" y2="324" class="divider" />
+
+  <!-- Bottom Bar: Pillars & Domain -->
+  <g transform="translate(36, 350)">
+    <text x="0" y="0" class="text-footer">
+      Computer Vision &nbsp;&bull;&nbsp; Applied NLP &nbsp;&bull;&nbsp; RAG Systems &nbsp;&bull;&nbsp; Agentic AI
+    </text>
+  </g>
+
+  <g transform="translate(814, 350)">
+    <text x="0" y="0" text-anchor="end" class="text-domain">flxhrdyn.vercel.app</text>
+  </g>
+</svg>
