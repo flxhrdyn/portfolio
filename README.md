@@ -1,7 +1,7 @@
 <div align="center">
 
   <a href="https://flxhrdyn.vercel.app">
-    <img src="https://raw.githubusercontent.com/flxhrdyn/portfolio/main/public/readme-hero.svg" alt="Felix Windriyareksa Hardyan - AI Engineer & Data Scientist" width="100%" />
+    <img src="https://raw.githubusercontent.com/flxhrdyn/portfolio/main/public/readme-hero.png" alt="Felix Windriyareksa Hardyan - AI Engineer & Data Scientist" width="100%" />
   </a>
 
   <br /><br />
