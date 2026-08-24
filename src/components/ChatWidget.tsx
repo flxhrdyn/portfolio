@@ -109,12 +109,12 @@ function MentatTrace({ trace }: { trace: NonNullable<Message["trace"]> }) {
         className={`mentat-trace-pill ${expanded ? "active" : ""}`}
         onClick={() => setExpanded(!expanded)}
         aria-expanded={expanded}
-        title="View Mentat factual grounding pipeline metadata"
+        title="View factual execution trace"
       >
         <span className="mentat-trace-prefix">⌥</span>
         <span className="mentat-trace-label">Mentat Trace</span>
         <span className="mentat-trace-divider">/</span>
-        <span className="mentat-trace-metric">FlashRank {trace.rerankScore}</span>
+        <span className="mentat-trace-metric">{trace.model}</span>
         <svg
           className={`mentat-trace-arrow ${expanded ? "rotated" : ""}`}
           width="11"
@@ -137,24 +137,20 @@ function MentatTrace({ trace }: { trace: NonNullable<Message["trace"]> }) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="mentat-trace-details">
               <div className="mentat-trace-item">
-                <span className="trace-item-key">Pipeline:</span>
-                <span className="trace-item-val">{trace.pipeline}</span>
-              </div>
-              <div className="mentat-trace-item">
-                <span className="trace-item-key">Grounding:</span>
-                <span className="trace-item-val">Closed-Book ({trace.sources.join(", ")})</span>
-              </div>
-              <div className="mentat-trace-item">
-                <span className="trace-item-key">Inference:</span>
+                <span className="trace-item-key">Model:</span>
                 <span className="trace-item-val">{trace.model}</span>
               </div>
               <div className="mentat-trace-item">
-                <span className="trace-item-key">Integrity:</span>
-                <span className="trace-item-val status-verified">✓ 100% Factual Grounding Verified</span>
+                <span className="trace-item-key">Context:</span>
+                <span className="trace-item-val">Closed-Book ({trace.sources.join(", ")})</span>
+              </div>
+              <div className="mentat-trace-item">
+                <span className="trace-item-key">Method:</span>
+                <span className="trace-item-val">{trace.pipeline}</span>
               </div>
             </div>
           </m.div>
@@ -245,6 +241,7 @@ export default function ChatWidget() {
       if (state.isNetworkDone && state.currentText.length >= state.targetText.length) {
         // Stream completed smoothly!
         const computedSources = state.sources.length > 0 ? state.sources : determineSources(state.targetText);
+        const isChip = state.sources.length > 0;
         setMessages((prev) =>
           prev.map((msg) =>
             msg.id === replyId
@@ -253,9 +250,9 @@ export default function ChatWidget() {
                   text: state.targetText,
                   isStreaming: false,
                   trace: {
-                    model: "Groq GPT-OSS-120B / Qwen-27B",
-                    pipeline: "Hybrid Dense + BM42 Sparse + FlashRank",
-                    rerankScore: (0.92 + Math.random() * 0.06).toFixed(2),
+                    model: isChip ? "Pre-indexed Context" : "openai/gpt-oss-120b",
+                    pipeline: isChip ? "Direct Context Mapping" : "Agentic Tool Calling + Pre-filter",
+                    rerankScore: "",
                     sources: computedSources,
                   },
                 }
