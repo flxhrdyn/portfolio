@@ -832,8 +832,8 @@
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      height: 480px;
-      min-height: 440px;
+      height: 540px;
+      min-height: 540px;
       box-shadow: none;
       text-align: left;
     }
