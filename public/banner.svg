@@ -1,0 +1,96 @@
+<svg width="850" height="300" viewBox="0 0 850 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500;600;700;800&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap');
+
+      .banner-card { fill: #0a0b0d; stroke: #22262f; stroke-width: 1.5; rx: 14px; }
+      .text-title { font-family: -apple-system, BlinkMacSystemFont, 'Geist', 'Segoe UI', Roboto, sans-serif; font-size: 32px; font-weight: 800; fill: #ffffff; letter-spacing: -0.035em; }
+      .text-tagline { font-family: -apple-system, BlinkMacSystemFont, 'Geist', 'Segoe UI', Roboto, sans-serif; font-size: 14px; font-weight: 500; fill: #9ca3af; }
+      .text-eyebrow { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Geist Mono', monospace; font-size: 10.5px; font-weight: 700; fill: #6b7280; letter-spacing: 0.08em; text-transform: uppercase; }
+      .text-stat-num { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Geist Mono', monospace; font-size: 24px; font-weight: 800; fill: #ffffff; letter-spacing: -0.02em; }
+      .text-stat-label { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Geist Mono', monospace; font-size: 10px; font-weight: 700; fill: #9ca3af; text-transform: uppercase; letter-spacing: 0.06em; }
+      .text-domain { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Geist Mono', monospace; font-size: 12px; font-weight: 800; fill: #ffffff; }
+      .divider { stroke: #1f232c; stroke-width: 1; }
+    </style>
+
+    <pattern id="banner-dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="0.9" fill="#1b1f28" />
+    </pattern>
+  </defs>
+
+  <!-- Container Box -->
+  <rect x="1" y="1" width="848" height="298" rx="14" class="banner-card" />
+  <rect x="1" y="1" width="848" height="298" rx="14" fill="url(#banner-dots)" opacity="0.9" />
+
+  <!-- Top Row: Matrix Logo (Left) & Active Status (Right) -->
+  <g transform="translate(36, 24)">
+    <!-- Tensor Matrix Logo [::] flxhrdyn -->
+    <path d="M4 2H1V18H4" stroke="#ffffff" stroke-width="1.8" stroke-linecap="square" />
+    <path d="M16 2H19V18H16" stroke="#ffffff" stroke-width="1.8" stroke-linecap="square" />
+    <rect x="6" y="4" width="2" height="2" fill="#ffffff" />
+    <rect x="9.5" y="4" width="2" height="2" fill="#ffffff" opacity="0.35" />
+    <rect x="13" y="4" width="2" height="2" fill="#ffffff" />
+    <rect x="6" y="8.5" width="2" height="2" fill="#ffffff" opacity="0.35" />
+    <rect x="9.5" y="8.5" width="2" height="2" fill="#ffffff" />
+    <rect x="13" y="8.5" width="2" height="2" fill="#ffffff" opacity="0.35" />
+    <rect x="6" y="13" width="2" height="2" fill="#ffffff" />
+    <rect x="9.5" y="13" width="2" height="2" fill="#ffffff" opacity="0.35" />
+    <rect x="13" y="13" width="2" height="2" fill="#ffffff" />
+    <text x="26" y="15.5" font-family="-apple-system, BlinkMacSystemFont, 'Geist', 'Segoe UI', sans-serif" font-size="16.5" font-weight="800" fill="#ffffff" letter-spacing="-0.03em">flxhrdyn</text>
+  </g>
+
+  <!-- Right: Status Badge -->
+  <g transform="translate(664, 20)">
+    <rect width="150" height="26" rx="13" fill="#13161f" stroke="#242834" stroke-width="1"/>
+    <circle cx="15" cy="13" r="3.5" fill="#10b981"/>
+    <text x="26" y="16.5" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="9.5" font-weight="700" fill="#d1d5db" letter-spacing="0.05em">
+      ACTIVE // JAKARTA, ID
+    </text>
+  </g>
+
+  <!-- Middle Hero Content -->
+  <g transform="translate(36, 76)">
+    <!-- Eyebrow -->
+    <g transform="translate(0, 0)">
+      <circle cx="4" cy="-4" r="3" fill="#10b981" />
+      <text x="14" y="0" class="text-eyebrow">AI ENGINEER &amp; DATA SCIENTIST</text>
+    </g>
+
+    <!-- Main Name Title -->
+    <text x="0" y="38" class="text-title">Felix Windriyareksa Hardyan</text>
+
+    <!-- Tagline -->
+    <text x="0" y="66" class="text-tagline">Building production-grade AI systems, from Data Science to GenAI.</text>
+  </g>
+
+  <!-- Divider Line Above Telemetry -->
+  <line x1="36" y1="184" x2="814" y2="184" class="divider" />
+
+  <!-- Bottom Telemetry Strip (3 Metrics + Domain) -->
+  <!-- Col 1 -->
+  <g transform="translate(36, 206)">
+    <text x="0" y="24" class="text-stat-num">2+ Yrs</text>
+    <text x="0" y="42" class="text-stat-label">AI/ML Exp</text>
+  </g>
+
+  <line x1="200" y1="202" x2="200" y2="256" class="divider" />
+
+  <!-- Col 2 -->
+  <g transform="translate(225, 206)">
+    <text x="0" y="24" class="text-stat-num">10+</text>
+    <text x="0" y="42" class="text-stat-label">AI Projects Built</text>
+  </g>
+
+  <line x1="420" y1="202" x2="420" y2="256" class="divider" />
+
+  <!-- Col 3 -->
+  <g transform="translate(445, 206)">
+    <text x="0" y="24" class="text-stat-num">BNSP</text>
+    <text x="0" y="42" class="text-stat-label">Certified Data Scientist</text>
+  </g>
+
+  <!-- Far Right Domain Link -->
+  <g transform="translate(814, 230)">
+    <text x="0" y="0" text-anchor="end" class="text-domain">flxhrdyn.vercel.app</text>
+  </g>
+</svg>

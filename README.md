@@ -1,13 +1,8 @@
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/flxhrdyn/portfolio/main/public/svg/top-bar-dark.svg?v=2">
-  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/flxhrdyn/portfolio/main/public/svg/top-bar.svg?v=2">
-  <img src="https://raw.githubusercontent.com/flxhrdyn/portfolio/main/public/svg/top-bar-dark.svg?v=2" alt="Felix Windriyareksa Hardyan | AI Engineer & Data Scientist" width="100%">
-</picture>
-
-<br>
-
-<h4 align="center">AI Engineer & BNSP Certified Data Scientist</h4>
-<h1 align="center">Felix Windriyareksa Hardyan | AI Engineer</h1>
+<p align="center">
+  <a href="https://flxhrdyn.vercel.app">
+    <img src="https://raw.githubusercontent.com/flxhrdyn/portfolio/main/public/banner.svg" alt="Felix Windriyareksa Hardyan - AI Engineer & Data Scientist" width="100%" />
+  </a>
+</p>
 
 <p align="center">
   <a href="https://flxhrdyn.vercel.app">
@@ -36,5 +31,5 @@
 <br>
 
 <p align="center">
-  <img src="https://github-readme-streak-stats.herokuapp.com/?user=flxhrdyn&theme=algolia&background=0b0c0e&border=23262d&ring=10b981&fire=10b981&currStreakNum=ffffff&sideNums=ffffff&currStreakLabel=10b981&sideLabels=9ca3af" alt="Felix GitHub Streak" height="155" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=flxhrdyn&theme=algolia&background=0a0b0d&border=22262f&ring=10b981&fire=10b981&currStreakNum=ffffff&sideNums=ffffff&currStreakLabel=10b981&sideLabels=9ca3af" alt="Felix GitHub Streak" height="155" />
 </p>
