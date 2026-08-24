@@ -1,39 +1,20 @@
 <div align="center">
 
-```
-   __ _       _               _             
-  / _| |     | |             | |            
- | |_| |_  __| |__  _ __   __| |_   _ _ __  
- |  _| \ \/ /| '_ \| '__| / _` | | | | '_ \ 
- | | | |>  < | | | | |   | (_| | |_| | | | |
- |_| |_/_/\_\|_| |_|_|    \__,_|\__, |_| |_|
-                                 __/ |      
-                                |___/       
-```
+  <a href="https://flxhrdyn.vercel.app">
+    <img src="https://raw.githubusercontent.com/flxhrdyn/portfolio/main/public/readme-hero.svg" alt="Felix Windriyareksa Hardyan - AI Engineer & Data Scientist" width="100%" />
+  </a>
 
-# Felix Windriyareksa Hardyan
+  <br /><br />
 
-`● ACTIVE // JAKARTA, ID` &nbsp;&bull;&nbsp; `AI ENGINEER // 0.98`
-
-**Building production-grade AI systems, from Data Science to GenAI.**
-
-<br />
-
-[![Portfolio](https://img.shields.io/badge/Live_Portfolio-flxhrdyn.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://flxhrdyn.vercel.app)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/felixhrdyn)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:felixhardyanwork@gmail.com)
-
-<br />
-
-```
-┌───────────────────────────┬───────────────────────────┬───────────────────────────┐
-│          2+ Yrs           │            10+            │           BNSP            │
-│     AI/ML EXPERIENCE      │     AI PROJECTS BUILT     │  CERTIFIED DATA SCIENTIST │
-│  Industry & Research Lab  │ GenAI, RAG, Vision & ML   │   National Professional   │
-└───────────────────────────┴───────────────────────────┴───────────────────────────┘
-```
-
-`Computer Vision` &nbsp;&bull;&nbsp; `Applied NLP` &nbsp;&bull;&nbsp; `RAG Systems` &nbsp;&bull;&nbsp; `Agentic AI`
+  <a href="https://flxhrdyn.vercel.app">
+    <img src="https://img.shields.io/badge/Live_Portfolio-flxhrdyn.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Portfolio" />
+  </a>
+  <a href="https://linkedin.com/in/felixhrdyn">
+    <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn" />
+  </a>
+  <a href="mailto:felixhardyanwork@gmail.com">
+    <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
+  </a>
 
 </div>
 
@@ -43,13 +24,13 @@
 
 > **AI/ML Engineer & BNSP-Certified Data Scientist** based in Jakarta, Indonesia. Specialized in architecting and deploying end-to-end production AI workflows across **Generative AI & Autonomous Agent Workflows**, **Hybrid Dense+Sparse RAG Systems**, **LLM Fine-Tuning (PEFT/QLoRA)**, and **Computer Vision Architectures**.
 
-* **Systems Architecture:** Experimentation through to production containerization (Docker, FastAPI, Azure, Qdrant Vector DB).
-* **Technical Mentorship:** Mentored 200+ learners across Bangkit Academy and delivered AI training to international universities.
+* **Production Architectures:** Experience taking systems from experimentation through to production deployment (Docker, FastAPI, Azure, Qdrant Vector DB).
+* **Technical Mentorship:** Mentored 200+ learners across Bangkit Academy and delivered AI training to international academic institutions.
 * **Publications:** Co-authored AI reference book (ISBN 9286020764751) and published peer-reviewed deep learning research.
 
 ---
 
-### `02 // FEATURED_PRODUCTION_SYSTEMS`
+### `02 // FEATURED_AI_SYSTEMS`
 
 <table>
   <tr>
