@@ -1,17 +1,35 @@
+# Dependencies & Build
 node_modules/
 build/
 dist/
 coverage/
 .next/
+*.tsbuildinfo
+
+# Environment & Logs
 .DS_Store
 *.log
 .env*
 !.env.example
-*.tsbuildinfo
 bash.exe.stackdump
-.impeccable/
-docs/design-references/
+
+# Testing & Playwright
 test-results/
 playwright-report/
 blob-report/
 playwright/.cache/
+e2e/
+
+# Internal Design, Planning & Context Docs (Keep local, exclude from remote)
+docs/
+context/
+vercel_portfolio_redesign/
+.impeccable/
+CLAUDE.md
+DESIGN.md
+PRODUCT.md
+
+# Ignore all markdown files except READMEs
+*.md
+!README.md
+!**/README.md
