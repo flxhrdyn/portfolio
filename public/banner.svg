@@ -1,96 +1,224 @@
-<svg width="850" height="300" viewBox="0 0 850 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 750" width="100%" height="100%" fill="none">
   <defs>
     <style>
-      @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@500;600;700;800&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap');
-
-      .banner-card { fill: #0a0b0d; stroke: #22262f; stroke-width: 1.5; rx: 14px; }
-      .text-title { font-family: -apple-system, BlinkMacSystemFont, 'Geist', 'Segoe UI', Roboto, sans-serif; font-size: 32px; font-weight: 800; fill: #ffffff; letter-spacing: -0.035em; }
-      .text-tagline { font-family: -apple-system, BlinkMacSystemFont, 'Geist', 'Segoe UI', Roboto, sans-serif; font-size: 14px; font-weight: 500; fill: #9ca3af; }
-      .text-eyebrow { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Geist Mono', monospace; font-size: 10.5px; font-weight: 700; fill: #6b7280; letter-spacing: 0.08em; text-transform: uppercase; }
-      .text-stat-num { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Geist Mono', monospace; font-size: 24px; font-weight: 800; fill: #ffffff; letter-spacing: -0.02em; }
-      .text-stat-label { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Geist Mono', monospace; font-size: 10px; font-weight: 700; fill: #9ca3af; text-transform: uppercase; letter-spacing: 0.06em; }
-      .text-domain { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Geist Mono', monospace; font-size: 12px; font-weight: 800; fill: #ffffff; }
-      .divider { stroke: #1f232c; stroke-width: 1; }
+      .sans-bold { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Geist', sans-serif; font-weight: 800; }
+      .sans-medium { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Geist', sans-serif; font-weight: 500; }
+      .mono-bold { font-family: 'SF Mono', 'Geist Mono', 'Cascadia Code', 'Fira Code', monospace; font-weight: 700; }
+      .mono-reg { font-family: 'SF Mono', 'Geist Mono', 'Cascadia Code', 'Fira Code', monospace; font-weight: 500; }
+      .chip-bg { fill: #11141c; stroke: #222632; stroke-width: 1; rx: 6px; }
+      .chip-text { font-family: 'SF Mono', 'Geist Mono', monospace; font-size: 11px; font-weight: 600; fill: #ffffff; }
+      .subtle-line { stroke: #222632; stroke-width: 1; }
     </style>
-
-    <pattern id="banner-dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
-      <circle cx="2" cy="2" r="0.9" fill="#1b1f28" />
-    </pattern>
   </defs>
 
-  <!-- Container Box -->
-  <rect x="1" y="1" width="848" height="298" rx="14" class="banner-card" />
-  <rect x="1" y="1" width="848" height="298" rx="14" fill="url(#banner-dots)" opacity="0.9" />
-
-  <!-- Top Row: Matrix Logo (Left) & Active Status (Right) -->
-  <g transform="translate(36, 24)">
-    <!-- Tensor Matrix Logo [::] flxhrdyn -->
-    <path d="M4 2H1V18H4" stroke="#ffffff" stroke-width="1.8" stroke-linecap="square" />
-    <path d="M16 2H19V18H16" stroke="#ffffff" stroke-width="1.8" stroke-linecap="square" />
-    <rect x="6" y="4" width="2" height="2" fill="#ffffff" />
-    <rect x="9.5" y="4" width="2" height="2" fill="#ffffff" opacity="0.35" />
-    <rect x="13" y="4" width="2" height="2" fill="#ffffff" />
-    <rect x="6" y="8.5" width="2" height="2" fill="#ffffff" opacity="0.35" />
-    <rect x="9.5" y="8.5" width="2" height="2" fill="#ffffff" />
-    <rect x="13" y="8.5" width="2" height="2" fill="#ffffff" opacity="0.35" />
-    <rect x="6" y="13" width="2" height="2" fill="#ffffff" />
-    <rect x="9.5" y="13" width="2" height="2" fill="#ffffff" opacity="0.35" />
-    <rect x="13" y="13" width="2" height="2" fill="#ffffff" />
-    <text x="26" y="15.5" font-family="-apple-system, BlinkMacSystemFont, 'Geist', 'Segoe UI', sans-serif" font-size="16.5" font-weight="800" fill="#ffffff" letter-spacing="-0.03em">flxhrdyn</text>
-  </g>
-
-  <!-- Right: Status Badge -->
-  <g transform="translate(664, 20)">
-    <rect width="150" height="26" rx="13" fill="#13161f" stroke="#242834" stroke-width="1"/>
-    <circle cx="15" cy="13" r="3.5" fill="#10b981"/>
-    <text x="26" y="16.5" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="9.5" font-weight="700" fill="#d1d5db" letter-spacing="0.05em">
-      ACTIVE // JAKARTA, ID
-    </text>
-  </g>
-
-  <!-- Middle Hero Content -->
-  <g transform="translate(36, 76)">
-    <!-- Eyebrow -->
+  <!-- 1. TOP HEADER -->
+  <g transform="translate(0, 20)">
+    <!-- Matrix Logo [::] flxhrdyn -->
     <g transform="translate(0, 0)">
-      <circle cx="4" cy="-4" r="3" fill="#10b981" />
-      <text x="14" y="0" class="text-eyebrow">AI ENGINEER &amp; DATA SCIENTIST</text>
+      <path d="M4 2H1V18H4" stroke="#ffffff" stroke-width="1.8" stroke-linecap="square" />
+      <path d="M16 2H19V18H16" stroke="#ffffff" stroke-width="1.8" stroke-linecap="square" />
+      <rect x="6" y="4" width="2" height="2" fill="#ffffff" />
+      <rect x="9.5" y="4" width="2" height="2" fill="#ffffff" opacity="0.35" />
+      <rect x="13" y="4" width="2" height="2" fill="#ffffff" />
+      <rect x="6" y="8.5" width="2" height="2" fill="#ffffff" opacity="0.35" />
+      <rect x="9.5" y="8.5" width="2" height="2" fill="#ffffff" />
+      <rect x="13" y="8.5" width="2" height="2" fill="#ffffff" opacity="0.35" />
+      <rect x="6" y="13" width="2" height="2" fill="#ffffff" />
+      <rect x="9.5" y="13" width="2" height="2" fill="#ffffff" opacity="0.35" />
+      <rect x="13" y="13" width="2" height="2" fill="#ffffff" />
+      <text x="28" y="16" fill="#ffffff" font-size="18" class="sans-bold" letter-spacing="-0.035em">flxhrdyn</text>
     </g>
 
-    <!-- Main Name Title -->
-    <text x="0" y="38" class="text-title">Felix Windriyareksa Hardyan</text>
-
-    <!-- Tagline -->
-    <text x="0" y="66" class="text-tagline">Building production-grade AI systems, from Data Science to GenAI.</text>
+    <!-- Active Status Badge -->
+    <g transform="translate(680, -4)">
+      <rect x="0" y="0" width="170" height="26" rx="13" fill="#11141c" stroke="#222632" stroke-width="1" />
+      <circle cx="16" cy="13" r="3" fill="#ffffff" />
+      <text x="28" y="17" fill="#d1d5db" font-size="9.5" class="mono-bold" letter-spacing="0.06em">ACTIVE // JAKARTA, ID</text>
+    </g>
   </g>
 
-  <!-- Divider Line Above Telemetry -->
-  <line x1="36" y1="184" x2="814" y2="184" class="divider" />
-
-  <!-- Bottom Telemetry Strip (3 Metrics + Domain) -->
-  <!-- Col 1 -->
-  <g transform="translate(36, 206)">
-    <text x="0" y="24" class="text-stat-num">2+ Yrs</text>
-    <text x="0" y="42" class="text-stat-label">AI/ML Exp</text>
+  <!-- 2. HERO CONTENT -->
+  <g transform="translate(0, 75)">
+    <circle cx="3" cy="2" r="2.5" fill="#6b7280" />
+    <text x="12" y="6" fill="#6b7280" font-size="10" class="mono-bold" letter-spacing="0.08em">AI ENGINEER &amp; DATA SCIENTIST</text>
+    
+    <text x="0" y="44" fill="#ffffff" font-size="34" class="sans-bold" letter-spacing="-0.04em">Felix Windriyareksa Hardyan</text>
+    <text x="0" y="70" fill="#9ca3af" font-size="14.5" class="sans-medium" letter-spacing="-0.01em">Building production-grade AI systems, from Data Science to GenAI.</text>
   </g>
 
-  <line x1="200" y1="202" x2="200" y2="256" class="divider" />
+  <!-- 3. TELEMETRY STRIP -->
+  <g transform="translate(0, 175)">
+    <line x1="0" y1="0" x2="850" y2="0" class="subtle-line" />
+    
+    <!-- 2+ Yrs -->
+    <g transform="translate(0, 16)">
+      <text x="0" y="24" fill="#ffffff" font-size="26" class="mono-bold">2+ Yrs</text>
+      <text x="0" y="42" fill="#9ca3af" font-size="9.5" class="mono-bold" letter-spacing="0.06em">AI/ML EXP</text>
+    </g>
 
-  <!-- Col 2 -->
-  <g transform="translate(225, 206)">
-    <text x="0" y="24" class="text-stat-num">10+</text>
-    <text x="0" y="42" class="text-stat-label">AI Projects Built</text>
+    <line x1="125" y1="16" x2="125" y2="58" class="subtle-line" />
+
+    <!-- 10+ -->
+    <g transform="translate(155, 16)">
+      <text x="0" y="24" fill="#ffffff" font-size="26" class="mono-bold">10+</text>
+      <text x="0" y="42" fill="#9ca3af" font-size="9.5" class="mono-bold" letter-spacing="0.06em">AI PROJECTS BUILT</text>
+    </g>
+
+    <line x1="330" y1="16" x2="330" y2="58" class="subtle-line" />
+
+    <!-- BNSP -->
+    <g transform="translate(360, 16)">
+      <text x="0" y="24" fill="#ffffff" font-size="26" class="mono-bold">BNSP</text>
+      <text x="0" y="42" fill="#9ca3af" font-size="9.5" class="mono-bold" letter-spacing="0.06em">CERTIFIED DATA SCIENTIST</text>
+    </g>
+
+    <!-- Domain -->
+    <text x="850" y="44" text-anchor="end" fill="#ffffff" font-size="13" class="mono-bold" letter-spacing="-0.01em">flxhrdyn.vercel.app</text>
+
+    <line x1="0" y1="72" x2="850" y2="72" class="subtle-line" />
   </g>
 
-  <line x1="420" y1="202" x2="420" y2="256" class="divider" />
+  <!-- 4. SECTION 01: ABOUT ME -->
+  <g transform="translate(0, 280)">
+    <!-- Header -->
+    <circle cx="3" cy="2" r="3" fill="#ffffff" />
+    <text x="14" y="6" fill="#d1d5db" font-size="11" class="mono-bold" letter-spacing="0.08em">01 // ABOUT ME</text>
+    <text x="850" y="6" text-anchor="end" fill="#6b7280" font-size="10" class="mono-bold">SYS_PROFILE.MD</text>
 
-  <!-- Col 3 -->
-  <g transform="translate(445, 206)">
-    <text x="0" y="24" class="text-stat-num">BNSP</text>
-    <text x="0" y="42" class="text-stat-label">Certified Data Scientist</text>
+    <!-- Text -->
+    <g transform="translate(0, 22)">
+      <text x="0" y="14" fill="#9ca3af" font-size="13.5" class="sans-medium" letter-spacing="-0.01em">
+        I'm an <tspan fill="#ffffff" font-weight="700">AI Engineer</tspan> focused on architecting production-ready Machine Learning and Deep Learning systems.
+      </text>
+      <text x="0" y="36" fill="#9ca3af" font-size="13.5" class="sans-medium" letter-spacing="-0.01em">
+        My experience spans building <tspan fill="#ffffff" font-weight="700">Agentic AI workflows, Advanced RAG pipelines</tspan>, fine-tuning LLMs (PEFT/QLoRA),
+      </text>
+      <text x="0" y="58" fill="#9ca3af" font-size="13.5" class="sans-medium" letter-spacing="-0.01em">
+        and real-time Computer Vision models using YOLO. I bridge complex algorithms with real-world business requirements,
+      </text>
+      <text x="0" y="80" fill="#9ca3af" font-size="13.5" class="sans-medium" letter-spacing="-0.01em">
+        from model experimentation through to production deployment on Docker and Azure.
+      </text>
+      <text x="0" y="112" fill="#9ca3af" font-size="13.5" class="sans-medium" letter-spacing="-0.01em">
+        Beyond building systems, I've mentored <tspan fill="#ffffff" font-weight="700">100+ learners</tspan> through end-to-end Data Science programs and delivered
+      </text>
+      <text x="0" y="134" fill="#9ca3af" font-size="13.5" class="sans-medium" letter-spacing="-0.01em">
+        technical AI training to an international academic audience.
+      </text>
+    </g>
+
+    <!-- Exploring tags -->
+    <g transform="translate(0, 185)">
+      <text x="0" y="14" fill="#6b7280" font-size="10" class="mono-bold" letter-spacing="0.05em">CURRENTLY EXPLORING:</text>
+      <g transform="translate(150, 0)">
+        <rect x="0" y="0" width="84" height="22" class="chip-bg" />
+        <text x="10" y="15" fill="#d1d5db" font-size="10" class="mono-bold">Agentic AI</text>
+
+        <rect x="92" y="0" width="102" height="22" class="chip-bg" />
+        <text x="102" y="15" fill="#d1d5db" font-size="10" class="mono-bold">Advanced RAG</text>
+
+        <rect x="202" y="0" width="105" height="22" class="chip-bg" />
+        <text x="212" y="15" fill="#d1d5db" font-size="10" class="mono-bold">Generative AI</text>
+
+        <rect x="315" y="0" width="115" height="22" class="chip-bg" />
+        <text x="325" y="15" fill="#d1d5db" font-size="10" class="mono-bold">LLM Fine-Tuning</text>
+      </g>
+    </g>
   </g>
 
-  <!-- Far Right Domain Link -->
-  <g transform="translate(814, 230)">
-    <text x="0" y="0" text-anchor="end" class="text-domain">flxhrdyn.vercel.app</text>
+  <!-- 5. SECTION 02: TECH STACK & CAPABILITIES -->
+  <g transform="translate(0, 520)">
+    <line x1="0" y1="0" x2="850" y2="0" class="subtle-line" />
+    
+    <!-- Header -->
+    <g transform="translate(0, 20)">
+      <circle cx="3" cy="2" r="3" fill="#ffffff" />
+      <text x="14" y="6" fill="#d1d5db" font-size="11" class="mono-bold" letter-spacing="0.08em">02 // TECH STACK &amp; CAPABILITIES</text>
+      <text x="850" y="6" text-anchor="end" fill="#6b7280" font-size="10" class="mono-bold">MATRIX_SKILLS.SYS</text>
+    </g>
+
+    <!-- Category 1: AI & ML -->
+    <g transform="translate(0, 48)">
+      <text x="0" y="18" fill="#6b7280" font-size="9.5" class="mono-bold" letter-spacing="0.05em">AI &amp; MACHINE LEARNING</text>
+      <g transform="translate(150, 0)">
+        <!-- PyTorch -->
+        <rect x="0" y="0" width="82" height="26" class="chip-bg" />
+        <text x="12" y="17" class="chip-text">PyTorch</text>
+        <!-- TensorFlow -->
+        <rect x="90" y="0" width="102" height="26" class="chip-bg" />
+        <text x="102" y="17" class="chip-text">TensorFlow</text>
+        <!-- Keras -->
+        <rect x="200" y="0" width="70" height="26" class="chip-bg" />
+        <text x="212" y="17" class="chip-text">Keras</text>
+        <!-- Scikit-Learn -->
+        <rect x="278" y="0" width="106" height="26" class="chip-bg" />
+        <text x="290" y="17" class="chip-text">Scikit-Learn</text>
+        <!-- OpenCV -->
+        <rect x="392" y="0" width="80" height="26" class="chip-bg" />
+        <text x="404" y="17" class="chip-text">OpenCV</text>
+        <!-- YOLO -->
+        <rect x="480" y="0" width="128" height="26" class="chip-bg" />
+        <text x="492" y="17" class="chip-text">YOLO / Ultralytics</text>
+      </g>
+      <g transform="translate(150, 32)">
+        <!-- LangChain -->
+        <rect x="0" y="0" width="94" height="26" class="chip-bg" />
+        <text x="12" y="17" class="chip-text">LangChain</text>
+        <!-- Hugging Face -->
+        <rect x="102" y="0" width="112" height="26" class="chip-bg" />
+        <text x="114" y="17" class="chip-text">Hugging Face</text>
+        <!-- MediaPipe -->
+        <rect x="222" y="0" width="94" height="26" class="chip-bg" />
+        <text x="234" y="17" class="chip-text">MediaPipe</text>
+      </g>
+    </g>
+
+    <!-- Category 2: Languages & Data -->
+    <g transform="translate(0, 126)">
+      <text x="0" y="18" fill="#6b7280" font-size="9.5" class="mono-bold" letter-spacing="0.05em">LANGUAGES &amp; DATA</text>
+      <g transform="translate(150, 0)">
+        <rect x="0" y="0" width="76" height="26" class="chip-bg" />
+        <text x="12" y="17" class="chip-text">Python</text>
+
+        <rect x="84" y="0" width="138" height="26" class="chip-bg" />
+        <text x="96" y="17" class="chip-text">SQL / PostgreSQL</text>
+
+        <rect x="230" y="0" width="98" height="26" class="chip-bg" />
+        <text x="242" y="17" class="chip-text">JavaScript</text>
+
+        <rect x="336" y="0" width="78" height="26" class="chip-bg" />
+        <text x="348" y="17" class="chip-text">Pandas</text>
+
+        <rect x="422" y="0" width="76" height="26" class="chip-bg" />
+        <text x="434" y="17" class="chip-text">NumPy</text>
+
+        <rect x="506" y="0" width="130" height="26" class="chip-bg" />
+        <text x="518" y="17" class="chip-text">Qdrant Vector DB</text>
+      </g>
+    </g>
+
+    <!-- Category 3: MLOps & Deployment -->
+    <g transform="translate(0, 172)">
+      <text x="0" y="18" fill="#6b7280" font-size="9.5" class="mono-bold" letter-spacing="0.05em">MLOPS &amp; DEPLOYMENT</text>
+      <g transform="translate(150, 0)">
+        <rect x="0" y="0" width="80" height="26" class="chip-bg" />
+        <text x="12" y="17" class="chip-text">FastAPI</text>
+
+        <rect x="88" y="0" width="76" height="26" class="chip-bg" />
+        <text x="100" y="17" class="chip-text">Docker</text>
+
+        <rect x="172" y="0" width="128" height="26" class="chip-bg" />
+        <text x="184" y="17" class="chip-text">Microsoft Azure</text>
+
+        <rect x="308" y="0" width="90" height="26" class="chip-bg" />
+        <text x="320" y="17" class="chip-text">Streamlit</text>
+
+        <rect x="406" y="0" width="58" height="26" class="chip-bg" />
+        <text x="418" y="17" class="chip-text">Git</text>
+
+        <rect x="472" y="0" width="76" height="26" class="chip-bg" />
+        <text x="484" y="17" class="chip-text">GitHub</text>
+      </g>
+    </g>
   </g>
 </svg>
