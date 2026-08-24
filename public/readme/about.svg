@@ -1,0 +1,57 @@
+<svg width="850" height="260" viewBox="0 0 850 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600;700;800&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap');
+
+      .bg-card { fill: #0b0c0e; stroke: #23262d; stroke-width: 1.5; rx: 12px; }
+      .header-bar { fill: #12141a; stroke: #23262d; stroke-width: 1; }
+      .title { font-family: 'Geist', sans-serif; font-size: 16px; font-weight: 700; fill: #ffffff; letter-spacing: -0.02em; }
+      .tag { font-family: 'Geist Mono', monospace; font-size: 11px; font-weight: 700; fill: #9ca3af; text-transform: uppercase; letter-spacing: 0.06em; }
+      .body { font-family: 'Geist', sans-serif; font-size: 13.5px; font-weight: 400; fill: #d1d5db; line-height: 1.55; }
+      .highlight { fill: #ffffff; font-weight: 600; }
+      .dot-green { fill: #10b981; }
+      .badge-bg { fill: #181b22; stroke: #2d323c; stroke-width: 1; rx: 6px; }
+    </style>
+    <pattern id="about-dots" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="0.8" fill="#1e222b" />
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect x="2" y="2" width="846" height="256" rx="12" class="bg-card" />
+  <rect x="2" y="2" width="846" height="256" rx="12" fill="url(#about-dots)" opacity="0.8" />
+
+  <!-- Window Header -->
+  <path d="M 2 14 Q 2 2 14 2 L 836 2 Q 848 2 848 14 L 848 38 L 2 38 Z" class="header-bar" />
+  <circle cx="20" cy="20" r="4.5" fill="#ef4444" />
+  <circle cx="34" cy="20" r="4.5" fill="#eab308" />
+  <circle cx="48" cy="20" r="4.5" fill="#22c55e" />
+  <text x="68" y="24" font-family="'Geist Mono', monospace" font-size="11" font-weight="600" fill="#9ca3af">
+    SECTION // <tspan fill="#ffffff">EXECUTIVE_SUMMARY.SYS</tspan>
+  </text>
+
+  <!-- Content -->
+  <g transform="translate(32, 66)">
+    <text x="0" y="0" class="tag">AI ENGINEER &amp; MACHINE LEARNING PRACTITIONER</text>
+    
+    <text x="0" y="28" class="body">
+      I architect and deploy <tspan class="highlight">production-grade AI and Machine Learning systems</tspan>, bridging cutting-edge
+    </text>
+    <text x="0" y="48" class="body">
+      models with enterprise workflows. Specializing in <tspan class="highlight">Agentic AI orchestration, Hybrid Dense+Sparse RAG</tspan>,
+    </text>
+    <text x="0" y="68" class="body">
+      <tspan class="highlight">LLM Fine-Tuning (PEFT/QLoRA)</tspan>, and real-time Computer Vision architectures.
+    </text>
+
+    <!-- Mentorship / Impact Highlight Row -->
+    <g transform="translate(0, 102)">
+      <rect x="0" y="0" width="786" height="62" rx="8" class="badge-bg" />
+      <circle cx="20" cy="31" r="3.5" class="dot-green" />
+      <text x="34" y="26" class="title">Engineering Impact &amp; Technical Mentorship</text>
+      <text x="34" y="46" font-family="'Geist', sans-serif" font-size="12" fill="#9ca3af">
+        Mentored 200+ learners across Bangkit Academy &amp; international universities &bull; Co-authored AI reference book (ISBN).
+      </text>
+    </g>
+  </g>
+</svg>

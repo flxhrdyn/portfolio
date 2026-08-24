@@ -1,0 +1,28 @@
+<svg width="850" height="150" viewBox="0 0 850 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600;700;800&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap');
+
+      .bg-card { fill: #0b0c0e; stroke: #23262d; stroke-width: 1.5; rx: 12px; }
+      .title { font-family: 'Geist', sans-serif; font-size: 17px; font-weight: 800; fill: #ffffff; letter-spacing: -0.02em; }
+      .desc { font-family: 'Geist', sans-serif; font-size: 13px; font-weight: 400; fill: #9ca3af; }
+      .email { font-family: 'Geist Mono', monospace; font-size: 13px; font-weight: 700; fill: #ffffff; }
+      .dot-green { fill: #10b981; }
+      .btn { fill: #181b22; stroke: #2d323c; stroke-width: 1; rx: 6px; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="2" y="2" width="846" height="146" rx="12" class="bg-card" />
+
+  <g transform="translate(32, 42)">
+    <circle cx="6" cy="6" r="4" class="dot-green" />
+    <text x="20" y="10" class="title">OPEN TO AI ENGINEER &amp; DATA SCIENTIST OPPORTUNITIES</text>
+    <text x="20" y="32" class="desc">
+      Available for production AI system architecture, RAG pipelines, and enterprise engineering roles.
+    </text>
+    <text x="20" y="58" class="email">
+      felixhardyanwork@gmail.com &nbsp;&bull;&nbsp; Jakarta, ID &nbsp;&bull;&nbsp; flxhrdyn.vercel.app
+    </text>
+  </g>
+</svg>

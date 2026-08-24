@@ -1,0 +1,104 @@
+<svg width="850" height="420" viewBox="0 0 850 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;600;700;800&amp;family=Geist:wght@400;500;600;700;800&amp;display=swap');
+
+      .bg-card { fill: #0b0c0e; stroke: #23262d; stroke-width: 1.5; rx: 12px; }
+      .header-bar { fill: #12141a; stroke: #23262d; stroke-width: 1; }
+      .proj-box { fill: #12141a; stroke: #23262d; stroke-width: 1; rx: 8px; }
+      .proj-title { font-family: 'Geist', sans-serif; font-size: 16px; font-weight: 800; fill: #ffffff; letter-spacing: -0.02em; }
+      .proj-type { font-family: 'Geist Mono', monospace; font-size: 10.5px; font-weight: 700; fill: #10b981; letter-spacing: 0.05em; text-transform: uppercase; }
+      .proj-desc { font-family: 'Geist', sans-serif; font-size: 12px; font-weight: 400; fill: #9ca3af; line-height: 1.45; }
+      .proj-tag { font-family: 'Geist Mono', monospace; font-size: 10px; font-weight: 600; fill: #d1d5db; }
+      .tag-chip { fill: #1a1d24; stroke: #2d323c; stroke-width: 1; rx: 4px; }
+      .dot-green { fill: #10b981; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect x="2" y="2" width="846" height="416" rx="12" class="bg-card" />
+
+  <!-- Window Header -->
+  <path d="M 2 14 Q 2 2 14 2 L 836 2 Q 848 2 848 14 L 848 38 L 2 38 Z" class="header-bar" />
+  <circle cx="20" cy="20" r="4.5" fill="#ef4444" />
+  <circle cx="34" cy="20" r="4.5" fill="#eab308" />
+  <circle cx="48" cy="20" r="4.5" fill="#22c55e" />
+  <text x="68" y="24" font-family="'Geist Mono', monospace" font-size="11" font-weight="600" fill="#9ca3af">
+    SECTION // <tspan fill="#ffffff">FEATURED_SYSTEMS.AI</tspan>
+  </text>
+
+  <!-- Project 1: InvenioAI -->
+  <g transform="translate(32, 56)">
+    <rect width="786" height="106" class="proj-box" />
+    <text x="24" y="28" class="proj-type">HYBRID RAG &bull; REASONING SYSTEM</text>
+    <text x="24" y="52" class="proj-title">InvenioAI</text>
+    <text x="24" y="74" class="proj-desc">
+      Advanced RAG system with Dense (MMR) + Sparse (BM42) hybrid search, RAG Fusion multi-query, FlashRank reranking &amp; 4-step CoT.
+    </text>
+    
+    <!-- Tech Chips -->
+    <g transform="translate(24, 82)">
+      <rect width="68" height="18" class="tag-chip" />
+      <text x="34" y="13" text-anchor="middle" class="proj-tag">FastAPI</text>
+      
+      <rect x="74" width="76" height="18" class="tag-chip" />
+      <text x="112" y="13" text-anchor="middle" class="proj-tag">Qdrant DB</text>
+
+      <rect x="156" width="72" height="18" class="tag-chip" />
+      <text x="192" y="13" text-anchor="middle" class="proj-tag">Docker</text>
+
+      <rect x="234" width="84" height="18" class="tag-chip" />
+      <text x="276" y="13" text-anchor="middle" class="proj-tag">Streamlit</text>
+    </g>
+  </g>
+
+  <!-- Project 2: Omnius -->
+  <g transform="translate(32, 174)">
+    <rect width="786" height="106" class="proj-box" />
+    <text x="24" y="28" class="proj-type">AGENTIC AI &bull; MEDIA INTELLIGENCE</text>
+    <text x="24" y="52" class="proj-title">Omnius</text>
+    <text x="24" y="74" class="proj-desc">
+      Automated media intelligence applying Entman (1993) framing theory with autonomous Pydantic AI research agents and SSE streaming.
+    </text>
+    
+    <!-- Tech Chips -->
+    <g transform="translate(24, 82)">
+      <rect width="90" height="18" class="tag-chip" />
+      <text x="45" y="13" text-anchor="middle" class="proj-tag">Pydantic AI</text>
+      
+      <rect x="96" width="80" height="18" class="tag-chip" />
+      <text x="136" y="13" text-anchor="middle" class="proj-tag">Groq LLMs</text>
+
+      <rect x="182" width="72" height="18" class="tag-chip" />
+      <text x="218" y="13" text-anchor="middle" class="proj-tag">React 19</text>
+
+      <rect x="260" width="88" height="18" class="tag-chip" />
+      <text x="304" y="13" text-anchor="middle" class="proj-tag">MS Azure</text>
+    </g>
+  </g>
+
+  <!-- Project 3: LUCIAN -->
+  <g transform="translate(32, 292)">
+    <rect width="786" height="106" class="proj-box" />
+    <text x="24" y="28" class="proj-type">COMPUTER VISION &bull; HISTOPATHOLOGY</text>
+    <text x="24" y="52" class="proj-title">LUCIAN</text>
+    <text x="24" y="74" class="proj-desc">
+      Lung cancer histopathology classification with fine-tuned ConvNeXt backbone (93.67% accuracy) &amp; Grad-CAM explainability heatmaps.
+    </text>
+    
+    <!-- Tech Chips -->
+    <g transform="translate(24, 82)">
+      <rect width="88" height="18" class="tag-chip" />
+      <text x="44" y="13" text-anchor="middle" class="proj-tag">TensorFlow</text>
+      
+      <rect x="94" width="74" height="18" class="tag-chip" />
+      <text x="131" y="13" text-anchor="middle" class="proj-tag">ConvNeXt</text>
+
+      <rect x="174" width="80" height="18" class="tag-chip" />
+      <text x="214" y="13" text-anchor="middle" class="proj-tag">Grad-CAM</text>
+
+      <rect x="260" width="76" height="18" class="tag-chip" />
+      <text x="298" y="13" text-anchor="middle" class="proj-tag">Python</text>
+    </g>
+  </g>
+</svg>

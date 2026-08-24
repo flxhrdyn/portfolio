@@ -1,10 +1,13 @@
 <div align="center">
+
+  <!-- Dark Mode Header Card -->
   <a href="https://flxhrdyn.vercel.app">
-    <img src="https://flxhrdyn.vercel.app/github-header.svg" alt="Felix Windriyareksa Hardyan - AI Engineer & Data Scientist" width="100%" />
+    <img src="https://flxhrdyn.vercel.app/readme/header.svg" alt="Felix Windriyareksa Hardyan - AI Engineer & Data Scientist" width="100%" />
   </a>
 
   <br /><br />
 
+  <!-- Action Badges -->
   <a href="https://flxhrdyn.vercel.app">
     <img src="https://img.shields.io/badge/Live_Portfolio-flxhrdyn.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Live Portfolio" />
   </a>
@@ -14,79 +17,34 @@
   <a href="mailto:felixhardyanwork@gmail.com">
     <img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white" alt="Email" />
   </a>
-</div>
 
----
+  <br /><br />
 
-### Executive Summary
+  <!-- Executive Summary Card -->
+  <img src="https://flxhrdyn.vercel.app/readme/about.svg" alt="Executive Summary" width="100%" />
 
-AI/ML Engineer and BNSP-Certified Data Scientist based in Jakarta, Indonesia. Specialized in architecting production-ready AI systems across **Generative AI & Agentic Workflows**, **Advanced RAG Pipelines**, **LLM Fine-Tuning (PEFT/QLoRA)**, and **Computer Vision (Real-Time Detection & Histopathology Diagnostics)**.
+  <br /><br />
 
-- **Production Systems:** InvenioAI (Hybrid Dense+Sparse RAG), Omnius (Autonomous Framing Intelligence), LUCIAN (Histopathology Diagnostics with Grad-CAM).
-- **Core Stacks:** Python, PyTorch, TensorFlow, TypeScript, Next.js, FastAPI, Docker, Microsoft Azure, Qdrant Vector DB.
-- **Mentorship:** Mentored 200+ learners across Bangkit Academy and international academic institutions.
+  <!-- Featured Projects Card -->
+  <a href="https://flxhrdyn.vercel.app/portfolio">
+    <img src="https://flxhrdyn.vercel.app/readme/projects.svg" alt="Featured AI Systems" width="100%" />
+  </a>
 
----
+  <br /><br />
 
-### Featured AI Systems
+  <!-- Capabilities Matrix Card -->
+  <img src="https://flxhrdyn.vercel.app/readme/skills.svg" alt="Capabilities & Tech Stack" width="100%" />
 
-| Project | Core Stack | Architecture & Key Deliverables | Repository / Live |
-| :--- | :--- | :--- | :--- |
-| **InvenioAI** | Python, FastAPI, Qdrant, Streamlit | Hybrid Dense (MMR) + Sparse (BM42) RAG, Multi-Query Fusion, FlashRank Cross-Encoder reranking, 4-step Chain-of-Thought reasoning over dense PDFs. | [GitHub](https://github.com/flxhrdyn/InvenioAI) |
-| **Omnius** | Pydantic AI, Groq LLMs, React 19, D3.js | Automated media intelligence applying Entman's (1993) framing theory via autonomous agents, real-time SSE streaming, deployed on Azure App Service. | [GitHub](https://github.com/flxhrdyn/Omnius) |
-| **LUCIAN** | TensorFlow, Keras, ConvNeXt, Grad-CAM | Lung cancer histopathology classification on LC25000 dataset (93.67% test accuracy) with cellular-level Grad-CAM explainability heatmaps. | [GitHub](https://github.com/flxhrdyn/LUCIAN) |
+  <br /><br />
 
----
+  <!-- GitHub Activity Stats (Dark Algolia Theme) -->
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=flxhrdyn&theme=algolia&background=0b0c0e&border=23262d&ring=10b981&fire=10b981&currStreakNum=ffffff&sideNums=ffffff&currStreakLabel=10b981&sideLabels=9ca3af" alt="Felix GitHub Streak" height="175" />
 
-### Technical Capabilities & Tooling
+  <br /><br />
 
-<div align="center">
-
-#### AI / Machine Learning & RAG
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
-![TensorFlow](https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white)
-![Scikit Learn](https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
-![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
-![OpenCV](https://img.shields.io/badge/OpenCV-5C3EE8?style=for-the-badge&logo=opencv&logoColor=white)
-![HuggingFace](https://img.shields.io/badge/HuggingFace-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)
-![Qdrant](https://img.shields.io/badge/Qdrant-DC244C?style=for-the-badge&logo=qdrant&logoColor=white)
-
-#### Backend, Cloud & MLOps
-![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
-![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
-![Microsoft Azure](https://img.shields.io/badge/Azure-0078D4?style=for-the-badge&logo=microsoftazure&logoColor=white)
-![Next.js](https://img.shields.io/badge/Next.js_16-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
-![SQL](https://img.shields.io/badge/SQL-003B57?style=for-the-badge&logo=postgresql&logoColor=white)
-![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
-
-</div>
-
----
-
-### Local Development & Setup
-
-```bash
-# Clone repository
-git clone https://github.com/flxhrdyn/portfolio.git
-cd portfolio
-
-# Install dependencies
-npm install
-
-# Run local development server
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) to view the live portfolio locally.
-
----
-
-<div align="center">
-
-📩 **Open to AI Engineer & Data Scientist Opportunities**
-
-[felixhardyanwork@gmail.com](mailto:felixhardyanwork@gmail.com) &bull; [LinkedIn Profile](https://linkedin.com/in/felixhrdyn) &bull; [flxhrdyn.vercel.app](https://flxhrdyn.vercel.app)
+  <!-- Footer Contact Card -->
+  <a href="mailto:felixhardyanwork@gmail.com">
+    <img src="https://flxhrdyn.vercel.app/readme/footer.svg" alt="Contact & Opportunities" width="100%" />
+  </a>
 
 </div>
