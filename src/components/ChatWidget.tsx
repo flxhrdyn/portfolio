@@ -172,6 +172,7 @@ export default function ChatWidget() {
   ]);
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
+  const [isStreaming, setIsStreaming] = useState(false);
   const [statusIndex, setStatusIndex] = useState(0);
   
   const bodyRef = useRef<HTMLDivElement>(null);
@@ -215,6 +216,7 @@ export default function ChatWidget() {
 
   // Smooth RAF Token Dispatcher Loop with Natural Reading Cadence
   const startSmoothStreamLoop = useCallback((replyId: string, initialSources: string[]) => {
+    setIsStreaming(true);
     const state = streamStateRef.current;
     state.replyId = replyId;
     state.sources = initialSources;
@@ -274,6 +276,7 @@ export default function ChatWidget() {
           )
         );
         state.rafId = null;
+        setIsStreaming(false);
         return;
       }
 
@@ -284,9 +287,10 @@ export default function ChatWidget() {
     state.rafId = requestAnimationFrame(tick);
   }, []);
 
-  const sendChip = (chip: (typeof QUICK_CHIPS)[number]) => {
-    if (isTyping || !streamStateRef.current.isNetworkDone) return;
-    setMessages((prev) => [...prev, { id: `${Date.now()}-u`, sender: "user", text: chip.query }]);
+  const sendChip = useCallback((chip: (typeof QUICK_CHIPS)[number]) => {
+    if (isTyping || isStreaming) return;
+    const userMsgId = `${Date.now()}-u`;
+    setMessages((prev) => [...prev, { id: userMsgId, sender: "user", text: chip.query }]);
     setIsTyping(true);
     setStatusIndex(0);
 
@@ -305,20 +309,21 @@ export default function ChatWidget() {
       setIsTyping(false);
       startSmoothStreamLoop(replyId, chip.sources);
     }, thinkingDelay);
-  };
+  }, [isTyping, isStreaming, startSmoothStreamLoop]);
 
   const abortControllerRef = useRef<AbortController | null>(null);
 
   useEffect(() => {
+    const streamState = streamStateRef.current;
     return () => {
       if (abortControllerRef.current) abortControllerRef.current.abort();
-      if (streamStateRef.current.rafId) cancelAnimationFrame(streamStateRef.current.rafId);
+      if (streamState.rafId) cancelAnimationFrame(streamState.rafId);
     };
   }, []);
 
-  const send = async (query: string) => {
+  const send = useCallback(async (query: string) => {
     const trimmed = query.trim();
-    if (!trimmed || isTyping || !streamStateRef.current.isNetworkDone) return;
+    if (!trimmed || isTyping || isStreaming) return;
 
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
@@ -326,75 +331,83 @@ export default function ChatWidget() {
     const controller = new AbortController();
     abortControllerRef.current = controller;
 
-    const history = messages.slice(-6).map((msg) => ({
-      role: msg.sender === "user" ? "user" : "assistant",
-      content: toPlainText(msg),
-    }));
+    const userMsgId = `${Date.now()}-u`;
+    setMessages((prev) => {
+      const history = prev.slice(-6).map((msg) => ({
+        role: msg.sender === "user" ? "user" : "assistant",
+        content: toPlainText(msg),
+      }));
 
-    setMessages((prev) => [...prev, { id: `${Date.now()}-u`, sender: "user", text: trimmed }]);
-    setInput("");
-    setIsTyping(true);
-    setStatusIndex(0);
+      // Initiate network fetch asynchronously with preserved history
+      (async () => {
+        setIsTyping(true);
+        setStatusIndex(0);
 
-    const replyId = `${Date.now()}-b`;
-    const state = streamStateRef.current;
-    state.targetText = "";
-    state.currentText = "";
-    state.isNetworkDone = false;
-    state.sources = [];
+        const replyId = `${Date.now()}-b`;
+        const state = streamStateRef.current;
+        state.targetText = "";
+        state.currentText = "";
+        state.isNetworkDone = false;
+        state.sources = [];
 
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: trimmed, history }),
-        signal: controller.signal,
-      });
+        try {
+          const res = await fetch("/api/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message: trimmed, history }),
+            signal: controller.signal,
+          });
 
-      if (!res.ok) throw new Error(`API error ${res.status}`);
-      if (!res.body) throw new Error("No response stream");
+          if (!res.ok) throw new Error(`API error ${res.status}`);
+          if (!res.body) throw new Error("No response stream");
 
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let revealed = false;
+          const reader = res.body.getReader();
+          const decoder = new TextDecoder();
+          let revealed = false;
 
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        state.targetText += chunk;
+          while (true) {
+            const { done, value } = await reader.read();
+            if (done) break;
+            const chunk = decoder.decode(value, { stream: true });
+            state.targetText += chunk;
 
-        if (!revealed && state.targetText.trim().length > 0) {
-          setMessages((prev) => [...prev, { id: replyId, sender: "bot", text: "", isStreaming: true }]);
+            if (!revealed && state.targetText.trim().length > 0) {
+              setMessages((current) => [...current, { id: replyId, sender: "bot", text: "", isStreaming: true }]);
+              setIsTyping(false);
+              revealed = true;
+              startSmoothStreamLoop(replyId, []);
+            }
+          }
+
+          state.isNetworkDone = true;
+          if (!revealed) {
+            setMessages((current) => [...current, { id: replyId, sender: "bot", text: state.targetText, isStreaming: false }]);
+          }
+        } catch (err: unknown) {
+          if (err instanceof DOMException && err.name === "AbortError") {
+            return;
+          }
+          state.isNetworkDone = true;
+          setIsStreaming(false);
+          setMessages((current) => [
+            ...current,
+            {
+              id: `${Date.now()}-b`,
+              sender: "bot",
+              isError: true,
+              failedQuery: trimmed,
+            },
+          ]);
+        } finally {
           setIsTyping(false);
-          revealed = true;
-          startSmoothStreamLoop(replyId, []);
+          abortControllerRef.current = null;
         }
-      }
+      })();
 
-      state.isNetworkDone = true;
-      if (!revealed) {
-        setMessages((prev) => [...prev, { id: replyId, sender: "bot", text: state.targetText, isStreaming: false }]);
-      }
-    } catch (err: unknown) {
-      if (err instanceof DOMException && err.name === "AbortError") {
-        return;
-      }
-      state.isNetworkDone = true;
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: `${Date.now()}-b`,
-          sender: "bot",
-          isError: true,
-          failedQuery: trimmed,
-        },
-      ]);
-    } finally {
-      setIsTyping(false);
-      abortControllerRef.current = null;
-    }
-  };
+      return [...prev, { id: userMsgId, sender: "user", text: trimmed }];
+    });
+    setInput("");
+  }, [isTyping, isStreaming, startSmoothStreamLoop]);
 
   return (
     <div className="chat-card-container">
@@ -525,7 +538,7 @@ export default function ChatWidget() {
                   type="submit"
                   className="chat-send-btn"
                   aria-label="Send message"
-                  disabled={!input.trim() || isTyping || !streamStateRef.current.isNetworkDone}
+                  disabled={!input.trim() || isTyping || isStreaming}
                 >
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="12" y1="19" x2="12" y2="5"></line>
