@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "flxhrdyn — AI Engineer & Data Scientist";
+export const alt = "flxhrdyn | AI Engineer & Data Scientist";
 export const size = {
   width: 1200,
   height: 630,

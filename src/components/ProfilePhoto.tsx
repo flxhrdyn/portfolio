@@ -43,7 +43,7 @@ export default function ProfilePhoto() {
       onFocus={() => setIsHovered(true)}
       onBlur={() => setIsHovered(false)}
       tabIndex={0}
-      aria-label="Felix Windriyareksa Hardyan — AI Engineer & Data Scientist"
+      aria-label="Felix Windriyareksa Hardyan | AI Engineer & Data Scientist"
     >
       {/* Authentic High-Res Specimen Photo */}
       <div className="cv-photo-wrapper">

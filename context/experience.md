@@ -34,5 +34,5 @@ recommendations).
 Bachelor of Informatics, Universitas Gunadarma (Sep 2021 – Aug 2025), GPA
 3.85/4.00. Graduated with Distinction from Bangkit Academy's Machine
 Learning path (Feb–Jul 2024), led by Google, Tokopedia, Gojek, and
-Traveloka — capstone project "CrashSnap," a YOLOv8-based vehicle damage
+Traveloka: capstone project "CrashSnap," a YOLOv8-based vehicle damage
 detection system.

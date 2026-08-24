@@ -11,7 +11,7 @@ import { fetchGithubContributions } from "@/lib/github-contributions";
 
 export const metadata = {
   title: {
-    absolute: "flxhrdyn — AI Engineer & Data Scientist",
+    absolute: "flxhrdyn | AI Engineer & Data Scientist",
   },
   description: "Projects, experience, skills, and research by flxhrdyn, AI Engineer & Data Scientist.",
 };

@@ -8,15 +8,15 @@ import PageTransitionLoader from "@/components/PageTransitionLoader";
 import "./globals.css";
 
 const SITE_URL = "https://flxhrdyn.vercel.app";
-const TITLE = "flxhrdyn — AI Engineer & Data Scientist";
+const TITLE = "flxhrdyn | AI Engineer & Data Scientist";
 const DESCRIPTION =
-  "AI/ML Engineer & Data Scientist portfolio — computer vision, applied NLP, and retrieval-augmented generation.";
+  "AI/ML Engineer & Data Scientist portfolio: computer vision, applied NLP, and retrieval-augmented generation.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default: TITLE,
-    template: "%s — flxhrdyn",
+    template: "%s | flxhrdyn",
   },
   description: DESCRIPTION,
   openGraph: {
