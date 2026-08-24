@@ -9,6 +9,35 @@
       outline-offset: 2px;
     }
 
+    /* Browser Surfaces Theming (per Impeccable Craft Floor) */
+    ::selection {
+      background-color: var(--text-primary);
+      color: var(--bg-primary);
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--text-secondary);
+    }
+
+    .telemetry-val,
+    .trace-item-val,
+    .bento-spec-val,
+    .code-editor-line-num {
+      font-feature-settings: "tnum" 1, "cv02" 1, "cv03" 1, "cv04" 1;
+      font-variant-numeric: tabular-nums;
+    }
+
     /*
       SIGNAL CONSOLE DESIGN TOKENS (per DESIGN.md)
       Calibrated to strictly guarantee >= 4.5:1 contrast ratios in both light and dark modes.
