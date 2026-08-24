@@ -29,21 +29,21 @@ export default async function Image() {
           justifyContent: "space-between",
           backgroundColor: "#ffffff",
           backgroundImage:
-            "radial-gradient(circle at 100% 0%, #f1f3f7 0%, transparent 50%), radial-gradient(circle at 0% 100%, #f6f7f9 0%, transparent 50%)",
-          padding: "52px 64px",
+            "radial-gradient(circle at 100% 0%, #f6f7f9 0%, transparent 40%), radial-gradient(circle at 0% 100%, #f1f3f7 0%, transparent 40%)",
+          padding: "54px 64px",
           color: "#14151a",
           fontFamily: "GeistSans, sans-serif",
           position: "relative",
           boxSizing: "border-box",
         }}
       >
-        {/* Subtle Engineering Grid Line & Frame */}
+        {/* Subtle Outer Frame */}
         <div
           style={{
             position: "absolute",
             inset: "20px",
             border: "1px solid #e2e3e8",
-            borderRadius: "16px",
+            borderRadius: "14px",
             pointerEvents: "none",
           }}
         />
@@ -58,11 +58,11 @@ export default async function Image() {
           }}
         >
           {/* BRAND LOGO */}
-          <div style={{ display: "flex", alignItems: "center", gap: "14px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
             <div
               style={{
-                width: "44px",
-                height: "44px",
+                width: "40px",
+                height: "40px",
                 borderRadius: "8px",
                 backgroundColor: "#14151a",
                 display: "flex",
@@ -70,7 +70,7 @@ export default async function Image() {
                 justifyContent: "center",
               }}
             >
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.2">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.2">
                 <path d="M5 4H2V20H5" />
                 <path d="M19 4H22V20H19" />
                 <rect x="7" y="6" width="2.5" height="2.5" fill="#ffffff" />
@@ -80,42 +80,30 @@ export default async function Image() {
                 <rect x="15" y="16" width="2.5" height="2.5" fill="#ffffff" />
               </svg>
             </div>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <span
-                style={{
-                  fontSize: "22px",
-                  fontWeight: 700,
-                  letterSpacing: "-0.03em",
-                  color: "#14151a",
-                  fontFamily: "GeistSans",
-                }}
-              >
-                flxhrdyn
-              </span>
-              <span
-                style={{
-                  fontSize: "12px",
-                  fontFamily: "GeistMono",
-                  color: "#6b7280",
-                  letterSpacing: "0.05em",
-                }}
-              >
-                AI &amp; DATA SYSTEMS
-              </span>
-            </div>
+            <span
+              style={{
+                fontSize: "22px",
+                fontWeight: 700,
+                letterSpacing: "-0.03em",
+                color: "#14151a",
+                fontFamily: "GeistSans",
+              }}
+            >
+              flxhrdyn
+            </span>
           </div>
 
-          {/* TELEMETRY STATUS PILL */}
+          {/* STATUS PILL */}
           <div
             style={{
               display: "flex",
               alignItems: "center",
               gap: "8px",
-              padding: "7px 16px",
+              padding: "6px 14px",
               borderRadius: "9999px",
               backgroundColor: "#ffffff",
               border: "1px solid #e2e3e8",
-              fontSize: "13px",
+              fontSize: "12px",
               fontFamily: "GeistMono",
               fontWeight: 500,
               color: "#14151a",
@@ -123,8 +111,8 @@ export default async function Image() {
           >
             <div
               style={{
-                width: "8px",
-                height: "8px",
+                width: "7px",
+                height: "7px",
                 borderRadius: "50%",
                 backgroundColor: "#10b981",
               }}
@@ -134,23 +122,23 @@ export default async function Image() {
         </div>
 
         {/* HERO CONTENT */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "12px" }}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "14px" }}>
           <div
             style={{
               fontSize: "13px",
               fontFamily: "GeistMono",
               color: "#6b7280",
-              letterSpacing: "0.08em",
+              letterSpacing: "0.06em",
               textTransform: "uppercase",
               fontWeight: 500,
             }}
           >
-            PORTFOLIO &bull; RESEARCH LAB &bull; AI AGENTS
+            AI ENGINEER &amp; DATA SCIENTIST
           </div>
 
           <h1
             style={{
-              fontSize: "58px",
+              fontSize: "60px",
               fontWeight: 700,
               lineHeight: 1.05,
               letterSpacing: "-0.04em",
@@ -164,19 +152,19 @@ export default async function Image() {
 
           <p
             style={{
-              fontSize: "24px",
+              fontSize: "22px",
               fontWeight: 400,
               color: "#4b5563",
               margin: 0,
-              lineHeight: 1.2,
+              lineHeight: 1.25,
               fontFamily: "GeistSans",
             }}
           >
-            AI/ML Engineer &amp; BNSP-Certified Data Scientist
+            Building production-grade AI systems, from Data Science to GenAI.
           </p>
 
           {/* 3 TELEMETRY STAT CARDS */}
-          <div style={{ display: "flex", gap: "14px", marginTop: "10px" }}>
+          <div style={{ display: "flex", gap: "14px", marginTop: "12px" }}>
             <div
               style={{
                 display: "flex",
