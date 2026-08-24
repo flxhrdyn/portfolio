@@ -5,6 +5,7 @@ import { GeistPixelSquare } from "geist/font/pixel";
 import ThemeScript from "@/components/ThemeScript";
 import MotionProvider from "@/components/MotionProvider";
 import PageTransitionLoader from "@/components/PageTransitionLoader";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const SITE_URL = "https://flxhrdyn.vercel.app";
@@ -48,6 +49,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <MotionProvider>
           <PageTransitionLoader />
           {children}
+          <Analytics />
         </MotionProvider>
       </body>
     </html>
