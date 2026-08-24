@@ -19,11 +19,11 @@ export default async function Image() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#0a0a0c",
+          backgroundColor: "#ffffff",
           backgroundImage:
-            "radial-gradient(circle at 100% 0%, rgba(255, 255, 255, 0.08) 0%, transparent 40%), radial-gradient(circle at 0% 100%, rgba(255, 255, 255, 0.04) 0%, transparent 40%)",
+            "radial-gradient(circle at 100% 0%, rgba(0, 0, 0, 0.04) 0%, transparent 50%), radial-gradient(circle at 0% 100%, rgba(0, 0, 0, 0.02) 0%, transparent 50%)",
           padding: "60px 70px",
-          color: "#ffffff",
+          color: "#14151a",
           fontFamily: "system-ui, -apple-system, sans-serif",
           position: "relative",
           boxSizing: "border-box",
@@ -34,7 +34,7 @@ export default async function Image() {
           style={{
             position: "absolute",
             inset: "24px",
-            border: "1px solid rgba(255, 255, 255, 0.12)",
+            border: "1px solid rgba(0, 0, 0, 0.08)",
             borderRadius: "16px",
             pointerEvents: "none",
           }}
@@ -56,8 +56,8 @@ export default async function Image() {
                 width: "44px",
                 height: "44px",
                 borderRadius: "10px",
-                backgroundColor: "#16161a",
-                border: "1px solid rgba(255, 255, 255, 0.2)",
+                backgroundColor: "#14151a",
+                border: "1px solid rgba(0, 0, 0, 0.1)",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -78,7 +78,7 @@ export default async function Image() {
                 fontSize: "24px",
                 fontWeight: 700,
                 letterSpacing: "-0.02em",
-                color: "#ffffff",
+                color: "#14151a",
               }}
             >
               flxhrdyn
@@ -93,11 +93,11 @@ export default async function Image() {
               gap: "10px",
               padding: "8px 18px",
               borderRadius: "9999px",
-              backgroundColor: "rgba(255, 255, 255, 0.06)",
-              border: "1px solid rgba(255, 255, 255, 0.15)",
+              backgroundColor: "#f3f4f6",
+              border: "1px solid #e5e7eb",
               fontSize: "14px",
               fontWeight: 600,
-              color: "rgba(255, 255, 255, 0.9)",
+              color: "#1f2937",
               letterSpacing: "0.02em",
             }}
           >
@@ -106,7 +106,7 @@ export default async function Image() {
                 width: "8px",
                 height: "8px",
                 borderRadius: "50%",
-                backgroundColor: "#ffffff",
+                backgroundColor: "#10b981",
               }}
             />
             Available for Opportunities
@@ -117,14 +117,15 @@ export default async function Image() {
         <div style={{ display: "flex", flexDirection: "column", gap: "16px", marginTop: "20px" }}>
           <div
             style={{
-              fontSize: "15px",
+              fontSize: "14px",
               fontFamily: "monospace",
-              color: "rgba(255, 255, 255, 0.6)",
+              color: "#6b7280",
               letterSpacing: "0.08em",
               textTransform: "uppercase",
+              fontWeight: 600,
             }}
           >
-            PORTFOLIO & SYSTEM INTELLIGENCE
+            PORTFOLIO &amp; SYSTEM INTELLIGENCE
           </div>
 
           <h1
@@ -134,7 +135,7 @@ export default async function Image() {
               lineHeight: 1.1,
               letterSpacing: "-0.03em",
               margin: 0,
-              color: "#ffffff",
+              color: "#14151a",
             }}
           >
             Felix Windriyareksa Hardyan
@@ -144,7 +145,7 @@ export default async function Image() {
             style={{
               fontSize: "26px",
               fontWeight: 500,
-              color: "rgba(255, 255, 255, 0.75)",
+              color: "#4b5563",
               margin: 0,
               lineHeight: 1.3,
             }}
@@ -160,11 +161,11 @@ export default async function Image() {
                 style={{
                   padding: "6px 14px",
                   borderRadius: "6px",
-                  backgroundColor: "rgba(255, 255, 255, 0.08)",
-                  border: "1px solid rgba(255, 255, 255, 0.12)",
+                  backgroundColor: "#f8f9fa",
+                  border: "1px solid #e5e7eb",
                   fontSize: "14px",
                   fontWeight: 600,
-                  color: "#ffffff",
+                  color: "#1f2937",
                 }}
               >
                 {tag}
@@ -180,9 +181,9 @@ export default async function Image() {
             alignItems: "center",
             justifyContent: "space-between",
             paddingTop: "24px",
-            borderTop: "1px solid rgba(255, 255, 255, 0.1)",
+            borderTop: "1px solid #e5e7eb",
             fontSize: "15px",
-            color: "rgba(255, 255, 255, 0.55)",
+            color: "#6b7280",
             fontFamily: "monospace",
           }}
         >
