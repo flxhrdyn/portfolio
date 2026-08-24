@@ -27,50 +27,53 @@ export default async function Image() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          backgroundColor: "#ffffff",
+          backgroundColor: "#f9fafb",
           backgroundImage:
-            "radial-gradient(circle at 100% 0%, #f6f7f9 0%, transparent 40%), radial-gradient(circle at 0% 100%, #f1f3f7 0%, transparent 40%)",
-          padding: "54px 64px",
-          color: "#14151a",
+            "linear-gradient(to right, #f3f4f6 1px, transparent 1px), linear-gradient(to bottom, #f3f4f6 1px, transparent 1px)",
+          backgroundSize: "32px 32px",
+          padding: "44px 52px",
+          color: "#111827",
           fontFamily: "GeistSans, sans-serif",
           position: "relative",
           boxSizing: "border-box",
         }}
       >
-        {/* Subtle Outer Frame */}
+        {/* Subtle Outer Modern Glass Frame */}
         <div
           style={{
             position: "absolute",
-            inset: "20px",
-            border: "1px solid #e2e3e8",
+            inset: "16px",
+            border: "1px solid #e5e7eb",
             borderRadius: "14px",
             pointerEvents: "none",
           }}
         />
 
-        {/* TOP BAR */}
+        {/* TOP NAVBAR */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             width: "100%",
+            paddingBottom: "16px",
+            borderBottom: "1px solid #e5e7eb",
           }}
         >
-          {/* BRAND LOGO */}
-          <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
+          {/* LOGO */}
+          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
             <div
               style={{
-                width: "40px",
-                height: "40px",
+                width: "36px",
+                height: "36px",
                 borderRadius: "8px",
-                backgroundColor: "#14151a",
+                backgroundColor: "#111827",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
               }}
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.2">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.2">
                 <path d="M5 4H2V20H5" />
                 <path d="M19 4H22V20H19" />
                 <rect x="7" y="6" width="2.5" height="2.5" fill="#ffffff" />
@@ -82,10 +85,10 @@ export default async function Image() {
             </div>
             <span
               style={{
-                fontSize: "22px",
+                fontSize: "20px",
                 fontWeight: 700,
                 letterSpacing: "-0.03em",
-                color: "#14151a",
+                color: "#111827",
                 fontFamily: "GeistSans",
               }}
             >
@@ -102,11 +105,11 @@ export default async function Image() {
               padding: "6px 14px",
               borderRadius: "9999px",
               backgroundColor: "#ffffff",
-              border: "1px solid #e2e3e8",
+              border: "1px solid #e5e7eb",
               fontSize: "12px",
               fontFamily: "GeistMono",
               fontWeight: 500,
-              color: "#14151a",
+              color: "#374151",
             }}
           >
             <div
@@ -117,121 +120,249 @@ export default async function Image() {
                 backgroundColor: "#10b981",
               }}
             />
-            AVAILABLE FOR OPPORTUNITIES
+            ACTIVE // JAKARTA, ID
           </div>
         </div>
 
-        {/* HERO CONTENT */}
-        <div style={{ display: "flex", flexDirection: "column", gap: "10px", marginTop: "14px" }}>
-          <div
-            style={{
-              fontSize: "13px",
-              fontFamily: "GeistMono",
-              color: "#6b7280",
-              letterSpacing: "0.06em",
-              textTransform: "uppercase",
-              fontWeight: 500,
-            }}
-          >
-            AI ENGINEER &amp; DATA SCIENTIST
-          </div>
-
-          <h1
-            style={{
-              fontSize: "60px",
-              fontWeight: 700,
-              lineHeight: 1.05,
-              letterSpacing: "-0.04em",
-              margin: 0,
-              color: "#14151a",
-              fontFamily: "GeistSans",
-            }}
-          >
-            Felix Windriyareksa Hardyan
-          </h1>
-
-          <p
-            style={{
-              fontSize: "22px",
-              fontWeight: 400,
-              color: "#4b5563",
-              margin: 0,
-              lineHeight: 1.25,
-              fontFamily: "GeistSans",
-            }}
-          >
-            Building production-grade AI systems, from Data Science to GenAI.
-          </p>
-
-          {/* 3 TELEMETRY STAT CARDS */}
-          <div style={{ display: "flex", gap: "14px", marginTop: "12px" }}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "10px 18px",
-                backgroundColor: "#ffffff",
-                border: "1px solid #e2e3e8",
-                borderRadius: "8px",
-                gap: "2px",
-              }}
-            >
-              <span style={{ fontSize: "20px", fontWeight: 700, fontFamily: "GeistMono", color: "#14151a" }}>2+ Yrs</span>
-              <span style={{ fontSize: "11px", color: "#6b7280", fontFamily: "GeistMono" }}>AI/ML Experience</span>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "10px 18px",
-                backgroundColor: "#ffffff",
-                border: "1px solid #e2e3e8",
-                borderRadius: "8px",
-                gap: "2px",
-              }}
-            >
-              <span style={{ fontSize: "20px", fontWeight: 700, fontFamily: "GeistMono", color: "#14151a" }}>10+</span>
-              <span style={{ fontSize: "11px", color: "#6b7280", fontFamily: "GeistMono" }}>AI Projects Built</span>
-            </div>
-
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "10px 18px",
-                backgroundColor: "#ffffff",
-                border: "1px solid #e2e3e8",
-                borderRadius: "8px",
-                gap: "2px",
-              }}
-            >
-              <span style={{ fontSize: "20px", fontWeight: 700, fontFamily: "GeistMono", color: "#14151a" }}>BNSP</span>
-              <span style={{ fontSize: "11px", color: "#6b7280", fontFamily: "GeistMono" }}>Certified Data Scientist</span>
-            </div>
-          </div>
-        </div>
-
-        {/* BOTTOM FOOTER BAR */}
+        {/* MAIN SPLIT HERO SECTION */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
-            paddingTop: "18px",
-            borderTop: "1px solid #e2e3e8",
-            fontSize: "14px",
+            gap: "36px",
+            width: "100%",
+            margin: "12px 0",
+          }}
+        >
+          {/* LEFT COLUMN: HERO INFORMATION */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "12px",
+              flex: "1 1 58%",
+            }}
+          >
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "8px",
+                fontSize: "12px",
+                fontFamily: "GeistMono",
+                color: "#6b7280",
+                letterSpacing: "0.06em",
+                fontWeight: 600,
+              }}
+            >
+              <span>AI ENGINEER &amp; DATA SCIENTIST</span>
+            </div>
+
+            <h1
+              style={{
+                fontSize: "52px",
+                fontWeight: 700,
+                lineHeight: 1.05,
+                letterSpacing: "-0.04em",
+                margin: 0,
+                color: "#111827",
+                fontFamily: "GeistSans",
+              }}
+            >
+              Felix Windriyareksa Hardyan
+            </h1>
+
+            <p
+              style={{
+                fontSize: "19px",
+                fontWeight: 400,
+                color: "#4b5563",
+                margin: 0,
+                lineHeight: 1.35,
+                fontFamily: "GeistSans",
+              }}
+            >
+              Building production-grade AI systems, from Data Science to GenAI.
+            </p>
+
+            {/* 3 TELEMETRY STRIP CARDS */}
+            <div style={{ display: "flex", gap: "10px", marginTop: "12px" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  padding: "10px 14px",
+                  backgroundColor: "#ffffff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "8px",
+                  gap: "2px",
+                  flex: "1",
+                }}
+              >
+                <span style={{ fontSize: "20px", fontWeight: 700, fontFamily: "GeistMono", color: "#111827" }}>
+                  2+ Yrs
+                </span>
+                <span style={{ fontSize: "11px", color: "#6b7280", fontFamily: "GeistMono" }}>
+                  AI/ML Exp
+                </span>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  padding: "10px 14px",
+                  backgroundColor: "#ffffff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "8px",
+                  gap: "2px",
+                  flex: "1",
+                }}
+              >
+                <span style={{ fontSize: "20px", fontWeight: 700, fontFamily: "GeistMono", color: "#111827" }}>
+                  10+
+                </span>
+                <span style={{ fontSize: "11px", color: "#6b7280", fontFamily: "GeistMono" }}>
+                  AI Projects
+                </span>
+              </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  padding: "10px 14px",
+                  backgroundColor: "#ffffff",
+                  border: "1px solid #e5e7eb",
+                  borderRadius: "8px",
+                  gap: "2px",
+                  flex: "1",
+                }}
+              >
+                <span style={{ fontSize: "20px", fontWeight: 700, fontFamily: "GeistMono", color: "#111827" }}>
+                  BNSP
+                </span>
+                <span style={{ fontSize: "11px", color: "#6b7280", fontFamily: "GeistMono" }}>
+                  Data Scientist
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* RIGHT COLUMN: HAWAT CHAT CONSOLE MOCKUP */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "420px",
+              backgroundColor: "#ffffff",
+              border: "1px solid #e5e7eb",
+              borderRadius: "12px",
+              boxShadow: "0 10px 25px -5px rgba(0, 0, 0, 0.05)",
+              overflow: "hidden",
+            }}
+          >
+            {/* CONSOLE HEADER */}
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                padding: "10px 14px",
+                backgroundColor: "#f9fafb",
+                borderBottom: "1px solid #e5e7eb",
+              }}
+            >
+              <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                <div style={{ width: "9px", height: "9px", borderRadius: "50%", backgroundColor: "#ef4444" }} />
+                <div style={{ width: "9px", height: "9px", borderRadius: "50%", backgroundColor: "#f59e0b" }} />
+                <div style={{ width: "9px", height: "9px", borderRadius: "50%", backgroundColor: "#10b981" }} />
+              </div>
+              <span style={{ fontSize: "11px", fontFamily: "GeistMono", color: "#6b7280", fontWeight: 600 }}>
+                HAWAT // AI AGENT
+              </span>
+            </div>
+
+            {/* CONSOLE BODY */}
+            <div style={{ display: "flex", flexDirection: "column", padding: "14px", gap: "10px" }}>
+              {/* BOT BUBBLE */}
+              <div
+                style={{
+                  display: "flex",
+                  padding: "10px 12px",
+                  backgroundColor: "#f3f4f6",
+                  borderRadius: "8px",
+                  fontSize: "13px",
+                  lineHeight: "1.4",
+                  color: "#1f2937",
+                  fontFamily: "GeistSans",
+                }}
+              >
+                Hi, ask me anything about Felix&apos;s AI systems, RAG pipelines, or projects.
+              </div>
+
+              {/* QUICK CHIPS */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "6px", marginTop: "4px" }}>
+                <div
+                  style={{
+                    padding: "6px 10px",
+                    backgroundColor: "#ffffff",
+                    border: "1px solid #e5e7eb",
+                    borderRadius: "6px",
+                    fontSize: "11px",
+                    fontFamily: "GeistMono",
+                    color: "#374151",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <span>&bull; InvenioAI RAG Architecture</span>
+                  <span style={{ color: "#9ca3af" }}>&rarr;</span>
+                </div>
+                <div
+                  style={{
+                    padding: "6px 10px",
+                    backgroundColor: "#ffffff",
+                    border: "1px solid #e5e7eb",
+                    borderRadius: "6px",
+                    fontSize: "11px",
+                    fontFamily: "GeistMono",
+                    color: "#374151",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <span>&bull; Omnius Media Intelligence</span>
+                  <span style={{ color: "#9ca3af" }}>&rarr;</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* BOTTOM METADATA BAR */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            paddingTop: "14px",
+            borderTop: "1px solid #e5e7eb",
+            fontSize: "13px",
             color: "#6b7280",
             fontFamily: "GeistMono",
           }}
         >
-          <div style={{ display: "flex", gap: "20px" }}>
+          <div style={{ display: "flex", gap: "18px" }}>
             <span>PT Astra Visteon Indonesia</span>
             <span>&bull;</span>
             <span>HPC Universitas Gunadarma</span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "8px", color: "#14151a", fontWeight: 600 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "6px", color: "#111827", fontWeight: 600 }}>
             <span>flxhrdyn.vercel.app</span>
           </div>
         </div>
