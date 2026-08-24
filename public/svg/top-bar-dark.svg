@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 44" width="100%" height="44" role="img">
+  <!-- Window macOS Dots -->
+  <circle cx="24" cy="22" r="7" fill="#ef4444"/>
+  <circle cx="48" cy="22" r="7" fill="#eab308"/>
+  <circle cx="72" cy="22" r="7" fill="#22c55e"/>
+  
+  <text x="96" y="27" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace" font-size="13" font-weight="600" fill="#9ca3af">
+    flxhrdyn / <tspan fill="#ffffff">README.md</tspan>
+  </text>
+  
+  <!-- Center Text -->
+  <text x="50%" y="28" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="800" fill="#ffffff" letter-spacing="-0.02em">
+    Felix Hardyan
+  </text>
+  
+  <!-- Right Status Badge -->
+  <g transform="translate(680, 10)">
+    <rect width="150" height="24" rx="12" fill="#161922" stroke="#2d323e" stroke-width="1"/>
+    <circle cx="14" cy="12" r="4" fill="#10b981"/>
+    <text x="26" y="16" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, monospace" font-size="10.5" font-weight="700" fill="#d1d5db" letter-spacing="0.05em">
+      ACTIVE // JAKARTA, ID
+    </text>
+  </g>
+</svg>
