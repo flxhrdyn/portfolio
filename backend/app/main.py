@@ -23,7 +23,11 @@ async def _stream_and_cache(message: str, history: list[dict]):
         yield chunk
 
     full_response = "".join(chunks)
-    if full_response not in SKIP_CACHE and "I can only answer questions" not in full_response:
+    if (
+        full_response not in SKIP_CACHE
+        and "I can only answer questions" not in full_response
+        and "Saya hanya dapat menjawab pertanyaan" not in full_response
+    ):
         set_cached_response(message, history, full_response)
 
 
