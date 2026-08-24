@@ -159,7 +159,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                         </div>
                         <div className="specs-row">
                           <span className="specs-key">Deployment</span>
-                          <span className="specs-val">Docker • FastAPI • Azure</span>
+                          <span className="specs-val">Docker • FastAPI • Hugging Face Spaces</span>
                         </div>
                       </div>
                     </div>

@@ -18,7 +18,7 @@
     "results": [
       "Retrieval quality: Hybrid dense+sparse search fused with RAG Fusion multi-query catches both semantic and exact-keyword matches that single-vector search misses.",
       "Robust parsing: Structure-aware chunking handles charts, tables, and multi-page sections without losing document outline.",
-      "Shipped: Dockerized FastAPI + Streamlit app, live on Hugging Face Spaces and Azure Container Apps."
+      "Shipped: Dockerized FastAPI + Streamlit app, live on Hugging Face Spaces."
     ]
   },
   {

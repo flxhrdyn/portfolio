@@ -12,7 +12,7 @@ Repo: https://github.com/flxhrdyn/InvenioAI
   3. **Query Expansion (RAG Fusion)**: Generates multiple related query variations from the user prompt to retrieve broader contextual candidate documents.
   4. **Cross-Encoder Reranking**: Utilizes FlashRank cross-encoder reranker to score and reorder candidate chunks by true semantic relevance, passing only top-tier context to the generator.
   5. **Reasoning Protocol**: Implements a 4-step Chain-of-Thought (CoT) synthesis prompt to ensure grounded, verifiable answers with zero hallucinations.
-  6. **Deployment**: Containerized with Docker and hosted on Hugging Face Spaces and Azure Container Apps with a FastAPI backend and Streamlit frontend.
+  6. **Deployment**: Containerized with Docker and hosted on Hugging Face Spaces with a FastAPI backend and Streamlit frontend.
 - **Key Differences vs. Conventional (Naive) RAG**:
   - *Naive RAG*: Relies purely on basic vector cosine similarity (top-k dense retrieval), which often misses exact technical keywords, retrieves duplicate/redundant chunks, and feeds noisy context to the LLM.
   - *InvenioAI*: Solves semantic drift and keyword blindness through Hybrid Search (Dense MMR + Sparse BM42), expands query angles via RAG Fusion, and applies neural cross-encoder reranking (FlashRank) so only high-precision chunks reach the LLM.
