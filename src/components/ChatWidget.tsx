@@ -211,19 +211,31 @@ export default function ChatWidget() {
     return () => observer.disconnect();
   }, []);
 
-  // Smooth RAF Token Dispatcher Loop
+  // Smooth RAF Token Dispatcher Loop with Natural Reading Cadence
   const startSmoothStreamLoop = useCallback((replyId: string, initialSources: string[]) => {
     const state = streamStateRef.current;
     state.replyId = replyId;
     state.sources = initialSources;
 
-    const tick = () => {
+    let lastTime = performance.now();
+    let accumulatedTime = 0;
+
+    const tick = (now: number) => {
+      const delta = now - lastTime;
+      lastTime = now;
+      accumulatedTime += delta;
+
       const remaining = state.targetText.length - state.currentText.length;
 
-      if (remaining > 0) {
-        // Adaptive step size: fluid reading speed (2 to 6 chars per frame)
-        const step = Math.max(1, Math.min(Math.ceil(remaining / 3), 6));
-        state.currentText = state.targetText.slice(0, state.currentText.length + step);
+      // Golden standard AI streaming cadence:
+      // Smooth, energetic, and legible without flickering or dragging (60-90 chars/sec)
+      const msPerChar = remaining > 100 ? 6 : remaining > 50 ? 10 : remaining > 20 ? 12 : 16;
+
+      if (remaining > 0 && accumulatedTime >= msPerChar) {
+        const charsToAdvance = Math.min(remaining, Math.max(1, Math.floor(accumulatedTime / msPerChar)));
+        accumulatedTime %= msPerChar;
+
+        state.currentText = state.targetText.slice(0, state.currentText.length + charsToAdvance);
 
         setMessages((prev) =>
           prev.map((msg) =>
