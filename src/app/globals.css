@@ -80,7 +80,8 @@
       padding: 0;
     }
 
-    html {
+    html, body {
+      max-width: 100vw;
       overflow-x: hidden;
     }
 
@@ -90,6 +91,7 @@
       color: var(--text-primary);
       line-height: 1.6;
       transition: background-color var(--transition-speed) ease-out, color var(--transition-speed) ease-out;
+      position: relative;
     }
 
     .sr-only {
@@ -1768,6 +1770,10 @@
     
     .github-contrib-body {
       width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 0.5rem;
     }
     
     .month-labels-row {
@@ -3187,6 +3193,8 @@
       margin-top: -2rem;
       position: relative;
       z-index: 1;
+      max-width: 100vw;
+      overflow-x: clip;
     }
 
     .contact-minimal-canvas {
