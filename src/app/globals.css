@@ -944,6 +944,131 @@
       font-family: var(--font-sans);
     }
 
+    /* STREAMING TEXT CARET */
+    .chat-stream-caret {
+      display: inline-block;
+      width: 6px;
+      height: 1em;
+      background-color: var(--text-primary);
+      vertical-align: -0.15em;
+      margin-left: 2px;
+      border-radius: 1px;
+      animation: streamCaretBlink 0.8s infinite cubic-bezier(0.4, 0, 0.6, 1);
+    }
+
+    @keyframes streamCaretBlink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* MENTAT COMPUTATION TRACE (DELIGHT COMPONENT) */
+    .mentat-trace-wrapper {
+      margin-top: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.35rem;
+      width: 100%;
+    }
+
+    .mentat-trace-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      color: var(--text-secondary);
+      padding: 0.25rem 0.65rem;
+      border-radius: 9999px;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+      touch-action: manipulation;
+    }
+
+    .mentat-trace-pill:hover,
+    .mentat-trace-pill.active {
+      border-color: var(--text-primary);
+      color: var(--text-primary);
+      background-color: var(--bg-card);
+      transform: translateY(-1px);
+    }
+
+    .mentat-trace-prefix {
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .mentat-trace-label {
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .mentat-trace-divider {
+      opacity: 0.4;
+    }
+
+    .mentat-trace-metric {
+      font-weight: 500;
+      opacity: 0.85;
+    }
+
+    .mentat-trace-arrow {
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0.6;
+    }
+
+    .mentat-trace-arrow.rotated {
+      transform: rotate(180deg);
+      opacity: 1;
+    }
+
+    .mentat-trace-panel {
+      overflow: hidden;
+      width: 100%;
+      max-width: 480px;
+    }
+
+    .mentat-trace-details {
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      padding: 0.65rem 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      margin-top: 0.25rem;
+    }
+
+    .mentat-trace-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      line-height: 1.4;
+    }
+
+    .trace-item-key {
+      color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+
+    .trace-item-val {
+      color: var(--text-primary);
+      text-align: right;
+      font-weight: 500;
+      word-break: break-word;
+    }
+
+    .trace-item-val.status-verified {
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
     /* TYPING INDICATOR */
     .typing-status-pill {
       display: inline-flex;
