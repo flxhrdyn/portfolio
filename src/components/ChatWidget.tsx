@@ -12,6 +12,8 @@ interface Message {
   html?: string;
   text?: string;
   isStreaming?: boolean;
+  isError?: boolean;
+  failedQuery?: string;
   trace?: {
     model: string;
     pipeline: string;
@@ -305,15 +307,31 @@ export default function ChatWidget() {
     }, thinkingDelay);
   };
 
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (abortControllerRef.current) abortControllerRef.current.abort();
+      if (streamStateRef.current.rafId) cancelAnimationFrame(streamStateRef.current.rafId);
+    };
+  }, []);
+
   const send = async (query: string) => {
-    if (!query.trim() || isTyping || !streamStateRef.current.isNetworkDone) return;
+    const trimmed = query.trim();
+    if (!trimmed || isTyping || !streamStateRef.current.isNetworkDone) return;
+
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort();
+    }
+    const controller = new AbortController();
+    abortControllerRef.current = controller;
 
     const history = messages.slice(-6).map((msg) => ({
       role: msg.sender === "user" ? "user" : "assistant",
       content: toPlainText(msg),
     }));
 
-    setMessages((prev) => [...prev, { id: `${Date.now()}-u`, sender: "user", text: query }]);
+    setMessages((prev) => [...prev, { id: `${Date.now()}-u`, sender: "user", text: trimmed }]);
     setInput("");
     setIsTyping(true);
     setStatusIndex(0);
@@ -329,10 +347,11 @@ export default function ChatWidget() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: query, history }),
+        body: JSON.stringify({ message: trimmed, history }),
+        signal: controller.signal,
       });
 
-      if (!res.ok) throw new Error("API error");
+      if (!res.ok) throw new Error(`API error ${res.status}`);
       if (!res.body) throw new Error("No response stream");
 
       const reader = res.body.getReader();
@@ -357,18 +376,23 @@ export default function ChatWidget() {
       if (!revealed) {
         setMessages((prev) => [...prev, { id: replyId, sender: "bot", text: state.targetText, isStreaming: false }]);
       }
-    } catch {
+    } catch (err: unknown) {
+      if (err instanceof DOMException && err.name === "AbortError") {
+        return;
+      }
       state.isNetworkDone = true;
       setMessages((prev) => [
         ...prev,
         {
           id: `${Date.now()}-b`,
           sender: "bot",
-          html: "<p>Chat is temporarily unavailable - explore my work below.</p>",
+          isError: true,
+          failedQuery: trimmed,
         },
       ]);
     } finally {
       setIsTyping(false);
+      abortControllerRef.current = null;
     }
   };
 
@@ -393,7 +417,24 @@ export default function ChatWidget() {
               {messages.map((msg) => (
                 <div key={msg.id} className={`chat-msg ${msg.sender === "user" ? "user" : "bot"}`}>
                   <div className="msg-content-wrapper">
-                    {msg.text !== undefined ? (
+                    {msg.isError ? (
+                      <div className="chat-error-block">
+                        <p className="chat-error-text">
+                          Unable to reach Hawat AI at the moment.
+                        </p>
+                        {msg.failedQuery && (
+                          <button
+                            type="button"
+                            className="chat-retry-btn"
+                            onClick={() => {
+                              if (msg.failedQuery) send(msg.failedQuery);
+                            }}
+                          >
+                            <span>↻ Retry</span>
+                          </button>
+                        )}
+                      </div>
+                    ) : msg.text !== undefined ? (
                       <div className="msg-text-block">
                         {msg.sender === "bot" ? (
                           <>
@@ -478,6 +519,7 @@ export default function ChatWidget() {
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask about Felix's work, skills, or projects..."
                   autoComplete="off"
+                  maxLength={500}
                 />
                 <button
                   type="submit"

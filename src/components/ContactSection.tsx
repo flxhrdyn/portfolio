@@ -58,11 +58,42 @@ export default function ContactSection() {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
-    if (typeof navigator !== "undefined" && navigator.clipboard) {
-      navigator.clipboard.writeText(EMAIL).catch(() => {});
+    const triggerSuccess = () => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    };
+
+    if (typeof navigator !== "undefined" && navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+      navigator.clipboard
+        .writeText(EMAIL)
+        .then(triggerSuccess)
+        .catch(() => {
+          fallbackCopy(EMAIL);
+        });
+    } else {
+      fallbackCopy(EMAIL);
     }
-    setCopied(true);
-    setTimeout(() => setCopied(false), 1200);
+  };
+
+  const fallbackCopy = (text: string) => {
+    try {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      textArea.style.position = "fixed";
+      textArea.style.left = "-9999px";
+      textArea.style.top = "0";
+      textArea.setAttribute("readonly", "");
+      document.body.appendChild(textArea);
+      textArea.select();
+      const success = document.execCommand("copy");
+      document.body.removeChild(textArea);
+      if (success) {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 1500);
+      }
+    } catch {
+      // If all copy mechanisms fail, gracefully degrade
+    }
   };
 
   return (

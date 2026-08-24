@@ -1069,6 +1069,47 @@
       letter-spacing: 0.01em;
     }
 
+    /* ERROR RECOVERY BLOCK */
+    .chat-error-block {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+      background-color: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      padding: 0.65rem 0.85rem;
+      border-radius: var(--radius-sm);
+    }
+
+    .chat-error-text {
+      font-size: 0.84rem;
+      color: var(--text-secondary);
+      margin: 0;
+      line-height: 1.4;
+    }
+
+    .chat-retry-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      padding: 0.3rem 0.75rem;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-sm);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 0.74rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      touch-action: manipulation;
+    }
+
+    .chat-retry-btn:hover {
+      border-color: var(--text-primary);
+      transform: translateY(-1px);
+    }
+
     /* TYPING INDICATOR */
     .typing-status-pill {
       display: inline-flex;
