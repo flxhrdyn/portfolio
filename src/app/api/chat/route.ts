@@ -83,6 +83,62 @@ const MODEL_CHAIN = [
 
 const REASONING_MODELS = new Set(["openai/gpt-oss-120b", "qwen/qwen3.6-27b", "openai/gpt-oss-20b"]);
 
+// High-Speed In-Memory Serverless Edge Response Cache
+const RESPONSE_CACHE = new Map<string, { answer: string; expiresAt: number }>();
+const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
+const MAX_CACHE_SIZE = 500;
+
+function normalizeCacheKey(text: string): string {
+  return "hawat:q:" + text.toLowerCase().trim().replace(/[^\p{L}\p{N}\s]/gu, "").replace(/\s+/g, " ");
+}
+
+async function getCachedAnswer(key: string): Promise<string | null> {
+  const local = RESPONSE_CACHE.get(key);
+  if (local && Date.now() < local.expiresAt) {
+    return local.answer;
+  }
+
+  const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
+  const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (redisUrl && redisToken) {
+    try {
+      const res = await fetch(`${redisUrl}/get/${encodeURIComponent(key)}`, {
+        headers: { Authorization: `Bearer ${redisToken}` },
+      });
+      if (res.ok) {
+        const data = (await res.json()) as { result?: string };
+        if (data.result) {
+          RESPONSE_CACHE.set(key, { answer: data.result, expiresAt: Date.now() + CACHE_TTL_MS });
+          return data.result;
+        }
+      }
+    } catch {
+      // Ignore Redis fetch error
+    }
+  }
+  return null;
+}
+
+async function setCachedAnswer(key: string, answer: string) {
+  if (RESPONSE_CACHE.size >= MAX_CACHE_SIZE) {
+    const oldestKey = RESPONSE_CACHE.keys().next().value;
+    if (oldestKey) RESPONSE_CACHE.delete(oldestKey);
+  }
+  RESPONSE_CACHE.set(key, { answer, expiresAt: Date.now() + CACHE_TTL_MS });
+
+  const redisUrl = process.env.UPSTASH_REDIS_REST_URL;
+  const redisToken = process.env.UPSTASH_REDIS_REST_TOKEN;
+  if (redisUrl && redisToken) {
+    try {
+      await fetch(`${redisUrl}/set/${encodeURIComponent(key)}/${encodeURIComponent(answer)}?EX=86400`, {
+        headers: { Authorization: `Bearer ${redisToken}` },
+      });
+    } catch {
+      // Ignore Redis save error
+    }
+  }
+}
+
 function isIndonesian(text: string): boolean {
   const sample = text.toLowerCase();
   const idKeywords = ["siapa", "bagaimana", "apa", "proyek", "pengalaman", "halo", "kerja", "keahlian", "tolong", "bisa", "jelaskan", "tentang", "kontak"];
@@ -141,6 +197,23 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    const cacheKey = normalizeCacheKey(userMessage);
+    const historyList = (payload.history || []).filter((h) => h.content?.trim());
+
+    // Instant Cache Hit (if standalone query or first query in turn)
+    if (historyList.length === 0) {
+      const cached = await getCachedAnswer(cacheKey);
+      if (cached) {
+        return new Response(cached, {
+          status: 200,
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+            "X-Cache-Lookup": "HIT",
+          },
+        });
+      }
+    }
+
     // Build message thread
     const history = (payload.history || []).slice(-6).map((msg) => ({
       role: msg.role === "user" ? ("user" as const) : ("assistant" as const),
@@ -195,12 +268,16 @@ export async function POST(req: NextRequest) {
         const encoder = new TextEncoder();
 
         let buffer = "";
+        let fullStreamedText = "";
 
         const stream = new ReadableStream({
           async pull(controller) {
             while (true) {
               const { done, value } = await reader.read();
               if (done) {
+                if (fullStreamedText.trim().length > 0) {
+                  setCachedAnswer(cacheKey, fullStreamedText);
+                }
                 controller.close();
                 break;
               }
@@ -218,6 +295,7 @@ export async function POST(req: NextRequest) {
                     const json = JSON.parse(trimmed.slice(6));
                     const delta = json.choices?.[0]?.delta?.content;
                     if (delta) {
+                      fullStreamedText += delta;
                       controller.enqueue(encoder.encode(delta));
                     }
                   } catch {
