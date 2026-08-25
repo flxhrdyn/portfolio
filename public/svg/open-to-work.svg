@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 28" width="520" height="28" fill="none">
+  <rect x="1" y="1" width="518" height="26" rx="13" fill="#11141c" stroke="#222632" stroke-width="1" />
+  <circle cx="16" cy="14" r="3" fill="#ffffff" />
+  <text x="28" y="18" fill="#d1d5db" font-family="'SF Mono', 'Geist Mono', 'Cascadia Code', monospace" font-size="10" font-weight="700" letter-spacing="0.06em">OPEN TO AI ENGINEER &amp; DATA SCIENTIST OPPORTUNITIES</text>
+  <text x="504" y="18" text-anchor="end" fill="#9ca3af" font-family="'SF Mono', 'Geist Mono', monospace" font-size="10" font-weight="600">✉ REACH OUT</text>
+</svg>
