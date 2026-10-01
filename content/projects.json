@@ -61,5 +61,49 @@
       "Explainability: Grad-CAM heatmaps give clinicians a visual check on which tissue regions drove each call, not just a bare label.",
       "Shipped: Dockerized Streamlit app on Hugging Face Spaces with automated CI/CD via GitHub Actions."
     ]
+  },
+  {
+    "slug": "amon-hen",
+    "featured": false,
+    "repo": "amon-hen",
+    "image": "/projects/amon-hen-poster.webp",
+    "video": "/projects/amon-hen-demo.webm",
+    "imageAlt": "Amon Hen CLI search results showing timestamped video segments matched to a natural-language query",
+    "title": "Amon Hen: CPU-Native Video Moment Retrieval",
+    "tags": ["Developer Tools", "CLI / Python Library", "ONNX · SQLite"],
+    "summary": "A CPU-native CLI and Python library for finding moments across local video with natural-language queries. MobileCLIP2 and Whisper-Tiny run through ONNX; SQLite FTS5 and sqlite-vec combine dialogue and visual retrieval.",
+    "modalTitle": "Amon Hen: CPU-Native Video Moment Retrieval",
+    "overview": "Searching long local video archives should not require a discrete GPU, cloud service, or a frame-by-frame scan. Amon Hen indexes video on CPU, then returns timestamped moments from natural-language queries across visual content and spoken dialogue.",
+    "architectureTitle": "Local Indexing & Hybrid Retrieval",
+    "architectureText": "MobileCLIP2 ONNX encodes sampled frames, while Whisper-Tiny ONNX transcribes speech with timestamps. Adaptive frame filtering removes near-duplicates and blurry frames before embeddings are stored in SQLite with sqlite-vec; SQLite FTS5 adds BM25 dialogue search. Visual and speech matches are merged into temporal segments with representative timestamps.",
+    "codeBlock": "amon-hen index ./videos --sampler adaptive\namon-hen search \"a person entering the room\"\namon-hen cut recording.webm --start 00:01:12 --end 00:01:28 -o moment.mp4",
+    "resultsTitle": "What it demonstrates",
+    "results": [
+      "CPU-native: Runs MobileCLIP2 and Whisper-Tiny locally through ONNX without a discrete GPU or cloud dependency.",
+      "Hybrid retrieval: Combines visual embeddings with SQLite FTS5 dialogue search and sqlite-vec storage.",
+      "Useful output: Adaptive frame filtering feeds timestamped, temporally merged segments that can be opened or exported."
+    ]
+  },
+  {
+    "slug": "angrist",
+    "featured": false,
+    "repo": "angrist",
+    "image": "/projects/angrist-poster.webp",
+    "video": "/projects/angrist-demo.webm",
+    "imageAlt": "Angrist CLI showing a targeted Python function repair, followed by test and lint validation in an isolated worktree",
+    "title": "Angrist: AST-Scoped Python Repair",
+    "tags": ["Developer Tools", "Python CLI", "LLM · AST · Git"],
+    "summary": "An LLM-based CLI for repairing a targeted Python function while preserving code outside its AST node. Each candidate is validated in an isolated Git worktree against test and lint gates before it can be merged.",
+    "modalTitle": "Angrist: AST-Scoped Python Repair",
+    "overview": "A focused bug fix should not rewrite neighboring functions or disturb the active working tree. Angrist constrains an LLM-generated Python repair to a target AST node, then checks the candidate in an isolated Git worktree before merging it.",
+    "architectureTitle": "Scoped Patches & Isolated Gates",
+    "architectureText": "Tree-sitter identifies the target function or method and guards code outside its AST node. Angrist creates a temporary Git worktree, generates and sanitizes a candidate patch, then runs the existing tests and lint checks there. Only a patch that passes the AST, test, and lint gates can be merged; failures leave the current workspace untouched.",
+    "codeBlock": "angrist fix \\\n  --file service/auth.py \\\n  --target authenticate_user \\\n  --instruction \"Reject expired tokens\" \\\n  --test-cmd \"pytest\"",
+    "resultsTitle": "What it demonstrates",
+    "results": [
+      "Bounded edits: Locks generated changes to the requested Python function or method's AST node.",
+      "Safe validation: Runs candidate patches in an isolated Git worktree with test and lint regression gates.",
+      "Demo source: The terminal video is rendered from captured output; it is not a live computation or screen recording."
+    ]
   }
 ]
