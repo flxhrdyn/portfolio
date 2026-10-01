@@ -2,75 +2,58 @@
 
 import Link from "next/link";
 import { m, useReducedMotion, type Variants } from "motion/react";
+import { useSyncExternalStore } from "react";
 import ChatWidget from "./ChatWidget";
-import SynapticMeshCanvas from "./SynapticMeshCanvas";
-import WordReveal from "./WordReveal";
 import { EASE_OUT as SCALE_AI_EASE } from "@/lib/motion";
 
+const subscribeToHydration = () => () => {};
+const clientSnapshot = () => true;
+const serverSnapshot = () => false;
+
 const container: Variants = {
-  hidden: { opacity: 0 },
+  hidden: {},
   show: {
-    opacity: 1,
     transition: {
-      staggerChildren: 0.06,
-      delayChildren: 0.02,
     },
   },
 };
 
 const textReveal: Variants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 10 },
   show: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
+      duration: 0.45,
       ease: SCALE_AI_EASE,
-    },
-  },
-};
-
-const consoleReveal: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: SCALE_AI_EASE,
-      delay: 0.08,
     },
   },
 };
 
 export default function ChatHero() {
   const reduceMotion = useReducedMotion();
+  const hydrated = useSyncExternalStore(subscribeToHydration, clientSnapshot, serverSnapshot);
 
   return (
-    <div className="hero-wrapper chat-hero-wrapper" style={{ minHeight: "calc(100vh - 4.5rem)", display: "flex", alignItems: "center", position: "relative", overflow: "hidden" }}>
-      {/* BACKGROUND INTERACTIVE SYNAPTIC ATTENTION MESH */}
-      <SynapticMeshCanvas />
-
+    <div className="hero-wrapper chat-hero-wrapper">
       <m.header
         className="container chat-hero-content"
-        style={{ paddingTop: "1.5rem", paddingBottom: "1.5rem", position: "relative", zIndex: 1 }}
-        initial={reduceMotion ? undefined : "hidden"}
-        animate={reduceMotion ? undefined : "show"}
+        initial={hydrated && reduceMotion ? false : "hidden"}
+        animate="show"
         variants={container}
       >
         <div className="hero-text-col">
           <div className="hero-title-group">
             <m.div className="hero-eyebrow" variants={textReveal}>
-              <span className="telemetry-status-dot" aria-hidden="true" style={{ width: "6px", height: "6px" }} />
               <span>ACTIVE // AI ENGINEER &amp; DATA SCIENTIST</span>
             </m.div>
-            <WordReveal as="h1" className="hero-title" text="Felix Windriyareksa Hardyan" immediate delay={0.06} />
+            <m.h1 className="hero-title" variants={textReveal}>Felix Windriyareksa Hardyan</m.h1>
             <m.p className="hero-description" variants={textReveal}>
               Building production-grade AI systems, from Data Science to GenAI.
             </m.p>
           </div>
 
-          <m.div variants={textReveal} className="hero-actions" style={{ marginTop: "1.5rem" }}>
+          <m.div variants={textReveal} className="hero-actions">
             <Link href="/portfolio" className="btn-pill btn-pill-primary group">
               <span>View Full Portfolio</span>
               <svg
@@ -95,7 +78,7 @@ export default function ChatHero() {
           </m.div>
         </div>
 
-        <m.div variants={consoleReveal} className="chat-widget-col">
+        <m.div variants={textReveal} className="chat-widget-col">
           <ChatWidget />
         </m.div>
       </m.header>
