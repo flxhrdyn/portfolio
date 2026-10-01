@@ -96,6 +96,10 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
                 {link.label}
               </a>
             ))}
+            <div className="nav-mobile-actions">
+              <Link href="/" className="nav-link" onClick={() => setMenuOpen(false)}>Ask AI</Link>
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="nav-link">Resume</a>
+            </div>
           </div>
         )}
 
