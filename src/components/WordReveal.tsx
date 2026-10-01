@@ -5,21 +5,15 @@ import type { ElementType } from "react";
 import { EASE_OUT, DUR, WORD_STAGGER, VIEWPORT } from "@/lib/motion";
 
 /**
- * The headline resolve — this site's one authored motion moment.
- *
- * Every display headline arrives the way this portfolio's own subject matter arrives:
- * an inference resolving. Words land left to right, each starting unresolved (blurred,
- * dimmed, low) and snapping to full confidence, mirroring the confidence-scored
- * detection box in the hero.
+ * Headings use a short, low-distance reveal that keeps the text readable throughout.
  */
 
 const wordVariants: Variants = {
-  hidden: { opacity: 0, y: "0.3em", filter: "blur(7px)" },
+  hidden: { opacity: 0, y: "0.12em" },
   show: {
     opacity: 1,
     y: "0em",
-    filter: "blur(0px)",
-    transition: { duration: DUR.entrance, ease: EASE_OUT },
+    transition: { duration: DUR.state, ease: EASE_OUT },
   },
 };
 
@@ -48,7 +42,7 @@ export default function WordReveal({
 
   const containerVariants: Variants = {
     hidden: {},
-    show: { transition: { staggerChildren: WORD_STAGGER, delayChildren: delay } },
+    show: { transition: { staggerChildren: WORD_STAGGER / 2, delayChildren: delay } },
   };
 
   const trigger = immediate

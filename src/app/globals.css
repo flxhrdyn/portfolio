@@ -4370,23 +4370,10 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      background-color: var(--bg-primary);
-      pointer-events: all;
+      background-color: color-mix(in srgb, var(--bg-primary) 88%, transparent);
+      pointer-events: none;
       user-select: none;
       overflow: hidden;
-    }
-
-    .transition-dot-grid {
-      position: absolute;
-      inset: 0;
-      background-image: radial-gradient(circle, var(--text-primary) 1px, transparent 1px);
-      background-size: 24px 24px;
-      opacity: 0.08;
-      pointer-events: none;
-    }
-
-    [data-theme="dark"] .transition-dot-grid {
-      opacity: 0.14;
     }
 
     .transition-pixel-stage {
@@ -4396,24 +4383,11 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 1.15rem;
-      padding: 3rem 4rem;
-      background: var(--card-bg);
+      gap: 0.65rem;
+      width: min(100% - 2rem, 30rem);
+      padding: 1.25rem 1.5rem;
+      background: var(--bg-primary);
       border: 1px solid var(--border-color);
-      border-radius: 0;
-      box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
-      animation: transitionStageZoom 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    @keyframes transitionStageZoom {
-      0% {
-        transform: scale(0.96) translateY(6px);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-      }
     }
 
     /* 4 Corner Geometric Brackets */
@@ -4458,9 +4432,9 @@
       align-items: center;
       gap: 0.5rem;
       font-family: var(--font-mono, monospace);
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.14em;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
       color: var(--text-secondary);
     }
 
@@ -4470,22 +4444,20 @@
     }
 
     .transition-pixel-title {
-      font-family: var(--font-pixel, var(--font-mono), monospace);
-      font-size: clamp(1.75rem, 4.5vw, 3.25rem);
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      line-height: 1.1;
+      max-width: 100%;
+      font-family: var(--font-sans, sans-serif);
+      font-size: clamp(1.125rem, 3vw, 1.5rem);
+      font-weight: 600;
+      letter-spacing: -0.025em;
+      line-height: 1.2;
       color: var(--text-primary);
-      text-transform: uppercase;
-      image-rendering: pixelated;
     }
 
     .transition-pixel-track {
       width: 100%;
-      max-width: 240px;
-      height: 3px;
+      max-width: 180px;
+      height: 1px;
       background: var(--border-color);
-      border-radius: 2px;
       overflow: hidden;
       position: relative;
     }
@@ -4494,7 +4466,7 @@
       height: 100%;
       width: 0%;
       background: var(--text-primary);
-      animation: transitionBarFill 0.82s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+      animation: transitionBarFill 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     @keyframes transitionBarFill {

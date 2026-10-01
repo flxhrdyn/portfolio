@@ -22,6 +22,11 @@ export default function PageTransitionLoader() {
       // Only handle internal page transitions between / and /portfolio
       if (
         (href === "/portfolio" || href === "/portfolio/" || href === "/" || href === "/#") &&
+        !e.defaultPrevented &&
+        !e.metaKey &&
+        !e.ctrlKey &&
+        !e.shiftKey &&
+        !e.altKey &&
         !target.hasAttribute("download") &&
         target.getAttribute("target") !== "_blank"
       ) {
@@ -33,10 +38,7 @@ export default function PageTransitionLoader() {
           setTargetLabel(cleanHref === "/portfolio" ? "TECHNICAL PORTFOLIO" : "AI AGENT CONSOLE");
           setTargetRoute(cleanHref === "/portfolio" ? "/portfolio" : "/landing");
           setIsTransitioning(true);
-
-          setTimeout(() => {
-            router.push(cleanHref);
-          }, 450);
+          router.push(cleanHref);
         }
       }
     };
@@ -47,9 +49,7 @@ export default function PageTransitionLoader() {
 
   useEffect(() => {
     if (isTransitioning) {
-      const timer = setTimeout(() => {
-        setIsTransitioning(false);
-      }, 950);
+      const timer = setTimeout(() => setIsTransitioning(false), 180);
       return () => clearTimeout(timer);
     }
   }, [pathname, isTransitioning]);
@@ -63,20 +63,11 @@ export default function PageTransitionLoader() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+          aria-hidden="true"
         >
-          {/* Subtle Background Dot Grid */}
-          <div className="transition-dot-grid" aria-hidden="true" />
-
-          {/* Center Pixel Stage with Corner Reticles */}
+          {/* Keep the existing route wording while limiting the overlay to a brief cue. */}
           <div className="transition-pixel-stage">
-            {/* 4 Corner Geometric Brackets */}
-            <span className="reticle-corner reticle-tl" aria-hidden="true" />
-            <span className="reticle-corner reticle-tr" aria-hidden="true" />
-            <span className="reticle-corner reticle-bl" aria-hidden="true" />
-            <span className="reticle-corner reticle-br" aria-hidden="true" />
-
-            {/* Top Logo Brandmark Matching Navbar */}
             <div className="transition-pixel-eyebrow">
               <svg
                 width="18"
@@ -109,17 +100,14 @@ export default function PageTransitionLoader() {
               <span style={{ fontSize: "0.68rem", letterSpacing: "0.14em" }}>ROUTING</span>
             </div>
 
-            {/* Center Geist Pixel Title */}
             <h1 className="transition-pixel-title">
               {targetLabel}
             </h1>
 
-            {/* Kinetic Segmented Progress Bar */}
             <div className="transition-pixel-track">
               <div className="transition-pixel-bar" />
             </div>
 
-            {/* Micro Route Code */}
             <div className="transition-pixel-route">
               <code>TARGET &rarr; {targetRoute}</code>
             </div>
