@@ -4316,8 +4316,8 @@
         display: inline;
       }
 
-      .navbar .nav-resume-btn,
-      .navbar .btn-pill-ask-ai {
+      .navbar-portfolio .nav-resume-btn,
+      .navbar-portfolio .btn-pill-ask-ai {
         display: none !important;
       }
 

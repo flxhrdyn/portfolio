@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { m, useReducedMotion, type Variants } from "motion/react";
 import { scrollToAnchor } from "@/lib/scrollToAnchor";
@@ -28,6 +28,8 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
   const reduceMotion = useReducedMotion();
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [menuOpen, setMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const mobileMenuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     // The theme attribute is set by an inline script before hydration, so it can
@@ -36,6 +38,22 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setTheme(current === "dark" ? "dark" : "light");
   }, []);
+
+  useEffect(() => {
+    if (!menuOpen) return;
+
+    mobileMenuRef.current?.querySelector<HTMLElement>("a[href]")?.focus();
+
+    const handleMenuKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      event.preventDefault();
+      setMenuOpen(false);
+      mobileMenuButtonRef.current?.focus();
+    };
+
+    document.addEventListener("keydown", handleMenuKeyDown);
+    return () => document.removeEventListener("keydown", handleMenuKeyDown);
+  }, [menuOpen]);
 
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
@@ -51,7 +69,7 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
 
   return (
     <m.nav
-      className="navbar"
+      className={`navbar navbar-${variant}`}
       id="top-nav"
       variants={navVariants}
       initial={reduceMotion ? undefined : "hidden"}
@@ -90,7 +108,7 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
         </Link>
 
         {variant === "portfolio" && (
-          <div className={`nav-links${menuOpen ? " active" : ""}`} id="nav-links">
+          <div ref={mobileMenuRef} className={`nav-links${menuOpen ? " active" : ""}`} id="nav-links">
             {NAV_LINKS.map((link) => (
               <a key={link.href} href={link.href} className="nav-link" onClick={(e) => handleNavClick(e, link.href)}>
                 {link.label}
@@ -157,8 +175,9 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
           </button>
 
           {variant === "portfolio" && (
-            <button
-              className="mobile-menu-btn"
+          <button
+            ref={mobileMenuButtonRef}
+            className="mobile-menu-btn"
               onClick={() => setMenuOpen((v) => !v)}
               aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={menuOpen}
