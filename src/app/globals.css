@@ -984,10 +984,31 @@
     }
 
     .status-dot {
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
+      flex: 0 0 8px;
       border-radius: var(--radius-full);
-      background-color: var(--accent-color);
+      border: 1.5px solid currentColor;
+      background-color: transparent;
+    }
+
+    .status-dot--answering {
+      background-color: currentColor;
+      animation: chatStatusPulse 1.4s ease-in-out infinite;
+    }
+
+    .status-dot--error {
+      border-radius: 1px;
+      background-color: currentColor;
+      transform: rotate(45deg);
+    }
+
+    @keyframes chatStatusPulse {
+      50% { opacity: 0.35; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .status-dot--answering { animation: none; }
     }
 
     .chat-body {
@@ -1214,6 +1235,12 @@
     .chat-retry-btn:hover {
       border-color: var(--text-primary);
       transform: translateY(-1px);
+    }
+
+    .chat-retry-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
     }
 
     /* TYPING INDICATOR */

@@ -174,6 +174,18 @@ export default function ChatWidget() {
   const [isTyping, setIsTyping] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
   const [statusIndex, setStatusIndex] = useState(0);
+  const lastMessage = messages[messages.length - 1];
+  const chatState = isTyping || isStreaming ? "answering" : lastMessage?.isError ? "error" : "idle";
+  const statusAnnouncement = chatState === "answering"
+    ? "Answering your question."
+    : chatState === "error"
+      ? "Unable to reach Hawat AI. Retry is available."
+      : "Ready for a question.";
+  const indicatorLabel = chatState === "answering"
+    ? "Answer in progress"
+    : chatState === "error"
+      ? "Last request failed"
+      : "Waiting for a question";
   
   const bodyRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -332,14 +344,15 @@ export default function ChatWidget() {
     abortControllerRef.current = controller;
 
     const userMsgId = `${Date.now()}-u`;
-    setMessages((prev) => {
-      const history = prev.slice(-6).map((msg) => ({
-        role: msg.sender === "user" ? "user" : "assistant",
-        content: toPlainText(msg),
-      }));
+    const history = messages.slice(-6).map((msg) => ({
+      role: msg.sender === "user" ? "user" : "assistant",
+      content: toPlainText(msg),
+    }));
+    setMessages((prev) => [...prev, { id: userMsgId, sender: "user", text: trimmed }]);
+    setInput("");
 
-      // Initiate network fetch asynchronously with preserved history
-      (async () => {
+    // Initiate network fetch asynchronously with preserved history
+    (async () => {
         setIsTyping(true);
         setStatusIndex(0);
 
@@ -388,9 +401,13 @@ export default function ChatWidget() {
             return;
           }
           state.isNetworkDone = true;
+          if (state.rafId !== null) {
+            cancelAnimationFrame(state.rafId);
+            state.rafId = null;
+          }
           setIsStreaming(false);
           setMessages((current) => [
-            ...current,
+            ...current.map((msg) => msg.id === replyId ? { ...msg, isStreaming: false } : msg),
             {
               id: `${Date.now()}-b`,
               sender: "bot",
@@ -402,12 +419,8 @@ export default function ChatWidget() {
           setIsTyping(false);
           abortControllerRef.current = null;
         }
-      })();
-
-      return [...prev, { id: userMsgId, sender: "user", text: trimmed }];
-    });
-    setInput("");
-  }, [isTyping, isStreaming, startSmoothStreamLoop]);
+    })();
+  }, [isTyping, isStreaming, messages, startSmoothStreamLoop]);
 
   return (
     <div className="chat-card-container">
@@ -418,10 +431,13 @@ export default function ChatWidget() {
             <span className="chat-header-title">ASK MY PORTFOLIO</span>
           </div>
           <div className="chat-header-status">
-            <span className="status-dot" aria-hidden="true" />
-            <span>ONLINE</span>
+            <span className={`status-dot status-dot--${chatState}`} role="img" aria-label={indicatorLabel} />
+            <span aria-hidden="true">ONLINE</span>
           </div>
         </div>
+        <span className="sr-only" role="status" aria-live="polite" aria-atomic="true">
+          {statusAnnouncement}
+        </span>
 
         {/* MESSAGES VIEWPORT */}
         <div style={{ display: "flex", flexDirection: "column", flexGrow: 1, overflow: "hidden", minHeight: 0 }}>
@@ -439,6 +455,7 @@ export default function ChatWidget() {
                           <button
                             type="button"
                             className="chat-retry-btn"
+                            disabled={isTyping || isStreaming}
                             onClick={() => {
                               if (msg.failedQuery) send(msg.failedQuery);
                             }}
