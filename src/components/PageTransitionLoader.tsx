@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, m } from "motion/react";
 
@@ -10,6 +10,8 @@ export default function PageTransitionLoader() {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [targetLabel, setTargetLabel] = useState("TECHNICAL PORTFOLIO");
   const [targetRoute, setTargetRoute] = useState("/portfolio");
+  const [requestedPath, setRequestedPath] = useState<string | null>(null);
+  const hasReachedTarget = useRef(false);
 
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -37,6 +39,8 @@ export default function PageTransitionLoader() {
           e.preventDefault();
           setTargetLabel(cleanHref === "/portfolio" ? "TECHNICAL PORTFOLIO" : "AI AGENT CONSOLE");
           setTargetRoute(cleanHref === "/portfolio" ? "/portfolio" : "/landing");
+          hasReachedTarget.current = false;
+          setRequestedPath(cleanHref);
           setIsTransitioning(true);
           router.push(cleanHref);
         }
@@ -48,11 +52,23 @@ export default function PageTransitionLoader() {
   }, [pathname, router]);
 
   useEffect(() => {
-    if (isTransitioning) {
-      const timer = setTimeout(() => setIsTransitioning(false), 180);
+    if (!isTransitioning || !requestedPath) return;
+
+    if (pathname === requestedPath) {
+      hasReachedTarget.current = true;
+      const timer = setTimeout(() => setIsTransitioning(false), 280);
       return () => clearTimeout(timer);
     }
-  }, [pathname, isTransitioning]);
+
+    if (hasReachedTarget.current) setIsTransitioning(false);
+  }, [pathname, requestedPath, isTransitioning]);
+
+  useEffect(() => {
+    if (!isTransitioning) return;
+
+    const fallback = setTimeout(() => setIsTransitioning(false), 5000);
+    return () => clearTimeout(fallback);
+  }, [isTransitioning]);
 
   return (
     <AnimatePresence mode="wait">
