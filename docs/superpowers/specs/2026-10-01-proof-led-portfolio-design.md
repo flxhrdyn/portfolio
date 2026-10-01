@@ -2,7 +2,7 @@
 
 ## Goal
 
-Make the portfolio cleaner, more minimal, and more distinctive through the strength of its work and implementation. Take cues from the current Vercel homepage's open spacing, strong type, and precise geometry, and Scale's media-led project storytelling and concrete proof. Preserve the chat-first purpose and the existing monochrome identity while making the web craft visible through responsive composition, well-made project media, and restrained interaction.
+Make the portfolio cleaner, more minimal, and more distinctive through the strength of its work and implementation. Take cues from the current Vercel homepage's open spacing, strong type, and precise geometry, and Scale's media-led project storytelling and concrete proof. Preserve the chat-first purpose and the existing monochrome identity while making the web craft visible through responsive composition, well-made project media, clear UX, full-stack evidence, and restrained interaction.
 
 “Old-school Computer Science” means mature engineering judgment and substance over spectacle. It does not mean retro terminal chrome, a lab-notebook costume, or decorative technical motifs.
 
@@ -15,6 +15,7 @@ Success means:
 - The design feels authored for Felix through the actual projects, demos, and technical detail.
 - The first screen has a clear identity, short proposition, primary chat action, and one supporting route.
 - The project list gives Amon Hen and Angrist enough media and context to communicate what each tool does.
+- The case studies make both interface decisions and the underlying service/model/data flow easy to understand.
 - No text, video, or control is clipped at 320px and above.
 - Animation improves comprehension or feedback, follows one calm motion language, and respects reduced-motion preferences.
 - Theme behavior, chat status, and video controls are truthful and accessible.
@@ -24,6 +25,8 @@ Success means:
 Use a quiet editorial layout: generous negative space, clear alignment, strong but controlled headline sizing, concise copy, and sharp contrast. Keep Geist Sans for reading and display, Geist Mono for code, measurements, and technical labels. Keep the monochrome palette and light/dark switch; use the clean light surface as the first-visit presentation, consistent with the current Vercel and Scale homepages, while maintaining a complete dark variant.
 
 Give the portfolio its own character through the specificity of project evidence and carefully composed type, not a borrowed logo, signature triangle, enterprise photography, or generic AI graphics. Remove the full-hero particle mesh and redundant “ACTIVE //” eyebrow. Let project titles, screenshots, and demo sequences carry the visual interest. Keep cards varied according to their evidence rather than repeating a stock icon-heading-description pattern.
+
+The unique signature is an engineering portfolio that makes the work inspectable from the user experience down to the system boundary. Let a visitor move from a project outcome to its interface, API/service, model or retrieval layer, and deployment where the project data supports those details. Present the parts as a concise, readable system map or case-study narrative, not a simulated dashboard. This should show judgment in information hierarchy, responsive interaction, accessibility, and technical accuracy at once.
 
 ## Motion direction
 
@@ -49,6 +52,8 @@ Both repositories provide a `demo/demo.gif` terminal demonstration. Download tho
 
 Keep the existing InvenioAI, Omnius, and LUCIAN entries. Place the new project cases in the same projects experience and preserve current case-study behavior. Do not change project claims beyond the new content needed for these two entries.
 
+Use the existing full-stack work where it is factual: InvenioAI's Streamlit interface, FastAPI service, hybrid Qdrant retrieval, and Docker deployment; Omnius's React interface, FastAPI/SSE service, research agent, and Azure deployment. Show the relevant layers as concise evidence inside their case studies. For Amon Hen and Angrist, describe their real CLI/library interfaces and processing/validation pipelines; do not imply they are web applications.
+
 ## Responsive and accessible behavior
 
 Constrain all grid children with `min-width: 0`; allow long names and project labels to wrap; make every video scale to its modal; and keep mobile actions and chip controls reachable. Preserve visible keyboard focus and touch targets. Give posters descriptive alternative text. Video controls and modal keyboard behavior must remain usable with keyboard and assistive technology.
@@ -71,6 +76,7 @@ The backend, chat retrieval behavior, and non-project portfolio content are outs
 - At 320px, 390px, tablet, and desktop widths, no hero content, project card, modal, or video is clipped.
 - The homepage communicates Felix's role, the chat action, and a path to the full portfolio without decorative filler.
 - The Projects section includes Amon Hen and Angrist with accurate summaries, working GitHub links, useful poster frames, and usable self-hosted demos.
+- At least one existing web system case study shows its user interface, service/API, model/data layer, and deployment as a concise, accurate path; CLI tools are identified as CLI tools.
 - The source demos are converted to WebM and are materially smaller than their source GIFs; no unrelated sample video is added.
 - Chat labels reflect interface state, failed requests have a recovery path, and state updates are announced without streaming chatter.
 - Light is the first-visit theme, a saved theme choice is honored, and both themes maintain readable contrast.
