@@ -210,9 +210,8 @@
       top: 0;
       z-index: 0;
       background-image: none;
-      /* The first screen ends at the metrics strip, so the count-up plays in view and
-         Featured Projects starts below the fold. */
-      min-height: calc(100svh - 4.5rem - 7.75rem);
+      /* A full first screen, like the contact finale: the hero gets the room to itself. */
+      min-height: calc(100svh - 4.5rem);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -496,11 +495,12 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding-block: clamp(1.5rem, 6svh, 5rem);
+      padding-top: 5rem;
+      padding-bottom: 5rem;
     }
 
     .hero-name {
-      font-family: var(--font-pixel);
+      font-family: var(--font-mono);
       font-size: clamp(1.125rem, 1.6vw, 1.375rem);
       font-weight: 500;
       letter-spacing: -0.01em;
