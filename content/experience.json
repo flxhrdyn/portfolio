@@ -3,22 +3,10 @@
     {
       "title": "Data Analyst Intern",
       "company": "PT Tunas Ridean Tbk (Tunas Group)",
-      "logo": "/logos/tunas.png",
+      "logo": "/logos/tunas-group.png",
       "date": "Sep 2026 – Present",
       "headline": "Data analytics internship at Tunas Group, on-site in Jakarta.",
       "highlights": []
-    },
-    {
-      "title": "Data Scientist Intern",
-      "company": "PT Astra Visteon Indonesia",
-      "logo": "/logos/avi.svg",
-      "date": "Jun 2026 – Sep 2026",
-      "headline": "Shipped the company's first AI predictive maintenance system, raising critical-event recall from 0% to 60%.",
-      "highlights": [
-        "Built the company’s first AI-Based Compressor Downtime Monitoring and Predictive Maintenance System using React, FastAPI, Python, and SQL.",
-        "Analyzed 150K+ operational records and applied recall-focused optimization, boosting critical event detection recall from 0% to 60%.",
-        "Developed an end-to-end pipeline and web dashboard enabling real-time anomaly detection, automated alerts, and live operational monitoring for factory engineers."
-      ]
     },
     {
       "title": "AI Engineer (Part-time)",
@@ -30,6 +18,18 @@
         "Built a production-ready AI laboratory assistant that helps students troubleshoot laboratory systems and programming issues using a fine-tuned Qwen3-8B model and Retrieval-Augmented Generation (RAG).",
         "Published peer-reviewed research applying deep learning (CoralNet, InceptionV3, MobileNetV2) to automate coral bleaching detection, achieving 89% accuracy to support marine biodiversity monitoring.",
         "Deployed distributed AI workloads on NVIDIA DGX-1 and DGX A100 with infrastructure teams using Docker."
+      ]
+    },
+    {
+      "title": "Data Scientist Intern",
+      "company": "PT Astra Visteon Indonesia",
+      "logo": "/logos/avi.svg",
+      "date": "Jun 2026 – Sep 2026",
+      "headline": "Shipped the company's first AI predictive maintenance system, raising critical-event recall from 0% to 60%.",
+      "highlights": [
+        "Built the company’s first AI-Based Compressor Downtime Monitoring and Predictive Maintenance System using React, FastAPI, Python, and SQL.",
+        "Analyzed 150K+ operational records and applied recall-focused optimization, boosting critical event detection recall from 0% to 60%.",
+        "Developed an end-to-end pipeline and web dashboard enabling real-time anomaly detection, automated alerts, and live operational monitoring for factory engineers."
       ]
     },
     {

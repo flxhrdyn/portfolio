@@ -2705,24 +2705,10 @@
       max-width: 60ch;
     }
 
-    /* Company logo badge */
     .company-logo {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       flex-shrink: 0;
-      padding: 0.2rem 0.4rem;
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-sm);
-      background-color: #ffffff;
-      filter: grayscale(1);
-      opacity: 0.8;
-      transition: filter 0.2s ease, opacity 0.2s ease;
-    }
-
-    .exp-log-entry:hover .company-logo {
-      filter: grayscale(0);
-      opacity: 1;
     }
 
     /* Mobile responsiveness */
