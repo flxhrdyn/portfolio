@@ -5,5 +5,7 @@
   { "name": "Gold Price Prediction Dashboard", "repo": "Gold-Price-Prediction-Dashboard", "category": "Time Series Forecasting", "stack": "scikit-learn, Streamlit", "status": "Completed", "statusColor": "green" },
   { "name": "LUCIAN Lung Classifier", "repo": "LUCIAN", "category": "Medical Vision", "stack": "ConvNeXt-Base, TensorFlow", "status": "Featured", "statusColor": "blue" },
   { "name": "InvenioAI", "repo": "InvenioAI", "category": "Advanced RAG", "stack": "LangChain, Qdrant, FastAPI", "status": "Featured", "statusColor": "blue" },
-  { "name": "Omnius Platform", "repo": "Omnius", "category": "Media Analysis LLM", "stack": "React, TypeScript, LLMs", "status": "Featured", "statusColor": "blue" }
+  { "name": "Omnius Platform", "repo": "Omnius", "category": "Media Analysis LLM", "stack": "React, TypeScript, LLMs", "status": "Completed", "statusColor": "green" },
+  { "name": "Amon Hen", "repo": "amon-hen", "category": "Video Moment Retrieval", "stack": "ONNX, SQLite FTS5, sqlite-vec", "status": "Featured", "statusColor": "blue" },
+  { "name": "Angrist", "repo": "angrist", "category": "LLM Developer Tools", "stack": "Python, Tree-sitter, Git", "status": "Featured", "statusColor": "blue" }
 ]
