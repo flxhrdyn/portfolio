@@ -4,8 +4,9 @@ import { useRef, type ReactNode } from "react";
 import { m, useReducedMotion, useScroll, useSpring } from "motion/react";
 import experience from "@/content/experience.json";
 import CompanyLogo from "./CompanyLogo";
+import Reveal from "./Reveal";
 import ScrollLinked from "./ScrollLinked";
-import SectionHeader from "./SectionHeader";
+import WordReveal from "./WordReveal";
 
 /**
  * A rail whose fill tracks how far the reader has scrolled through the log.
@@ -100,7 +101,12 @@ export default function ExperienceSection() {
   return (
     <section className="section" id="experience">
       <div className="container">
-        <SectionHeader index="02" label="Career" title="Experience & Education" description="Professional engineering roles, applied AI research, and academic milestones." />
+        <WordReveal text="Experience & Education" />
+        <Reveal delay={0.12}>
+          <p style={{ marginBottom: "2.25rem", maxWidth: "60ch" }}>
+            Professional engineering roles, applied AI research, and academic milestones.
+          </p>
+        </Reveal>
 
         {/* WORK EXPERIENCE BLOCK */}
         <div className="exp-block">

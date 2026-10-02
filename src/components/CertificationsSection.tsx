@@ -4,8 +4,9 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { m, useInView, useReducedMotion, type Variants } from "motion/react";
 import Modal from "./Modal";
 import ResearchPaperBody from "./ResearchPaperBody";
+import Reveal from "./Reveal";
 import ScrollLinked from "./ScrollLinked";
-import SectionHeader from "./SectionHeader";
+import WordReveal from "./WordReveal";
 import certifications from "@/content/certifications.json";
 import writing from "@/content/writing.json";
 
@@ -114,7 +115,12 @@ export default function CertificationsSection() {
       <span id="certifications" style={{ position: "absolute", top: 0, pointerEvents: "none" }} />
 
       <div className="container">
-        <SectionHeader index="04" label="Proof" title="Research & Certifications" description="Academic publications and certifications in AI, machine learning, and data science." />
+        <WordReveal text="Research & Certifications" />
+        <Reveal delay={0.12}>
+          <p style={{ marginBottom: "2.25rem", maxWidth: "60ch" }}>
+            Academic publications and certifications in AI, machine learning, and data science.
+          </p>
+        </Reveal>
 
         {/* ASYMMETRIC ENGINEERING BENTO */}
         <div className="research-bento-grid">
