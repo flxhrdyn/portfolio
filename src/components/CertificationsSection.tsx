@@ -110,10 +110,6 @@ export default function CertificationsSection() {
                 </div>
 
                 <h3 className="research-paper-title">{paper.title}</h3>
-                
-                <p className="research-authors-clean">
-                  Ulfa H., Felix W. Hardyan, Faizah R., Ali A., Fanka A., Mario M.
-                </p>
 
                 {/* TELEMETRY BENCHMARK SECTION (GROQ / SCALE AI FLAT INSTRUMENTATION) */}
                 <div className="telemetry-benchmark-section" ref={leaderboardRef}>
@@ -197,7 +193,6 @@ export default function CertificationsSection() {
             >
               <div className="certs-stack-header">
                 <span className="certs-header-badge">VERIFIED CERTIFICATIONS</span>
-                <span className="certs-count-pill">{certifications.length} Certs</span>
               </div>
 
               {reduceMotion ? (
@@ -267,9 +262,7 @@ export default function CertificationsSection() {
 
               {/* FOOTER: infinite ← → nav only */}
               <div className="certs-pagination-footer">
-                <span className="certs-page-info">
-                  Page {certPage + 1} of {totalPages}
-                </span>
+                <span className="certs-page-info">{certifications.length} certifications</span>
 
                 <div className="certs-page-controls">
                   <button
