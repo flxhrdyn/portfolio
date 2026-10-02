@@ -459,11 +459,9 @@
       margin-bottom: 0;
     }
 
-    /* TYPESAFE BOLD CTA BUTTON (INDEPENDENT DISPLAY ACTION WITH ANIMATED UNDERLINE) */
+    /* HERO CTA: same hover treatment as the contact rows (native underline, muted to primary) */
     .typesafe-cta {
       display: inline-block;
-      position: relative;
-      text-decoration: none;
       cursor: pointer;
       padding: 0.15rem 0;
       user-select: none;
@@ -474,28 +472,13 @@
       letter-spacing: -0.05em;
       line-height: 1;
       color: var(--text-secondary);
-      transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .typesafe-cta::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      bottom: -4px;
-      width: 100%;
-      height: 2.5px;
-      background-color: var(--text-primary);
-      transform: scaleX(0);
-      transform-origin: left center;
-      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      text-decoration: none;
+      transition: color 0.18s ease;
     }
 
     .typesafe-cta:hover {
       color: var(--text-primary);
-    }
-
-    .typesafe-cta:hover::after {
-      transform: scaleX(1);
+      text-decoration: underline;
     }
 
     .typesafe-cta:active {
