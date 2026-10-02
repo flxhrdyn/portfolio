@@ -1,14 +1,23 @@
 {
   "work": [
     {
-      "title": "IT Intern (ML & Data Science)",
+      "title": "Data Analyst Intern",
+      "company": "PT Tunas Ridean Tbk (Tunas Group)",
+      "logo": "/logos/tunas.png",
+      "date": "Sep 2026 – Present",
+      "headline": "Data analytics internship at Tunas Group, on-site in Jakarta.",
+      "highlights": []
+    },
+    {
+      "title": "Data Scientist Intern",
       "company": "PT Astra Visteon Indonesia",
       "logo": "/logos/avi.svg",
-      "date": "June 2026 – Present",
+      "date": "Jun 2026 – Sep 2026",
+      "headline": "Shipped the company's first AI predictive maintenance system, raising critical-event recall from 0% to 60%.",
       "highlights": [
-        "Developed a data-driven monitoring system for industrial air compressors, analyzing 150K+ operational records to identify maintenance-critical conditions and support earlier intervention.",
-        "Introduced the company's first AI-based predictive maintenance system, improving maintenance-critical event detection recall from 0% to 60% through feature engineering and recall-focused model optimization.",
-        "Built an end-to-end monitoring pipeline with Python, SQL, and FastAPI, enabling real-time anomaly detection, automated alerts, and live operational monitoring."
+        "Built the company’s first AI-Based Compressor Downtime Monitoring and Predictive Maintenance System using React, FastAPI, Python, and SQL.",
+        "Analyzed 150K+ operational records and applied recall-focused optimization, boosting critical event detection recall from 0% to 60%.",
+        "Developed an end-to-end pipeline and web dashboard enabling real-time anomaly detection, automated alerts, and live operational monitoring for factory engineers."
       ]
     },
     {
@@ -16,6 +25,7 @@
       "company": "HPC Universitas Gunadarma (HPC-UG)",
       "logo": "/logos/hpc_ug.svg",
       "date": "Sept 2024 – Present",
+      "headline": "Built a production RAG lab assistant on a fine-tuned Qwen3-8B, running on NVIDIA DGX.",
       "highlights": [
         "Built a production-ready AI laboratory assistant that helps students troubleshoot laboratory systems and programming issues using a fine-tuned Qwen3-8B model and Retrieval-Augmented Generation (RAG).",
         "Published peer-reviewed research applying deep learning (CoralNet, InceptionV3, MobileNetV2) to automate coral bleaching detection, achieving 89% accuracy to support marine biodiversity monitoring.",
@@ -27,6 +37,7 @@
       "company": "Universitas Gunadarma",
       "logo": "/logos/gunadarma.svg",
       "date": "Feb 2025 – Aug 2025",
+      "headline": "Taught GenAI, NLP, and LLM application design to international students and faculty.",
       "highlights": [
         "Delivered hands-on training on Generative AI, NLP, and LLM applications to international students and academic faculty, bridging AI theory with practical implementation workflows.",
         "Guided participants in architecting end-to-end GenAI applications, covering NLP basics, LLM integration, prompt engineering, and production-ready system design."
@@ -37,6 +48,7 @@
       "company": "Lembaga Pengembangan Komputerisasi Universitas Gunadarma (LePKom)",
       "logo": "/logos/gunadarma.svg",
       "date": "Jun 2025 – Jun 2026",
+      "headline": "Mentored 200+ participants through end-to-end ML projects, from data to deployment.",
       "highlights": [
         "Mentored and assessed 200+ participants building end-to-end ML solutions, from data preprocessing through model deployment.",
         "Developed practical AI/ML learning modules based on real-world engineering scenarios, emphasizing reproducible experimentation and production-oriented development.",

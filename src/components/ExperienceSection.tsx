@@ -1,99 +1,127 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
-import { m, useReducedMotion, useScroll, useSpring } from "motion/react";
+import { useId, useState } from "react";
+import { AnimatePresence, m, useReducedMotion, type Variants } from "motion/react";
 import experience from "@/content/experience.json";
 import CompanyLogo from "./CompanyLogo";
 import Reveal from "./Reveal";
-import ScrollLinked from "./ScrollLinked";
 import WordReveal from "./WordReveal";
+import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
-/**
- * A rail whose fill tracks how far the reader has scrolled through the log.
- * The timeline is the one element here that is continuously bound to scroll
- * position rather than triggered once, so the section reads as a playhead
- * moving through a record instead of a list that popped in.
- */
-function TimelineRail({ children }: { children: ReactNode }) {
-  const reduceMotion = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start 0.8", "end 0.6"],
-  });
-  const fill = useSpring(scrollYProgress, { stiffness: 120, damping: 30, restDelta: 0.001 });
+const listVariants: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.12 } },
+};
 
-  if (reduceMotion) {
-    return <div className="exp-log-list">{children}</div>;
-  }
+// Each row's top rule draws across first, then the row's text settles in under it.
+const ruleVariants: Variants = {
+  hidden: { scaleX: 0 },
+  show: { scaleX: 1, transition: { duration: 0.9, ease: EASE_OUT } },
+};
 
-  return (
-    <div className="exp-rail" ref={ref}>
-      <div className="exp-rail-track" aria-hidden="true">
-        <m.div className="exp-rail-fill" style={{ scaleY: fill }} />
-      </div>
-      <div className="exp-log-list">{children}</div>
-    </div>
-  );
-}
+const textVariants: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT, delay: 0.25 } },
+};
 
-function LogEntry({
+function ExpRow({
   date,
   title,
   company,
   logo,
-  highlights,
-  statLabel,
-  description,
+  headline,
+  details,
 }: {
   date: string;
   title: string;
   company: string;
   logo: string;
-  highlights?: string[];
-  statLabel?: string;
-  description?: string;
+  headline: string;
+  details: string[];
 }) {
+  const [open, setOpen] = useState(false);
+  const panelId = useId();
+  const reduceMotion = useReducedMotion();
   const isPresent = date.toLowerCase().includes("present");
+  const expandable = details.length > 0;
+
+  const summary = (
+    <>
+      <span className="exp-row-date">
+        {isPresent && <span className="exp-live-indicator" title="Current role" />}
+        {date}
+      </span>
+      <span className="exp-row-main">
+        <span className="exp-row-title">{title}</span>
+        <span className="exp-row-company">
+          <CompanyLogo src={logo} company={company} />
+          {company}
+        </span>
+        <span className="exp-row-headline">{headline}</span>
+      </span>
+    </>
+  );
 
   return (
-    <ScrollLinked from="left">
-      <div className="exp-log-entry">
-        <div className="exp-log-meta">
-          <div className="exp-log-date">
-            {isPresent && <span className="exp-live-indicator" title="Current Role" />}
-            <span>{date}</span>
-          </div>
-        </div>
+    <m.li className="exp-row" variants={reduceMotion ? undefined : listVariants}>
+      <m.span className="exp-row-rule" aria-hidden="true" variants={reduceMotion ? undefined : ruleVariants} />
+      <m.div variants={reduceMotion ? undefined : textVariants}>
+        {expandable ? (
+          <button
+            type="button"
+            className="exp-row-head"
+            aria-expanded={open}
+            aria-controls={panelId}
+            onClick={() => setOpen((v) => !v)}
+          >
+            {summary}
+            <span className="exp-row-toggle" aria-hidden="true" data-open={open}>
+              +
+            </span>
+          </button>
+        ) : (
+          <div className="exp-row-head exp-row-head-static">{summary}</div>
+        )}
 
-        <div className="exp-log-content">
-          <div className="exp-log-header">
-            <div className="exp-log-title">{title}</div>
-            <div className="exp-log-company">
-              <CompanyLogo src={logo} company={company} />
-              <span className="exp-company-name">{company}</span>
-            </div>
-          </div>
-
-          {statLabel && (
-            <div className="exp-stat-badge">
-              <span className="exp-stat-dot" />
-              <span>{statLabel}</span>
-            </div>
+        <AnimatePresence initial={false}>
+          {open && (
+            <m.div
+              id={panelId}
+              className="exp-row-panel"
+              initial={reduceMotion ? false : { height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
+              transition={{ duration: 0.4, ease: EASE_OUT }}
+            >
+              <ul className="exp-row-details">
+                {details.map((d) => (
+                  <li key={d}>{d}</li>
+                ))}
+              </ul>
+            </m.div>
           )}
+        </AnimatePresence>
+      </m.div>
+    </m.li>
+  );
+}
 
-          {highlights && highlights.length > 0 && (
-            <ul className="exp-log-bullets">
-              {highlights.map((h) => (
-                <li key={h}>{h}</li>
-              ))}
-            </ul>
-          )}
+function ExpGroup({ label, children }: { label: string; children: React.ReactNode }) {
+  const reduceMotion = useReducedMotion();
 
-          {description && <p className="exp-log-desc">{description}</p>}
-        </div>
-      </div>
-    </ScrollLinked>
+  return (
+    <div className="exp-group">
+      <p className="exp-group-label">{label}</p>
+      <m.ul
+        className="exp-rows"
+        initial={reduceMotion ? false : "hidden"}
+        whileInView="show"
+        viewport={VIEWPORT}
+        variants={listVariants}
+      >
+        {children}
+      </m.ul>
+    </div>
   );
 }
 
@@ -108,46 +136,33 @@ export default function ExperienceSection() {
           </p>
         </Reveal>
 
-        {/* WORK EXPERIENCE BLOCK */}
-        <div className="exp-block">
-          <div className="exp-block-header">
-            <span className="exp-block-label">Work Experience</span>
-            <span className="exp-block-count">[ 04 ROLES ]</span>
-          </div>
-          <TimelineRail>
-            {experience.work.map((item) => (
-              <LogEntry
-                key={item.title + item.company}
-                date={item.date}
-                title={item.title}
-                company={item.company}
-                logo={item.logo}
-                highlights={item.highlights}
-              />
-            ))}
-          </TimelineRail>
-        </div>
+        <ExpGroup label="Work Experience">
+          {experience.work.map((item) => (
+            <ExpRow
+              key={item.title + item.company}
+              date={item.date}
+              title={item.title}
+              company={item.company}
+              logo={item.logo}
+              headline={item.headline}
+              details={item.highlights}
+            />
+          ))}
+        </ExpGroup>
 
-        {/* EDUCATION BLOCK */}
-        <div className="exp-block" style={{ marginTop: "3.5rem" }}>
-          <div className="exp-block-header">
-            <span className="exp-block-label">Education</span>
-            <span className="exp-block-count">[ 02 ACADEMIC ]</span>
-          </div>
-          <TimelineRail>
-            {experience.education.map((item) => (
-              <LogEntry
-                key={item.title + item.company}
-                date={item.date}
-                title={item.title}
-                company={item.company}
-                logo={item.logo}
-                statLabel={item.statLabel}
-                description={item.description}
-              />
-            ))}
-          </TimelineRail>
-        </div>
+        <ExpGroup label="Education">
+          {experience.education.map((item) => (
+            <ExpRow
+              key={item.title + item.company}
+              date={item.date}
+              title={item.title}
+              company={item.company}
+              logo={item.logo}
+              headline={item.statLabel}
+              details={[item.description]}
+            />
+          ))}
+        </ExpGroup>
       </div>
     </section>
   );
