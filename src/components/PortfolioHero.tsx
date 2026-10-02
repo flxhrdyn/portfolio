@@ -97,16 +97,17 @@ export default function PortfolioHero() {
         </h1>
 
         <m.p className="hero-description" variants={item}>
-          Building production-grade AI systems, from Data Science to GenAI.
+          AI/ML Engineer building production RAG systems, deep learning architectures, and industrial data pipelines.
         </m.p>
 
         <m.div className="hero-actions" variants={item}>
-          <a href="#contact" className="btn-pill btn-pill-primary" onClick={(e) => scrollToAnchor(e, "#contact")}>
-            <span>Get in Touch</span>
-          </a>
-          <a href="#projects" className="btn-pill btn-pill-secondary hero-work-link" onClick={(e) => scrollToAnchor(e, "#projects")}>
-            <span>See the work</span>
-            <span className="hero-work-arrow" aria-hidden="true">&darr;</span>
+          <a
+            href="#contact"
+            className="typesafe-cta"
+            onClick={(e) => scrollToAnchor(e, "#contact")}
+            title="Get in touch with Felix"
+          >
+            Get in touch
           </a>
         </m.div>
       </m.header>

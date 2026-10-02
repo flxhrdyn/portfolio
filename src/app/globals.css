@@ -154,12 +154,12 @@
     }
 
     h2 {
-      font-size: clamp(2.25rem, 4vw + 0.5rem, 3.5rem);
+      font-size: clamp(2.75rem, 5.2vw, 4.5rem);
       font-weight: 800;
-      letter-spacing: -0.04em;
-      line-height: 1.1;
+      letter-spacing: -0.05em;
+      line-height: 1.05;
       color: var(--text-primary);
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
     }
 
     h3 {
@@ -210,8 +210,8 @@
       top: 0;
       z-index: 0;
       background-image: none;
-      /* Leaves room for the metrics strip so the key numbers show without scrolling. */
-      min-height: calc(100svh - 4.5rem - 8.75rem);
+      /* Full first screen: the hero gets generous room to breathe. */
+      min-height: calc(100svh - 4.5rem);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -374,29 +374,28 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding-top: 2.5rem;
-      padding-bottom: 2.5rem;
+      padding-top: 4.5rem;
+      padding-bottom: 4.5rem;
     }
 
     .hero-name {
       font-family: var(--font-mono);
-      font-size: clamp(0.75rem, 1vw, 0.875rem);
+      font-size: clamp(1rem, 1.8vw, 1.4rem);
       font-weight: 500;
-      letter-spacing: 0.12em;
-      color: var(--text-secondary);
-      margin-bottom: 1.5rem;
-      text-transform: uppercase;
+      letter-spacing: 0.01em;
+      color: var(--text-primary);
+      margin-bottom: 1.85rem;
     }
 
     .hero-headline {
       font-family: var(--font-sans);
-      /* Same scale as the contact headline: the page opens and closes on one voice. */
-      font-size: clamp(2.75rem, min(7.8vw, 12.5svh), 6.85rem);
+      /* Majestic monumental scale matching TypeSafe / Rifqi caliber */
+      font-size: clamp(3.25rem, min(8.5vw, 12svh), 7.25rem);
       font-weight: 700;
-      line-height: 0.96;
+      line-height: 0.98;
       letter-spacing: -0.055em;
       color: var(--text-primary);
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
 
     .hero-line {
@@ -429,32 +428,78 @@
     .hero-portrait {
       position: relative;
       display: block;
-      width: 1.9em;
-      height: 0.82em;
-      margin: 0 0.04em;
+      width: 2.1em;
+      height: 0.88em;
+      border-radius: 2px;
+      margin: 0 0.06em;
+      border: 1px solid var(--border-color);
+      overflow: hidden;
     }
 
     .hero-portrait-img {
       object-fit: cover;
-      object-position: 30% 30%;
-      transform: scale(1.8);
-      transform-origin: 30% 30%;
+      object-position: 34% 28%;
+      transform: scale(1.6);
+      transform-origin: 34% 28%;
     }
 
 
     .hero-stage .hero-description {
-      font-size: 1.05rem;
-      line-height: 1.65;
+      font-size: clamp(1.05rem, 1.35vw, 1.25rem);
+      line-height: 1.6;
       color: var(--text-secondary);
-      max-width: 48ch;
-      margin: 0 auto 2rem;
+      max-width: 52ch;
+      margin: 0 auto 3rem;
     }
 
     .hero-stage .hero-actions {
+      display: flex;
       justify-content: center;
       align-items: center;
-      gap: 1.5rem;
       margin-bottom: 0;
+    }
+
+    /* TYPESAFE BOLD CTA BUTTON (INDEPENDENT DISPLAY ACTION WITH ANIMATED UNDERLINE) */
+    .typesafe-cta {
+      display: inline-block;
+      position: relative;
+      text-decoration: none;
+      cursor: pointer;
+      padding: 0.15rem 0;
+      user-select: none;
+      touch-action: manipulation;
+      font-family: var(--font-sans);
+      font-size: clamp(1.5rem, 3.5vw, 2.75rem);
+      font-weight: 700;
+      letter-spacing: -0.05em;
+      line-height: 1;
+      color: var(--text-secondary);
+      transition: color 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .typesafe-cta::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 100%;
+      height: 2.5px;
+      background-color: var(--text-primary);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .typesafe-cta:hover {
+      color: var(--text-primary);
+    }
+
+    .typesafe-cta:hover::after {
+      transform: scaleX(1);
+    }
+
+    .typesafe-cta:active {
+      opacity: 0.7;
     }
 
     .hero-work-link {
