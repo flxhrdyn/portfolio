@@ -491,7 +491,7 @@
       position: relative;
       z-index: 2;
       display: grid;
-      grid-template-columns: minmax(0, 1fr) clamp(160px, 25svh, 280px);
+      grid-template-columns: minmax(0, 1fr) clamp(220px, 42svh, 400px);
       grid-template-areas:
         "name photo"
         "foot foot";
@@ -650,27 +650,52 @@
     /* HERO PORTRAIT */
     .hero-portrait {
       width: 100%;
-      max-width: 300px;
+      max-width: 400px;
       margin: 0 0 0 auto;
     }
 
     .hero-portrait-frame {
       position: relative;
-      aspect-ratio: 4 / 5;
+      aspect-ratio: 1 / 1;
       overflow: hidden;
       background-color: var(--bg-card);
     }
 
     .hero-portrait-img {
       object-fit: cover;
-      object-position: 30% center;
-      filter: grayscale(1);
+      object-position: center;
+    }
+
+    .hero-detect-box {
+      position: absolute;
+      top: 17%;
+      left: 12.3%;
+      width: 36%;
+      height: 79%;
+    }
+
+    .hero-detect-box .reticle-corner {
+      width: 16px;
+      height: 16px;
+      mix-blend-mode: difference;
+    }
+
+    .hero-detect-tag {
+      position: absolute;
+      top: -28px;
+      left: 0;
+      padding: 0.15rem 0.45rem;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--text-secondary);
+      white-space: nowrap;
     }
 
     .hero-portrait-caption {
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
       margin-top: 0.75rem;
       font-family: var(--font-mono);
       font-size: 0.68rem;
@@ -1310,8 +1335,7 @@
     .telemetry-section {
       border-top: 1px solid var(--border-color);
       border-bottom: 1px solid var(--border-color);
-      background-color: var(--bg-primary);
-      border-top: 0;
+      background-color: var(--bg-secondary);
       padding: 1.25rem 0;
       position: relative;
       z-index: 1;
