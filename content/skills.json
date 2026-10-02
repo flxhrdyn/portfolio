@@ -1,7 +1,7 @@
 [
   {
     "category": "AI & Machine Learning",
-    "items": ["Advanced RAG", "AI Agents", "Deep Learning", "Computer Vision", "Natural Language Processing", "LLMs & GenAI", "Prompt Engineering", "PEFT & QLoRA", "Anomaly Detection"]
+    "items": ["Advanced RAG", "AI Agents", "Deep Learning", "Computer Vision", "NLP", "LLMs & GenAI", "Prompt Engineering", "PEFT & QLoRA", "Anomaly Detection"]
   },
   {
     "category": "ML Frameworks & Libraries",

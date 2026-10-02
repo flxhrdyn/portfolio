@@ -15,10 +15,6 @@ export default function ProfilePhoto() {
         sizes="240px"
         className="hero-portrait-img"
       />
-      <span className="reticle-corner reticle-tl" aria-hidden="true" />
-      <span className="reticle-corner reticle-tr" aria-hidden="true" />
-      <span className="reticle-corner reticle-bl" aria-hidden="true" />
-      <span className="reticle-corner reticle-br" aria-hidden="true" />
     </span>
   );
 }

@@ -111,7 +111,7 @@ function ExpGroup({ label, children }: { label: string; children: React.ReactNod
 
   return (
     <div className="exp-group">
-      <p className="exp-group-label">{label}</p>
+      <p className="subsection-title">{label}</p>
       <m.ul
         className="exp-rows"
         initial={reduceMotion ? false : "hidden"}
