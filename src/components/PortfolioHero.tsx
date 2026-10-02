@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { m, useReducedMotion, type Variants } from "motion/react";
 import ProfilePhoto from "./ProfilePhoto";
 import { scrollToAnchor } from "@/lib/scrollToAnchor";
@@ -44,9 +45,28 @@ const photo: Variants = {
 
 export default function PortfolioHero() {
   const reduceMotion = useReducedMotion();
+  const wrapperRef = useRef<HTMLDivElement>(null);
+  const [covered, setCovered] = useState(false);
+
+  // The sticky hero keeps painting under the sections that slide over it, and Chrome leaks
+  // slivers of its masked headline through. Hide it once it is fully covered.
+  useEffect(() => {
+    const onScroll = () => {
+      const height = wrapperRef.current?.offsetHeight ?? 0;
+      setCovered(window.scrollY > height * 2);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   return (
-    <div id="about" className="hero-wrapper portfolio-hero-wrapper">
+    <div
+      id="about"
+      ref={wrapperRef}
+      className="hero-wrapper portfolio-hero-wrapper"
+      style={covered ? { visibility: "hidden" } : undefined}
+    >
       <m.header
         className="container hero-stage"
         initial={reduceMotion ? undefined : "hidden"}
