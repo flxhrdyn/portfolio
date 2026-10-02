@@ -210,10 +210,8 @@
       top: 0;
       z-index: 0;
       background-image: none;
-      /* Full first screen, with the fixed header's height held clear at the top
-         so the stage centres against what the visitor actually sees. */
-      min-height: 100svh;
-      padding-top: 4.5rem;
+      /* Full first screen: the hero gets generous room to breathe. */
+      min-height: calc(100svh - 4.5rem);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -387,6 +385,7 @@
       font-family: var(--font-sans);
       font-size: clamp(1.5rem, 2.8vw, 2.5rem);
       font-weight: 600;
+      line-height: 1.1;
       letter-spacing: -0.035em;
       color: var(--text-primary);
       margin-bottom: 1.85rem;
@@ -1418,6 +1417,13 @@
         grid-template-columns: 1fr;
         gap: 1.75rem;
       }
+      /* Stacked cells share one column, so the desktop edge padding would skew each row sideways. */
+      .telemetry-cell,
+      .telemetry-cell:first-child,
+      .telemetry-cell:last-child {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+      }
       .telemetry-cell:not(:last-child) {
         border-right: none;
         border-bottom: 1px solid var(--border-color);
@@ -2233,7 +2239,7 @@
     
     .month-labels {
       display: grid;
-      grid-template-columns: repeat(53, 1fr);
+      grid-template-columns: repeat(53, minmax(0, 1fr));
       gap: 3px;
       flex-grow: 1;
       width: 100%;
@@ -2286,10 +2292,18 @@
     .heatmap-grid {
       display: grid;
       grid-auto-flow: column;
-      grid-template-columns: repeat(53, 1fr);
+      grid-template-columns: repeat(53, minmax(0, 1fr));
       grid-template-rows: repeat(7, 1fr);
       gap: 3px;
       width: 100%;
+    }
+
+    /* A year of weeks cannot fit a phone: keep cells legible and let the body scroll sideways. */
+    @media (max-width: 768px) {
+      .month-labels-row,
+      .grid-and-days {
+        min-width: 920px;
+      }
     }
     
     .heatmap-cell {
