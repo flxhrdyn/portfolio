@@ -33,31 +33,11 @@ const itemVariants: Variants = {
   },
 };
 
-const BENCHMARK_METRICS = {
-  testing: {
-    label: "Testing",
-    scores: {
-      "mobilenet-v2": { score: "89.60%", val: 89.6, badge: "Optimal" },
-      "coralnet-baseline": { score: "88.80%", val: 88.8, badge: null },
-      "inception-v3": { score: "84.80%", val: 84.8, badge: null },
-    },
-  },
-  validation: {
-    label: "Validation",
-    scores: {
-      "mobilenet-v2": { score: "88.00%", val: 88.0, badge: "Optimal" },
-      "coralnet-baseline": { score: "85.60%", val: 85.6, badge: null },
-      "inception-v3": { score: "86.40%", val: 86.4, badge: null },
-    },
-  },
-  training: {
-    label: "Training",
-    scores: {
-      "mobilenet-v2": { score: "97.20%", val: 97.2, badge: "Optimal" },
-      "coralnet-baseline": { score: "89.10%", val: 89.1, badge: null },
-      "inception-v3": { score: "96.90%", val: 96.9, badge: null },
-    },
-  },
+// Test-set accuracy from the paper.
+const TEST_SCORES = {
+  "mobilenet-v2": { score: "89.60%", val: 89.6 },
+  "coralnet-baseline": { score: "88.80%", val: 88.8 },
+  "inception-v3": { score: "84.80%", val: 84.8 },
 } as const;
 
 const MODEL_ROWS = [
@@ -71,7 +51,6 @@ const AUTO_ROTATE_MS = 4000;
 
 export default function CertificationsSection() {
   const [researchOpen, setResearchOpen] = useState(false);
-  const [metricType, setMetricType] = useState<"testing" | "validation" | "training">("testing");
   const [certPage, setCertPage] = useState(0);
   const reduceMotion = useReducedMotion();
   const paper = writing[0];
@@ -85,7 +64,6 @@ export default function CertificationsSection() {
     certPage * ITEMS_PER_PAGE,
     (certPage + 1) * ITEMS_PER_PAGE
   );
-  const startIndex = certPage * ITEMS_PER_PAGE;
 
   const goNext = useCallback(
     () => setCertPage((p) => (p + 1) % totalPages),
@@ -106,8 +84,6 @@ export default function CertificationsSection() {
   }, [goNext, reduceMotion]);
 
   if (!paper) return null;
-
-  const currentScores = BENCHMARK_METRICS[metricType].scores;
 
   return (
     <section className="section" id="research">
@@ -142,58 +118,21 @@ export default function CertificationsSection() {
                 {/* TELEMETRY BENCHMARK SECTION (GROQ / SCALE AI FLAT INSTRUMENTATION) */}
                 <div className="telemetry-benchmark-section" ref={leaderboardRef}>
                   <div className="telemetry-header-row">
-                    <span className="telemetry-label">MODEL ACCURACY BENCHMARK</span>
+                    <span className="telemetry-label">TEST ACCURACY</span>
 
-                    <div className="leaderboard-tab-switcher">
-                      {(["testing", "validation", "training"] as const).map((t) => (
-                        <button
-                          key={t}
-                          type="button"
-                          className={`leaderboard-tab-btn ${metricType === t ? "active" : ""}`}
-                          onClick={() => setMetricType(t)}
-                        >
-                          {metricType === t && !reduceMotion && (
-                            <m.span
-                              layoutId="activeMetricPill"
-                              className="leaderboard-tab-active-pill"
-                              transition={{ type: "spring", stiffness: 450, damping: 35 }}
-                            />
-                          )}
-                          <span className="leaderboard-tab-label">
-                            {t.charAt(0).toUpperCase() + t.slice(1)}
-                          </span>
-                        </button>
-                      ))}
-                    </div>
                   </div>
 
                   <div className="leaderboard-rows">
                     {MODEL_ROWS.map((model) => {
-                      const data = currentScores[model.id];
+                      const data = TEST_SCORES[model.id];
                       return (
                         <div key={model.id} className="leaderboard-row">
-                          <span className="leaderboard-rank-badge">
-                            {String(model.rank).padStart(2, "0")}
-                          </span>
                           <div className="leaderboard-row-content">
                             <div className="leaderboard-meta-top">
                               <div className="leaderboard-model-info">
                                 <span className="leaderboard-model-name">{model.id}</span>
-                                {data.badge && <span className="leaderboard-badge">{data.badge}</span>}
                               </div>
-                              {reduceMotion ? (
-                                <span className="leaderboard-score-val">{data.score}</span>
-                              ) : (
-                                <m.span
-                                  key={`${model.id}-${data.score}`}
-                                  initial={{ opacity: 0, y: -3 }}
-                                  animate={{ opacity: 1, y: 0 }}
-                                  transition={{ duration: 0.25 }}
-                                  className="leaderboard-score-val"
-                                >
-                                  {data.score}
-                                </m.span>
-                              )}
+                              <span className="leaderboard-score-val">{data.score}</span>
                             </div>
                             <div className="leaderboard-bar-track">
                               {reduceMotion ? (
@@ -263,7 +202,7 @@ export default function CertificationsSection() {
 
               {reduceMotion ? (
                 <div className="certs-list-stack">
-                  {paginatedCerts.map((cert, i) => (
+                  {paginatedCerts.map((cert) => (
                     <a
                       key={cert.code}
                       href={cert.url}
@@ -271,9 +210,6 @@ export default function CertificationsSection() {
                       rel="noopener noreferrer"
                       className="cert-stack-item"
                     >
-                      <span className="cert-index-number">
-                        {String(startIndex + i + 1).padStart(2, "0")}
-                      </span>
                       <div className="cert-item-info">
                         <h4 className="cert-item-title">{cert.title}</h4>
                         <div className="cert-item-meta">
@@ -300,7 +236,7 @@ export default function CertificationsSection() {
                   animate="show"
                   variants={containerVariants}
                 >
-                  {paginatedCerts.map((cert, i) => (
+                  {paginatedCerts.map((cert) => (
                     <m.a
                       key={cert.code}
                       href={cert.url}
@@ -309,9 +245,6 @@ export default function CertificationsSection() {
                       className="cert-stack-item"
                       variants={itemVariants}
                     >
-                      <span className="cert-index-number">
-                        {String(startIndex + i + 1).padStart(2, "0")}
-                      </span>
                       <div className="cert-item-info">
                         <h4 className="cert-item-title">{cert.title}</h4>
                         <div className="cert-item-meta">

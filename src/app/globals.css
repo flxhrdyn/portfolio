@@ -3360,6 +3360,8 @@
       justify-content: space-between;
       gap: 0.85rem;
       padding: 0.72rem 0.8rem;
+      /* Bleed the hover surface so resting text aligns with the header above. */
+      margin: 0 -0.8rem;
       border-radius: 6px;
       text-decoration: none;
       border: 1px solid transparent;
