@@ -1390,12 +1390,12 @@
     .telemetry-value {
       font-family: var(--font-pixel);
       font-size: clamp(2.5rem, 5vw, 4.25rem);
-      font-weight: 700;
+      font-weight: 500;
       line-height: 1;
       color: var(--text-primary);
       letter-spacing: -0.02em;
-      -webkit-text-stroke: 1.1px currentColor;
-      text-shadow: 0.8px 0 0 currentColor;
+      -webkit-text-stroke: 0.5px currentColor;
+      text-shadow: none;
       margin-bottom: 0.75rem;
       text-align: center;
     }
