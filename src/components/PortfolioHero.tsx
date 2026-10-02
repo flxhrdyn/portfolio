@@ -3,7 +3,7 @@
 import { m, useReducedMotion, type Variants } from "motion/react";
 import ProfilePhoto from "./ProfilePhoto";
 import { scrollToAnchor } from "@/lib/scrollToAnchor";
-import { EASE_OUT, DUR, LIST_STAGGER } from "@/lib/motion";
+import { EASE_OUT, DUR, LIST_STAGGER, WORD_STAGGER } from "@/lib/motion";
 
 const container: Variants = {
   hidden: {},
@@ -15,10 +15,26 @@ const item: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: DUR.entrance, ease: EASE_OUT } },
 };
 
+// Same word-by-word rise as the contact headline, so the page opens and closes alike.
 const line: Variants = {
-  hidden: { y: "105%" },
-  show: { y: "0%", transition: { duration: 0.9, ease: EASE_OUT } },
+  hidden: {},
+  show: { transition: { staggerChildren: WORD_STAGGER * 1.6 } },
 };
+
+const word: Variants = {
+  hidden: { opacity: 0, y: "100%" },
+  show: { opacity: 1, y: "0%", transition: { duration: 0.6, ease: EASE_OUT } },
+};
+
+function Word({ children }: { children: string }) {
+  return (
+    <span className="hero-word">
+      <m.span className="hero-word-inner" variants={word}>
+        {children}
+      </m.span>
+    </span>
+  );
+}
 
 // Photo opens from a thin slit, like a detection window locking on.
 const photo: Variants = {
@@ -44,16 +60,18 @@ export default function PortfolioHero() {
         <h1 className="hero-headline">
           <span className="hero-line">
             <m.span className="hero-line-inner" variants={line}>
-              AI
+              <Word>AI</Word>
               <m.span className="hero-inline-photo" variants={photo}>
                 <ProfilePhoto />
               </m.span>
-              Engineer
+              <Word>Engineer</Word>
             </m.span>
           </span>
           <span className="hero-line">
             <m.span className="hero-line-inner" variants={line}>
-              &amp; Data Scientist
+              <Word>&amp;</Word>
+              <Word>Data</Word>
+              <Word>Scientist</Word>
             </m.span>
           </span>
         </h1>

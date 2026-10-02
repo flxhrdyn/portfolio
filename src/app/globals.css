@@ -210,6 +210,7 @@
       top: 0;
       z-index: 0;
       background-image: none;
+      background-color: var(--bg-secondary);
       /* Leaves room for the metrics strip so the key numbers show without scrolling. */
       min-height: calc(100svh - 4.5rem - 8.75rem);
       display: flex;
@@ -510,24 +511,35 @@
 
     .hero-headline {
       font-family: var(--font-sans);
-      font-size: clamp(2.6rem, min(8.5vw, 13svh), 8rem);
+      /* Same scale as the contact headline: the page opens and closes on one voice. */
+      font-size: clamp(2.75rem, min(7.5vw, 12svh), 6.5rem);
       font-weight: 700;
       line-height: 1;
       letter-spacing: -0.05em;
       color: var(--text-primary);
-      margin-bottom: 1.75rem;
+      margin-bottom: 1.5rem;
     }
 
     .hero-line {
       display: block;
-      overflow: hidden;
-      padding-bottom: 0.06em;
     }
 
     .hero-line-inner {
       display: inline-flex;
       align-items: center;
-      gap: 0.18em;
+      gap: 0.22em;
+    }
+
+    .hero-word {
+      display: inline-block;
+      overflow: hidden;
+      /* Room for descenders inside the mask at line-height 1. */
+      padding-bottom: 0.12em;
+      margin-bottom: -0.12em;
+    }
+
+    .hero-word-inner {
+      display: inline-block;
     }
 
     .hero-inline-photo {
@@ -552,8 +564,11 @@
 
 
     .hero-stage .hero-description {
-      max-width: 44ch;
-      margin: 0 auto 1.75rem;
+      font-size: 1.05rem;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      max-width: 48ch;
+      margin: 0 auto 2rem;
     }
 
     .hero-stage .hero-actions {
