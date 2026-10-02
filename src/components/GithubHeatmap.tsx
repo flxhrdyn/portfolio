@@ -121,68 +121,70 @@ export default function GithubHeatmap({ contributions }: GithubHeatmapProps) {
         </span>
       </div>
 
-      <div className="github-contrib-body">
-        <div className="month-labels-row">
-          <div className="month-label-spacer" />
-          <div className="month-labels">
-            {monthLabels.map((label) => (
-              <div key={`${label.name}-${label.column}`} className="month-label" style={{ gridColumnStart: label.column }}>
-                {label.name}
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="grid-and-days">
-          <div className="day-labels">
-            <span className="day-label">Mon</span>
-            <span className="day-label">Wed</span>
-            <span className="day-label">Fri</span>
-          </div>
-          <div className="heatmap-grid">
-            {cells.map((cell, i) => {
-              const dateLabel = cell.date.toLocaleDateString("en-US", {
-                month: "short",
-                day: "numeric",
-                year: "numeric",
-              });
-              // Determine placement so tooltips near edges never get clipped
-              const placement = cell.colIndex >= 44 ? "right" : cell.colIndex <= 6 ? "left" : "center";
-
-              return (
-                <div
-                  key={i}
-                  className="heatmap-cell"
-                  data-level={cell.level}
-                  data-placement={placement}
-                  style={{
-                    // Stagger wave across 53 weeks
-                    ["--col-delay" as string]: `${cell.colIndex * 12}ms`,
-                  }}
-                  tabIndex={0}
-                  role="img"
-                  aria-label={`${cell.commitCount} contributions on ${dateLabel}`}
-                >
-                  <span className="tooltip">
-                    {cell.commitCount} contributions on {dateLabel}
-                  </span>
+      <div className="github-contrib-scroll-area">
+        <div className="github-contrib-scroll-content">
+          <div className="month-labels-row">
+            <div className="month-label-spacer" />
+            <div className="month-labels">
+              {monthLabels.map((label) => (
+                <div key={`${label.name}-${label.column}`} className="month-label" style={{ gridColumnStart: label.column }}>
+                  {label.name}
                 </div>
-              );
-            })}
+              ))}
+            </div>
+          </div>
+
+          <div className="grid-and-days">
+            <div className="day-labels">
+              <span className="day-label">Mon</span>
+              <span className="day-label">Wed</span>
+              <span className="day-label">Fri</span>
+            </div>
+            <div className="heatmap-grid">
+              {cells.map((cell, i) => {
+                const dateLabel = cell.date.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                });
+                // Determine placement so tooltips near edges never get clipped
+                const placement = cell.colIndex >= 44 ? "right" : cell.colIndex <= 6 ? "left" : "center";
+
+                return (
+                  <div
+                    key={i}
+                    className="heatmap-cell"
+                    data-level={cell.level}
+                    data-placement={placement}
+                    style={{
+                      // Stagger wave across 53 weeks
+                      ["--col-delay" as string]: `${cell.colIndex * 12}ms`,
+                    }}
+                    tabIndex={0}
+                    role="img"
+                    aria-label={`${cell.commitCount} contributions on ${dateLabel}`}
+                  >
+                    <span className="tooltip">
+                      {cell.commitCount} contributions on {dateLabel}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
+      </div>
 
-        <div className="github-contrib-footer">
-          <a href="https://github.com/flxhrdyn" target="_blank" rel="noreferrer" className="contrib-link">
-            Learn how we count contributions
-          </a>
-          <div className="contrib-legend">
-            <span>Less</span>
-            {[0, 1, 2, 3, 4].map((level) => (
-              <div key={level} className="legend-box" data-level={level} />
-            ))}
-            <span>More</span>
-          </div>
+      <div className="github-contrib-footer">
+        <a href="https://github.com/flxhrdyn" target="_blank" rel="noreferrer" className="contrib-link">
+          Learn how we count contributions
+        </a>
+        <div className="contrib-legend">
+          <span>Less</span>
+          {[0, 1, 2, 3, 4].map((level) => (
+            <div key={level} className="legend-box" data-level={level} />
+          ))}
+          <span>More</span>
         </div>
       </div>
     </div>

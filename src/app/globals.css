@@ -1920,12 +1920,21 @@
       padding: 0.6rem 1.5rem;
       border-radius: var(--radius-sm);
       cursor: pointer;
-      transition: background-color var(--transition-speed) ease;
+      transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+    }
+
+    .all-projects-btn svg {
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .all-projects-btn:hover {
       background-color: var(--border-color);
+      border-color: var(--text-secondary);
       text-decoration: none;
+    }
+
+    .all-projects-btn:hover svg {
+      transform: translateY(2px);
     }
 
     /* PROJECTS: one featured stage, then plain alternating rows. No boxes, no badges. */
@@ -1943,6 +1952,12 @@
       background: var(--bg-secondary);
       overflow: hidden;
       cursor: pointer;
+      transition: border-color 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-feature-media:hover,
+    .project-row-media:hover {
+      border-color: var(--text-secondary);
     }
 
     .project-feature-media .project-thumb,
@@ -2049,6 +2064,24 @@
       font-weight: 600;
       color: var(--text-primary);
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      transition: color 0.2s ease;
+    }
+
+    .project-links .project-link .link-arrow,
+    .project-links .project-link .link-arrow-diagonal {
+      display: inline-block;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-links .project-link:hover .link-arrow {
+      transform: translateX(4px);
+    }
+
+    .project-links .project-link:hover .link-arrow-diagonal {
+      transform: translate(2px, -2px);
     }
 
     .project-links .project-link-muted {
@@ -2216,26 +2249,43 @@
       color: #c9d1d9;
     }
     
-    .github-contrib-body {
+    .github-contrib-scroll-area {
       width: 100%;
       max-width: 100%;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
-      /* Subpixel cell widths can overflow by 1px and summon an empty scrollbar. */
-      scrollbar-width: none;
       padding-bottom: 0.5rem;
+      scrollbar-width: thin;
+      scrollbar-color: var(--border-color) transparent;
     }
-    
+
+    .github-contrib-scroll-area::-webkit-scrollbar {
+      height: 4px;
+    }
+
+    .github-contrib-scroll-area::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .github-contrib-scroll-area::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 4px;
+    }
+
+    .github-contrib-scroll-content {
+      width: 100%;
+    }
+
     .month-labels-row {
       display: flex;
       margin-bottom: 4px;
     }
-    
+
     .month-label-spacer {
       width: 32px; /* width 24px + 8px margin */
       flex-shrink: 0;
     }
-    
+
     .month-labels {
       display: grid;
       grid-template-columns: repeat(53, minmax(0, 1fr));
@@ -2243,7 +2293,7 @@
       flex-grow: 1;
       width: 100%;
     }
-    
+
     .month-label {
       font-size: 9px;
       color: var(--text-secondary);
@@ -2251,17 +2301,17 @@
       text-align: left;
       white-space: nowrap;
     }
-    
+
     [data-theme="dark"] .month-label {
       color: #8b949e;
     }
-    
+
     .grid-and-days {
       display: flex;
       align-items: stretch;
       margin-bottom: 0.75rem;
     }
-    
+
     .day-labels {
       display: grid;
       grid-template-rows: repeat(7, 1fr);
@@ -2270,7 +2320,7 @@
       margin-right: 8px;
       text-align: left;
     }
-    
+
     .day-label {
       font-size: 9px;
       color: var(--text-secondary);
@@ -2278,16 +2328,16 @@
       display: flex;
       align-items: center;
     }
-    
+
     [data-theme="dark"] .day-label {
       color: #8b949e;
     }
-    
+
     /* Show Mon, Wed, Fri on specific grid rows */
     .day-label:nth-child(1) { grid-row: 2; }
     .day-label:nth-child(2) { grid-row: 4; }
     .day-label:nth-child(3) { grid-row: 6; }
-    
+
     .heatmap-grid {
       display: grid;
       grid-auto-flow: column;
@@ -2297,11 +2347,10 @@
       width: 100%;
     }
 
-    /* A year of weeks cannot fit a phone: keep cells legible and let the body scroll sideways. */
-    @media (max-width: 768px) {
-      .month-labels-row,
-      .grid-and-days {
-        min-width: 920px;
+    /* On tablet and mobile (< 1024px), keep cells legible (~13px) and enable smooth horizontal scroll */
+    @media (max-width: 1024px) {
+      .github-contrib-scroll-content {
+        min-width: 860px;
       }
     }
     
@@ -2356,6 +2405,14 @@
       margin-top: 0.5rem;
       border-top: 1px solid var(--border-color);
       padding-top: 0.75rem;
+    }
+
+    @media (max-width: 480px) {
+      .github-contrib-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
     }
     
     [data-theme="dark"] .github-contrib-footer {

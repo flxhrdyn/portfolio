@@ -66,13 +66,21 @@ export default function PortfolioHero() {
   // The sticky hero keeps painting under the sections that slide over it, and Chrome leaks
   // slivers of its masked headline through. Hide it once it is fully covered.
   useEffect(() => {
+    let cachedHeight = wrapperRef.current?.offsetHeight ?? 0;
+    const updateHeight = () => {
+      cachedHeight = wrapperRef.current?.offsetHeight ?? 0;
+    };
+    window.addEventListener("resize", updateHeight);
+
     const onScroll = () => {
-      const height = wrapperRef.current?.offsetHeight ?? 0;
-      setCovered(window.scrollY > height * 2);
+      setCovered(window.scrollY > cachedHeight * 2);
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("resize", updateHeight);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
 
   return (

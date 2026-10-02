@@ -22,7 +22,8 @@ function ProjectLinks({ project, onOpen }: { project: { repo: string }; onOpen: 
   return (
     <div className="project-links">
       <button type="button" className="project-link" onClick={onOpen}>
-        Case study &rarr;
+        <span>Case study</span>
+        <span className="link-arrow" aria-hidden="true">&rarr;</span>
       </button>
       <a
         href={`https://github.com/flxhrdyn/${project.repo}`}
@@ -30,7 +31,8 @@ function ProjectLinks({ project, onOpen }: { project: { repo: string }; onOpen: 
         rel="noopener noreferrer"
         className="project-link project-link-muted"
       >
-        GitHub &#8599;
+        <span>GitHub</span>
+        <span className="link-arrow-diagonal" aria-hidden="true">&#8599;</span>
       </a>
     </div>
   );
@@ -81,14 +83,14 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
         )}
 
         <ul className="project-rows">
-          {gridProjects.map((project) => (
+          {gridProjects.map((project, i) => (
             <m.li
               key={project.slug}
               className="project-row"
-              initial={reduceMotion ? false : { opacity: 0, y: 40 }}
+              initial={reduceMotion ? false : { opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={VIEWPORT}
-              transition={{ duration: 0.7, ease: EASE_OUT }}
+              transition={{ duration: 0.65, delay: i * 0.1, ease: EASE_OUT }}
             >
               <button
                 type="button"
