@@ -6,7 +6,7 @@ import { m, AnimatePresence, useReducedMotion } from "motion/react";
 import profile from "@/content/profile.json";
 
 // Keep in sync with the .cv-bounding-box percentages in globals.css
-const BOX = { top: 0.15, left: 0.07, width: 0.335, height: 0.82 };
+const BOX = { top: 0.17, left: 0.148, width: 0.335, height: 0.79 };
 const CARD_WIDTH = 160;
 const CARD_HEIGHT = 168;
 const CARD_GAP = 18;

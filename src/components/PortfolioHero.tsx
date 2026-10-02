@@ -44,7 +44,7 @@ export default function PortfolioHero() {
               <span>AI ENGINEER &amp; DATA SCIENTIST</span>
             </m.div>
 
-            <WordReveal as="h1" className="hero-title" text="Felix Windriyareksa Hardyan" immediate delay={0.06} />
+            <WordReveal as="h1" className="hero-title" text="Felix Windriyareksa Hardyan" mutedLast immediate delay={0.06} />
 
             <m.p className="hero-description" variants={item}>
               Building production-grade AI systems, from Data Science to GenAI.
