@@ -2,9 +2,8 @@
 
 import { m, useReducedMotion, type Variants } from "motion/react";
 import skills from "@/content/skills.json";
-import Reveal from "./Reveal";
 import { TECH_ICONS, getSkillIconKey } from "./techStackIcons";
-import WordReveal from "./WordReveal";
+import SectionHeader from "./SectionHeader";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
 // Columns wipe open left to right, then their rows load in like query results.
@@ -45,12 +44,7 @@ export default function SkillsSection() {
   return (
     <section className="section" id="skills">
       <div className="container">
-        <WordReveal text="Skills & Capabilities" />
-        <Reveal delay={0.12}>
-          <p style={{ marginBottom: "2.25rem", maxWidth: "60ch" }}>
-            Core concepts, frameworks, and infrastructure I work with across the AI engineering lifecycle.
-          </p>
-        </Reveal>
+        <SectionHeader index="03" label="Stack" title="Skills & Capabilities" description="Core concepts, frameworks, and infrastructure I work with across the AI engineering lifecycle." />
 
         <m.div
           className="skill-table"

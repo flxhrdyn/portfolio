@@ -4655,3 +4655,61 @@
 
 
 
+
+    /* SECTION HEADER: index column + title column under a rule that draws in. */
+    .section-header {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+      gap: 1.5rem;
+      padding-top: 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    .section-header-rule {
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 1px;
+      background: var(--text-primary);
+      transform-origin: left;
+    }
+
+    .section-header-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .section-header-meta span:first-child {
+      color: var(--text-primary);
+    }
+
+    h2.section-header-title {
+      font-size: clamp(2.5rem, 5.5vw, 4.75rem);
+      line-height: 1;
+      letter-spacing: -0.045em;
+      border-bottom: 0;
+      padding-bottom: 0;
+      margin-bottom: 1rem;
+    }
+
+    .section-header-desc {
+      max-width: 52ch;
+    }
+
+    @media (max-width: 720px) {
+      .section-header {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+      }
+
+      .section-header-meta {
+        flex-direction: row;
+        gap: 0.75rem;
+      }
+    }

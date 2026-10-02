@@ -6,9 +6,8 @@ import Modal from "./Modal";
 import GithubHeatmap from "./GithubHeatmap";
 import ProjectCaseStudyBody from "./ProjectCaseStudyBody";
 import ProjectThumbnail from "./ProjectThumbnail";
-import Reveal from "./Reveal";
 import ScrollLinked from "./ScrollLinked";
-import WordReveal from "./WordReveal";
+import SectionHeader from "./SectionHeader";
 import projects from "@/content/projects.json";
 import archiveProjects from "@/content/archive-projects.json";
 import type { ContributionDay } from "@/lib/github-contributions";
@@ -48,12 +47,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
   return (
     <section className="section" id="projects">
       <div className="container">
-        <WordReveal text="Featured Projects" />
-        <Reveal delay={0.12}>
-          <p style={{ marginBottom: "2.25rem", maxWidth: "60ch" }}>
-            AI systems, intelligent agents, and full-stack machine learning applications.
-          </p>
-        </Reveal>
+        <SectionHeader index="01" label="Work" title="Featured Projects" description="AI systems, intelligent agents, and full-stack machine learning applications." />
 
         {featuredProject && (
           <ScrollLinked from="scale">
