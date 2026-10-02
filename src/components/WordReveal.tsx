@@ -63,7 +63,8 @@ export default function WordReveal({
         {words.map((word, i) => (
           <span
             key={`${word}-${i}`}
-            style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom" }}
+            // Padding gives descenders (g, y, p) room inside the mask on tight line-heights.
+            style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom", paddingBottom: "0.15em", marginBottom: "-0.15em" }}
           >
             <m.span
               variants={wordVariants}
