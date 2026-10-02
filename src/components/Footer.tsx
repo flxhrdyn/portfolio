@@ -1,9 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { m, useReducedMotion, useScroll, useTransform } from "motion/react";
 
 export default function Footer() {
   const [wibTime, setWibTime] = useState<string>("");
+  const footerRef = useRef<HTMLElement>(null);
+  const reduceMotion = useReducedMotion();
+  // The footer rises into place as the last stretch of the page scrolls in.
+  const { scrollYProgress } = useScroll({ target: footerRef, offset: ["start end", "end end"] });
+  const y = useTransform(scrollYProgress, [0, 1], [reduceMotion ? 0 : 120, 0]);
 
   useEffect(() => {
     const updateTime = () => {
@@ -27,9 +33,8 @@ export default function Footer() {
   };
 
   return (
-    <footer className="footer">
-      {/* Deliberately unanimated: the footer is chrome, not content. */}
-      <div className="container footer-content">
+    <footer className="footer" ref={footerRef}>
+      <m.div className="container footer-content" style={{ y }}>
         {/* ROW 1: Brand / Role & Quick Action Links */}
         <div className="footer-grid-row">
           <p className="footer-text">© {new Date().getFullYear()} FLXHRDYN • AI ENGINEER</p>
@@ -73,7 +78,7 @@ export default function Footer() {
             Jakarta (UTC +7){wibTime ? ` ${wibTime} WIB` : ""}
           </span>
         </div>
-      </div>
+      </m.div>
     </footer>
   );
 }

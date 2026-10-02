@@ -6,9 +6,18 @@ import Reveal from "./Reveal";
 import WordReveal from "./WordReveal";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
-const columnVariants: Variants = {
+// Columns wipe open left to right, then their rows load in like query results.
+const tableVariants: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.04 } },
+  show: { transition: { staggerChildren: 0.18 } },
+};
+
+const columnVariants: Variants = {
+  hidden: { clipPath: "inset(0% 100% 0% 0%)" },
+  show: {
+    clipPath: "inset(0% 0% 0% 0%)",
+    transition: { duration: 0.7, ease: EASE_OUT, staggerChildren: 0.05, delayChildren: 0.25 },
+  },
 };
 
 const rowVariants: Variants = {
@@ -33,14 +42,17 @@ export default function SkillsSection() {
           </p>
         </Reveal>
 
-        <div className="skill-table">
+        <m.div
+          className="skill-table"
+          initial={reduceMotion ? false : "hidden"}
+          whileInView="show"
+          viewport={VIEWPORT}
+          variants={tableVariants}
+        >
           {categoryGroups.map((group) => (
             <m.div
               key={group.category}
               className="skill-col"
-              initial={reduceMotion ? false : "hidden"}
-              whileInView="show"
-              viewport={VIEWPORT}
               variants={columnVariants}
             >
               <h3 className="skill-col-title">
@@ -57,7 +69,7 @@ export default function SkillsSection() {
               </ol>
             </m.div>
           ))}
-        </div>
+        </m.div>
 
         {languageGroup && (
           <p className="skill-languages">
