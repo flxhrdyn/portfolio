@@ -205,23 +205,20 @@
 
     /* The hero is pinned and the page is drawn over it: the reader leaves the hero
        by covering it, not by pushing it off screen. */
-    .pinned-opening {
+    .hero-wrapper.portfolio-hero-wrapper {
       position: sticky;
       top: 0;
       z-index: 0;
-    }
-
-    .hero-wrapper.portfolio-hero-wrapper {
       background-image: none;
-      /* Hero plus the metrics strip fill the first screen, so the numbers are seen first. */
-      min-height: calc(100svh - 4.5rem - 7.75rem);
+      /* A full first screen, like the contact finale: the hero gets the room to itself. */
+      min-height: calc(100svh - 4.5rem);
       display: flex;
       flex-direction: column;
       justify-content: center;
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .pinned-opening {
+      .portfolio-hero-wrapper {
         position: relative;
       }
     }
@@ -498,7 +495,8 @@
       flex-direction: column;
       align-items: center;
       text-align: center;
-      padding-block: clamp(1.5rem, 6svh, 5rem);
+      padding-top: 5rem;
+      padding-bottom: 5rem;
     }
 
     .hero-name {
