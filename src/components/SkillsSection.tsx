@@ -3,6 +3,7 @@
 import { m, useReducedMotion, type Variants } from "motion/react";
 import skills from "@/content/skills.json";
 import Reveal from "./Reveal";
+import { TECH_ICONS, getSkillIconKey } from "./techStackIcons";
 import WordReveal from "./WordReveal";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
@@ -26,6 +27,15 @@ const rowVariants: Variants = {
 };
 
 const pad = (n: number) => String(n).padStart(2, "0");
+
+function SkillIcon({ name }: { name: string }) {
+  const icon = TECH_ICONS[getSkillIconKey(name)] || TECH_ICONS.neural;
+  return (
+    <svg className="skill-row-icon" viewBox={icon.viewBox} fill="currentColor" aria-hidden="true">
+      <path d={icon.path} fillRule={icon.fillRule ?? "evenodd"} clipRule={icon.fillRule ?? "evenodd"} />
+    </svg>
+  );
+}
 
 export default function SkillsSection() {
   const reduceMotion = useReducedMotion();
@@ -63,6 +73,7 @@ export default function SkillsSection() {
                 {group.items.map((item, i) => (
                   <m.li key={item} className="skill-row" variants={rowVariants}>
                     <span className="skill-row-num">{pad(i + 1)}</span>
+                    <SkillIcon name={item} />
                     <span className="skill-row-name">{item}</span>
                   </m.li>
                 ))}
