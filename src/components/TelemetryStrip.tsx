@@ -11,7 +11,6 @@ interface MetricItem {
   prefix?: string;
   rawText?: string;
   label: string;
-  sublabel: string;
 }
 
 const METRICS: MetricItem[] = [
@@ -20,20 +19,17 @@ const METRICS: MetricItem[] = [
     targetNum: 2,
     suffix: "+ Yrs",
     label: "AI/ML Experience",
-    sublabel: "Industry & research lab track record",
   },
   {
     type: "count",
     targetNum: 10,
     suffix: "+",
     label: "AI Projects Built",
-    sublabel: "GenAI, RAG, Vision & Predictive ML",
   },
   {
     type: "scramble",
     rawText: "BNSP",
     label: "Certified Data Scientist",
-    sublabel: "National professional certification",
   },
 ];
 
@@ -123,7 +119,6 @@ export default function TelemetryStrip() {
               <div key={metric.label} className="telemetry-cell">
                 <AnimatedMetricValue metric={metric} inView={inView} />
                 <div className="telemetry-label">{metric.label}</div>
-                <div className="telemetry-sublabel">{metric.sublabel}</div>
               </div>
             ))}
           </div>

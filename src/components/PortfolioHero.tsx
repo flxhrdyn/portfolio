@@ -37,32 +37,19 @@ export default function PortfolioHero() {
         animate={reduceMotion ? undefined : "show"}
         variants={container}
       >
-        <div className="hero-text-col">
-          <div className="hero-title-group">
-            <m.div className="hero-eyebrow" variants={item}>
-              <span className="telemetry-status-dot" aria-hidden="true" style={{ width: "6px", height: "6px" }} />
-              <span>AI ENGINEER &amp; DATA SCIENTIST</span>
-            </m.div>
-
-            <WordReveal as="h1" className="hero-title" text="Felix Windriyareksa Hardyan" immediate delay={0.06} />
-
-            <m.p className="hero-description" variants={item}>
-              Building production-grade AI systems, from Data Science to GenAI.
-            </m.p>
-          </div>
-
-          <m.div className="hero-actions" variants={item}>
-            <a href="#projects" className="btn-pill btn-pill-primary" onClick={(e) => scrollToAnchor(e, "#projects")}>
-              <span>Explore Projects &darr;</span>
-            </a>
-            <a href="#contact" className="btn-pill btn-pill-secondary" onClick={(e) => scrollToAnchor(e, "#contact")}>
-              <span>Get in Touch</span>
-            </a>
-          </m.div>
+        <div className="hero-name-col">
+          <WordReveal as="h1" className="hero-title" text="Felix Windriyareksa Hardyan" immediate delay={0.06} />
         </div>
 
         <m.div variants={photoItem} className="hero-photo-col">
           <ProfilePhoto />
+        </m.div>
+
+        <m.div className="hero-foot" variants={item}>
+          <p className="hero-description">Building production-grade AI systems, from Data Science to GenAI.</p>
+          <a href="#contact" className="btn-pill btn-pill-primary" onClick={(e) => scrollToAnchor(e, "#contact")}>
+            <span>Get in Touch</span>
+          </a>
         </m.div>
       </m.header>
     </div>
