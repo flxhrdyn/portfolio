@@ -41,13 +41,14 @@ const rowListVariants: Variants = {
   },
 };
 
+// Rows draw in from the left like lines being ruled onto the page.
 const rowItemVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
+  hidden: { opacity: 0, clipPath: "inset(0% 100% 0% 0%)" },
   show: {
     opacity: 1,
-    y: 0,
+    clipPath: "inset(0% 0% 0% 0%)",
     transition: {
-      duration: 0.4,
+      duration: 0.8,
       ease: [0.16, 1, 0.3, 1],
     },
   },
