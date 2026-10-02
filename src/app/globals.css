@@ -393,7 +393,7 @@
     .hero-headline {
       font-family: var(--font-sans);
       /* Majestic monumental scale matching TypeSafe / Rifqi caliber */
-      font-size: clamp(2.25rem, min(12.5vw, 21svh), 11rem);
+      font-size: clamp(2.25rem, min(10.5vw, 16svh), 8.5rem);
       font-weight: 650;
       line-height: 0.94;
       letter-spacing: -0.06em;
