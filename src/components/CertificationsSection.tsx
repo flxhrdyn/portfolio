@@ -111,6 +111,10 @@ export default function CertificationsSection() {
 
                 <h3 className="research-paper-title">{paper.title}</h3>
 
+                <p className="research-authors-clean">
+                  Ulfa H., Felix W. Hardyan, Faizah R., Ali A., Fanka A., Mario M.
+                </p>
+
                 {/* TELEMETRY BENCHMARK SECTION (GROQ / SCALE AI FLAT INSTRUMENTATION) */}
                 <div className="telemetry-benchmark-section" ref={leaderboardRef}>
                   <div className="telemetry-header-row">

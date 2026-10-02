@@ -567,6 +567,12 @@
       gap: 0.5rem;
     }
 
+    /* Equal widths keep the two hero actions a balanced pair. */
+    .hero-actions .btn-pill {
+      min-width: 10.5rem;
+      justify-content: center;
+    }
+
     .hero-work-arrow {
       display: inline-block;
       transition: transform 250ms cubic-bezier(0.16, 1, 0.3, 1);
