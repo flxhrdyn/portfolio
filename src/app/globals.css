@@ -471,14 +471,25 @@
       font-weight: 700;
       letter-spacing: -0.04em;
       line-height: 1;
-      color: var(--text-secondary);
+      color: var(--text-primary);
       text-decoration: none;
-      transition: color 0.18s ease;
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .typesafe-cta:hover {
       color: var(--text-primary);
       text-decoration: underline;
+      transform: scale(1.05);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .typesafe-cta {
+        transition: none;
+      }
+
+      .typesafe-cta:hover {
+        transform: none;
+      }
     }
 
     .typesafe-cta:active {
