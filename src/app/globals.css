@@ -205,10 +205,13 @@
 
     /* The hero is pinned and the page is drawn over it: the reader leaves the hero
        by covering it, not by pushing it off screen. */
-    .hero-wrapper.portfolio-hero-wrapper {
+    .pinned-opening {
       position: sticky;
       top: 0;
       z-index: 0;
+    }
+
+    .hero-wrapper.portfolio-hero-wrapper {
       background-image: none;
       /* A full first screen, like the contact finale: the hero gets the room to itself. */
       min-height: calc(100svh - 4.5rem);
@@ -218,7 +221,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .portfolio-hero-wrapper {
+      .pinned-opening {
         position: relative;
       }
     }
