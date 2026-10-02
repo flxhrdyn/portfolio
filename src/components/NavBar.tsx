@@ -22,9 +22,11 @@ const NAV_LINKS = [
 
 interface NavBarProps {
   variant?: "chat" | "portfolio";
+  onAskAI?: (trigger: HTMLButtonElement) => void;
+  chatOpen?: boolean;
 }
 
-export default function NavBar({ variant = "portfolio" }: NavBarProps) {
+export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = false }: NavBarProps) {
   const reduceMotion = useReducedMotion();
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -42,7 +44,7 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
   useEffect(() => {
     if (!menuOpen) return;
 
-    mobileMenuRef.current?.querySelector<HTMLElement>("a[href]")?.focus();
+    mobileMenuRef.current?.querySelector<HTMLElement>("a[href], button:not([disabled])")?.focus();
 
     const handleMenuKeyDown = (event: KeyboardEvent) => {
       if (event.key !== "Escape") return;
@@ -65,6 +67,11 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     setMenuOpen(false);
     scrollToAnchor(e, href);
+  };
+
+  const handleAskAI = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setMenuOpen(false);
+    onAskAI?.(event.currentTarget);
   };
 
   return (
@@ -115,7 +122,6 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
               </a>
             ))}
             <div className="nav-mobile-actions">
-              <Link href="/" className="nav-link" onClick={() => setMenuOpen(false)}>Ask AI</Link>
               <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="nav-link">Resume</a>
             </div>
           </div>
@@ -139,14 +145,21 @@ export default function NavBar({ variant = "portfolio" }: NavBarProps) {
           </a>
 
           {variant === "portfolio" && (
-            <Link href="/" className="btn-pill-ask-ai">
+            <button
+              type="button"
+              className="btn-pill-ask-ai"
+              onClick={handleAskAI}
+              aria-expanded={chatOpen}
+              aria-controls="portfolio-chat-panel"
+              aria-label="Ask AI"
+            >
               <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 0L14.6 9.4L24 12L14.6 14.6L12 24L9.4 14.6L0 12L9.4 9.4L12 0Z" />
                 <path d="M19 1C19.5 2.5 21 4 22.5 4.5C21 5 19.5 6.5 19 8C18.5 6.5 17 5 15.5 4.5C17 4 18.5 2.5 19 1Z" />
                 <path d="M5 16C5.5 17.5 7 19 8.5 19.5C7 20 5.5 21.5 5 23C4.5 21.5 3 20 1.5 19.5C3 19 4.5 17.5 5 16Z" />
               </svg>
               <span>Ask AI</span>
-            </Link>
+            </button>
           )}
 
           <button

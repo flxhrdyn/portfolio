@@ -63,8 +63,14 @@ export default function WordReveal({
         {words.map((word, i) => (
           <span
             key={`${word}-${i}`}
-            // Padding gives descenders (g, y, p) room inside the mask on tight line-heights.
-            style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom", paddingBottom: "0.15em", marginBottom: "-0.15em" }}
+            // Padding keeps glyph edges and ascenders inside the mask on tight line-heights.
+            style={{
+              display: "inline-block",
+              overflow: "hidden",
+              verticalAlign: "bottom",
+              padding: "0.06em 0.08em 0.15em",
+              margin: "-0.06em -0.08em -0.15em",
+            }}
           >
             <m.span
               variants={wordVariants}

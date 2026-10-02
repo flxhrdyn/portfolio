@@ -4,7 +4,6 @@ import { GeistMono } from "geist/font/mono";
 import { GeistPixelSquare } from "geist/font/pixel";
 import ThemeScript from "@/components/ThemeScript";
 import MotionProvider from "@/components/MotionProvider";
-import PageTransitionLoader from "@/components/PageTransitionLoader";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -21,6 +20,9 @@ export const metadata: Metadata = {
     template: "%s | flxhrdyn",
   },
   description: DESCRIPTION,
+  alternates: {
+    canonical: "/",
+  },
   openGraph: {
     title: TITLE,
     description: DESCRIPTION,
@@ -48,7 +50,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <MotionProvider>
-          <PageTransitionLoader />
           {children}
           <Analytics />
           <SpeedInsights />
