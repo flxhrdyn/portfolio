@@ -104,10 +104,8 @@ export default function ContactSection() {
           {/* LEFT: MAIN BOLD FINALE CTA */}
           {reduceMotion ? (
             <div className="contact-minimal-left">
-              <span className="contact-minimal-availability">
-                <span className="availability-dot" />
-                Available for opportunities
-              </span>
+
+              <span className="contact-minimal-availability">Available for opportunities</span>
 
               <h2 className="contact-minimal-headline">
                 Let&apos;s build something together.
@@ -125,8 +123,8 @@ export default function ContactSection() {
               viewport={{ once: true, margin: "-40px" }}
               variants={ctaContainerVariants}
             >
+
               <m.span className="contact-minimal-availability" variants={ctaItemVariants}>
-                <span className="availability-dot" />
                 Available for opportunities
               </m.span>
 

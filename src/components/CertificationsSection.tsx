@@ -104,24 +104,15 @@ export default function CertificationsSection() {
           <BlockReveal from="left" style={{ height: "100%" }}>
             <article className="research-featured-card">
               <div className="research-card-body">
-                <div className="research-card-header">
-                  <span className="research-type-badge">{paper.kind}</span>
-                  <span className="research-journal-tag">JITET · {paper.volume}</span>
-                </div>
+                <p className="research-journal-tag">JITET · {paper.volume}</p>
 
                 <h3 className="research-paper-title">{paper.title}</h3>
 
                 <p className="research-authors-clean">
-                  Ulfa H., Felix W. Hardyan, Faizah R., Ali A., Fanka A., Mario M.
+                  Ulfa H., <strong>Felix W. Hardyan</strong>, Faizah R., Ali A., Fanka A., Mario M.
                 </p>
 
-                {/* TELEMETRY BENCHMARK SECTION (GROQ / SCALE AI FLAT INSTRUMENTATION) */}
                 <div className="telemetry-benchmark-section" ref={leaderboardRef}>
-                  <div className="telemetry-header-row">
-                    <span className="telemetry-label">TEST ACCURACY</span>
-
-                  </div>
-
                   <div className="leaderboard-rows">
                     {MODEL_ROWS.map((model) => {
                       const data = TEST_SCORES[model.id];
@@ -158,6 +149,7 @@ export default function CertificationsSection() {
                       );
                     })}
                   </div>
+                  <p className="research-benchmark-caption">Test accuracy</p>
                 </div>
               </div>
 
@@ -167,11 +159,7 @@ export default function CertificationsSection() {
                   onClick={() => setResearchOpen(true)}
                   className="research-action-btn primary"
                 >
-                  Read Abstract
-                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                    <polyline points="12 5 19 12 12 19"></polyline>
-                  </svg>
+                  Read abstract <span className="research-action-arrow" aria-hidden="true">→</span>
                 </button>
 
                 {paper.doi && (
@@ -181,7 +169,7 @@ export default function CertificationsSection() {
                     rel="noopener noreferrer"
                     className="research-action-btn secondary"
                   >
-                    Read Paper ↗
+                    Paper on DOI ↗
                   </a>
                 )}
               </div>
