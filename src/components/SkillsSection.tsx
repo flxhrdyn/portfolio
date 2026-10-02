@@ -1,91 +1,22 @@
 "use client";
 
-import { m, useReducedMotion } from "motion/react";
+import { m, useReducedMotion, type Variants } from "motion/react";
 import skills from "@/content/skills.json";
-import { TECH_ICONS, getSkillIconKey } from "./techStackIcons";
-import Reveal, { revealVariants } from "./Reveal";
+import Reveal from "./Reveal";
 import WordReveal from "./WordReveal";
+import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
-const CATEGORY_ICONS: Record<string, React.ReactNode> = {
-  "AI & Machine Learning": (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="spec-cat-icon">
-      <circle cx="12" cy="12" r="10"></circle>
-      <circle cx="12" cy="12" r="4"></circle>
-      <line x1="12" y1="1" x2="12" y2="3"></line>
-      <line x1="12" y1="21" x2="12" y2="23"></line>
-    </svg>
-  ),
-  "ML Frameworks & Libraries": (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="spec-cat-icon">
-      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-    </svg>
-  ),
-  "Languages & Backend": (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="spec-cat-icon">
-      <polyline points="16 18 22 12 16 6"></polyline>
-      <polyline points="8 6 2 12 8 18"></polyline>
-    </svg>
-  ),
-  "Cloud & MLOps": (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="spec-cat-icon">
-      <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
-      <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
-    </svg>
-  ),
-  "Languages & Bio": (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className="spec-cat-icon">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-    </svg>
-  ),
+const columnVariants: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.04 } },
 };
 
-function SkillBrandIcon({ name }: { name: string }) {
-  const iconKey = getSkillIconKey(name);
-  const iconData = TECH_ICONS[iconKey] || TECH_ICONS.neural;
-
-  return (
-    <svg
-      className="spec-skill-icon"
-      viewBox={iconData.viewBox}
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path d={iconData.path} fillRule="evenodd" clipRule="evenodd" />
-    </svg>
-  );
-}
-
-const rowContainerVariants = {
-  hidden: { opacity: 0, y: 14 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.4,
-      ease: [0.16, 1, 0.3, 1] as const,
-      staggerChildren: 0.04,
-      delayChildren: 0.05,
-    },
-  },
+const rowVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE_OUT } },
 };
 
-const categoryVariants = {
-  hidden: { opacity: 0, x: -20 },
-  show: { opacity: 1, x: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const } },
-};
-
-const tagItemVariants = {
-  hidden: { opacity: 0, y: 8, scale: 0.96 },
-  show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.3,
-      ease: [0.16, 1, 0.3, 1] as const,
-    },
-  },
-};
+const pad = (n: number) => String(n).padStart(2, "0");
 
 export default function SkillsSection() {
   const reduceMotion = useReducedMotion();
@@ -102,80 +33,40 @@ export default function SkillsSection() {
           </p>
         </Reveal>
 
-        {/* CLEAN SPEC MATRIX LIST WITH SMOOTH STAGGERED MOTION */}
-        <div className="spec-matrix-table">
-          {categoryGroups.map((group, i) => {
-            if (reduceMotion) {
-              return (
-                <div key={group.category} className="spec-matrix-row-wrap">
-                  <div className="spec-matrix-row">
-                    <div className="spec-matrix-category">
-                      {CATEGORY_ICONS[group.category]}
-                      <span className="spec-matrix-category-name">{group.category}</span>
-                    </div>
-                    <div className="spec-matrix-items">
-                      {group.items.map((item) => (
-                        <span key={item} className="spec-matrix-tag">
-                          <SkillBrandIcon name={item} />
-                          <span className="spec-matrix-tag-text">{item}</span>
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              );
-            }
-
-            return (
-              <m.div
-                key={group.category}
-                className="spec-matrix-row-wrap"
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true, margin: "-40px" }}
-                variants={rowContainerVariants}
-              >
-                <div className="spec-matrix-row">
-                  <m.div className="spec-matrix-category" variants={categoryVariants}>
-                    {CATEGORY_ICONS[group.category]}
-                    <span className="spec-matrix-category-name">{group.category}</span>
-                  </m.div>
-                  <div className="spec-matrix-items">
-                    {group.items.map((item) => (
-                      <m.span
-                        key={item}
-                        className="spec-matrix-tag"
-                        variants={tagItemVariants}
-                      >
-                        <SkillBrandIcon name={item} />
-                        <span className="spec-matrix-tag-text">{item}</span>
-                      </m.span>
-                    ))}
-                  </div>
-                </div>
-              </m.div>
-            );
-          })}
-
-          {/* LANGUAGE PROFICIENCY ROW */}
-          {languageGroup && (
-            <div className="spec-matrix-row spec-matrix-row-footer">
-              <div className="spec-matrix-category">
-                {CATEGORY_ICONS[languageGroup.category]}
-                <span className="spec-matrix-category-name">Languages</span>
-              </div>
-              <div className="spec-matrix-items">
-                {languageGroup.items.map((item) => (
-                  <span key={item} className="spec-matrix-lang-tag">
-                    <span className="spec-matrix-lang-dot">●</span>
-                    <strong className="spec-matrix-lang-name">{item.split(" (")[0]}</strong>{" "}
-                    <span className="spec-matrix-lang-level">({item.split(" (")[1]}</span>
-                  </span>
+        <div className="skill-table">
+          {categoryGroups.map((group) => (
+            <m.div
+              key={group.category}
+              className="skill-col"
+              initial={reduceMotion ? false : "hidden"}
+              whileInView="show"
+              viewport={VIEWPORT}
+              variants={columnVariants}
+            >
+              <h3 className="skill-col-title">
+                {group.category}
+                <span className="skill-col-count">{pad(group.items.length)}</span>
+              </h3>
+              <ol className="skill-col-list">
+                {group.items.map((item, i) => (
+                  <m.li key={item} className="skill-row" variants={rowVariants}>
+                    <span className="skill-row-num">{pad(i + 1)}</span>
+                    <span className="skill-row-name">{item}</span>
+                  </m.li>
                 ))}
-              </div>
-            </div>
-          )}
+              </ol>
+            </m.div>
+          ))}
         </div>
+
+        {languageGroup && (
+          <p className="skill-languages">
+            <span className="skill-languages-label">Languages</span>
+            {languageGroup.items.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
+          </p>
+        )}
       </div>
     </section>
   );

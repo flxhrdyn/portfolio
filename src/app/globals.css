@@ -205,10 +205,13 @@
 
     /* The hero is pinned and the page is drawn over it: the reader leaves the hero
        by covering it, not by pushing it off screen. */
-    .portfolio-hero-wrapper {
+    .hero-wrapper.portfolio-hero-wrapper {
       position: sticky;
       top: 0;
       z-index: 0;
+      background-image: none;
+      /* Leaves room for the metrics strip so the key numbers show without scrolling. */
+      min-height: calc(100svh - 4.5rem - 9rem);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -495,8 +498,8 @@
       align-items: center;
       gap: 3.5rem;
       text-align: left;
-      padding-top: 4.5rem;
-      padding-bottom: 5.5rem;
+      padding-top: 3rem;
+      padding-bottom: 3rem;
     }
 
     .hero-content {
@@ -614,7 +617,7 @@
       display: block;
       width: 100%;
       max-width: 440px;
-      height: 540px;
+      height: min(540px, calc(100svh - 20rem));
       margin: 0 0 0 auto;
       border-radius: 0;
       border: 1px solid var(--border-color);
@@ -2044,6 +2047,249 @@
       text-decoration: none;
     }
 
+    /* PROJECTS: one featured stage, then plain alternating rows. No boxes, no badges. */
+    .project-feature {
+      margin-bottom: clamp(4rem, 8vw, 6rem);
+    }
+
+    .project-feature-media,
+    .project-row-media {
+      display: block;
+      width: 100%;
+      padding: 0;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background: var(--bg-secondary);
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .project-feature-media .project-thumb,
+    .project-row-media .project-thumb {
+      margin: 0;
+      width: 100%;
+      height: auto;
+      border: 0;
+      aspect-ratio: 16 / 9;
+    }
+
+    .project-row-media .project-thumb {
+      aspect-ratio: 16 / 10;
+    }
+
+    .project-row-media img {
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .project-row-media:hover img {
+      transform: scale(1.02);
+    }
+
+    .project-feature-body {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 3rem;
+      padding-top: 1.75rem;
+    }
+
+    .project-feature-title {
+      margin: 0.6rem 0 0;
+      font-size: clamp(1.75rem, 3vw, 2.75rem);
+      font-weight: 600;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+    }
+
+    .project-rows {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .project-row {
+      display: grid;
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      gap: clamp(2rem, 5vw, 4.5rem);
+      align-items: center;
+      padding: clamp(2.5rem, 5vw, 4rem) 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .project-row:nth-child(even) {
+      grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    }
+
+    .project-row:nth-child(even) .project-row-media {
+      order: 2;
+    }
+
+    .project-row-title {
+      margin: 0.6rem 0 1rem;
+      font-size: clamp(1.5rem, 2.4vw, 2.125rem);
+      font-weight: 600;
+      line-height: 1.12;
+      letter-spacing: -0.035em;
+    }
+
+    .project-feature .project-category,
+    .project-row .project-category {
+      margin: 0;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .project-feature .project-summary,
+    .project-row .project-summary {
+      margin: 0 0 1.25rem;
+      font-size: 1rem;
+      color: var(--text-secondary);
+    }
+
+    .project-links {
+      display: flex;
+      align-items: center;
+      gap: 1.75rem;
+    }
+
+    .project-links .project-link {
+      padding: 0;
+      border: 0;
+      background: none;
+      font: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+
+    .project-links .project-link-muted {
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 860px) {
+      .project-row,
+      .project-row:nth-child(even) {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.5rem;
+      }
+
+      .project-row:nth-child(even) .project-row-media {
+        order: 0;
+      }
+
+      .project-feature-body {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 1.25rem;
+      }
+    }
+
+    /* SKILLS: numbered columns, one per category. No icons, no pills. */
+    .skill-table {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      border-top: 1px solid var(--border-color);
+    }
+
+    .skill-col {
+      padding: 1.5rem 1.5rem 2rem;
+      border-left: 1px solid var(--border-color);
+    }
+
+    .skill-col:first-child {
+      padding-left: 0;
+      border-left: 0;
+    }
+
+    .skill-col-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      margin: 0 0 1.25rem;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .skill-col-count {
+      opacity: 0.6;
+    }
+
+    .skill-col-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .skill-row {
+      display: flex;
+      gap: 0.85rem;
+      padding: 0.6rem 0;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      transition: color var(--transition-speed) ease, padding-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .skill-row:hover {
+      padding-left: 0.4rem;
+      color: var(--text-primary);
+    }
+
+    .skill-row-num {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      line-height: 1.7;
+      opacity: 0.5;
+    }
+
+    .skill-languages {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 2rem;
+      margin: 0;
+      padding-top: 1.25rem;
+      border-top: 1px solid var(--border-color);
+      font-size: 0.9rem;
+    }
+
+    .skill-languages-label {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 960px) {
+      .skill-table {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .skill-col:nth-child(odd) {
+        padding-left: 0;
+        border-left: 0;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .skill-table {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .skill-col,
+      .skill-col:first-child {
+        padding-left: 0;
+        border-left: 0;
+      }
+    }
+
     /* GITHUB STYLE CONTRIBUTION CALENDAR */
     .github-contrib-card {
       background-color: var(--bg-card);
@@ -2423,20 +2669,14 @@
       }
     }
 
-    /* A single log entry row with subtle hover highlight */
+    /* A single log entry: plain hairline-separated row, no box or hover fill */
     .exp-log-entry {
       display: grid;
       grid-template-columns: 160px 1fr;
       gap: 0 2.5rem;
-      padding: 1.75rem 1.25rem;
+      padding: 2rem 0 2rem 0.5rem;
       border-bottom: 1px solid var(--border-color);
-      border-radius: var(--radius-md);
       align-items: start;
-      transition: background-color var(--transition-speed) ease;
-    }
-
-    .exp-log-entry:hover {
-      background-color: var(--bg-secondary);
     }
 
     .exp-log-entry:last-child {
@@ -2483,8 +2723,8 @@
 
     /* Role title — bolder, prominent */
     .exp-log-title {
-      font-size: 1.15rem;
-      font-weight: 700;
+      font-size: clamp(1.25rem, 1.6vw, 1.5rem);
+      font-weight: 600;
       color: var(--text-primary);
       line-height: 1.35;
       letter-spacing: -0.02em;

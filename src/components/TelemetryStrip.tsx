@@ -117,7 +117,7 @@ export default function TelemetryStrip() {
   return (
     <section className="telemetry-section" aria-label="Engineering telemetry and verified metrics" ref={containerRef}>
       <div className="container">
-        <Reveal>
+        <Reveal viewportMargin="0px">
           <div className="telemetry-grid">
             {METRICS.map((metric) => (
               <div key={metric.label} className="telemetry-cell">

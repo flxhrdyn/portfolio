@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { m, useReducedMotion } from "motion/react";
-import CodeBlock from "./CodeBlock";
 import Modal from "./Modal";
 import GithubHeatmap from "./GithubHeatmap";
 import ProjectCaseStudyBody from "./ProjectCaseStudyBody";
@@ -19,32 +18,21 @@ interface ProjectsSectionProps {
   contributions: ContributionDay[] | null;
 }
 
-// Maps a project's primary tag to a category icon shown next to its label on grid cards.
-function CategoryIcon({ category }: { category: string }) {
-  const key = category.toLowerCase();
-  if (key.includes("vision") || key.includes("healthcare")) {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"></path>
-        <circle cx="12" cy="12" r="3"></circle>
-      </svg>
-    );
-  }
-  if (key.includes("agent")) {
-    return (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <rect x="3" y="8" width="18" height="12" rx="2"></rect>
-        <path d="M12 8V4"></path>
-        <circle cx="12" cy="3" r="1"></circle>
-        <path d="M8 14h.01M16 14h.01"></path>
-      </svg>
-    );
-  }
+function ProjectLinks({ project, onOpen }: { project: { repo: string }; onOpen: () => void }) {
   return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-      <polyline points="14 2 14 8 20 8"></polyline>
-    </svg>
+    <div className="project-links">
+      <button type="button" className="project-link" onClick={onOpen}>
+        Case study &rarr;
+      </button>
+      <a
+        href={`https://github.com/flxhrdyn/${project.repo}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="project-link project-link-muted"
+      >
+        GitHub &#8599;
+      </a>
+    </div>
   );
 }
 
@@ -52,7 +40,6 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
   const reduceMotion = useReducedMotion();
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const [archiveOpen, setArchiveOpen] = useState(false);
-  const [activeTab, setActiveTab] = useState<"preview" | "specs" | "code">("preview");
 
   const featuredProject = projects.find((project) => project.featured);
   // Projects marked `showcase: false` are listed only in the "View all projects" table.
@@ -70,229 +57,56 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
 
         {featuredProject && (
           <ScrollLinked from="scale">
-            <div className="bento-featured-card">
-              {/* Terminal Window Chrome Header */}
-              <div className="bento-terminal-header">
-                <div className="bento-terminal-dots" aria-hidden="true">
-                  <span className="bento-dot" />
-                  <span className="bento-dot" />
-                  <span className="bento-dot" />
-                  <span className="bento-terminal-filename" style={{ marginLeft: "0.5rem" }}>invenio-rag-pipeline.py</span>
+            <article className="project-feature">
+              <button
+                type="button"
+                className="project-feature-media"
+                onClick={() => setOpenSlug(featuredProject.slug)}
+                aria-label={`Open ${featuredProject.title} case study`}
+              >
+                <ProjectThumbnail src={featuredProject.image} alt={featuredProject.imageAlt} variant="featured" priority />
+              </button>
+              <div className="project-feature-body">
+                <div>
+                  <p className="project-category">{featuredProject.tags[0]}</p>
+                  <h3 className="project-feature-title">{featuredProject.title}</h3>
                 </div>
-
-                {/* View Switcher Tabs */}
-                <div className="bento-terminal-tabs" role="tablist" aria-label="Project View Options">
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={activeTab === "preview"}
-                    className={`bento-tab-btn ${activeTab === "preview" ? "active" : ""}`}
-                    onClick={() => setActiveTab("preview")}
-                  >
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
-                      <polyline points="21 15 16 10 5 21"></polyline>
-                    </svg>
-                    <span>Preview</span>
-                  </button>
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={activeTab === "specs"}
-                    className={`bento-tab-btn ${activeTab === "specs" ? "active" : ""}`}
-                    onClick={() => setActiveTab("specs")}
-                  >
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
-                    </svg>
-                    <span>Specs</span>
-                  </button>
-                  <button
-                    type="button"
-                    role="tab"
-                    aria-selected={activeTab === "code"}
-                    className={`bento-tab-btn ${activeTab === "code" ? "active" : ""}`}
-                    onClick={() => setActiveTab("code")}
-                  >
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="16 18 22 12 16 6"></polyline>
-                      <polyline points="8 6 2 12 8 18"></polyline>
-                    </svg>
-                    <span>Code</span>
-                  </button>
+                <div>
+                  <p className="project-summary">{featuredProject.summary}</p>
+                  <ProjectLinks project={featuredProject} onOpen={() => setOpenSlug(featuredProject.slug)} />
                 </div>
               </div>
-
-              {/* Bento Grid Interior: Media & Specs on Left, Structured Details on Right */}
-              <div className="bento-featured-content">
-                <div className="bento-media-pane">
-                  {activeTab === "preview" && (
-                    <div
-                      className="bento-demo-wrapper"
-                      style={{ cursor: "pointer", position: "relative" }}
-                      onClick={() => setOpenSlug(featuredProject.slug)}
-                    >
-                      <ProjectThumbnail src={featuredProject.image} alt={featuredProject.imageAlt} variant="featured" priority />
-                    </div>
-                  )}
-
-                  {activeTab === "specs" && (
-                    <div className="bento-specs-pane">
-                      <div className="specs-header">TECHNICAL SPECIFICATIONS</div>
-                      <div className="specs-table">
-                        <div className="specs-row">
-                          <span className="specs-key">Architecture</span>
-                          <span className="specs-val">Dense + Sparse Hybrid Search</span>
-                        </div>
-                        <div className="specs-row">
-                          <span className="specs-key">Vector Engine</span>
-                          <span className="specs-val">Qdrant (HNSW + BM42)</span>
-                        </div>
-                        <div className="specs-row">
-                          <span className="specs-key">Reranker</span>
-                          <span className="specs-val">FlashRank Cross-Encoder</span>
-                        </div>
-                        <div className="specs-row">
-                          <span className="specs-key">Reasoning Engine</span>
-                          <span className="specs-val">4-Step Chain-of-Thought (CoT)</span>
-                        </div>
-                        <div className="specs-row">
-                          <span className="specs-key">Semantic Cache</span>
-                          <span className="specs-val">Dual-Layer (&gt; 0.90 similarity)</span>
-                        </div>
-                        <div className="specs-row">
-                          <span className="specs-key">Deployment</span>
-                          <span className="specs-val">Docker • FastAPI • Hugging Face Spaces</span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
-                  {activeTab === "code" && (
-                    <pre className="project-featured-code" style={{ margin: 0, height: "100%", borderRadius: 0, border: "none" }}>
-                      <code>
-                        <CodeBlock code={featuredProject.codeBlock} />
-                      </code>
-                    </pre>
-                  )}
-                </div>
-
-                <div className="bento-details-pane">
-                  <div>
-                    <div className="project-category" style={{ marginBottom: "0.5rem" }}>
-                      <CategoryIcon category={featuredProject.tags[0]} />
-                      {featuredProject.tags[0]}
-                    </div>
-                    <div className="project-tags" style={{ marginBottom: "1rem" }}>
-                      {featuredProject.tags.slice(1).map((tag) => (
-                        <span key={tag} className="badge">
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-
-                    <h3 className="project-featured-title">{featuredProject.title}</h3>
-                    <p className="project-featured-summary">{featuredProject.summary}</p>
-                  </div>
-
-                  <div className="bento-actions">
-                    <button
-                      type="button"
-                      className="btn-pill btn-pill-primary"
-                      onClick={() => setOpenSlug(featuredProject.slug)}
-                    >
-                      <span>Read Case Study</span>
-                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                      </svg>
-                    </button>
-                    <a
-                      href={`https://github.com/flxhrdyn/${featuredProject.repo}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-pill btn-pill-secondary"
-                    >
-                      <span>GitHub</span>
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                        <polyline points="15 3 21 3 21 9"></polyline>
-                        <line x1="10" y1="14" x2="21" y2="3"></line>
-                      </svg>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </article>
           </ScrollLinked>
         )}
 
-        <div className="projects-grid">
-          {/* Cards stay still on purpose: in the reference, the grid is furniture and
-              only the stage above it moves. */}
-          {gridProjects.map((project, i) => (
-            <m.div
+        <ul className="project-rows">
+          {gridProjects.map((project) => (
+            <m.li
               key={project.slug}
-              className="project-card"
-              onClick={() => setOpenSlug(project.slug)}
-              initial={reduceMotion ? false : { opacity: 0, y: 40, scale: 0.97 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              className="project-row"
+              initial={reduceMotion ? false : { opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={VIEWPORT}
-              transition={{ duration: 0.7, ease: EASE_OUT, delay: (i % 3) * 0.12 }}
+              transition={{ duration: 0.7, ease: EASE_OUT }}
             >
+              <button
+                type="button"
+                className="project-row-media"
+                onClick={() => setOpenSlug(project.slug)}
+                aria-label={`Open ${project.title} case study`}
+              >
                 <ProjectThumbnail src={project.image} alt={project.imageAlt} />
-
-                <div className="project-header">
-                  <div className="project-category">
-                    <CategoryIcon category={project.tags[0]} />
-                    {project.tags[0]}
-                  </div>
-                  <div className="project-tags">
-                    {project.tags.slice(1).map((tag) => (
-                      <span key={tag} className="badge">
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                  <h3 className="project-title">{project.title}</h3>
-                  <p className="project-summary">{project.summary}</p>
-                </div>
-                <div className="project-footer">
-                  <button
-                    type="button"
-                    className="project-link"
-                    style={{ background: "none", border: "none", padding: 0, cursor: "pointer", font: "inherit", color: "inherit" }}
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setOpenSlug(project.slug);
-                    }}
-                  >
-                    <span>Read Case Study</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <line x1="5" y1="12" x2="19" y2="12"></line>
-                      <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                  </button>
-                  <a
-                    href={`https://github.com/flxhrdyn/${project.repo}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="project-link"
-                    style={{ color: "var(--text-secondary)" }}
-                    onClick={(e) => e.stopPropagation()}
-                  >
-                    <span>GitHub</span>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                      <polyline points="15 3 21 3 21 9"></polyline>
-                      <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                  </a>
-                </div>
-            </m.div>
+              </button>
+              <div className="project-row-text">
+                <p className="project-category">{project.tags[0]}</p>
+                <h3 className="project-row-title">{project.title}</h3>
+                <p className="project-summary">{project.summary}</p>
+                <ProjectLinks project={project} onOpen={() => setOpenSlug(project.slug)} />
+              </div>
+            </m.li>
           ))}
-        </div>
+        </ul>
 
         <div style={{ display: "flex", justifyContent: "center", marginBottom: "3.5rem", marginTop: "1rem" }}>
           <button className="all-projects-btn" onClick={() => setArchiveOpen(true)}>
