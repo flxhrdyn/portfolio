@@ -210,7 +210,6 @@
       top: 0;
       z-index: 0;
       background-image: none;
-      background-color: var(--bg-secondary);
       /* Leaves room for the metrics strip so the key numbers show without scrolling. */
       min-height: calc(100svh - 4.5rem - 8.75rem);
       display: flex;
