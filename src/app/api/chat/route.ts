@@ -46,18 +46,21 @@ You may answer questions about:
    - Felix Windriyareksa Hardyan is an AI/ML Engineer and BNSP-certified Data Scientist based in Jakarta, Indonesia.
    - Focus: Generative AI, Retrieval-Augmented Generation (RAG), LLM fine-tuning, NLP, and Computer Vision.
    - Education: Bachelor of Informatics from Universitas Gunadarma (GPA 3.85/4.00), Distinction Graduate from Bangkit Academy Machine Learning path (Google, GoTo, Traveloka).
-   - Publications: Co-authored AI reference book (ISBN 9286020764751), published peer-reviewed deep learning research.
+   - Publications: Peer-reviewed deep learning research published in JITET on automated coral reef bleaching detection (89% accuracy comparing CoralNet, InceptionV3, MobileNetV2); co-authored AI reference book (ISBN 9286020764751).
    - Teaching: Mentored 200+ learners including doctoral students, faculty, and international participants at Uzbekistan State World Languages University & Millat Umidi University.
 
 2. Featured Projects:
    - InvenioAI: Advanced RAG system for document Q&A over dense PDFs. Combines Hybrid Dense (MMR) + Sparse (Qdrant BM42) retrieval, RAG Fusion multi-query expansion, FlashRank cross-encoder reranker, and 4-step Chain-of-Thought reasoning. Deployed with Docker and FastAPI on Hugging Face Spaces with Streamlit UI. (https://github.com/flxhrdyn/InvenioAI)
    - Omnius: Automated media intelligence platform applying Robert Entman's (1993) four framing pillars to news stories using autonomous Pydantic AI research agents, Groq-hosted LLMs (Llama 3.3, Qwen3), React 19 + D3.js SSE frontend, deployed on Microsoft Azure (Azure App Service + Container Registry) and Netlify. (https://github.com/flxhrdyn/Omnius)
    - LUCIAN: Lung cancer histopathology classification system using a fine-tuned ConvNeXt-Base backbone (TensorFlow/Keras) achieving 93.67% test accuracy on LC25000 dataset, with Grad-CAM explainability heatmaps for cellular diagnostics. (https://github.com/flxhrdyn/LUCIAN)
+   - Amon Hen: CPU-native CLI and Python library for video moment retrieval across visual frames and spoken dialogue. Uses MobileCLIP2 and Whisper-Tiny via ONNX, hybrid retrieval via SQLite FTS5 and sqlite-vec. (https://github.com/flxhrdyn/amon-hen)
+   - Angrist: AST-scoped Python bug repair CLI tool. Constrains LLM modifications strictly to Tree-sitter parsed syntax tree nodes with isolated Git worktree verification before merge. (https://github.com/flxhrdyn/angrist)
 
 3. Work Experience:
-   - IT Intern (ML & Data Science) at PT Astra Visteon Indonesia: Predictive maintenance for industrial compressors, vibration anomaly detection, signal processing, and operational dashboards.
-   - Part-time AI Engineer at HPC Universitas Gunadarma: LLM fine-tuning (PEFT/QLoRA), RAG chatbot infrastructure, AI agent workflows on NVIDIA DGX systems.
-   - Machine Learning Instructor & Mentor: Bangkit Academy & LPK Universitas Gunadarma.
+   - Data Analyst Intern at PT Tunas Ridean Tbk (Tunas Group) (Sep 2026 - Present): Data analytics on-site in Jakarta.
+   - Data Scientist Intern at PT Astra Visteon Indonesia (Jun 2026 - Sep 2026): Predictive maintenance for industrial compressors, 150K+ operational telemetry records, vibration anomaly detection boosting critical recall from 0% to 60%, FastAPI and React dashboards.
+   - Part-time AI Engineer at HPC Universitas Gunadarma (Sep 2024 - Present): LLM fine-tuning (PEFT/QLoRA on Qwen3-8B), RAG chatbot infrastructure, distributed workloads on NVIDIA DGX systems.
+   - International AI Summer Course Instructor & Data Science Instructor (LePKom Gunadarma): Mentored 200+ learners across ML/DL fundamentals.
 
 4. Skills & Stack:
    - Python, SQL, TypeScript, FastAPI, React, PyTorch, TensorFlow, scikit-learn, LangChain, Pydantic AI, Qdrant, Docker, Microsoft Azure, Google Cloud Platform (GCP), NVIDIA DGX.
@@ -146,7 +149,7 @@ function isIndonesian(text: string): boolean {
 }
 
 export async function POST(req: NextRequest) {
-  // 1. If external Python backend is configured, proxy to it
+  // 1. Dual-mode architecture: if external backend is set, proxy to it
   const backendUrl = process.env.BACKEND_URL;
   if (backendUrl) {
     try {
@@ -163,15 +166,15 @@ export async function POST(req: NextRequest) {
         });
       }
     } catch {
-      // Fall through to native Vercel Groq engine below
+      // Fall through to native Groq engine below if external backend unreachable
     }
   }
 
-  // 2. Native Vercel Serverless Groq Engine (Zero Cold-Start, 100% Free)
+  // 2. Native Vercel Serverless Groq Engine
   const groqApiKey = process.env.GROQ_API_KEY;
   if (!groqApiKey) {
     return Response.json(
-      { error: "GROQ_API_KEY is not configured in Vercel environment variables." },
+      { error: "GROQ_API_KEY is not configured in environment variables." },
       { status: 503 }
     );
   }

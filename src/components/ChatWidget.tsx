@@ -65,6 +65,15 @@ const QUICK_CHIPS = [
       "Hugging Face - deployed with Docker on Azure and GCP. See [his skills](/portfolio#skills).",
     sources: ["skills.md", "about.md"],
   },
+  {
+    label: "Research",
+    query: "What research has Felix published?",
+    answer:
+      "Felix published peer-reviewed deep learning research in JITET comparing CoralNet, InceptionV3, " +
+      "and MobileNetV2 for automated coral reef bleaching detection (89% test accuracy), and co-authored " +
+      "an AI reference book (ISBN 9286020764751). See [his research](/portfolio#accomplishments).",
+    sources: ["writing.json", "experience.md"],
+  },
 ];
 
 function toPlainText(msg: Message): string {
@@ -82,10 +91,13 @@ const STATUS_MESSAGES = [
 function determineSources(text: string): string[] {
   const lower = text.toLowerCase();
   const sources = new Set<string>();
-  if (lower.includes("invenio") || lower.includes("omnius") || lower.includes("lucian") || lower.includes("project")) {
+  if (lower.includes("invenio") || lower.includes("omnius") || lower.includes("lucian") || lower.includes("amon") || lower.includes("angrist") || lower.includes("project")) {
     sources.add("projects.md");
   }
-  if (lower.includes("astra") || lower.includes("gunadarma") || lower.includes("intern") || lower.includes("pengalaman") || lower.includes("experience")) {
+  if (lower.includes("research") || lower.includes("paper") || lower.includes("publikasi") || lower.includes("coral") || lower.includes("jitet")) {
+    sources.add("writing.json");
+  }
+  if (lower.includes("tunas") || lower.includes("astra") || lower.includes("gunadarma") || lower.includes("intern") || lower.includes("pengalaman") || lower.includes("experience")) {
     sources.add("experience.md");
   }
   if (lower.includes("pytorch") || lower.includes("python") || lower.includes("rag") || lower.includes("skill") || lower.includes("keahlian")) {
@@ -108,17 +120,14 @@ function MentatTrace({ trace }: { trace: NonNullable<Message["trace"]> }) {
     <div className="mentat-trace-wrapper">
       <button
         type="button"
-        className={`mentat-trace-pill ${expanded ? "active" : ""}`}
+        className="chat-sources-toggle"
         onClick={() => setExpanded(!expanded)}
         aria-expanded={expanded}
-        title="View factual execution trace"
+        aria-label={expanded ? "Hide sources and execution details" : "Show sources and execution details"}
       >
-        <span className="mentat-trace-prefix">⌥</span>
-        <span className="mentat-trace-label">Mentat Trace</span>
-        <span className="mentat-trace-divider">/</span>
-        <span className="mentat-trace-metric">{trace.model}</span>
+        <span>Sources</span>
         <svg
-          className={`mentat-trace-arrow ${expanded ? "rotated" : ""}`}
+          className={`chat-sources-arrow ${expanded ? "is-open" : ""}`}
           width="11"
           height="11"
           viewBox="0 0 24 24"
@@ -135,20 +144,20 @@ function MentatTrace({ trace }: { trace: NonNullable<Message["trace"]> }) {
       <AnimatePresence>
         {expanded && (
           <m.div
-            className="mentat-trace-panel"
+            className="chat-sources-details"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            <div className="mentat-trace-details">
+            <div className="chat-sources-list">
               <div className="mentat-trace-item">
                 <span className="trace-item-key">Model:</span>
                 <span className="trace-item-val">{trace.model}</span>
               </div>
               <div className="mentat-trace-item">
-                <span className="trace-item-key">Context:</span>
-                <span className="trace-item-val">Closed-Book ({trace.sources.join(", ")})</span>
+                <span className="trace-item-key">Sources:</span>
+                <span className="trace-item-val">{trace.sources.join(" · ")}</span>
               </div>
               <div className="mentat-trace-item">
                 <span className="trace-item-key">Method:</span>
@@ -162,12 +171,17 @@ function MentatTrace({ trace }: { trace: NonNullable<Message["trace"]> }) {
   );
 }
 
-export default function ChatWidget() {
+interface ChatWidgetProps {
+  onClose?: () => void;
+  closeButtonRef?: React.RefObject<HTMLButtonElement | null>;
+}
+
+export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps = {}) {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
       sender: "bot",
-      html: "<p>Hi, I can answer questions about Felix's work, skills, and projects. Select a chip below or ask me anything.</p>",
+      html: "<p>Hi, I can answer questions about Felix's work, skills, and projects. Pick a prompt below or ask me anything.</p>",
     },
   ]);
   const [input, setInput] = useState("");
@@ -181,12 +195,6 @@ export default function ChatWidget() {
     : chatState === "error"
       ? "Unable to reach Hawat AI. Retry is available."
       : "Ready for a question.";
-  const indicatorLabel = chatState === "answering"
-    ? "Answer in progress"
-    : chatState === "error"
-      ? "Last request failed"
-      : "Waiting for a question";
-  
   const bodyRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   
@@ -428,11 +436,27 @@ export default function ChatWidget() {
         {/* CONSOLE HEADER */}
         <div className="chat-header">
           <div className="chat-header-identity">
-            <span className="chat-header-title">ASK MY PORTFOLIO</span>
+            <span className="chat-header-title">Ask my portfolio</span>
           </div>
-          <div className="chat-header-status">
-            <span className={`status-dot status-dot--${chatState}`} role="img" aria-label={indicatorLabel} />
-            <span aria-hidden="true">ONLINE</span>
+          <div className="chat-header-actions">
+            {chatState !== "idle" && (
+              <span className={`chat-header-status chat-header-status--${chatState}`} aria-hidden="true">
+                {chatState === "answering" ? "Thinking" : "Error"}
+              </span>
+            )}
+            {onClose && (
+              <button
+                ref={closeButtonRef}
+                type="button"
+                className="chat-header-close-btn"
+                onClick={onClose}
+                aria-label="Close Ask AI"
+              >
+                <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+                  <path d="m6 6 12 12M18 6 6 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+                </svg>
+              </button>
+            )}
           </div>
         </div>
         <span className="sr-only" role="status" aria-live="polite" aria-atomic="true">
@@ -529,7 +553,7 @@ export default function ChatWidget() {
                     duration: 0.45,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  whileTap={{ scale: 0.95 }}
+                  whileTap={{ opacity: 0.65 }}
                 >
                   {chip.label}
                 </m.button>
@@ -572,11 +596,7 @@ export default function ChatWidget() {
             </div>
 
             <div className="chat-disclaimer">
-              This AI assistant may occasionally get details wrong. For the complete and accurate picture, see the{" "}
-              <a href="/portfolio/" style={{ color: "var(--text-primary)", textDecoration: "underline", textUnderlineOffset: "3px", fontWeight: 600 }}>
-                full portfolio
-              </a>
-              .
+              AI responses are grounded in verified portfolio documentation and project case studies.
             </div>
           </div>
         </div>
