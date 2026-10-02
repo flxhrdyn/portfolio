@@ -5,7 +5,7 @@
   },
   {
     "category": "ML Frameworks & Libraries",
-    "items": ["PyTorch", "TensorFlow", "scikit-learn", "LangChain", "Pydantic AI", "LlamaIndex & LlamaParse", "Qdrant", "FAISS", "Hugging Face"]
+    "items": ["PyTorch", "TensorFlow", "scikit-learn", "LangChain", "Pydantic AI", "LlamaIndex", "Qdrant", "FAISS", "Hugging Face"]
   },
   {
     "category": "Languages & Backend",
