@@ -25,15 +25,12 @@ export default function WordReveal({
   delay = 0,
   /** Animate on mount rather than when scrolled into view. */
   immediate = false,
-  /** Render the final word in the muted text color. */
-  mutedLast = false,
 }: {
   text: string;
   as?: ElementType;
   className?: string;
   delay?: number;
   immediate?: boolean;
-  mutedLast?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
 
@@ -66,7 +63,6 @@ export default function WordReveal({
         {words.map((word, i) => (
           <span
             key={`${word}-${i}`}
-            className={mutedLast && i === words.length - 1 ? "word-muted" : undefined}
             style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom" }}
           >
             <m.span

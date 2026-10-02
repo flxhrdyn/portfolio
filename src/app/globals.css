@@ -211,7 +211,7 @@
       z-index: 0;
       background-image: none;
       /* Leaves room for the metrics strip so the key numbers show without scrolling. */
-      min-height: calc(100svh - 4.5rem - 9rem);
+      min-height: calc(100svh - 4.5rem - 11rem);
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -495,7 +495,7 @@
       align-items: center;
       gap: 3.5rem;
       text-align: left;
-      padding-top: 2rem;
+      padding-top: 1.5rem;
       padding-bottom: 2rem;
     }
 
@@ -529,7 +529,7 @@
 
     .hero-title {
       font-family: var(--font-sans, sans-serif);
-      font-size: clamp(2.5rem, min(6.4vw, 10.5svh), 6.25rem);
+      font-size: clamp(2.5rem, min(6.4vw, 9svh), 6.25rem);
       font-weight: 700;
       line-height: 0.98;
       letter-spacing: -0.04em;
@@ -545,10 +545,6 @@
       letter-spacing: -0.01em;
       color: var(--text-secondary);
       max-width: 44ch;
-    }
-
-    .word-muted {
-      color: var(--text-secondary);
     }
 
     .hero-photo-col {
@@ -618,7 +614,7 @@
       display: block;
       width: 100%;
       max-width: 440px;
-      height: min(540px, calc(100svh - 20rem));
+      height: min(540px, calc(100svh - 25rem));
       margin: 0 0 0 auto;
       border-radius: 0;
       border: 1px solid var(--border-color);
