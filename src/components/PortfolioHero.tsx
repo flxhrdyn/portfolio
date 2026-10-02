@@ -2,13 +2,12 @@
 
 import { m, useReducedMotion, type Variants } from "motion/react";
 import ProfilePhoto from "./ProfilePhoto";
-import WordReveal from "./WordReveal";
 import { scrollToAnchor } from "@/lib/scrollToAnchor";
 import { EASE_OUT, DUR, LIST_STAGGER } from "@/lib/motion";
 
 const container: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: LIST_STAGGER, delayChildren: 0.04 } },
+  show: { transition: { staggerChildren: LIST_STAGGER * 1.6, delayChildren: 0.05 } },
 };
 
 const item: Variants = {
@@ -16,14 +15,15 @@ const item: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: DUR.entrance, ease: EASE_OUT } },
 };
 
-// Negative final inset keeps the CV overlay labels that sit outside the photo edge visible.
-const photoItem: Variants = {
-  hidden: { opacity: 0, clipPath: "inset(0% 0% 100% 0%)" },
-  show: {
-    opacity: 1,
-    clipPath: "inset(-20% -20% -20% -20%)",
-    transition: { duration: 1, ease: EASE_OUT, delay: 0.15 },
-  },
+const line: Variants = {
+  hidden: { y: "105%" },
+  show: { y: "0%", transition: { duration: 0.9, ease: EASE_OUT } },
+};
+
+// Photo opens from a thin slit, like a detection window locking on.
+const photo: Variants = {
+  hidden: { width: 0, opacity: 0 },
+  show: { width: "auto", opacity: 1, transition: { duration: 0.9, ease: EASE_OUT, delay: 0.5 } },
 };
 
 export default function PortfolioHero() {
@@ -32,23 +32,42 @@ export default function PortfolioHero() {
   return (
     <div id="about" className="hero-wrapper portfolio-hero-wrapper">
       <m.header
-        className="container portfolio-hero-content"
+        className="container hero-stage"
         initial={reduceMotion ? undefined : "hidden"}
         animate={reduceMotion ? undefined : "show"}
         variants={container}
       >
-        <div className="hero-name-col">
-          <WordReveal as="h1" className="hero-title" text="Felix Windriyareksa Hardyan" immediate delay={0.06} />
-        </div>
+        <m.p className="hero-name" variants={item}>
+          Felix Windriyareksa Hardyan
+        </m.p>
 
-        <m.div variants={photoItem} className="hero-photo-col">
-          <ProfilePhoto />
-        </m.div>
+        <h1 className="hero-headline">
+          <span className="hero-line">
+            <m.span className="hero-line-inner" variants={line}>
+              AI
+              <m.span className="hero-inline-photo" variants={photo}>
+                <ProfilePhoto />
+              </m.span>
+              Engineer
+            </m.span>
+          </span>
+          <span className="hero-line">
+            <m.span className="hero-line-inner" variants={line}>
+              &amp; Data Scientist
+            </m.span>
+          </span>
+        </h1>
 
-        <m.div className="hero-foot" variants={item}>
-          <p className="hero-description">Building production-grade AI systems, from Data Science to GenAI.</p>
+        <m.p className="hero-description" variants={item}>
+          Building production-grade AI systems, from Data Science to GenAI.
+        </m.p>
+
+        <m.div className="hero-actions" variants={item}>
           <a href="#contact" className="btn-pill btn-pill-primary" onClick={(e) => scrollToAnchor(e, "#contact")}>
             <span>Get in Touch</span>
+          </a>
+          <a href="#projects" className="hero-text-link" onClick={(e) => scrollToAnchor(e, "#projects")}>
+            See the work &darr;
           </a>
         </m.div>
       </m.header>
