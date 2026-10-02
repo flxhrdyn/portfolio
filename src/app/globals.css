@@ -50,8 +50,9 @@
       --bg-secondary: #efeee9;
       --bg-card: #f7f6f2;
       --text-primary: #14151a;
-      --text-secondary: #5b5d66;
-      --border-color: #e2e3e8;
+      --text-secondary: #625f58;
+      --border-color: #dedbd4;
+      --bg-chat-panel: #efeee9;
 
       /* Accent (Geist Engineering: pure high-contrast monochrome) */
       --accent-color: #000000;
@@ -87,6 +88,7 @@
       --bg-primary: #0a0a0c;
       --bg-secondary: #131316;
       --bg-card: #17171b;
+      --bg-chat-panel: #17171b;
       --text-primary: #f2f3f5;
       --text-secondary: #96979f;
       --border-color: #26272b;
@@ -779,7 +781,7 @@
       height: 100vh;
       height: 100dvh;
       overflow: hidden;
-      background: var(--bg-primary);
+      background: var(--bg-chat-panel);
       border-left: 1px solid var(--border-color);
       transform: translateX(100%);
       visibility: hidden;
@@ -824,6 +826,10 @@
       background-color: var(--bg-card);
       border: 0;
       box-shadow: none;
+    }
+
+    .chat-panel .portfolio-chat-box {
+      background-color: var(--bg-chat-panel);
     }
 
     .chat-header {
