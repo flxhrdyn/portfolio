@@ -7,7 +7,7 @@ import GithubHeatmap from "./GithubHeatmap";
 import ProjectCaseStudyBody from "./ProjectCaseStudyBody";
 import ProjectThumbnail from "./ProjectThumbnail";
 import Reveal from "./Reveal";
-import ScrollLinked from "./ScrollLinked";
+import BlockReveal from "./BlockReveal";
 import WordReveal from "./WordReveal";
 import projects from "@/content/projects.json";
 import archiveProjects from "@/content/archive-projects.json";
@@ -56,7 +56,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
         </Reveal>
 
         {featuredProject && (
-          <ScrollLinked from="scale">
+          <BlockReveal from="scale">
             <article className="project-feature">
               <button
                 type="button"
@@ -77,7 +77,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                 </div>
               </div>
             </article>
-          </ScrollLinked>
+          </BlockReveal>
         )}
 
         <ul className="project-rows">
@@ -119,7 +119,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
 
         <div style={{ borderTop: "1px solid var(--border-color)", marginBottom: "2.5rem", opacity: 0.6 }} />
 
-        <ScrollLinked>
+        <BlockReveal>
           <div id="activity" style={{ scrollMarginTop: "5rem" }}>
             <h3 className="subsection-title">Open Source Contributions</h3>
             <p style={{ marginBottom: "1.5rem", maxWidth: "650px" }}>
@@ -127,7 +127,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
             </p>
             <GithubHeatmap contributions={contributions} />
           </div>
-        </ScrollLinked>
+        </BlockReveal>
       </div>
 
       {projects.map((project) => (

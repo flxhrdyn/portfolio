@@ -5,7 +5,7 @@ import { m, useInView, useReducedMotion, type Variants } from "motion/react";
 import Modal from "./Modal";
 import ResearchPaperBody from "./ResearchPaperBody";
 import Reveal from "./Reveal";
-import ScrollLinked from "./ScrollLinked";
+import BlockReveal from "./BlockReveal";
 import WordReveal from "./WordReveal";
 import certifications from "@/content/certifications.json";
 import writing from "@/content/writing.json";
@@ -101,7 +101,7 @@ export default function CertificationsSection() {
         {/* ASYMMETRIC ENGINEERING BENTO */}
         <div className="research-bento-grid">
           {/* LEFT: FEATURED RESEARCH PAPER CARD (DISTILLED TELEMETRY) */}
-          <ScrollLinked from="left" style={{ height: "100%" }}>
+          <BlockReveal from="left" style={{ height: "100%" }}>
             <article className="research-featured-card">
               <div className="research-card-body">
                 <div className="research-card-header">
@@ -186,10 +186,10 @@ export default function CertificationsSection() {
                 )}
               </div>
             </article>
-          </ScrollLinked>
+          </BlockReveal>
 
           {/* RIGHT: VERIFIED CERTIFICATIONS LEDGER (AUTO-ROTATING, INFINITE NAV) */}
-          <ScrollLinked from="right" style={{ height: "100%" }}>
+          <BlockReveal from="right" style={{ height: "100%" }}>
             <div
               className="certs-stack-container"
               onMouseEnter={() => { hoveredRef.current = true; }}
@@ -289,7 +289,7 @@ export default function CertificationsSection() {
                 </div>
               </div>
             </div>
-          </ScrollLinked>
+          </BlockReveal>
         </div>
       </div>
 
