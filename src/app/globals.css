@@ -396,7 +396,7 @@
       /* Majestic monumental scale matching TypeSafe / Rifqi caliber */
       font-size: clamp(2.25rem, min(10.5vw, 16svh), 8.5rem);
       font-weight: 650;
-      line-height: 0.94;
+      line-height: 1.02;
       letter-spacing: -0.06em;
       color: var(--text-primary);
       margin-bottom: 2rem;
@@ -404,6 +404,7 @@
 
     .hero-line {
       display: block;
+      overflow: visible;
     }
 
     .hero-line-inner {
@@ -414,10 +415,7 @@
 
     .hero-word {
       display: inline-block;
-      overflow: hidden;
-      /* Keep glyph overhangs inside the reveal mask without changing line spacing. */
-      padding: 0.06em 0.08em 0.12em;
-      margin: -0.06em -0.08em -0.12em;
+      overflow: visible;
     }
 
     .hero-word-inner {

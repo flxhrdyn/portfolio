@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { m, useReducedMotion, type Variants } from "motion/react";
 import ProfilePhoto from "./ProfilePhoto";
 import { scrollToAnchor } from "@/lib/scrollToAnchor";
-import { EASE_OUT, DUR, LIST_STAGGER, WORD_STAGGER } from "@/lib/motion";
+import { EASE_OUT, DUR, LIST_STAGGER } from "@/lib/motion";
 
 const container: Variants = {
   hidden: {},
@@ -16,15 +16,30 @@ const item: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: DUR.entrance, ease: EASE_OUT } },
 };
 
-// Same word-by-word rise as the contact headline, so the page opens and closes alike.
-const line: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: WORD_STAGGER * 1.6 } },
+// Description slides in from the left - different rhythm from the headline wipe.
+const slideIn: Variants = {
+  hidden: { opacity: 0, x: -24 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.7, ease: EASE_OUT } },
 };
 
+// Headline lines wipe open with a horizontal clip-path mask - the focal entrance.
+const line: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.18 } },
+};
+
+const clipReveal: Variants = {
+  hidden: { clipPath: "inset(-0.4em 100% -0.4em 0)" },
+  show: {
+    clipPath: "inset(-0.4em 0% -0.4em 0)",
+    transition: { duration: 0.8, ease: EASE_OUT },
+  },
+};
+
+// Words inside each line stagger after the clip opens.
 const word: Variants = {
-  hidden: { opacity: 0, y: "100%" },
-  show: { opacity: 1, y: "0%", transition: { duration: 0.6, ease: EASE_OUT } },
+  hidden: { opacity: 0, y: "40%" },
+  show: { opacity: 1, y: "0%", transition: { duration: 0.5, ease: EASE_OUT } },
 };
 
 function Word({ children }: { children: string }) {
@@ -78,7 +93,7 @@ export default function PortfolioHero() {
         </m.p>
 
         <h1 className="hero-headline">
-          <span className="hero-line">
+          <m.span className="hero-line" variants={clipReveal}>
             <m.span className="hero-line-inner" variants={line}>
               <Word>AI</Word>
               <m.span className="hero-inline-photo" variants={photo}>
@@ -86,17 +101,17 @@ export default function PortfolioHero() {
               </m.span>
               <Word>Engineer</Word>
             </m.span>
-          </span>
-          <span className="hero-line">
+          </m.span>
+          <m.span className="hero-line" variants={clipReveal}>
             <m.span className="hero-line-inner" variants={line}>
               <Word>&amp;</Word>
               <Word>Data</Word>
               <Word>Scientist</Word>
             </m.span>
-          </span>
+          </m.span>
         </h1>
 
-        <m.p className="hero-description" variants={item}>
+        <m.p className="hero-description" variants={slideIn}>
           AI/ML Engineer building production RAG systems, deep learning architectures, and industrial data pipelines.
         </m.p>
 
