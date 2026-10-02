@@ -210,8 +210,10 @@
       top: 0;
       z-index: 0;
       background-image: none;
-      /* Full first screen: the hero gets generous room to breathe. */
-      min-height: calc(100svh - 4.5rem);
+      /* Full first screen, with the fixed header's height held clear at the top
+         so the stage centres against what the visitor actually sees. */
+      min-height: 100svh;
+      padding-top: 4.5rem;
       display: flex;
       flex-direction: column;
       justify-content: center;
