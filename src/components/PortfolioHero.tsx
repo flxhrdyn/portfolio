@@ -66,8 +66,9 @@ export default function PortfolioHero() {
           <a href="#contact" className="btn-pill btn-pill-primary" onClick={(e) => scrollToAnchor(e, "#contact")}>
             <span>Get in Touch</span>
           </a>
-          <a href="#projects" className="hero-text-link" onClick={(e) => scrollToAnchor(e, "#projects")}>
-            See the work &darr;
+          <a href="#projects" className="btn-pill btn-pill-secondary hero-work-link" onClick={(e) => scrollToAnchor(e, "#projects")}>
+            <span>See the work</span>
+            <span className="hero-work-arrow" aria-hidden="true">&darr;</span>
           </a>
         </m.div>
       </m.header>
