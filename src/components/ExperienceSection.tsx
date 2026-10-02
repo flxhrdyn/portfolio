@@ -57,7 +57,7 @@ function LogEntry({
   const isPresent = date.toLowerCase().includes("present");
 
   return (
-    <ScrollLinked>
+    <ScrollLinked from="left">
       <div className="exp-log-entry">
         <div className="exp-log-meta">
           <div className="exp-log-date">

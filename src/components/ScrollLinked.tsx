@@ -19,10 +19,13 @@ export default function ScrollLinked({
   children,
   className,
   style,
+  from = "up",
 }: {
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
+  /** Entry direction: rise from below, slide in from either side, or settle from a slight zoom-out. */
+  from?: "up" | "left" | "right" | "scale";
 }) {
   const reduceMotion = useReducedMotion();
   const ref = useRef<HTMLDivElement>(null);
@@ -33,7 +36,9 @@ export default function ScrollLinked({
   });
 
   const opacity = useTransform(scrollYProgress, [0, 1], [0, 1]);
-  const y = useTransform(scrollYProgress, [0, 1], [28, 0]);
+  const y = useTransform(scrollYProgress, [0, 1], [from === "up" ? 28 : 0, 0]);
+  const x = useTransform(scrollYProgress, [0, 1], [from === "left" ? -36 : from === "right" ? 36 : 0, 0]);
+  const scale = useTransform(scrollYProgress, [0, 1], [from === "scale" ? 0.95 : 1, 1]);
 
   if (reduceMotion) {
     return (
@@ -47,7 +52,7 @@ export default function ScrollLinked({
     <m.div
       ref={ref}
       className={className}
-      style={{ ...style, opacity, y, willChange: "transform, opacity" }}
+      style={{ ...style, opacity, x, y, scale, willChange: "transform, opacity" }}
     >
       {children}
     </m.div>

@@ -9,11 +9,11 @@ import { EASE_OUT, DUR, WORD_STAGGER, VIEWPORT } from "@/lib/motion";
  */
 
 const wordVariants: Variants = {
-  hidden: { opacity: 0, y: "0.12em" },
+  hidden: { opacity: 0, y: "100%" },
   show: {
     opacity: 1,
-    y: "0em",
-    transition: { duration: DUR.state, ease: EASE_OUT },
+    y: "0%",
+    transition: { duration: 0.45, ease: EASE_OUT },
   },
 };
 
@@ -42,7 +42,7 @@ export default function WordReveal({
 
   const containerVariants: Variants = {
     hidden: {},
-    show: { transition: { staggerChildren: WORD_STAGGER / 2, delayChildren: delay } },
+    show: { transition: { staggerChildren: WORD_STAGGER, delayChildren: delay } },
   };
 
   const trigger = immediate
@@ -61,14 +61,18 @@ export default function WordReveal({
         style={{ display: "inline" }}
       >
         {words.map((word, i) => (
-          <m.span
+          <span
             key={`${word}-${i}`}
-            variants={wordVariants}
-            style={{ display: "inline-block", whiteSpace: "pre" }}
+            style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom" }}
           >
-            {word}
-            {i < words.length - 1 ? " " : ""}
-          </m.span>
+            <m.span
+              variants={wordVariants}
+              style={{ display: "inline-block", whiteSpace: "pre" }}
+            >
+              {word}
+              {i < words.length - 1 ? " " : ""}
+            </m.span>
+          </span>
         ))}
       </m.span>
     </Tag>

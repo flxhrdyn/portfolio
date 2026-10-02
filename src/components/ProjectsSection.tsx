@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { m, useReducedMotion } from "motion/react";
 import CodeBlock from "./CodeBlock";
 import Modal from "./Modal";
 import GithubHeatmap from "./GithubHeatmap";
@@ -12,6 +13,7 @@ import WordReveal from "./WordReveal";
 import projects from "@/content/projects.json";
 import archiveProjects from "@/content/archive-projects.json";
 import type { ContributionDay } from "@/lib/github-contributions";
+import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
 interface ProjectsSectionProps {
   contributions: ContributionDay[] | null;
@@ -47,12 +49,14 @@ function CategoryIcon({ category }: { category: string }) {
 }
 
 export default function ProjectsSection({ contributions }: ProjectsSectionProps) {
+  const reduceMotion = useReducedMotion();
   const [openSlug, setOpenSlug] = useState<string | null>(null);
   const [archiveOpen, setArchiveOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<"preview" | "specs" | "code">("preview");
 
   const featuredProject = projects.find((project) => project.featured);
-  const gridProjects = projects.filter((project) => !project.featured);
+  // Projects marked `showcase: false` are listed only in the "View all projects" table.
+  const gridProjects = projects.filter((project) => !project.featured && project.showcase !== false);
 
   return (
     <section className="section" id="projects">
@@ -65,7 +69,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
         </Reveal>
 
         {featuredProject && (
-          <ScrollLinked>
+          <ScrollLinked from="scale">
             <div className="bento-featured-card">
               {/* Terminal Window Chrome Header */}
               <div className="bento-terminal-header">
@@ -227,8 +231,16 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
         <div className="projects-grid">
           {/* Cards stay still on purpose: in the reference, the grid is furniture and
               only the stage above it moves. */}
-          {gridProjects.map((project) => (
-            <div key={project.slug} className="project-card" onClick={() => setOpenSlug(project.slug)}>
+          {gridProjects.map((project, i) => (
+            <m.div
+              key={project.slug}
+              className="project-card"
+              onClick={() => setOpenSlug(project.slug)}
+              initial={reduceMotion ? false : { opacity: 0, y: 40, scale: 0.97 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={VIEWPORT}
+              transition={{ duration: 0.7, ease: EASE_OUT, delay: (i % 3) * 0.12 }}
+            >
                 <ProjectThumbnail src={project.image} alt={project.imageAlt} />
 
                 <div className="project-header">
@@ -278,13 +290,13 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
                     </svg>
                   </a>
                 </div>
-            </div>
+            </m.div>
           ))}
         </div>
 
         <div style={{ display: "flex", justifyContent: "center", marginBottom: "3.5rem", marginTop: "1rem" }}>
           <button className="all-projects-btn" onClick={() => setArchiveOpen(true)}>
-            <span>View all archive projects</span>
+            <span>View all projects</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
@@ -333,7 +345,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
         </Modal>
       ))}
 
-      <Modal id="all-projects-modal" title="Complete Archive & WIP Projects" isOpen={archiveOpen} onClose={() => setArchiveOpen(false)} maxWidth="840px">
+      <Modal id="all-projects-modal" title="All Projects" isOpen={archiveOpen} onClose={() => setArchiveOpen(false)} maxWidth="840px">
         <div className="archive-table-wrapper">
           <table className="archive-table">
             <thead>

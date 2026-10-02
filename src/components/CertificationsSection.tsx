@@ -125,7 +125,7 @@ export default function CertificationsSection() {
         {/* ASYMMETRIC ENGINEERING BENTO */}
         <div className="research-bento-grid">
           {/* LEFT: FEATURED RESEARCH PAPER CARD (DISTILLED TELEMETRY) */}
-          <ScrollLinked style={{ height: "100%" }}>
+          <ScrollLinked from="left" style={{ height: "100%" }}>
             <article className="research-featured-card">
               <div className="research-card-body">
                 <div className="research-card-header">
@@ -250,7 +250,7 @@ export default function CertificationsSection() {
           </ScrollLinked>
 
           {/* RIGHT: VERIFIED CERTIFICATIONS LEDGER (AUTO-ROTATING, INFINITE NAV) */}
-          <ScrollLinked style={{ height: "100%" }}>
+          <ScrollLinked from="right" style={{ height: "100%" }}>
             <div
               className="certs-stack-container"
               onMouseEnter={() => { hoveredRef.current = true; }}

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { m, useReducedMotion, type Variants } from "motion/react";
 import { useSyncExternalStore } from "react";
 import ChatWidget from "./ChatWidget";
+import WordReveal from "./WordReveal";
 import { EASE_OUT as SCALE_AI_EASE } from "@/lib/motion";
 
 const subscribeToHydration = () => () => {};
@@ -12,9 +13,17 @@ const serverSnapshot = () => false;
 
 const container: Variants = {
   hidden: {},
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.04 } },
+};
+
+// Negative final inset keeps the widget's shadow from being clipped once revealed.
+const widgetReveal: Variants = {
+  hidden: { opacity: 0, clipPath: "inset(0% 0% 100% 0%)", y: 12 },
   show: {
-    transition: {
-    },
+    opacity: 1,
+    clipPath: "inset(-20% -20% -20% -20%)",
+    y: 0,
+    transition: { duration: 0.9, ease: SCALE_AI_EASE, delay: 0.2 },
   },
 };
 
@@ -45,9 +54,9 @@ export default function ChatHero() {
         <div className="hero-text-col">
           <div className="hero-title-group">
             <m.div className="hero-eyebrow" variants={textReveal}>
-              <span>ACTIVE // AI ENGINEER &amp; DATA SCIENTIST</span>
+              <span>AI ENGINEER &amp; DATA SCIENTIST</span>
             </m.div>
-            <m.h1 className="hero-title" variants={textReveal}>Felix Windriyareksa Hardyan</m.h1>
+            <WordReveal as="h1" className="hero-title" text="Felix Windriyareksa Hardyan" immediate delay={0.06} />
             <m.p className="hero-description" variants={textReveal}>
               Building production-grade AI systems, from Data Science to GenAI.
             </m.p>
@@ -78,7 +87,7 @@ export default function ChatHero() {
           </m.div>
         </div>
 
-        <m.div variants={textReveal} className="chat-widget-col">
+        <m.div variants={widgetReveal} className="chat-widget-col">
           <ChatWidget />
         </m.div>
       </m.header>

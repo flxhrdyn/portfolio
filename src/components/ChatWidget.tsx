@@ -444,7 +444,13 @@ export default function ChatWidget() {
           <div className="chat-body" ref={bodyRef}>
             <div className="chat-body-content" ref={contentRef}>
               {messages.map((msg) => (
-                <div key={msg.id} className={`chat-msg ${msg.sender === "user" ? "user" : "bot"}`}>
+                <m.div
+                  key={msg.id}
+                  className={`chat-msg ${msg.sender === "user" ? "user" : "bot"}`}
+                  initial={{ opacity: 0, y: 10, x: msg.sender === "user" ? 14 : -14 }}
+                  animate={{ opacity: 1, y: 0, x: 0 }}
+                  transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                >
                   <div className="msg-content-wrapper">
                     {msg.isError ? (
                       <div className="chat-error-block">
@@ -479,7 +485,7 @@ export default function ChatWidget() {
                       <div className="msg-text-block" dangerouslySetInnerHTML={{ __html: msg.html ?? "" }} />
                     )}
                   </div>
-                </div>
+                </m.div>
               ))}
 
               <AnimatePresence>

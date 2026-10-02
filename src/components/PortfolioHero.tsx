@@ -16,9 +16,14 @@ const item: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: DUR.entrance, ease: EASE_OUT } },
 };
 
+// Negative final inset keeps the CV overlay labels that sit outside the photo edge visible.
 const photoItem: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: DUR.entrance, ease: EASE_OUT } },
+  hidden: { opacity: 0, clipPath: "inset(0% 0% 100% 0%)" },
+  show: {
+    opacity: 1,
+    clipPath: "inset(-20% -20% -20% -20%)",
+    transition: { duration: 1, ease: EASE_OUT, delay: 0.15 },
+  },
 };
 
 export default function PortfolioHero() {
@@ -36,7 +41,7 @@ export default function PortfolioHero() {
           <div className="hero-title-group">
             <m.div className="hero-eyebrow" variants={item}>
               <span className="telemetry-status-dot" aria-hidden="true" style={{ width: "6px", height: "6px" }} />
-              <span>ACTIVE // AI ENGINEER &amp; DATA SCIENTIST</span>
+              <span>AI ENGINEER &amp; DATA SCIENTIST</span>
             </m.div>
 
             <WordReveal as="h1" className="hero-title" text="Felix Windriyareksa Hardyan" immediate delay={0.06} />

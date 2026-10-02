@@ -2412,7 +2412,8 @@
     .exp-rail-fill {
       width: 100%;
       height: 100%;
-      background-color: var(--accent-color);
+      background-color: var(--text-secondary);
+      opacity: 0.4;
       transform-origin: top;
     }
 
@@ -4028,6 +4029,24 @@
 
     .nav-resume-short {
       display: none;
+    }
+
+    /* Absolute-centered links collide with the action buttons below ~1180px. */
+    @media (min-width: 769px) and (max-width: 1180px) {
+      .nav-links {
+        position: static;
+        transform: none;
+        justify-self: center;
+        gap: 1.25rem;
+      }
+
+      .nav-resume-full {
+        display: none;
+      }
+
+      .nav-resume-short {
+        display: inline;
+      }
     }
 
     /* TABLET ADAPTATION (768px – 1024px) */

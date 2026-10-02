@@ -63,10 +63,15 @@ const rowContainerVariants = {
     transition: {
       duration: 0.4,
       ease: [0.16, 1, 0.3, 1] as const,
-      staggerChildren: 0.035,
+      staggerChildren: 0.04,
       delayChildren: 0.05,
     },
   },
+};
+
+const categoryVariants = {
+  hidden: { opacity: 0, x: -20 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] as const } },
 };
 
 const tagItemVariants = {
@@ -131,10 +136,10 @@ export default function SkillsSection() {
                 variants={rowContainerVariants}
               >
                 <div className="spec-matrix-row">
-                  <div className="spec-matrix-category">
+                  <m.div className="spec-matrix-category" variants={categoryVariants}>
                     {CATEGORY_ICONS[group.category]}
                     <span className="spec-matrix-category-name">{group.category}</span>
-                  </div>
+                  </m.div>
                   <div className="spec-matrix-items">
                     {group.items.map((item) => (
                       <m.span
