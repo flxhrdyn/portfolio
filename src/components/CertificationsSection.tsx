@@ -364,8 +364,7 @@ export default function CertificationsSection() {
       {/* RESEARCH PAPER ABSTRACT MODAL */}
       <Modal
         id="research-modal"
-        title="Peer-Reviewed Research Abstract &amp; Architecture"
-        eyebrow="RESEARCH / ABSTRACT"
+        title="Research paper abstract"
         isOpen={researchOpen}
         onClose={() => setResearchOpen(false)}
       >
