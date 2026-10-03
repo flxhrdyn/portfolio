@@ -365,24 +365,28 @@ export default function CertificationsSection() {
       <Modal
         id="research-modal"
         title="Peer-Reviewed Research Abstract &amp; Architecture"
+        eyebrow="RESEARCH / ABSTRACT"
         isOpen={researchOpen}
         onClose={() => setResearchOpen(false)}
       >
         <div className="modal-section">
-          <div className="meta-mono" style={{ color: "var(--text-secondary)", marginBottom: "0.4rem" }}>
-            {paper.journal} • {paper.volume}
-          </div>
-          <h3 style={{ fontSize: "1.25rem", marginBottom: "0.5rem", color: "var(--text-primary)", lineHeight: 1.35 }}>
-            {paper.title}
-          </h3>
-          <div style={{ fontSize: "0.82rem", color: "var(--text-secondary)", fontFamily: "var(--font-mono)", marginBottom: "1rem" }}>
-            {paper.issn}
+          <h4>Citation</h4>
+          <div className="modal-section-content">
+            <div className="meta-mono" style={{ color: "var(--text-secondary)", marginBottom: "0.4rem" }}>
+              {paper.journal} • {paper.volume}
+            </div>
+            <h3 style={{ fontSize: "1.25rem", marginBottom: "0.5rem", color: "var(--text-primary)", lineHeight: 1.35 }}>
+              {paper.title}
+            </h3>
+            <div style={{ fontSize: "0.82rem", color: "var(--text-secondary)", fontFamily: "var(--font-mono)", marginBottom: "1rem" }}>
+              {paper.issn}
+            </div>
           </div>
         </div>
 
         <ResearchPaperBody paper={paper} />
 
-        <div className="modal-section" style={{ paddingTop: "0.85rem", borderTop: "1px solid var(--border-color)", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <div className="modal-section modal-section--footer">
           <span style={{ fontSize: "0.8rem", fontFamily: "var(--font-mono)", color: "var(--text-secondary)" }}>
             DOI: 10.23960/jitet.v13i3.6591
           </span>

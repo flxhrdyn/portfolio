@@ -7,21 +7,27 @@ export default function ResearchPaperBody({ paper }: { paper: Paper }) {
     <>
       <div className="modal-section">
         <h4>Background</h4>
-        <p>{paper.abstract}</p>
+        <div className="modal-section-content">
+          <p>{paper.abstract}</p>
+        </div>
       </div>
 
       <div className="modal-section">
         <h4>Methodology</h4>
-        <ul>
-          {paper.methodology.map((m, i) => (
-            <li key={i}>{m}</li>
-          ))}
-        </ul>
+        <div className="modal-section-content">
+          <ul>
+            {paper.methodology.map((m, i) => (
+              <li key={i}>{m}</li>
+            ))}
+          </ul>
+        </div>
       </div>
 
       <div className="modal-section">
         <h4>Key Findings</h4>
-        <p>{paper.keyFindings}</p>
+        <div className="modal-section-content">
+          <p>{paper.keyFindings}</p>
+        </div>
       </div>
     </>
   );

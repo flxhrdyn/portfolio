@@ -131,6 +131,9 @@ export default function PortfolioHero() {
             title="Get in touch with Felix"
           >
             Get in touch
+            <svg className="typesafe-cta-arrow" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path d="M2.5 8h10M8.5 3.5 13 8l-4.5 4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </a>
         </m.div>
       </m.header>

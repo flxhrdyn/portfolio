@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import { AnimatePresence, m, useReducedMotion, type Variants } from "motion/react";
 import { EASE_OUT, DUR } from "@/lib/motion";
 
 interface ModalProps {
   id: string;
   title: string;
+  eyebrow?: string;
   isOpen: boolean;
   onClose: () => void;
   maxWidth?: string;
@@ -30,7 +32,7 @@ const cardVariants: Variants = {
   exit: { opacity: 0, y: 8, scale: 0.99, transition: { duration: DUR.state, ease: EASE_OUT } },
 };
 
-export default function Modal({ id, title, isOpen, onClose, maxWidth, children }: ModalProps) {
+export default function Modal({ id, title, eyebrow, isOpen, onClose, maxWidth, children }: ModalProps) {
   const reduceMotion = useReducedMotion();
   const overlayRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
@@ -40,7 +42,7 @@ export default function Modal({ id, title, isOpen, onClose, maxWidth, children }
     if (!isOpen) return;
 
     previouslyFocused.current = document.activeElement as HTMLElement | null;
-    cardRef.current?.focus();
+    cardRef.current?.focus({ preventScroll: true });
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -57,10 +59,10 @@ export default function Modal({ id, title, isOpen, onClose, maxWidth, children }
 
       if (e.shiftKey && document.activeElement === first) {
         e.preventDefault();
-        last.focus();
+        last.focus({ preventScroll: true });
       } else if (!e.shiftKey && document.activeElement === last) {
         e.preventDefault();
-        first.focus();
+        first.focus({ preventScroll: true });
       }
     };
     document.addEventListener("keydown", handleKeyDown);
@@ -71,7 +73,7 @@ export default function Modal({ id, title, isOpen, onClose, maxWidth, children }
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = previousOverflow;
-      previouslyFocused.current?.focus();
+      previouslyFocused.current?.focus({ preventScroll: true });
     };
   }, [isOpen, onClose]);
 
@@ -79,7 +81,9 @@ export default function Modal({ id, title, isOpen, onClose, maxWidth, children }
     ? {}
     : { initial: "hidden" as const, animate: "show" as const, exit: "exit" as const };
 
-  return (
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <m.div
@@ -104,10 +108,13 @@ export default function Modal({ id, title, isOpen, onClose, maxWidth, children }
             {...motionProps}
           >
             <div className="modal-header">
-              <span id={`${id}-title`} className="modal-title">
-                {title}
-              </span>
-              <button className="modal-close-btn" onClick={onClose} aria-label="Close modal">
+              <div className="modal-heading">
+                {eyebrow && <span className="modal-eyebrow">{eyebrow}</span>}
+                <h2 id={`${id}-title`} className="modal-title">
+                  {title}
+                </h2>
+              </div>
+              <button type="button" className="modal-close-btn" onClick={onClose} aria-label="Close modal">
                 ✕
               </button>
             </div>
@@ -115,6 +122,7 @@ export default function Modal({ id, title, isOpen, onClose, maxWidth, children }
           </m.div>
         </m.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body,
   );
 }

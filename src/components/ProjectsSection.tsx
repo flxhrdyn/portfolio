@@ -201,9 +201,9 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
       </div>
 
       {projects.map((project) => (
-        <Modal key={project.slug} id={`${project.slug}-modal`} title={project.modalTitle} isOpen={openSlug === project.slug} onClose={() => setOpenSlug(null)}>
+        <Modal key={project.slug} id={`${project.slug}-modal`} title={project.modalTitle} eyebrow={project.tags[0]} isOpen={openSlug === project.slug} onClose={() => setOpenSlug(null)}>
           <ProjectCaseStudyBody project={project} />
-          <div className="modal-section" style={{ paddingTop: "0.5rem", borderTop: "1px solid var(--border-color)" }}>
+          <div className="modal-section modal-section--footer">
             <a
               href={`https://github.com/flxhrdyn/${project.repo}`}
               target="_blank"
@@ -224,7 +224,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
         </Modal>
       ))}
 
-      <Modal id="all-projects-modal" title="All Projects" isOpen={archiveOpen} onClose={() => setArchiveOpen(false)} maxWidth="840px">
+      <Modal id="all-projects-modal" title="All Projects" eyebrow="PROJECTS / INDEX" isOpen={archiveOpen} onClose={() => setArchiveOpen(false)} maxWidth="840px">
         <div className="archive-table-wrapper">
           <table className="archive-table">
             <thead>
