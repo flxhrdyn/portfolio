@@ -1287,17 +1287,22 @@
       color: inherit;
     }
 
+    .chat-msg.user .msg-text-block p {
+      margin: 0;
+      color: inherit;
+    }
+
     .chat-msg.bot .msg-text-block p:last-child {
       margin-bottom: 0;
     }
 
     .chat-msg.user .msg-text-block {
-      background-color: var(--bg-secondary);
+      background-color: var(--text-primary);
+      color: var(--bg-primary);
       padding: 0.55rem 0.85rem;
       border-radius: 2px;
       font-size: 0.88rem;
       line-height: 1.45;
-      color: var(--text-primary);
       font-family: var(--font-sans);
     }
 
