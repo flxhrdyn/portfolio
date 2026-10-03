@@ -1,32 +1,81 @@
 "use client";
 
-import { m, useReducedMotion, type Variants } from "motion/react";
+import { useState, useEffect, useRef } from "react";
+import { m, useInView, useReducedMotion, type Variants } from "motion/react";
 import skills from "@/content/skills.json";
 import Reveal from "./Reveal";
 import { TECH_ICONS, getSkillIconKey } from "./techStackIcons";
 import WordReveal from "./WordReveal";
+import ScrambleText from "./ScrambleText";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
-// Columns wipe open left to right, then their rows load in like query results.
 const tableVariants: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.18 } },
+  show: { transition: { staggerChildren: 0.12 } },
 };
 
 const columnVariants: Variants = {
-  hidden: { clipPath: "inset(0% 100% 0% 0%)" },
+  hidden: { opacity: 0, y: 16 },
   show: {
-    clipPath: "inset(0% 0% 0% 0%)",
-    transition: { duration: 0.7, ease: EASE_OUT, staggerChildren: 0.05, delayChildren: 0.25 },
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: EASE_OUT, staggerChildren: 0.04, delayChildren: 0.15 },
   },
 };
 
 const rowVariants: Variants = {
-  hidden: { opacity: 0, y: 10 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE_OUT } },
+  hidden: { opacity: 0, y: 8 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: EASE_OUT },
+  },
 };
 
 const pad = (n: number) => String(n).padStart(2, "0");
+
+function CategoryCounter({ target, delay = 0 }: { target: number; delay?: number }) {
+  const reduceMotion = useReducedMotion();
+  const [count, setCount] = useState(reduceMotion ? target : 0);
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    if (!inView || hasAnimated.current || reduceMotion) return;
+    hasAnimated.current = true;
+
+    const timeout = setTimeout(() => {
+      const duration = 800;
+      const startTime = performance.now();
+      let frameId: number;
+
+      const animate = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        const current = Math.round(ease * target);
+        setCount(current);
+
+        if (progress < 1) {
+          frameId = requestAnimationFrame(animate);
+        } else {
+          setCount(target);
+        }
+      };
+
+      frameId = requestAnimationFrame(animate);
+    }, delay * 1000);
+
+    return () => clearTimeout(timeout);
+  }, [inView, target, delay, reduceMotion]);
+
+  return (
+    <span ref={ref} className="skill-col-count">
+      {pad(count)}
+    </span>
+  );
+}
 
 function SkillIcon({ name }: { name: string }) {
   const icon = TECH_ICONS[getSkillIconKey(name)] || TECH_ICONS.neural;
@@ -59,15 +108,15 @@ export default function SkillsSection() {
           viewport={VIEWPORT}
           variants={tableVariants}
         >
-          {categoryGroups.map((group) => (
+          {categoryGroups.map((group, colIdx) => (
             <m.div
               key={group.category}
               className="skill-col"
               variants={columnVariants}
             >
               <h3 className="skill-col-title">
-                {group.category}
-                <span className="skill-col-count">{pad(group.items.length)}</span>
+                <ScrambleText text={group.category} delay={0.1 + colIdx * 0.1} duration={500} />
+                <CategoryCounter target={group.items.length} delay={0.15 + colIdx * 0.1} />
               </h3>
               <ol className="skill-col-list">
                 {group.items.map((item, i) => (

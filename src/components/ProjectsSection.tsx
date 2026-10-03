@@ -1,18 +1,108 @@
 "use client";
 
 import { useState } from "react";
-import { m, useReducedMotion } from "motion/react";
+import { m, useReducedMotion, type Variants } from "motion/react";
 import Modal from "./Modal";
 import GithubHeatmap from "./GithubHeatmap";
 import ProjectCaseStudyBody from "./ProjectCaseStudyBody";
 import ProjectThumbnail from "./ProjectThumbnail";
 import Reveal from "./Reveal";
-import BlockReveal from "./BlockReveal";
 import WordReveal from "./WordReveal";
+import ScrambleText from "./ScrambleText";
 import projects from "@/content/projects.json";
 import archiveProjects from "@/content/archive-projects.json";
 import type { ContributionDay } from "@/lib/github-contributions";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
+
+function LayeredMediaButton({
+  onClick,
+  ariaLabel,
+  className,
+  children,
+  delay = 0,
+}: {
+  onClick: () => void;
+  ariaLabel: string;
+  className: string;
+  children: React.ReactNode;
+  delay?: number;
+}) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <button
+      type="button"
+      className={className}
+      onClick={onClick}
+      aria-label={ariaLabel}
+      style={{ position: "relative", overflow: "hidden" }}
+    >
+      <m.div
+        initial={reduceMotion ? false : { scale: 1.08 }}
+        whileInView={{ scale: 1 }}
+        viewport={VIEWPORT}
+        transition={{ duration: 0.95, ease: EASE_OUT, delay }}
+      >
+        {children}
+      </m.div>
+      {!reduceMotion && (
+        <m.span
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            zIndex: 4,
+            backgroundColor: "var(--bg-secondary)",
+            borderBottom: "1px solid var(--border-color)",
+          }}
+          initial={{ y: "0%" }}
+          whileInView={{ y: "-102%" }}
+          viewport={VIEWPORT}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay }}
+        />
+      )}
+    </button>
+  );
+}
+
+const featureBodyVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.7, ease: EASE_OUT, delay: 0.1 },
+  },
+};
+
+const projectRowVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.65,
+      ease: EASE_OUT,
+      delay: i * 0.08,
+    },
+  }),
+};
+
+const titleMaskVariants: Variants = {
+  hidden: { y: "100%" },
+  show: {
+    y: "0%",
+    transition: { duration: 0.6, ease: EASE_OUT, delay: 0.1 },
+  },
+};
+
+const heatmapApertureVariants: Variants = {
+  hidden: { clipPath: "inset(0% 50% 0% 50%)", opacity: 0 },
+  show: {
+    clipPath: "inset(0% 0% 0% 0%)",
+    opacity: 1,
+    transition: { duration: 0.85, ease: EASE_OUT },
+  },
+};
 
 interface ProjectsSectionProps {
   contributions: ContributionDay[] | null;
@@ -58,28 +148,40 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
         </Reveal>
 
         {featuredProject && (
-          <BlockReveal from="scale">
-            <article className="project-feature">
-              <button
-                type="button"
-                className="project-feature-media"
-                onClick={() => setOpenSlug(featuredProject.slug)}
-                aria-label={`Open ${featuredProject.title} case study`}
-              >
-                <ProjectThumbnail src={featuredProject.image} alt={featuredProject.imageAlt} variant="featured" priority />
-              </button>
-              <div className="project-feature-body">
-                <div>
-                  <p className="project-category">{featuredProject.tags[0]}</p>
-                  <h3 className="project-feature-title">{featuredProject.title}</h3>
-                </div>
-                <div>
-                  <p className="project-summary">{featuredProject.summary}</p>
-                  <ProjectLinks project={featuredProject} onOpen={() => setOpenSlug(featuredProject.slug)} />
+          <article className="project-feature">
+            <LayeredMediaButton
+              className="project-feature-media"
+              onClick={() => setOpenSlug(featuredProject.slug)}
+              ariaLabel={`Open ${featuredProject.title} case study`}
+            >
+              <ProjectThumbnail src={featuredProject.image} alt={featuredProject.imageAlt} variant="featured" priority />
+            </LayeredMediaButton>
+            <m.div
+              className="project-feature-body"
+              initial={reduceMotion ? false : "hidden"}
+              whileInView="show"
+              viewport={VIEWPORT}
+              variants={featureBodyVariants}
+            >
+              <div>
+                <p className="project-category">
+                  <ScrambleText text={featuredProject.tags[0]} duration={500} />
+                </p>
+                <div style={{ overflow: "hidden" }}>
+                  <m.h3
+                    className="project-feature-title"
+                    variants={titleMaskVariants}
+                  >
+                    {featuredProject.title}
+                  </m.h3>
                 </div>
               </div>
-            </article>
-          </BlockReveal>
+              <div>
+                <p className="project-summary">{featuredProject.summary}</p>
+                <ProjectLinks project={featuredProject} onOpen={() => setOpenSlug(featuredProject.slug)} />
+              </div>
+            </m.div>
+          </article>
         )}
 
         <ul className="project-rows">
@@ -87,22 +189,32 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
             <m.li
               key={project.slug}
               className="project-row"
-              initial={reduceMotion ? false : { opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              custom={i}
+              initial={reduceMotion ? false : "hidden"}
+              whileInView="show"
               viewport={VIEWPORT}
-              transition={{ duration: 0.65, delay: i * 0.1, ease: EASE_OUT }}
+              variants={projectRowVariants}
             >
-              <button
-                type="button"
+              <LayeredMediaButton
                 className="project-row-media"
                 onClick={() => setOpenSlug(project.slug)}
-                aria-label={`Open ${project.title} case study`}
+                ariaLabel={`Open ${project.title} case study`}
+                delay={0.1 + i * 0.08}
               >
                 <ProjectThumbnail src={project.image} alt={project.imageAlt} />
-              </button>
+              </LayeredMediaButton>
               <div className="project-row-text">
-                <p className="project-category">{project.tags[0]}</p>
-                <h3 className="project-row-title">{project.title}</h3>
+                <p className="project-category">
+                  <ScrambleText text={project.tags[0]} delay={0.15 + i * 0.08} duration={450} />
+                </p>
+                <div style={{ overflow: "hidden" }}>
+                  <m.h3
+                    className="project-row-title"
+                    variants={titleMaskVariants}
+                  >
+                    {project.title}
+                  </m.h3>
+                </div>
                 <p className="project-summary">{project.summary}</p>
                 <ProjectLinks project={project} onOpen={() => setOpenSlug(project.slug)} />
               </div>
@@ -121,20 +233,25 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
 
         <div style={{ borderTop: "1px solid var(--border-color)", marginBottom: "2.5rem", opacity: 0.6 }} />
 
-        <BlockReveal>
-          <div id="activity" style={{ scrollMarginTop: "5rem" }}>
-            <h3 className="subsection-title" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-              </svg>
-              Open Source Contributions
-            </h3>
-            <p style={{ marginBottom: "1.5rem", maxWidth: "650px" }}>
-              Open-source work and contributions, updated in real time.
-            </p>
-            <GithubHeatmap contributions={contributions} />
-          </div>
-        </BlockReveal>
+        <m.div
+          id="activity"
+          style={{ scrollMarginTop: "5rem" }}
+          initial={reduceMotion ? false : "hidden"}
+          whileInView="show"
+          viewport={VIEWPORT}
+          variants={heatmapApertureVariants}
+        >
+          <h3 className="subsection-title" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
+            </svg>
+            Open Source Contributions
+          </h3>
+          <p style={{ marginBottom: "1.5rem", maxWidth: "650px" }}>
+            Open-source work and contributions, updated in real time.
+          </p>
+          <GithubHeatmap contributions={contributions} />
+        </m.div>
       </div>
 
       {projects.map((project) => (

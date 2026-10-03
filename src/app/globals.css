@@ -2672,6 +2672,27 @@
       border-radius: 50%;
       background-color: var(--accent-color);
       flex-shrink: 0;
+      position: relative;
+    }
+
+    .exp-live-indicator::after {
+      content: "";
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      border: 1px solid var(--accent-color);
+      animation: radar-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+
+    @keyframes radar-ping {
+      0% {
+        transform: scale(0.8);
+        opacity: 0.8;
+      }
+      70%, 100% {
+        transform: scale(2.2);
+        opacity: 0;
+      }
     }
 
     /* Content column */

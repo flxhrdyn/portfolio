@@ -13,15 +13,27 @@ const listVariants: Variants = {
   show: { transition: { staggerChildren: 0.12 } },
 };
 
-// Each row's top rule draws across first, then the row's text settles in under it.
+// Each row's top rule draws across first, then the row's text unmasks in sync like an inked ledger entry.
 const ruleVariants: Variants = {
   hidden: { scaleX: 0 },
-  show: { scaleX: 1, transition: { duration: 0.9, ease: EASE_OUT } },
+  show: { scaleX: 1, transition: { duration: 0.85, ease: EASE_OUT } },
 };
 
 const textVariants: Variants = {
   hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: EASE_OUT, delay: 0.25 } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: EASE_OUT, delay: 0.12 },
+  },
+};
+
+const titleMaskVariants: Variants = {
+  hidden: { y: "100%" },
+  show: {
+    y: "0%",
+    transition: { duration: 0.55, ease: EASE_OUT, delay: 0.08 },
+  },
 };
 
 function ExpRow({
@@ -52,7 +64,15 @@ function ExpRow({
         {date}
       </span>
       <span className="exp-row-main">
-        <span className="exp-row-title">{title}</span>
+        <span style={{ display: "inline-block", overflow: "hidden" }}>
+          <m.span
+            className="exp-row-title"
+            style={{ display: "block" }}
+            variants={reduceMotion ? undefined : titleMaskVariants}
+          >
+            {title}
+          </m.span>
+        </span>
         <span className="exp-row-company">
           <CompanyLogo src={logo} company={company} />
           {company}

@@ -5,30 +5,49 @@ import { m, useInView, useReducedMotion, type Variants } from "motion/react";
 import Modal from "./Modal";
 import ResearchPaperBody from "./ResearchPaperBody";
 import Reveal from "./Reveal";
-import BlockReveal from "./BlockReveal";
 import WordReveal from "./WordReveal";
+import ScrambleText from "./ScrambleText";
 import certifications from "@/content/certifications.json";
 import writing from "@/content/writing.json";
+import { EASE_OUT, VIEWPORT } from "@/lib/motion";
+
+const researchCardVariants: Variants = {
+  hidden: { clipPath: "inset(0% 0% 100% 0%)", opacity: 0.2 },
+  show: {
+    clipPath: "inset(0% 0% 0% 0%)",
+    opacity: 1,
+    transition: { duration: 0.85, ease: EASE_OUT },
+  },
+};
+
+const certsCardVariants: Variants = {
+  hidden: { clipPath: "inset(50% 0% 50% 0%)", opacity: 0.2 },
+  show: {
+    clipPath: "inset(0% 0% 0% 0%)",
+    opacity: 1,
+    transition: { duration: 0.85, ease: EASE_OUT, delay: 0.15 },
+  },
+};
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.07,
+      staggerChildren: 0.06,
       delayChildren: 0.05,
     },
   },
 };
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, x: 28 },
+const certItemVariants: Variants = {
+  hidden: { clipPath: "inset(0% 100% 0% 0%)", opacity: 0 },
   show: {
+    clipPath: "inset(0% 0% 0% 0%)",
     opacity: 1,
-    x: 0,
     transition: {
-      duration: 0.55,
-      ease: [0.16, 1, 0.3, 1],
+      duration: 0.45,
+      ease: EASE_OUT,
     },
   },
 };
@@ -45,6 +64,88 @@ const MODEL_ROWS = [
   { id: "coralnet-baseline", rank: 2, colorClass: "rank-2" },
   { id: "inception-v3", rank: 3, colorClass: "rank-3" },
 ] as const;
+
+function LeaderboardBarRow({
+  model,
+  data,
+  inView,
+}: {
+  model: (typeof MODEL_ROWS)[number];
+  data: { score: string; val: number };
+  inView: boolean;
+}) {
+  const reduceMotion = useReducedMotion();
+  const [displayScore, setDisplayScore] = useState(reduceMotion ? data.score : "0.00%");
+  const hasAnimated = useRef(false);
+
+  useEffect(() => {
+    if (!inView || hasAnimated.current || reduceMotion) return;
+    hasAnimated.current = true;
+
+    const duration = 1200;
+    const delay = model.rank * 140;
+    let frameId: number;
+
+    const timeout = setTimeout(() => {
+      const startTime = performance.now();
+
+      const animate = (now: number) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+        const currentVal = (ease * data.val).toFixed(2);
+        setDisplayScore(`${currentVal}%`);
+
+        if (progress < 1) {
+          frameId = requestAnimationFrame(animate);
+        } else {
+          setDisplayScore(data.score);
+        }
+      };
+
+      frameId = requestAnimationFrame(animate);
+    }, delay);
+
+    return () => {
+      clearTimeout(timeout);
+      cancelAnimationFrame(frameId);
+    };
+  }, [inView, data, model.rank, reduceMotion]);
+
+  return (
+    <div className="leaderboard-row">
+      <div className="leaderboard-row-content">
+        <div className="leaderboard-meta-top">
+          <div className="leaderboard-model-info">
+            <span className="leaderboard-model-name">
+              <ScrambleText text={model.id} delay={0.15 + model.rank * 0.12} duration={500} />
+            </span>
+          </div>
+          <span className="leaderboard-score-val">{displayScore}</span>
+        </div>
+        <div className="leaderboard-bar-track">
+          {reduceMotion ? (
+            <div
+              className={`leaderboard-bar-fill ${model.colorClass}`}
+              style={{ width: `${data.val}%` }}
+            />
+          ) : (
+            <m.div
+              className={`leaderboard-bar-fill ${model.colorClass}`}
+              initial={{ width: 0 }}
+              animate={{ width: inView ? `${data.val}%` : 0 }}
+              transition={{
+                duration: 1.2,
+                delay: 0.15 + (model.rank * 140) / 1000,
+                ease: [0.16, 1, 0.3, 1],
+              }}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const ITEMS_PER_PAGE = 4;
 const AUTO_ROTATE_MS = 4000;
@@ -101,10 +202,18 @@ export default function CertificationsSection() {
         {/* ASYMMETRIC ENGINEERING BENTO */}
         <div className="research-bento-grid">
           {/* LEFT: FEATURED RESEARCH PAPER CARD (DISTILLED TELEMETRY) */}
-          <BlockReveal from="left" style={{ height: "100%" }}>
+          <m.div
+            style={{ height: "100%" }}
+            initial={reduceMotion ? false : "hidden"}
+            whileInView="show"
+            viewport={VIEWPORT}
+            variants={researchCardVariants}
+          >
             <article className="research-featured-card">
               <div className="research-card-body">
-                <p className="research-journal-tag">JITET · {paper.volume}</p>
+                <p className="research-journal-tag">
+                  <ScrambleText text={`JITET · ${paper.volume}`} duration={600} />
+                </p>
 
                 <h3 className="research-paper-title">{paper.title}</h3>
 
@@ -114,40 +223,14 @@ export default function CertificationsSection() {
 
                 <div className="telemetry-benchmark-section" ref={leaderboardRef}>
                   <div className="leaderboard-rows">
-                    {MODEL_ROWS.map((model) => {
-                      const data = TEST_SCORES[model.id];
-                      return (
-                        <div key={model.id} className="leaderboard-row">
-                          <div className="leaderboard-row-content">
-                            <div className="leaderboard-meta-top">
-                              <div className="leaderboard-model-info">
-                                <span className="leaderboard-model-name">{model.id}</span>
-                              </div>
-                              <span className="leaderboard-score-val">{data.score}</span>
-                            </div>
-                            <div className="leaderboard-bar-track">
-                              {reduceMotion ? (
-                                <div
-                                  className={`leaderboard-bar-fill ${model.colorClass}`}
-                                  style={{ width: `${data.val}%` }}
-                                />
-                              ) : (
-                                <m.div
-                                  className={`leaderboard-bar-fill ${model.colorClass}`}
-                                  initial={{ width: 0 }}
-                                  animate={{ width: inView ? `${data.val}%` : 0 }}
-                                  transition={{ 
-                                    duration: 0.75, 
-                                    delay: model.rank * 0.08,
-                                    ease: [0.16, 1, 0.3, 1] 
-                                  }}
-                                />
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                      );
-                    })}
+                    {MODEL_ROWS.map((model) => (
+                      <LeaderboardBarRow
+                        key={model.id}
+                        model={model}
+                        data={TEST_SCORES[model.id]}
+                        inView={inView}
+                      />
+                    ))}
                   </div>
                   <p className="research-benchmark-caption">Test accuracy</p>
                 </div>
@@ -174,10 +257,16 @@ export default function CertificationsSection() {
                 )}
               </div>
             </article>
-          </BlockReveal>
+          </m.div>
 
           {/* RIGHT: VERIFIED CERTIFICATIONS LEDGER (AUTO-ROTATING, INFINITE NAV) */}
-          <BlockReveal from="right" style={{ height: "100%" }}>
+          <m.div
+            style={{ height: "100%" }}
+            initial={reduceMotion ? false : "hidden"}
+            whileInView="show"
+            viewport={VIEWPORT}
+            variants={certsCardVariants}
+          >
             <div
               className="certs-stack-container"
               onMouseEnter={() => { hoveredRef.current = true; }}
@@ -230,7 +319,7 @@ export default function CertificationsSection() {
                       target="_blank"
                       rel="noopener noreferrer"
                       className="cert-stack-item"
-                      variants={itemVariants}
+                      variants={certItemVariants}
                     >
                       <div className="cert-item-info">
                         <h4 className="cert-item-title">{cert.title}</h4>
@@ -277,7 +366,7 @@ export default function CertificationsSection() {
                 </div>
               </div>
             </div>
-          </BlockReveal>
+          </m.div>
         </div>
       </div>
 
