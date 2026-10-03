@@ -181,7 +181,7 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
     {
       id: "welcome",
       sender: "bot",
-      html: "<p>Hi, I can answer questions about Felix's work, skills, and projects. Pick a prompt below or ask me anything.</p>",
+      html: "<p>Hi, I answer questions about Felix's work, skills, and projects, using his CV, project case studies, and published research.</p>",
     },
   ]);
   const [input, setInput] = useState("");
@@ -189,6 +189,7 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
   const [isStreaming, setIsStreaming] = useState(false);
   const [statusIndex, setStatusIndex] = useState(0);
   const lastMessage = messages[messages.length - 1];
+  const hasConversation = messages.some((msg) => msg.sender === "user");
   const chatState = isTyping || isStreaming ? "answering" : lastMessage?.isError ? "error" : "idle";
   const statusAnnouncement = chatState === "answering"
     ? "Answering your question."
@@ -439,11 +440,9 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
             <span className="chat-header-title">Ask my portfolio</span>
           </div>
           <div className="chat-header-actions">
-            {chatState !== "idle" && (
-              <span className={`chat-header-status chat-header-status--${chatState}`} aria-hidden="true">
-                {chatState === "answering" ? "Thinking" : "Error"}
-              </span>
-            )}
+            <span className={`chat-header-status chat-header-status--${chatState}`} aria-hidden="true">
+              {chatState === "answering" ? "Thinking" : chatState === "error" ? "Error" : "Ready"}
+            </span>
             {onClose && (
               <button
                 ref={closeButtonRef}
@@ -471,8 +470,8 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
                 <m.div
                   key={msg.id}
                   className={`chat-msg ${msg.sender === "user" ? "user" : "bot"}`}
-                  initial={{ opacity: 0, y: 10, x: msg.sender === "user" ? 14 : -14 }}
-                  animate={{ opacity: 1, y: 0, x: 0 }}
+                  initial={{ opacity: 0, y: 6 }}
+                  animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                 >
                   <div className="msg-content-wrapper">
@@ -512,6 +511,23 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
                 </m.div>
               ))}
 
+              {!hasConversation && (
+                <div className="chat-suggestions">
+                  <p className="chat-suggestions-label">Suggested questions</p>
+                  <ul className="chat-suggestions-list">
+                    {QUICK_CHIPS.map((chip) => (
+                      <li key={chip.label}>
+                        <button type="button" className="chat-suggestion" onClick={() => sendChip(chip)}>
+                          <span className="chat-suggestion-topic">{chip.label === chip.query ? "About" : chip.label}</span>
+                          <span className="chat-suggestion-query">{chip.query}</span>
+                          <span className="chat-suggestion-arrow" aria-hidden="true">&rarr;</span>
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               <AnimatePresence>
                 {isTyping && (
                   <m.div
@@ -539,7 +555,7 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
 
           {/* PROMPT DECK & CHIPS */}
           <div className="chat-dock">
-            <div className="chat-chips-container">
+            {hasConversation && <div className="chat-chips-container">
               {QUICK_CHIPS.map((chip, idx) => (
                 <m.button
                   key={chip.label}
@@ -558,7 +574,7 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
                   {chip.label}
                 </m.button>
               ))}
-            </div>
+            </div>}
 
             <div className="chat-input-wrapper">
               <form
@@ -596,7 +612,7 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
             </div>
 
             <div className="chat-disclaimer">
-              AI responses are grounded in verified portfolio documentation and project case studies.
+              Answers are grounded in Felix&apos;s portfolio documents and may be incomplete.
             </div>
           </div>
         </div>

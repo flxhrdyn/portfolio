@@ -88,16 +88,26 @@ function ExpRow({
             <m.div
               id={panelId}
               className="exp-row-panel"
-              initial={reduceMotion ? false : { height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={reduceMotion ? undefined : { height: 0, opacity: 0 }}
-              transition={{ duration: 0.4, ease: EASE_OUT }}
+              initial={reduceMotion ? false : { height: 0 }}
+              animate={{ height: "auto" }}
+              exit={reduceMotion ? undefined : { height: 0 }}
+              transition={reduceMotion ? { duration: 0 } : { duration: 0.4, ease: EASE_OUT }}
             >
-              <ul className="exp-row-details">
-                {details.map((d) => (
-                  <li key={d}>{d}</li>
-                ))}
-              </ul>
+              <m.span
+                className="exp-row-panel-rule"
+                aria-hidden="true"
+                initial={reduceMotion ? false : { scaleX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={reduceMotion ? { duration: 0 } : { duration: 0.2, ease: EASE_OUT }}
+              />
+              <m.ul
+                className="exp-row-details"
+                initial={reduceMotion ? false : { opacity: 0 }}
+                animate={{ opacity: 1, transition: { duration: 0.25, delay: reduceMotion ? 0 : 0.2, ease: EASE_OUT } }}
+                exit={reduceMotion ? undefined : { opacity: 0, transition: { duration: 0.12 } }}
+              >
+                {details.map((d) => <li key={d}>{d}</li>)}
+              </m.ul>
             </m.div>
           )}
         </AnimatePresence>

@@ -24,6 +24,9 @@ export const DUR = {
 /** Per-word delay of the headline resolve cascade. */
 export const WORD_STAGGER = 0.055;
 
+/** Fired by section navigation so its heading can acknowledge the destination. */
+export const SECTION_NAVIGATION_EVENT = "portfolio:section-navigation";
+
 /** Sibling stagger for lists that genuinely appear as a list. */
 export const LIST_STAGGER = 0.07;
 

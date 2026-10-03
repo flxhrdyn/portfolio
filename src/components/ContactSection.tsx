@@ -7,6 +7,29 @@ import WordReveal from "./WordReveal";
 
 const EMAIL = "felixhardyanwork@gmail.com";
 
+function CopyEmailText({ copied, reduceMotion }: { copied: boolean; reduceMotion: boolean }) {
+  return (
+    <span className="email-copy-label" aria-live="polite" aria-atomic="true">
+      <span className="email-copy-sizer" aria-hidden="true">{EMAIL}</span>
+      {reduceMotion ? (
+        <span>{copied ? "Copied" : EMAIL}</span>
+      ) : (
+        <AnimatePresence initial={false} mode="sync">
+          <m.span
+            key={copied ? "copied" : "email"}
+            initial={{ y: "110%" }}
+            animate={{ y: "0%" }}
+            exit={{ y: "-110%" }}
+            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          >
+            {copied ? "Copied" : EMAIL}
+          </m.span>
+        </AnimatePresence>
+      )}
+    </span>
+  );
+}
+
 const ctaContainerVariants: Variants = {
   hidden: { opacity: 0 },
   show: {
@@ -127,7 +150,6 @@ export default function ContactSection() {
               </m.span>
 
               <WordReveal
-                as="h2"
                 className="contact-minimal-headline"
                 text="Let's build something together."
               />
@@ -155,7 +177,7 @@ export default function ContactSection() {
                   <span className="row-title">Email</span>
                 </span>
                 <span className="row-value">
-                  <span className="email-text-display">{EMAIL}</span>
+                  <CopyEmailText copied={copied} reduceMotion={!!reduceMotion} />
                   <span className="email-copy-btn" aria-label={copied ? "Email copied" : "Copy email"}>
                     {copied ? (
                       <span className="copy-icon-wrap copied">
@@ -258,7 +280,7 @@ export default function ContactSection() {
                   <span className="row-title">Email</span>
                 </span>
                 <span className="row-value">
-                  <span className="email-text-display">{EMAIL}</span>
+                  <CopyEmailText copied={copied} reduceMotion={!!reduceMotion} />
                   <span className="email-copy-btn" aria-label={copied ? "Email copied" : "Copy email"}>
                     <AnimatePresence mode="wait" initial={false}>
                       {copied ? (

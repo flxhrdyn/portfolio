@@ -1,8 +1,8 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { m, useReducedMotion, type Variants } from "motion/react";
-import type { ElementType } from "react";
-import { EASE_OUT, DUR, WORD_STAGGER, VIEWPORT } from "@/lib/motion";
+import { EASE_OUT, DUR, WORD_STAGGER, VIEWPORT, SECTION_NAVIGATION_EVENT } from "@/lib/motion";
 
 /**
  * Headings use a short, low-distance reveal that keeps the text readable throughout.
@@ -17,9 +17,10 @@ const wordVariants: Variants = {
   },
 };
 
+const MotionHeading = m.h2;
+
 export default function WordReveal({
   text,
-  as: Tag = "h2",
   className,
   /** Seconds of delay before the first word lands. */
   delay = 0,
@@ -27,15 +28,28 @@ export default function WordReveal({
   immediate = false,
 }: {
   text: string;
-  as?: ElementType;
   className?: string;
   delay?: number;
   immediate?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const [replayKey, setReplayKey] = useState(0);
+
+  useEffect(() => {
+    const onSectionNavigation = (event: Event) => {
+      const sectionId = (event as CustomEvent<string>).detail;
+      if (headingRef.current?.closest("section")?.id === sectionId) {
+        setReplayKey((current) => current + 1);
+      }
+    };
+
+    window.addEventListener(SECTION_NAVIGATION_EVENT, onSectionNavigation);
+    return () => window.removeEventListener(SECTION_NAVIGATION_EVENT, onSectionNavigation);
+  }, []);
 
   if (reduceMotion) {
-    return <Tag className={className}>{text}</Tag>;
+    return <h2 ref={headingRef} className={className}>{text}</h2>;
   }
 
   const words = text.split(" ");
@@ -50,7 +64,16 @@ export default function WordReveal({
     : { whileInView: "show" as const, viewport: VIEWPORT };
 
   return (
-    <Tag className={className}>
+    <MotionHeading
+      key={replayKey}
+      ref={headingRef}
+      className={className}
+      initial={{ letterSpacing: "-0.04em" }}
+      animate={immediate ? { letterSpacing: "-0.05em" } : undefined}
+      whileInView={immediate ? undefined : { letterSpacing: "-0.05em" }}
+      viewport={immediate ? undefined : VIEWPORT}
+      transition={{ duration: 0.6, ease: EASE_OUT }}
+    >
       {/* The split words are decorative markup; assistive tech reads the intact string. */}
       <span className="sr-only">{text}</span>
       <m.span
@@ -82,6 +105,6 @@ export default function WordReveal({
           </span>
         ))}
       </m.span>
-    </Tag>
+    </MotionHeading>
   );
 }

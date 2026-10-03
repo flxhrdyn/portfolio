@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { m, useReducedMotion } from "motion/react";
 import { scrollToAnchor } from "@/lib/scrollToAnchor";
+import { EASE_OUT, SECTION_NAVIGATION_EVENT } from "@/lib/motion";
 
 const NAV_LINKS = [
   { href: "#projects", label: "Projects" },
@@ -29,9 +31,11 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
 export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = false }: NavBarProps) {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [menuOpen, setMenuOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
   const navRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const themeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const current = document.documentElement.getAttribute("data-theme");
@@ -66,18 +70,48 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
 
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
-    document.documentElement.setAttribute("data-theme", next);
-    localStorage.setItem("theme", next);
-    setTheme(next);
+    const applyTheme = () => {
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("theme", next);
+      setTheme(next);
+    };
+    const viewTransitionDocument = document as Document & {
+      startViewTransition?: (callback: () => void) => { ready: Promise<void>; finished: Promise<void> };
+    };
+
+    if (reduceMotion || !viewTransitionDocument.startViewTransition || !themeButtonRef.current) {
+      applyTheme();
+      return;
+    }
+
+    const rect = themeButtonRef.current.getBoundingClientRect();
+    const x = rect.left + rect.width / 2;
+    const y = rect.top + rect.height / 2;
+    const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+    const root = document.documentElement;
+    root.style.setProperty("--theme-reveal-x", `${x}px`);
+    root.style.setProperty("--theme-reveal-y", `${y}px`);
+    root.style.setProperty("--theme-reveal-radius", `${radius}px`);
+
+    const transition = viewTransitionDocument.startViewTransition(applyTheme);
+    const clearOrigin = () => {
+      root.style.removeProperty("--theme-reveal-x");
+      root.style.removeProperty("--theme-reveal-y");
+      root.style.removeProperty("--theme-reveal-radius");
+    };
+    // `ready` rejects when the transition is skipped (hidden tab, rapid re-toggle); the theme still applies.
+    transition.ready.catch(() => {});
+    void transition.finished.then(clearOrigin, clearOrigin);
   };
 
   const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     setMenuOpen(false);
+    window.dispatchEvent(new CustomEvent(SECTION_NAVIGATION_EVENT, { detail: href.slice(1) }));
     scrollToAnchor(event, href);
   };
 
   const themeButton = (
-    <button type="button" className="nav-utility nav-theme-control" onClick={toggleTheme}
+    <button ref={themeButtonRef} type="button" className="nav-utility nav-theme-control" onClick={toggleTheme}
       aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}>
       <span className="nav-theme-swatch" aria-hidden="true" />
       {theme === "dark" ? "Dark" : "Light"}
@@ -149,10 +183,18 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
         {variant === "portfolio" && (
           <div ref={menuRef} id="nav-section-menu" className="nav-menu-panel" hidden={!menuOpen}>
             <div className="nav-menu-sections">
-              {NAV_LINKS.map((link) => (
-                <a key={link.href} href={link.href} onClick={(event) => handleNavClick(event, link.href)} className="nav-menu-section">
+              {NAV_LINKS.map((link, index) => (
+                <m.a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(event) => handleNavClick(event, link.href)}
+                  className="nav-menu-section"
+                  initial={false}
+                  animate={menuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}
+                  transition={reduceMotion ? { duration: 0 } : { duration: 0.2, delay: index * 0.024, ease: EASE_OUT }}
+                >
                   <span>{link.label}</span><Arrow />
-                </a>
+                </m.a>
               ))}
             </div>
             <div className="nav-menu-footer">
