@@ -2113,13 +2113,26 @@
     }
 
     .skill-col {
+      position: relative;
       padding: 1.5rem 1.5rem 2rem;
-      border-left: 1px solid var(--border-color);
+    }
+
+    .skill-col-rule {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 1px;
+      background-color: var(--border-color);
+      transform-origin: top;
     }
 
     .skill-col:first-child {
       padding-left: 0;
-      border-left: 0;
+    }
+
+    .skill-col:first-child .skill-col-rule {
+      display: none;
     }
 
     .skill-col-title {
@@ -2210,7 +2223,10 @@
 
       .skill-col:nth-child(odd) {
         padding-left: 0;
-        border-left: 0;
+      }
+
+      .skill-col:nth-child(odd) .skill-col-rule {
+        display: none;
       }
     }
 
@@ -2222,7 +2238,10 @@
       .skill-col,
       .skill-col:first-child {
         padding-left: 0;
-        border-left: 0;
+      }
+
+      .skill-col-rule {
+        display: none;
       }
     }
 

@@ -20,20 +20,8 @@ const ruleVariants: Variants = {
 };
 
 const textVariants: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: EASE_OUT, delay: 0.12 },
-  },
-};
-
-const titleMaskVariants: Variants = {
-  hidden: { y: "100%" },
-  show: {
-    y: "0%",
-    transition: { duration: 0.55, ease: EASE_OUT, delay: 0.08 },
-  },
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT, delay: 0.25 } },
 };
 
 function ExpRow({
@@ -64,15 +52,7 @@ function ExpRow({
         {date}
       </span>
       <span className="exp-row-main">
-        <span style={{ display: "inline-block", overflow: "hidden" }}>
-          <m.span
-            className="exp-row-title"
-            style={{ display: "block" }}
-            variants={reduceMotion ? undefined : titleMaskVariants}
-          >
-            {title}
-          </m.span>
-        </span>
+        <span className="exp-row-title">{title}</span>
         <span className="exp-row-company">
           <CompanyLogo src={logo} company={company} />
           {company}

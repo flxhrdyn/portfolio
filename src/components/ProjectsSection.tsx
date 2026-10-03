@@ -8,24 +8,22 @@ import ProjectCaseStudyBody from "./ProjectCaseStudyBody";
 import ProjectThumbnail from "./ProjectThumbnail";
 import Reveal from "./Reveal";
 import WordReveal from "./WordReveal";
-import ScrambleText from "./ScrambleText";
 import projects from "@/content/projects.json";
 import archiveProjects from "@/content/archive-projects.json";
 import type { ContributionDay } from "@/lib/github-contributions";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
-function LayeredMediaButton({
+// The image pulls into focus like a camera locking on; reduced motion keeps only the fade.
+function MediaButton({
   onClick,
   ariaLabel,
   className,
   children,
-  delay = 0,
 }: {
   onClick: () => void;
   ariaLabel: string;
   className: string;
   children: React.ReactNode;
-  delay?: number;
 }) {
   const reduceMotion = useReducedMotion();
 
@@ -35,70 +33,38 @@ function LayeredMediaButton({
       className={className}
       onClick={onClick}
       aria-label={ariaLabel}
-      style={{ position: "relative", overflow: "hidden" }}
+      style={{ overflow: "hidden" }}
     >
       <m.div
-        initial={reduceMotion ? false : { scale: 1.08 }}
-        whileInView={{ scale: 1 }}
+        initial={reduceMotion ? { opacity: 0 } : { opacity: 0, filter: "blur(12px)", scale: 1.02 }}
+        whileInView={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
         viewport={VIEWPORT}
-        transition={{ duration: 0.95, ease: EASE_OUT, delay }}
+        transition={{
+          duration: 0.8,
+          ease: EASE_OUT,
+          opacity: { duration: 0.4, ease: EASE_OUT },
+        }}
       >
         {children}
       </m.div>
-      {!reduceMotion && (
-        <m.span
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            inset: 0,
-            zIndex: 4,
-            backgroundColor: "var(--bg-secondary)",
-            borderBottom: "1px solid var(--border-color)",
-          }}
-          initial={{ y: "0%" }}
-          whileInView={{ y: "-102%" }}
-          viewport={VIEWPORT}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay }}
-        />
-      )}
     </button>
   );
 }
 
+// Text stays quiet so the media curtain is the section's one standout motion.
 const featureBodyVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: EASE_OUT, delay: 0.1 },
-  },
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT, delay: 0.3 } },
 };
 
 const projectRowVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.65,
-      ease: EASE_OUT,
-      delay: i * 0.08,
-    },
-  }),
-};
-
-const titleMaskVariants: Variants = {
-  hidden: { y: "100%" },
-  show: {
-    y: "0%",
-    transition: { duration: 0.6, ease: EASE_OUT, delay: 0.1 },
-  },
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT } },
 };
 
 const heatmapApertureVariants: Variants = {
-  hidden: { clipPath: "inset(0% 50% 0% 50%)", opacity: 0 },
+  hidden: { opacity: 0 },
   show: {
-    clipPath: "inset(0% 0% 0% 0%)",
     opacity: 1,
     transition: { duration: 0.85, ease: EASE_OUT },
   },
@@ -149,13 +115,13 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
 
         {featuredProject && (
           <article className="project-feature">
-            <LayeredMediaButton
+            <MediaButton
               className="project-feature-media"
               onClick={() => setOpenSlug(featuredProject.slug)}
               ariaLabel={`Open ${featuredProject.title} case study`}
             >
               <ProjectThumbnail src={featuredProject.image} alt={featuredProject.imageAlt} variant="featured" priority />
-            </LayeredMediaButton>
+            </MediaButton>
             <m.div
               className="project-feature-body"
               initial={reduceMotion ? false : "hidden"}
@@ -164,17 +130,8 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
               variants={featureBodyVariants}
             >
               <div>
-                <p className="project-category">
-                  <ScrambleText text={featuredProject.tags[0]} duration={500} />
-                </p>
-                <div style={{ overflow: "hidden" }}>
-                  <m.h3
-                    className="project-feature-title"
-                    variants={titleMaskVariants}
-                  >
-                    {featuredProject.title}
-                  </m.h3>
-                </div>
+                <p className="project-category">{featuredProject.tags[0]}</p>
+                <h3 className="project-feature-title">{featuredProject.title}</h3>
               </div>
               <div>
                 <p className="project-summary">{featuredProject.summary}</p>
@@ -185,36 +142,25 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
         )}
 
         <ul className="project-rows">
-          {gridProjects.map((project, i) => (
+          {gridProjects.map((project) => (
             <m.li
               key={project.slug}
               className="project-row"
-              custom={i}
               initial={reduceMotion ? false : "hidden"}
               whileInView="show"
               viewport={VIEWPORT}
               variants={projectRowVariants}
             >
-              <LayeredMediaButton
+              <MediaButton
                 className="project-row-media"
                 onClick={() => setOpenSlug(project.slug)}
                 ariaLabel={`Open ${project.title} case study`}
-                delay={0.1 + i * 0.08}
               >
                 <ProjectThumbnail src={project.image} alt={project.imageAlt} />
-              </LayeredMediaButton>
+              </MediaButton>
               <div className="project-row-text">
-                <p className="project-category">
-                  <ScrambleText text={project.tags[0]} delay={0.15 + i * 0.08} duration={450} />
-                </p>
-                <div style={{ overflow: "hidden" }}>
-                  <m.h3
-                    className="project-row-title"
-                    variants={titleMaskVariants}
-                  >
-                    {project.title}
-                  </m.h3>
-                </div>
+                <p className="project-category">{project.tags[0]}</p>
+                <h3 className="project-row-title">{project.title}</h3>
                 <p className="project-summary">{project.summary}</p>
                 <ProjectLinks project={project} onOpen={() => setOpenSlug(project.slug)} />
               </div>

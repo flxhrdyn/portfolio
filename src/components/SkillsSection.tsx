@@ -1,81 +1,34 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { m, useInView, useReducedMotion, type Variants } from "motion/react";
+import { m, useReducedMotion, type Variants } from "motion/react";
 import skills from "@/content/skills.json";
 import Reveal from "./Reveal";
 import { TECH_ICONS, getSkillIconKey } from "./techStackIcons";
 import WordReveal from "./WordReveal";
-import ScrambleText from "./ScrambleText";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
+// Column rules draw top to bottom; that is the section's one standout motion, text only fades.
 const tableVariants: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.12 } },
 };
 
 const columnVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.65, ease: EASE_OUT, staggerChildren: 0.04, delayChildren: 0.15 },
-  },
+  hidden: {},
+  show: {},
 };
 
-const rowVariants: Variants = {
-  hidden: { opacity: 0, y: 8 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.35, ease: EASE_OUT },
-  },
+const ruleVariants: Variants = {
+  hidden: { scaleY: 0 },
+  show: { scaleY: 1, transition: { duration: 0.9, ease: EASE_OUT } },
+};
+
+const contentVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT, delay: 0.2 } },
 };
 
 const pad = (n: number) => String(n).padStart(2, "0");
-
-function CategoryCounter({ target, delay = 0 }: { target: number; delay?: number }) {
-  const reduceMotion = useReducedMotion();
-  const [count, setCount] = useState(reduceMotion ? target : 0);
-  const ref = useRef<HTMLSpanElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-40px" });
-  const hasAnimated = useRef(false);
-
-  useEffect(() => {
-    if (!inView || hasAnimated.current || reduceMotion) return;
-    hasAnimated.current = true;
-
-    const timeout = setTimeout(() => {
-      const duration = 800;
-      const startTime = performance.now();
-      let frameId: number;
-
-      const animate = (now: number) => {
-        const elapsed = now - startTime;
-        const progress = Math.min(elapsed / duration, 1);
-        const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-        const current = Math.round(ease * target);
-        setCount(current);
-
-        if (progress < 1) {
-          frameId = requestAnimationFrame(animate);
-        } else {
-          setCount(target);
-        }
-      };
-
-      frameId = requestAnimationFrame(animate);
-    }, delay * 1000);
-
-    return () => clearTimeout(timeout);
-  }, [inView, target, delay, reduceMotion]);
-
-  return (
-    <span ref={ref} className="skill-col-count">
-      {pad(count)}
-    </span>
-  );
-}
 
 function SkillIcon({ name }: { name: string }) {
   const icon = TECH_ICONS[getSkillIconKey(name)] || TECH_ICONS.neural;
@@ -108,25 +61,28 @@ export default function SkillsSection() {
           viewport={VIEWPORT}
           variants={tableVariants}
         >
-          {categoryGroups.map((group, colIdx) => (
+          {categoryGroups.map((group) => (
             <m.div
               key={group.category}
               className="skill-col"
               variants={columnVariants}
             >
-              <h3 className="skill-col-title">
-                <ScrambleText text={group.category} delay={0.1 + colIdx * 0.1} duration={500} />
-                <CategoryCounter target={group.items.length} delay={0.15 + colIdx * 0.1} />
-              </h3>
-              <ol className="skill-col-list">
-                {group.items.map((item, i) => (
-                  <m.li key={item} className="skill-row" variants={rowVariants}>
-                    <span className="skill-row-num">{pad(i + 1)}</span>
-                    <SkillIcon name={item} />
-                    <span className="skill-row-name">{item}</span>
-                  </m.li>
-                ))}
-              </ol>
+              <m.span className="skill-col-rule" aria-hidden="true" variants={ruleVariants} />
+              <m.div variants={contentVariants}>
+                <h3 className="skill-col-title">
+                  {group.category}
+                  <span className="skill-col-count">{pad(group.items.length)}</span>
+                </h3>
+                <ol className="skill-col-list">
+                  {group.items.map((item, i) => (
+                    <li key={item} className="skill-row">
+                      <span className="skill-row-num">{pad(i + 1)}</span>
+                      <SkillIcon name={item} />
+                      <span className="skill-row-name">{item}</span>
+                    </li>
+                  ))}
+                </ol>
+              </m.div>
             </m.div>
           ))}
         </m.div>

@@ -6,27 +6,19 @@ import Modal from "./Modal";
 import ResearchPaperBody from "./ResearchPaperBody";
 import Reveal from "./Reveal";
 import WordReveal from "./WordReveal";
-import ScrambleText from "./ScrambleText";
 import certifications from "@/content/certifications.json";
 import writing from "@/content/writing.json";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
+// Cards only fade; the benchmark bars are the section's one standout motion.
 const researchCardVariants: Variants = {
-  hidden: { clipPath: "inset(0% 0% 100% 0%)", opacity: 0.2 },
-  show: {
-    clipPath: "inset(0% 0% 0% 0%)",
-    opacity: 1,
-    transition: { duration: 0.85, ease: EASE_OUT },
-  },
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT } },
 };
 
 const certsCardVariants: Variants = {
-  hidden: { clipPath: "inset(50% 0% 50% 0%)", opacity: 0.2 },
-  show: {
-    clipPath: "inset(0% 0% 0% 0%)",
-    opacity: 1,
-    transition: { duration: 0.85, ease: EASE_OUT, delay: 0.15 },
-  },
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT, delay: 0.15 } },
 };
 
 const containerVariants: Variants = {
@@ -41,9 +33,8 @@ const containerVariants: Variants = {
 };
 
 const certItemVariants: Variants = {
-  hidden: { clipPath: "inset(0% 100% 0% 0%)", opacity: 0 },
+  hidden: { opacity: 0 },
   show: {
-    clipPath: "inset(0% 0% 0% 0%)",
     opacity: 1,
     transition: {
       duration: 0.45,
@@ -118,7 +109,7 @@ function LeaderboardBarRow({
         <div className="leaderboard-meta-top">
           <div className="leaderboard-model-info">
             <span className="leaderboard-model-name">
-              <ScrambleText text={model.id} delay={0.15 + model.rank * 0.12} duration={500} />
+              {model.id}
             </span>
           </div>
           <span className="leaderboard-score-val">{displayScore}</span>
@@ -212,7 +203,7 @@ export default function CertificationsSection() {
             <article className="research-featured-card">
               <div className="research-card-body">
                 <p className="research-journal-tag">
-                  <ScrambleText text={`JITET · ${paper.volume}`} duration={600} />
+                  JITET · {paper.volume}
                 </p>
 
                 <h3 className="research-paper-title">{paper.title}</h3>
