@@ -16,10 +16,11 @@ export interface GlyphTideProps {
   cellSize?: number;
   className?: string;
   speed?: number;
+  startDelay?: number;
 }
 
 /** ASCII plasma with a pointer warp, reusable buffers, and no React frame updates. */
-export function GlyphTide({ cellSize = 12, className = "", speed = 1 }: GlyphTideProps) {
+export function GlyphTide({ cellSize = 12, className = "", speed = 1, startDelay = 0 }: GlyphTideProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -30,12 +31,18 @@ export function GlyphTide({ cellSize = 12, className = "", speed = 1 }: GlyphTid
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     const size = Math.max(6, cellSize);
     let fg = "";
+    const atlas = document.createElement("canvas");
+    const atlasCtx = atlas.getContext("2d");
+    let glyphWidth = 0;
+    let glyphHeight = 0;
+    let rasterScale = 1;
     let cellW = size;
     let cols = 0;
     let rows = 0;
     let width = 0;
     let height = 0;
     let chars = new Uint8Array(0);
+    let alphaLevels = new Uint8Array(0);
     let ax = new Float64Array(0);
     let ay = new Float64Array(0);
     let axy = new Float64Array(0);
@@ -50,10 +57,25 @@ export function GlyphTide({ cellSize = 12, className = "", speed = 1 }: GlyphTid
     let raf = 0;
     let last = 0;
     let t = 0;
+    let scrollIdleAt = 0;
+    const animationReadyAt = performance.now() + startDelay;
+
+    const buildAtlas = () => {
+      if (!atlasCtx || !glyphWidth) return;
+      atlas.width = glyphWidth * RAMP.length;
+      atlas.height = glyphHeight;
+      atlasCtx.font = ctx.font;
+      atlasCtx.setTransform(rasterScale, 0, 0, rasterScale, 0, 0);
+      atlasCtx.textAlign = "center";
+      atlasCtx.textBaseline = "middle";
+      atlasCtx.fillStyle = fg;
+      for (let i = 1; i < RAMP.length; i++) {
+        atlasCtx.fillText(RAMP[i], (i * glyphWidth + glyphWidth / 2) / rasterScale, glyphHeight / rasterScale / 2);
+      }
+    };
 
     const draw = () => {
       if (!cols || !rows) return;
-      ctx.clearRect(0, 0, width, height);
       for (const bucket of buckets) bucket.length = 0;
       const rowOff = rows - 1;
       for (let x = 0; x < cols; x++) {
@@ -85,8 +107,14 @@ export function GlyphTide({ cellSize = 12, className = "", speed = 1 }: GlyphTid
             value = (a * 0.42 + b * 0.34 + c * 0.24) / 5 + 0.5;
           }
           const lum = Math.pow(Math.max(0, Math.min(1, value)), 1.6);
-          chars[i] = Math.floor(lum * (RAMP.length - 1));
-          if (chars[i]) buckets[Math.min(ALPHA_BUCKETS - 1, Math.floor(lum * ALPHA_BUCKETS))].push(i);
+          const nextChar = Math.floor(lum * (RAMP.length - 1));
+          const nextAlpha = Math.min(ALPHA_BUCKETS - 1, Math.floor(lum * ALPHA_BUCKETS));
+          if (chars[i] !== nextChar || alphaLevels[i] !== nextAlpha) {
+            ctx.clearRect(x * cellW, y * size, cellW, size);
+            chars[i] = nextChar;
+            alphaLevels[i] = nextAlpha;
+            if (nextChar) buckets[nextAlpha].push(i);
+          }
         }
       }
       ctx.fillStyle = fg;
@@ -94,7 +122,7 @@ export function GlyphTide({ cellSize = 12, className = "", speed = 1 }: GlyphTid
         ctx.globalAlpha = 0.18 + b / (ALPHA_BUCKETS - 1) * 0.82;
         for (const i of buckets[b]) {
           const x = i % cols;
-          ctx.fillText(RAMP[chars[i]], x * cellW + cellW / 2, Math.floor(i / cols) * size + size / 2);
+          ctx.drawImage(atlas, chars[i] * glyphWidth, 0, glyphWidth, glyphHeight, x * cellW, Math.floor(i / cols) * size, cellW, size);
         }
       }
       ctx.globalAlpha = 1;
@@ -102,10 +130,12 @@ export function GlyphTide({ cellSize = 12, className = "", speed = 1 }: GlyphTid
 
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
+      if (cols && rect.width === width && rect.height === height) return;
       width = rect.width;
       height = rect.height;
       if (width < 2 || height < 2) return;
       const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      rasterScale = dpr;
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -113,11 +143,16 @@ export function GlyphTide({ cellSize = 12, className = "", speed = 1 }: GlyphTid
       fg = style.color;
       ctx.font = `${size}px ${style.fontFamily}`;
       cellW = Math.max(4, ctx.measureText("MMMMMMMMMM").width / 10);
+      glyphWidth = Math.ceil(cellW * dpr);
+      glyphHeight = Math.ceil(size * dpr);
+      buildAtlas();
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       cols = Math.max(1, Math.ceil(width / cellW));
       rows = Math.max(1, Math.ceil(height / size));
       chars = new Uint8Array(cols * rows);
+      chars.fill(255);
+      alphaLevels = new Uint8Array(cols * rows);
       ax = new Float64Array(cols);
       bx = new Float64Array(cols);
       ay = new Float64Array(rows);
@@ -130,6 +165,7 @@ export function GlyphTide({ cellSize = 12, className = "", speed = 1 }: GlyphTid
     const loop = (now: number) => {
       raf = 0;
       if (disposed || document.hidden || !visible || motionQuery.matches) return;
+      if (now < Math.max(scrollIdleAt, animationReadyAt)) { last = now; raf = requestAnimationFrame(loop); return; }
       const elapsed = last ? now - last : 1000 / 30;
       if (elapsed >= 1000 / 30) {
         const dt = Math.min(0.1, elapsed / 1000);
@@ -166,6 +202,7 @@ export function GlyphTide({ cellSize = 12, className = "", speed = 1 }: GlyphTid
     };
     const onLeave = () => { cursor.tx = cursor.x; cursor.ty = cursor.y; };
     const onScroll = () => {
+      scrollIdleAt = performance.now() + 160;
       const rect = root.getBoundingClientRect();
       const uncovered = !root.classList.contains("portfolio-hero-wrapper") || window.scrollY < root.offsetHeight;
       const next = rect.bottom > 0 && rect.top < window.innerHeight && uncovered;
@@ -201,7 +238,7 @@ export function GlyphTide({ cellSize = 12, className = "", speed = 1 }: GlyphTid
       document.removeEventListener("visibilitychange", syncPlayback);
       motionQuery.removeEventListener("change", syncPlayback);
     };
-  }, [cellSize, speed]);
+  }, [cellSize, speed, startDelay]);
 
   return <canvas ref={canvasRef} aria-hidden="true" className={`glyph-tide ${className}`} />;
 }

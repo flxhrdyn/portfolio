@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { m, useReducedMotion, type Variants } from "motion/react";
+import { scrollVariants } from "@/lib/scroll-motion";
 import { EASE_OUT, DUR, WORD_STAGGER, VIEWPORT, SECTION_NAVIGATION_EVENT } from "@/lib/motion";
 
 /**
@@ -68,18 +69,14 @@ export default function WordReveal({
       key={replayKey}
       ref={headingRef}
       className={className}
-      initial={{ letterSpacing: "-0.04em" }}
-      animate={immediate ? { letterSpacing: "-0.05em" } : undefined}
-      whileInView={immediate ? undefined : { letterSpacing: "-0.05em" }}
-      viewport={immediate ? undefined : VIEWPORT}
-      transition={{ duration: 0.6, ease: EASE_OUT }}
+      style={{ letterSpacing: "-0.05em" }}
     >
       {/* The split words are decorative markup; assistive tech reads the intact string. */}
       <span className="sr-only">{text}</span>
       <m.span
         aria-hidden="true"
         initial="hidden"
-        variants={containerVariants}
+        variants={immediate ? containerVariants : scrollVariants(containerVariants)}
         {...trigger}
         style={{ display: "inline" }}
       >
@@ -96,7 +93,7 @@ export default function WordReveal({
             }}
           >
             <m.span
-              variants={wordVariants}
+              variants={immediate ? wordVariants : scrollVariants(wordVariants)}
               style={{ display: "inline-block", whiteSpace: "pre" }}
             >
               {word}

@@ -2214,31 +2214,31 @@
     .all-projects-btn {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.4rem;
       margin-top: 2rem;
-      font-size: 0.9rem;
+      min-height: 44px;
+      font-size: 1rem;
       font-weight: 600;
       color: var(--text-primary);
-      background-color: var(--bg-secondary);
-      border: 1px solid var(--border-color);
-      padding: 0.6rem 1.5rem;
-      border-radius: var(--radius-sm);
+      background: none;
+      border: 0;
+      padding: 0.5rem 0.25rem;
       cursor: pointer;
-      transition: background-color var(--transition-speed) ease, border-color var(--transition-speed) ease;
+      transition: color var(--transition-speed) ease;
     }
 
-    .all-projects-btn svg {
+    .all-projects-btn .all-projects-icon {
       transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    .all-projects-btn:hover {
-      background-color: var(--border-color);
-      border-color: var(--text-secondary);
-      text-decoration: none;
+    .all-projects-btn:is(:hover, :focus-visible) {
+      text-decoration: underline;
+      text-decoration-thickness: 1px;
+      text-underline-offset: 0.25rem;
     }
 
-    .all-projects-btn:hover svg {
-      transform: translateY(2px);
+    .all-projects-btn:is(:hover, :focus-visible) .all-projects-icon {
+      transform: translateY(-2px);
     }
 
     /* PROJECTS: one featured stage, then plain alternating rows. No boxes, no badges. */
@@ -2279,12 +2279,13 @@
 
     .project-feature-media img,
     .project-row-media img {
-      transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
+      transform-origin: center;
+      transition: transform 700ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    .project-feature-media:is(:hover, :focus-visible, :active) img,
-    .project-row-media:is(:hover, :focus-visible, :active) img {
-      transform: scale(1.03);
+    .project-feature-media:is(:hover, :focus-visible) img,
+    .project-row-media:is(:hover, :focus-visible) img {
+      transform: scale(1.045);
     }
 
     .project-feature-body {
@@ -2396,12 +2397,14 @@
       .project-feature-media img,
       .project-row-media img,
       .project-links .project-link .link-arrow,
-      .project-links .project-link .link-arrow-diagonal { transition: none; }
+      .project-links .project-link .link-arrow-diagonal,
+      .all-projects-btn .all-projects-icon { transition: none; }
 
-      .project-feature-media:is(:hover, :focus-visible, :active) img,
-      .project-row-media:is(:hover, :focus-visible, :active) img,
+      .project-feature-media:is(:hover, :focus-visible) img,
+      .project-row-media:is(:hover, :focus-visible) img,
       .project-links .project-link .link-arrow,
-      .project-links .project-link .link-arrow-diagonal { transform: none; }
+      .project-links .project-link .link-arrow-diagonal,
+      .all-projects-btn .all-projects-icon { transform: none; }
     }
 
     .project-links .project-link-muted {
@@ -5021,3 +5024,11 @@
         margin-left: 0;
       }
     }
+
+/* Contact finale: type assembles; contact rules lead the reveal. */
+.contact-headline-word-window { position: relative; display: inline-block; }
+.contact-headline-word { display: inline-block; }
+.contact-minimal-row.contact-motion-row { position: relative; border-bottom-color: transparent; }
+.contact-motion-rule { position: absolute; bottom: -1px; left: 0; width: 100%; height: 1px; background: var(--border-color); transform-origin: left; pointer-events: none; }
+
+.contact-build-foundation { position: absolute; left: 0; right: 0.12em; bottom: -0.045em; height: 1px; background: currentColor; transform-origin: left; pointer-events: none; }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { useInView, useReducedMotion } from "motion/react";
 import type { ContributionDay } from "@/lib/github-contributions";
 
@@ -66,11 +66,12 @@ export default function GithubHeatmap({ contributions }: GithubHeatmapProps) {
   const reduceMotion = useReducedMotion();
 
   const total = contributions ? contributions.reduce((sum, day) => sum + day.count, 0) : 0;
-  const [countedUp, setCountedUp] = useState(0);
+  const countRef = useRef<HTMLElement>(null);
+  const cells = useMemo(() => buildCells(contributions ?? []), [contributions]);
+  const monthLabels = useMemo(() => buildMonthLabels(cells), [cells]);
   // When there is nothing to animate, the final value is derived rather than written
   // from an effect, so no cascading render is needed to reach it.
   const shouldCount = inView && !reduceMotion && total > 0;
-  const displayCount = shouldCount ? countedUp : total;
 
   useEffect(() => {
     if (!shouldCount) return;
@@ -83,12 +84,12 @@ export default function GithubHeatmap({ contributions }: GithubHeatmapProps) {
       const elapsed = now - startTime;
       const progress = Math.min(elapsed / duration, 1);
       const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
-      setCountedUp(Math.round(ease * total));
+      if (countRef.current) countRef.current.textContent = Math.round(ease * total).toLocaleString("en-US");
 
       if (progress < 1) {
         frameId = requestAnimationFrame(animateCount);
       } else {
-        setCountedUp(total);
+        if (countRef.current) countRef.current.textContent = total.toLocaleString("en-US");
       }
     };
 
@@ -110,14 +111,12 @@ export default function GithubHeatmap({ contributions }: GithubHeatmapProps) {
     );
   }
 
-  const cells = buildCells(contributions);
-  const monthLabels = buildMonthLabels(cells);
 
   return (
     <div className={`github-contrib-card ${inView ? "is-inview" : ""}`} ref={containerRef}>
       <div className="github-contrib-header">
         <span className="contrib-count">
-          <strong>{displayCount.toLocaleString("en-US")}</strong> contributions in the last year
+          <strong ref={countRef}>{total.toLocaleString("en-US")}</strong> contributions in the last year
         </span>
       </div>
 

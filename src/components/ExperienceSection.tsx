@@ -1,5 +1,7 @@
 "use client";
 
+import { scrollVariants } from "@/lib/scroll-motion";
+
 import { useId, useState } from "react";
 import { AnimatePresence, m, useReducedMotion, type Variants } from "motion/react";
 import experience from "@/content/experience.json";
@@ -8,21 +10,21 @@ import Reveal from "./Reveal";
 import WordReveal from "./WordReveal";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
-const listVariants: Variants = {
+const listVariants: Variants = scrollVariants({
   hidden: {},
   show: { transition: { staggerChildren: 0.12 } },
-};
+});
 
 // Each row's top rule draws across first, then the row's text unmasks in sync like an inked ledger entry.
-const ruleVariants: Variants = {
+const ruleVariants: Variants = scrollVariants({
   hidden: { scaleX: 0 },
   show: { scaleX: 1, transition: { duration: 0.85, ease: EASE_OUT } },
-};
+});
 
-const textVariants: Variants = {
+const textVariants: Variants = scrollVariants({
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT, delay: 0.25 } },
-};
+});
 
 function ExpRow({
   date,

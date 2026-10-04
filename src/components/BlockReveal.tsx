@@ -2,6 +2,7 @@
 
 import { m, useReducedMotion } from "motion/react";
 import type { CSSProperties, ReactNode } from "react";
+import { scrollTransition } from "@/lib/scroll-motion";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
 /**
@@ -45,9 +46,9 @@ export default function BlockReveal({
       className={className}
       style={style}
       initial={hidden}
-      whileInView={{ opacity: 1, x: 0, y: 0, scale: 1 }}
+      whileInView="show"
+      variants={{ show: () => ({ opacity: 1, x: 0, y: 0, scale: 1, transition: scrollTransition({ duration: 0.8, ease: EASE_OUT }) }) }}
       viewport={VIEWPORT}
-      transition={{ duration: 0.8, ease: EASE_OUT }}
     >
       {children}
     </m.div>

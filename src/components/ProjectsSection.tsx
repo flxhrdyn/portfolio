@@ -1,5 +1,7 @@
 "use client";
 
+import { scrollVariants } from "@/lib/scroll-motion";
+
 import { useState } from "react";
 import { m, useReducedMotion, type Variants } from "motion/react";
 import Modal from "./Modal";
@@ -13,70 +15,67 @@ import archiveProjects from "@/content/archive-projects.json";
 import type { ContributionDay } from "@/lib/github-contributions";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
-// The image pulls into focus like a camera locking on; reduced motion keeps only the fade.
-function MediaButton({
-  onClick,
-  ariaLabel,
-  className,
-  children,
-}: {
+// One trigger per project keeps the media and text in the same sequence.
+const projectRowVariants: Variants = scrollVariants({
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+});
+
+const PROJECT_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
+const mediaImageVariants: Variants = scrollVariants({
+  hidden: { scale: 1.035, y: 6, opacity: 0.85 },
+  show: { scale: 1, y: 0, opacity: 1, transition: { duration: 0.8, ease: PROJECT_EASE } },
+});
+
+const featureBodyVariants: Variants = scrollVariants({
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+});
+
+const projectTextVariants: Variants = scrollVariants({
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07, delayChildren: 0.08 } },
+});
+
+const projectCopyVariants: Variants = scrollVariants({
+  hidden: { opacity: 0.3, y: 8 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: PROJECT_EASE } },
+});
+
+function MediaButton({ onClick, ariaLabel, className, children }: {
   onClick: () => void;
   ariaLabel: string;
   className: string;
   children: React.ReactNode;
 }) {
   const reduceMotion = useReducedMotion();
-
   return (
-    <button
-      type="button"
-      className={className}
-      onClick={onClick}
-      aria-label={ariaLabel}
-      style={{ overflow: "hidden" }}
-    >
-      <m.div
-        initial={reduceMotion ? { opacity: 0 } : { opacity: 0, filter: "blur(12px)", scale: 1.02 }}
-        whileInView={{ opacity: 1, filter: "blur(0px)", scale: 1 }}
-        viewport={VIEWPORT}
-        transition={{
-          duration: 0.8,
-          ease: EASE_OUT,
-          opacity: { duration: 0.4, ease: EASE_OUT },
-        }}
-      >
+    <button type="button" className={className} onClick={onClick} aria-label={ariaLabel}
+      style={{ overflow: "hidden", position: "relative" }}>
+      <m.div variants={reduceMotion ? undefined : mediaImageVariants}>
         {children}
       </m.div>
     </button>
   );
 }
 
-// Text stays quiet so the media curtain is the section's one standout motion.
-const featureBodyVariants: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT, delay: 0.3 } },
-};
-
-const projectRowVariants: Variants = {
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT } },
-};
-
-const heatmapApertureVariants: Variants = {
+const heatmapApertureVariants: Variants = scrollVariants({
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
     transition: { duration: 0.85, ease: EASE_OUT },
   },
-};
+});
 
 interface ProjectsSectionProps {
   contributions: ContributionDay[] | null;
 }
 
 function ProjectLinks({ project, onOpen }: { project: { repo: string }; onOpen: () => void }) {
+  const reduceMotion = useReducedMotion();
   return (
-    <div className="project-links">
+    <m.div className="project-links" variants={reduceMotion ? undefined : projectCopyVariants}>
       <button type="button" className="project-link" onClick={onOpen}>
         <span>Case study</span>
         <span className="link-arrow" aria-hidden="true">&rarr;</span>
@@ -90,7 +89,7 @@ function ProjectLinks({ project, onOpen }: { project: { repo: string }; onOpen: 
         <span>GitHub</span>
         <span className="link-arrow-diagonal" aria-hidden="true">&#8599;</span>
       </a>
-    </div>
+    </m.div>
   );
 }
 
@@ -114,7 +113,8 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
         </Reveal>
 
         {featuredProject && (
-          <article className="project-feature">
+          <m.article className="project-feature" initial={reduceMotion ? false : "hidden"}
+            whileInView="show" viewport={VIEWPORT} variants={projectRowVariants}>
             <MediaButton
               className="project-feature-media"
               onClick={() => setOpenSlug(featuredProject.slug)}
@@ -124,21 +124,18 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
             </MediaButton>
             <m.div
               className="project-feature-body"
-              initial={reduceMotion ? false : "hidden"}
-              whileInView="show"
-              viewport={VIEWPORT}
-              variants={featureBodyVariants}
+              variants={reduceMotion ? undefined : featureBodyVariants}
             >
-              <div>
-                <p className="project-category">{featuredProject.tags[0]}</p>
-                <h3 className="project-feature-title">{featuredProject.title}</h3>
-              </div>
-              <div>
-                <p className="project-summary">{featuredProject.summary}</p>
+              <m.div variants={reduceMotion ? undefined : projectTextVariants}>
+                <m.p className="project-category" variants={reduceMotion ? undefined : projectCopyVariants}>{featuredProject.tags[0]}</m.p>
+                <m.h3 className="project-feature-title" variants={reduceMotion ? undefined : projectCopyVariants}>{featuredProject.title}</m.h3>
+              </m.div>
+              <m.div variants={reduceMotion ? undefined : projectTextVariants}>
+                <m.p className="project-summary" variants={reduceMotion ? undefined : projectCopyVariants}>{featuredProject.summary}</m.p>
                 <ProjectLinks project={featuredProject} onOpen={() => setOpenSlug(featuredProject.slug)} />
-              </div>
+              </m.div>
             </m.div>
-          </article>
+          </m.article>
         )}
 
         <ul className="project-rows">
@@ -158,21 +155,27 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
               >
                 <ProjectThumbnail src={project.image} alt={project.imageAlt} />
               </MediaButton>
-              <div className="project-row-text">
-                <p className="project-category">{project.tags[0]}</p>
-                <h3 className="project-row-title">{project.title}</h3>
-                <p className="project-summary">{project.summary}</p>
+              <m.div className="project-row-text" variants={reduceMotion ? undefined : projectTextVariants}>
+                <m.p className="project-category" variants={reduceMotion ? undefined : projectCopyVariants}>{project.tags[0]}</m.p>
+                <m.h3 className="project-row-title" variants={reduceMotion ? undefined : projectCopyVariants}>{project.title}</m.h3>
+                <m.p className="project-summary" variants={reduceMotion ? undefined : projectCopyVariants}>{project.summary}</m.p>
                 <ProjectLinks project={project} onOpen={() => setOpenSlug(project.slug)} />
-              </div>
+              </m.div>
             </m.li>
           ))}
         </ul>
 
         <div style={{ display: "flex", justifyContent: "center", marginBottom: "3.5rem", marginTop: "1rem" }}>
-          <button className="all-projects-btn" onClick={() => setArchiveOpen(true)}>
+          <button
+            type="button"
+            className="all-projects-btn"
+            onClick={() => setArchiveOpen(true)}
+            aria-haspopup="dialog"
+            aria-expanded={archiveOpen}
+          >
             <span>View all projects</span>
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <polyline points="6 9 12 15 18 9"></polyline>
+            <svg className="all-projects-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" aria-hidden="true">
+              <path d="M12 5v14M5 12h14"></path>
             </svg>
           </button>
         </div>

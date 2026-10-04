@@ -1,5 +1,7 @@
 "use client";
 
+import { scrollVariants, scrollTempo } from "@/lib/scroll-motion";
+
 import { useState, useEffect, useRef, useCallback } from "react";
 import { m, useInView, useReducedMotion, type Variants } from "motion/react";
 import Modal from "./Modal";
@@ -11,17 +13,17 @@ import writing from "@/content/writing.json";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
 // Cards only fade; the benchmark bars are the section's one standout motion.
-const researchCardVariants: Variants = {
+const researchCardVariants: Variants = scrollVariants({
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT } },
-};
+});
 
-const certsCardVariants: Variants = {
+const certsCardVariants: Variants = scrollVariants({
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT, delay: 0.15 } },
-};
+});
 
-const containerVariants: Variants = {
+const containerVariants: Variants = scrollVariants({
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -30,9 +32,9 @@ const containerVariants: Variants = {
       delayChildren: 0.05,
     },
   },
-};
+});
 
-const certItemVariants: Variants = {
+const certItemVariants: Variants = scrollVariants({
   hidden: { opacity: 0 },
   show: {
     opacity: 1,
@@ -41,7 +43,7 @@ const certItemVariants: Variants = {
       ease: EASE_OUT,
     },
   },
-};
+});
 
 // Test-set accuracy from the paper.
 const TEST_SCORES = {
@@ -73,8 +75,9 @@ function LeaderboardBarRow({
     if (!inView || hasAnimated.current || reduceMotion) return;
     hasAnimated.current = true;
 
-    const duration = 1200;
-    const delay = model.rank * 140;
+    const tempo = scrollTempo();
+    const duration = 1200 * tempo;
+    const delay = model.rank * 140 * tempo;
     let frameId: number;
 
     const timeout = setTimeout(() => {
@@ -123,8 +126,10 @@ function LeaderboardBarRow({
           ) : (
             <m.div
               className={`leaderboard-bar-fill ${model.colorClass}`}
-              initial={{ width: 0 }}
-              animate={{ width: inView ? `${data.val}%` : 0 }}
+              initial={{ scaleX: 0 }}
+              style={{ width: `${data.val}%`, transformOrigin: "left" }}
+              animate={inView ? "show" : "hidden"}
+              variants={scrollVariants({ hidden: { scaleX: 0 }, show: { scaleX: 1, transition: { duration: 1.2, delay: 0.15 + (model.rank * 140) / 1000, ease: [0.16, 1, 0.3, 1] } } })}
               transition={{
                 duration: 1.2,
                 delay: 0.15 + (model.rank * 140) / 1000,

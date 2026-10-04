@@ -2,6 +2,7 @@
 
 import { m, useReducedMotion, type Variants } from "motion/react";
 import type { CSSProperties, ReactNode } from "react";
+import { scrollTransition } from "@/lib/scroll-motion";
 import { EASE_OUT, DUR, VIEWPORT } from "@/lib/motion";
 
 export const revealVariants: Variants = {
@@ -44,7 +45,7 @@ export default function Reveal({
       initial="hidden"
       whileInView="show"
       viewport={{ once: VIEWPORT.once, margin: viewportMargin }}
-      variants={revealVariants}
+      variants={{ ...revealVariants, show: () => ({ opacity: 1, y: 0, transition: scrollTransition({ duration: DUR.entrance, delay, ease: EASE_OUT }) }) }}
       transition={{ duration: DUR.entrance, delay, ease: EASE_OUT }}
     >
       {children}

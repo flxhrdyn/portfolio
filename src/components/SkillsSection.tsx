@@ -1,5 +1,7 @@
 "use client";
 
+import { scrollVariants } from "@/lib/scroll-motion";
+
 import { m, useReducedMotion, type Variants } from "motion/react";
 import skills from "@/content/skills.json";
 import Reveal from "./Reveal";
@@ -8,25 +10,25 @@ import WordReveal from "./WordReveal";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
 // Column rules draw top to bottom; that is the section's one standout motion, text only fades.
-const tableVariants: Variants = {
+const tableVariants: Variants = scrollVariants({
   hidden: {},
   show: { transition: { staggerChildren: 0.12 } },
-};
+});
 
-const columnVariants: Variants = {
+const columnVariants: Variants = scrollVariants({
   hidden: {},
   show: {},
-};
+});
 
-const ruleVariants: Variants = {
+const ruleVariants: Variants = scrollVariants({
   hidden: { scaleY: 0 },
   show: { scaleY: 1, transition: { duration: 0.9, ease: EASE_OUT } },
-};
+});
 
-const contentVariants: Variants = {
+const contentVariants: Variants = scrollVariants({
   hidden: { opacity: 0 },
   show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT, delay: 0.2 } },
-};
+});
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
