@@ -3,7 +3,7 @@
 import { scrollVariants, scrollTempo } from "@/lib/scroll-motion";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { m, useInView, useReducedMotion, type Variants } from "motion/react";
+import { AnimatePresence, m, useInView, useReducedMotion, type Variants } from "motion/react";
 import Modal from "./Modal";
 import ResearchPaperBody from "./ResearchPaperBody";
 import Reveal from "./Reveal";
@@ -12,37 +12,14 @@ import certifications from "@/content/certifications.json";
 import writing from "@/content/writing.json";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
-// Cards only fade; the benchmark bars are the section's one standout motion.
 const researchCardVariants: Variants = scrollVariants({
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT } },
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } },
 });
 
 const certsCardVariants: Variants = scrollVariants({
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT, delay: 0.15 } },
-});
-
-const containerVariants: Variants = scrollVariants({
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.06,
-      delayChildren: 0.05,
-    },
-  },
-});
-
-const certItemVariants: Variants = scrollVariants({
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: {
-      duration: 0.45,
-      ease: EASE_OUT,
-    },
-  },
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.1 } },
 });
 
 // Test-set accuracy from the paper.
@@ -144,11 +121,11 @@ function LeaderboardBarRow({
 }
 
 const ITEMS_PER_PAGE = 4;
-const AUTO_ROTATE_MS = 4000;
+const AUTO_ROTATE_MS = 6000;
 
 export default function CertificationsSection() {
   const [researchOpen, setResearchOpen] = useState(false);
-  const [certPage, setCertPage] = useState(0);
+  const [[certPage, direction], setPage] = useState([0, 1]);
   const reduceMotion = useReducedMotion();
   const paper = writing[0];
   const hoveredRef = useRef(false);
@@ -163,11 +140,11 @@ export default function CertificationsSection() {
   );
 
   const goNext = useCallback(
-    () => setCertPage((p) => (p + 1) % totalPages),
+    () => setPage(([p]) => [(p + 1) % totalPages, 1]),
     [totalPages]
   );
   const goPrev = useCallback(
-    () => setCertPage((p) => (p - 1 + totalPages) % totalPages),
+    () => setPage(([p]) => [(p - 1 + totalPages) % totalPages, -1]),
     [totalPages]
   );
 
@@ -272,70 +249,76 @@ export default function CertificationsSection() {
                 <span className="certs-header-badge">VERIFIED CERTIFICATIONS</span>
               </div>
 
-              {reduceMotion ? (
-                <div className="certs-list-stack">
-                  {paginatedCerts.map((cert) => (
-                    <a
-                      key={cert.code}
-                      href={cert.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="cert-stack-item"
+              <div className="certs-stack-body">
+                <div className="certs-track-viewport">
+                  <AnimatePresence mode="popLayout" initial={false} custom={direction}>
+                    <m.div
+                      key={certPage}
+                      custom={direction}
+                      className="certs-track-page"
+                      variants={{
+                        enter: (dir: number) => ({
+                          x: dir > 0 ? "100%" : "-100%",
+                          opacity: 0,
+                        }),
+                        center: {
+                          x: 0,
+                          opacity: 1,
+                          transition: {
+                            x: reduceMotion ? { duration: 0 } : { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
+                            opacity: reduceMotion ? { duration: 0 } : { duration: 0.35, ease: "easeOut" },
+                          },
+                        },
+                        exit: (dir: number) => ({
+                          x: dir > 0 ? "-100%" : "100%",
+                          opacity: 0,
+                          transition: {
+                            x: reduceMotion ? { duration: 0 } : { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
+                            opacity: reduceMotion ? { duration: 0 } : { duration: 0.25, ease: "easeIn" },
+                          },
+                        }),
+                      }}
+                      initial="enter"
+                      animate="center"
+                      exit="exit"
                     >
-                      <div className="cert-item-info">
-                        <h4 className="cert-item-title">{cert.title}</h4>
-                        <div className="cert-item-meta">
-                          <span className="cert-issuer-name">{cert.issuer}</span>
-                          <span className="cert-meta-divider">•</span>
-                          <span className="cert-date-text">{cert.date}</span>
-                        </div>
-                      </div>
+                      {paginatedCerts.map((cert) => (
+                        <a
+                          key={cert.code}
+                          href={cert.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="cert-stack-item"
+                        >
+                          <div className="cert-item-info">
+                            <h4 className="cert-item-title">{cert.title}</h4>
+                            <div className="cert-item-meta">
+                              <span className="cert-issuer-name">{cert.issuer}</span>
+                              <span className="cert-meta-divider">•</span>
+                              <span className="cert-date-text">{cert.date}</span>
+                            </div>
+                          </div>
 
-                      <div className="cert-item-right">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="cert-arrow-icon">
-                          <line x1="7" y1="17" x2="17" y2="7"></line>
-                          <polyline points="7 7 17 7 17 17"></polyline>
-                        </svg>
-                      </div>
-                    </a>
-                  ))}
+                          <div className="cert-item-right">
+                            <svg
+                              width="13"
+                              height="13"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              className="cert-arrow-icon"
+                            >
+                              <line x1="7" y1="17" x2="17" y2="7"></line>
+                              <polyline points="7 7 17 7 17 17"></polyline>
+                            </svg>
+                          </div>
+                        </a>
+                      ))}
+                    </m.div>
+                  </AnimatePresence>
                 </div>
-              ) : (
-                <m.div
-                  key={certPage}
-                  className="certs-list-stack"
-                  initial="hidden"
-                  animate="show"
-                  variants={containerVariants}
-                >
-                  {paginatedCerts.map((cert) => (
-                    <m.a
-                      key={cert.code}
-                      href={cert.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="cert-stack-item"
-                      variants={certItemVariants}
-                    >
-                      <div className="cert-item-info">
-                        <h4 className="cert-item-title">{cert.title}</h4>
-                        <div className="cert-item-meta">
-                          <span className="cert-issuer-name">{cert.issuer}</span>
-                          <span className="cert-meta-divider">•</span>
-                          <span className="cert-date-text">{cert.date}</span>
-                        </div>
-                      </div>
-
-                      <div className="cert-item-right">
-                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="cert-arrow-icon">
-                          <line x1="7" y1="17" x2="17" y2="7"></line>
-                          <polyline points="7 7 17 7 17 17"></polyline>
-                        </svg>
-                      </div>
-                    </m.a>
-                  ))}
-                </m.div>
-              )}
+              </div>
 
               {/* FOOTER: infinite ← → nav only */}
               <div className="certs-pagination-footer">
