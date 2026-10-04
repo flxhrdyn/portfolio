@@ -291,7 +291,8 @@ export default function AIAsciiCanvas({ theme = "light" }: AIAsciiCanvasProps) {
       const rgb = isDark ? "255, 255, 255" : "0, 0, 0";
       ctx.textBaseline = "top";
 
-      const hoverRadius = 180;
+      // Tight, focused hover radius: only scramble characters in close proximity to cursor
+      const hoverRadius = 75;
 
       for (let i = 0; i < fragments.length; i++) {
         const frag = fragments[i];
@@ -312,16 +313,28 @@ export default function AIAsciiCanvas({ theme = "light" }: AIAsciiCanvasProps) {
         if (frag.energy > 0.005) {
           frag.energy *= 0.978;
 
-          // Glyph transition throttled to 120ms
+          // Glyph transition throttled to 120ms with localized, sparse character scrambling
           if (now - frag.lastGlyphChange > 120) {
             frag.lastGlyphChange = now;
             for (let l = 0; l < frag.lines.length; l++) {
               const line = frag.lines[l];
+              const lineY = frag.y + l * frag.lineHeight;
+              const charWidth = line.origText.length > 0 ? frag.totalWidth / line.origText.length : 12;
+
               for (let c = 0; c < line.displayChars.length; c++) {
-                if (Math.random() < frag.energy * 0.45) {
-                  line.displayChars[c] =
-                    ASCII_POOL[Math.floor(Math.random() * ASCII_POOL.length)];
-                } else if (Math.random() < 0.25) {
+                const charX = frag.x + c * charWidth;
+                const charDist = Math.hypot(charX - mouse.x, lineY - mouse.y);
+
+                // Only scramble a few characters very close to the cursor point
+                if (mouse.active && charDist < hoverRadius) {
+                  const localIntensity = 1 - charDist / hoverRadius;
+                  if (Math.random() < localIntensity * 0.35) {
+                    line.displayChars[c] =
+                      ASCII_POOL[Math.floor(Math.random() * ASCII_POOL.length)];
+                  } else if (Math.random() < 0.4) {
+                    line.displayChars[c] = line.origText[c];
+                  }
+                } else if (Math.random() < 0.3) {
                   line.displayChars[c] = line.origText[c];
                 }
               }
