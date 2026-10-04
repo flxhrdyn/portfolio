@@ -291,75 +291,69 @@ export default function AIAsciiCanvas({ theme = "light" }: AIAsciiCanvasProps) {
       const rgb = isDark ? "255, 255, 255" : "0, 0, 0";
       ctx.textBaseline = "top";
 
-      // Tight, focused hover radius: only scramble characters in close proximity to cursor
-      const hoverRadius = 75;
+      // Balanced medium circular hover radius (90px perfect 2D radial circle)
+      const hoverRadius = 90;
 
       for (let i = 0; i < fragments.length; i++) {
         const frag = fragments[i];
 
-        // Distance from cursor to fragment bounding box
-        const clampedX = Math.max(frag.x, Math.min(mouse.x, frag.x + frag.totalWidth));
-        const clampedY = Math.max(frag.y, Math.min(mouse.y, frag.y + frag.totalHeight));
-        const dx = clampedX - mouse.x;
-        const dy = clampedY - mouse.y;
-        const dist = Math.hypot(dx, dy);
-
-        if (mouse.active && dist < hoverRadius) {
-          const targetEnergy = Math.pow(1 - dist / hoverRadius, 1.2);
-          frag.energy = Math.max(frag.energy, targetEnergy);
-        }
-
-        // Slow, gradual decay
-        if (frag.energy > 0.005) {
-          frag.energy *= 0.978;
-
-          // Glyph transition throttled to 120ms with localized, sparse character scrambling
-          if (now - frag.lastGlyphChange > 120) {
-            frag.lastGlyphChange = now;
-            for (let l = 0; l < frag.lines.length; l++) {
-              const line = frag.lines[l];
-              const lineY = frag.y + l * frag.lineHeight;
-              const charWidth = line.origText.length > 0 ? frag.totalWidth / line.origText.length : 12;
-
-              for (let c = 0; c < line.displayChars.length; c++) {
-                const charX = frag.x + c * charWidth;
-                const charDist = Math.hypot(charX - mouse.x, lineY - mouse.y);
-
-                // Only scramble a few characters very close to the cursor point
-                if (mouse.active && charDist < hoverRadius) {
-                  const localIntensity = 1 - charDist / hoverRadius;
-                  if (Math.random() < localIntensity * 0.35) {
-                    line.displayChars[c] =
-                      ASCII_POOL[Math.floor(Math.random() * ASCII_POOL.length)];
-                  } else if (Math.random() < 0.4) {
-                    line.displayChars[c] = line.origText[c];
-                  }
-                } else if (Math.random() < 0.3) {
-                  line.displayChars[c] = line.origText[c];
-                }
-              }
-            }
-          }
-        } else {
-          frag.energy = 0;
-          for (let l = 0; l < frag.lines.length; l++) {
-            const line = frag.lines[l];
-            for (let c = 0; c < line.displayChars.length; c++) {
-              line.displayChars[c] = line.origText[c];
-            }
-          }
-        }
-
-        // Restrained subtle opacity: low base with soft, gentle lift on hover
-        const alpha = baseAlpha * frag.alphaMult + frag.energy * (isDark ? 0.24 : 0.20);
-        ctx.fillStyle = `rgba(${rgb}, ${alpha})`;
         ctx.font = `${frag.fontSize}px ${MONO_FONT_FAMILY}`;
+        const baseLineAlpha = baseAlpha * frag.alphaMult;
+        const shouldMutateGlyphs = now - frag.lastGlyphChange > 120;
+        if (shouldMutateGlyphs) {
+          frag.lastGlyphChange = now;
+        }
 
-        // Render multi-line block cleanly
         for (let l = 0; l < frag.lines.length; l++) {
           const line = frag.lines[l];
           const lineY = frag.y + l * frag.lineHeight;
-          ctx.fillText(line.displayChars.join(""), frag.x, lineY);
+          const lineCenterY = lineY + frag.lineHeight * 0.45;
+
+          // Closest distance from mouse pointer to this horizontal line segment
+          const clampedLineX = Math.max(frag.x, Math.min(mouse.x, frag.x + frag.totalWidth));
+          const lineDist = Math.hypot(clampedLineX - mouse.x, lineCenterY - mouse.y);
+
+          // If line intersects the 2D circular mouse radius, compute true radial scramble and highlight
+          if (mouse.active && lineDist < hoverRadius) {
+            const charWidth = line.origText.length > 0 ? frag.totalWidth / line.origText.length : 10;
+
+            for (let c = 0; c < line.displayChars.length; c++) {
+              const charX = frag.x + c * charWidth;
+              const charCenterX = charX + charWidth * 0.5;
+              // True Euclidean 2D radial distance (creates a circular lens around cursor)
+              const charDist = Math.hypot(charCenterX - mouse.x, lineCenterY - mouse.y);
+
+              if (charDist < hoverRadius) {
+                const intensity = Math.pow(1 - charDist / hoverRadius, 1.25);
+
+                // Organic glyph scramble within the circular lens throttled at calm 120ms interval
+                if (shouldMutateGlyphs) {
+                  if (Math.random() < intensity * 0.42) {
+                    line.displayChars[c] =
+                      ASCII_POOL[Math.floor(Math.random() * ASCII_POOL.length)];
+                  } else if (Math.random() < 0.28) {
+                    line.displayChars[c] = line.origText[c];
+                  }
+                }
+
+                // Smooth circular highlight
+                const charAlpha = baseLineAlpha + intensity * (isDark ? 0.22 : 0.18);
+                ctx.fillStyle = `rgba(${rgb}, ${charAlpha})`;
+                ctx.fillText(line.displayChars[c], charX, lineY);
+              } else {
+                line.displayChars[c] = line.origText[c];
+                ctx.fillStyle = `rgba(${rgb}, ${baseLineAlpha})`;
+                ctx.fillText(line.displayChars[c], charX, lineY);
+              }
+            }
+          } else {
+            // Outside circle: restore original text if previously modified, render single line pass
+            for (let c = 0; c < line.displayChars.length; c++) {
+              line.displayChars[c] = line.origText[c];
+            }
+            ctx.fillStyle = `rgba(${rgb}, ${baseLineAlpha})`;
+            ctx.fillText(line.origText, frag.x, lineY);
+          }
         }
       }
 
