@@ -9,7 +9,7 @@
   },
   {
     "category": "Languages & Backend",
-    "items": ["Python", "SQL", "TypeScript", "FastAPI", "Pandas", "NumPy", "REST APIs", "React", "Git & GitHub"]
+    "items": ["Python", "SQL", "TypeScript", "FastAPI", "Pandas", "NumPy", "Next.js", "React", "Git & GitHub"]
   },
   {
     "category": "Cloud & MLOps",

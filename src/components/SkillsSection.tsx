@@ -65,7 +65,32 @@ const languageItemVariants: Variants = scrollVariants({
 const pad = (n: number) => String(n).padStart(2, "0");
 
 function SkillIcon({ name }: { name: string }) {
-  const icon = TECH_ICONS[getSkillIconKey(name)] || TECH_ICONS.neural;
+  const iconKey = getSkillIconKey(name);
+  if (iconKey === "nextjs") {
+    return (
+      <svg className="skill-row-icon" viewBox="3.5 4 16 16" fill="none" aria-hidden="true">
+        <path
+          d="M7.04 5 18.2 19.38c-.24.21-.5.42-.76.62h-.86L6.62 7.14V15H4.94V5h2.1Z"
+          fill="url(#next-diag-grad)"
+        />
+        <path
+          d="M15.08 5H13.4v10h1.67V5Z"
+          fill="url(#next-stem-grad)"
+        />
+        <defs>
+          <linearGradient id="next-diag-grad" x1="12.58" x2="17.51" y1="13.68" y2="19.79" gradientUnits="userSpaceOnUse">
+            <stop stopColor="currentColor" />
+            <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+          </linearGradient>
+          <linearGradient id="next-stem-grad" x1="14.24" x2="14.22" y1="5" y2="12.34" gradientUnits="userSpaceOnUse">
+            <stop stopColor="currentColor" />
+            <stop offset="1" stopColor="currentColor" stopOpacity="0" />
+          </linearGradient>
+        </defs>
+      </svg>
+    );
+  }
+  const icon = TECH_ICONS[iconKey] || TECH_ICONS.neural;
   return (
     <svg className="skill-row-icon" viewBox={icon.viewBox} fill="currentColor" aria-hidden="true">
       <path d={icon.path} fillRule={icon.fillRule ?? "evenodd"} clipRule={icon.fillRule ?? "evenodd"} />
