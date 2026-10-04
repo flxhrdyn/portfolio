@@ -5188,7 +5188,8 @@
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  text-decoration: none;
+  min-height: 44px;
+  text-decoration: none !important;
   color: var(--text-primary);
 }
 
@@ -5219,6 +5220,7 @@
   background: none;
   border: none;
   padding: 0;
+  min-height: 44px;
   color: var(--text-primary);
   cursor: pointer;
   font-family: inherit;
@@ -5330,6 +5332,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
+  min-height: 44px;
   font-family: var(--font-sans);
   font-size: 1.15rem;
   font-weight: 600;
