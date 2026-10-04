@@ -9,25 +9,57 @@ import { TECH_ICONS, getSkillIconKey } from "./techStackIcons";
 import WordReveal from "./WordReveal";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
-// Column rules draw top to bottom; that is the section's one standout motion, text only fades.
+const SKILL_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
+
 const tableVariants: Variants = scrollVariants({
   hidden: {},
-  show: { transition: { staggerChildren: 0.12 } },
+  show: { transition: { staggerChildren: 0.1 } },
 });
 
 const columnVariants: Variants = scrollVariants({
   hidden: {},
-  show: {},
+  show: { transition: { staggerChildren: 0.05, delayChildren: 0.1 } },
 });
 
-const ruleVariants: Variants = scrollVariants({
+// Vertical column dividers scale from top to bottom
+const columnRuleVariants: Variants = scrollVariants({
   hidden: { scaleY: 0 },
-  show: { scaleY: 1, transition: { duration: 0.9, ease: EASE_OUT } },
+  show: { scaleY: 1, transition: { duration: 0.85, ease: SKILL_EASE } },
 });
 
-const contentVariants: Variants = scrollVariants({
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT, delay: 0.2 } },
+const columnTitleVariants: Variants = scrollVariants({
+  hidden: { opacity: 0, y: 6 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: SKILL_EASE } },
+});
+
+const rowVariants: Variants = scrollVariants({
+  hidden: {},
+  show: { transition: { staggerChildren: 0.05 } },
+});
+
+const rowRuleVariants: Variants = scrollVariants({
+  hidden: { scaleX: 0 },
+  show: { scaleX: 1, transition: { duration: 0.65, ease: SKILL_EASE } },
+});
+
+const rowContentVariants: Variants = scrollVariants({
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: SKILL_EASE } },
+});
+
+const languagesContainerVariants: Variants = scrollVariants({
+  hidden: {},
+  show: { transition: { staggerChildren: 0.04, delayChildren: 0.1 } },
+});
+
+const languagesRuleVariants: Variants = scrollVariants({
+  hidden: { scaleX: 0 },
+  show: { scaleX: 1, transition: { duration: 0.8, ease: SKILL_EASE } },
+});
+
+const languageItemVariants: Variants = scrollVariants({
+  hidden: { opacity: 0, y: 4 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: SKILL_EASE } },
 });
 
 const pad = (n: number) => String(n).padStart(2, "0");
@@ -69,33 +101,43 @@ export default function SkillsSection() {
               className="skill-col"
               variants={columnVariants}
             >
-              <m.span className="skill-col-rule" aria-hidden="true" variants={ruleVariants} />
-              <m.div variants={contentVariants}>
-                <h3 className="skill-col-title">
+              <m.span className="skill-col-rule" aria-hidden="true" variants={reduceMotion ? undefined : columnRuleVariants} />
+              <div>
+                <m.h3 className="skill-col-title" variants={reduceMotion ? undefined : columnTitleVariants}>
                   {group.category}
                   <span className="skill-col-count">{pad(group.items.length)}</span>
-                </h3>
+                </m.h3>
                 <ol className="skill-col-list">
                   {group.items.map((item, i) => (
-                    <li key={item} className="skill-row">
-                      <span className="skill-row-num">{pad(i + 1)}</span>
-                      <SkillIcon name={item} />
-                      <span className="skill-row-name">{item}</span>
-                    </li>
+                    <m.li key={item} className="skill-row" variants={reduceMotion ? undefined : rowVariants}>
+                      <m.span className="skill-row-rule" aria-hidden="true" variants={reduceMotion ? undefined : rowRuleVariants} />
+                      <m.span className="skill-row-num" variants={reduceMotion ? undefined : rowContentVariants}>{pad(i + 1)}</m.span>
+                      <m.span style={{ display: "inline-flex", alignItems: "center" }} variants={reduceMotion ? undefined : rowContentVariants}>
+                        <SkillIcon name={item} />
+                      </m.span>
+                      <m.span className="skill-row-name" variants={reduceMotion ? undefined : rowContentVariants}>{item}</m.span>
+                    </m.li>
                   ))}
                 </ol>
-              </m.div>
+              </div>
             </m.div>
           ))}
         </m.div>
 
         {languageGroup && (
-          <p className="skill-languages">
-            <span className="skill-languages-label">Languages</span>
+          <m.div
+            className="skill-languages"
+            initial={reduceMotion ? false : "hidden"}
+            whileInView="show"
+            viewport={VIEWPORT}
+            variants={languagesContainerVariants}
+          >
+            <m.span className="skill-languages-rule" aria-hidden="true" variants={reduceMotion ? undefined : languagesRuleVariants} />
+            <m.span className="skill-languages-label" variants={reduceMotion ? undefined : languageItemVariants}>Languages</m.span>
             {languageGroup.items.map((item) => (
-              <span key={item}>{item}</span>
+              <m.span key={item} variants={reduceMotion ? undefined : languageItemVariants}>{item}</m.span>
             ))}
-          </p>
+          </m.div>
         )}
       </div>
     </section>
