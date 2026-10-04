@@ -29,9 +29,9 @@ const QUICK_CHIPS = [
     answer:
       "Felix Windriyareksa Hardyan is an AI/ML Engineer and BNSP-certified Data Scientist based in " +
       "Jakarta, Indonesia, focused on Generative AI, RAG, LLM fine-tuning, NLP, and Computer Vision. " +
-      "He currently works as an IT Intern (ML & Data Science) at PT Astra Visteon Indonesia and " +
-      "part-time AI Engineer at HPC Universitas Gunadarma, building production-ready AI systems " +
-      "end-to-end. Learn more [about Felix](/portfolio#about).",
+      "He currently works as a Data Analyst Intern at PT Tunas Ridean Tbk (Tunas Group) and as a " +
+      "part-time AI Engineer at HPC Universitas Gunadarma. Previously, he worked at PT Astra Visteon " +
+      "Indonesia, building predictive maintenance systems. Learn more [about Felix](/portfolio#about).",
     sources: ["about.md", "cv.md", "experience.md"],
   },
   {
@@ -49,10 +49,11 @@ const QUICK_CHIPS = [
     label: "Experience",
     query: "What is his work experience?",
     answer:
-      "Felix is an IT Intern (ML & Data Science) at PT Astra Visteon Indonesia, building predictive " +
-      "maintenance systems, and a part-time AI Engineer at HPC Universitas Gunadarma, fine-tuning " +
-      "LLMs and building RAG chatbot infrastructure. He has also taught AI/ML as an International AI " +
-      "Summer Course Instructor and Data Science Instructor, mentoring 200+ learners. See " +
+      "Felix is currently a Data Analyst Intern at PT Tunas Ridean Tbk (Tunas Group) and a part-time " +
+      "AI Engineer at HPC Universitas Gunadarma. Previously, he was a Data Scientist Intern at PT " +
+      "Astra Visteon Indonesia, where he built predictive maintenance systems. He has also taught " +
+      "AI/ML as an International AI Summer Course Instructor and Data Science Instructor, mentoring " +
+      "200+ learners. See " +
       "[his experience](/portfolio#experience).",
     sources: ["experience.md", "cv.md"],
   },
@@ -518,7 +519,6 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
                     {QUICK_CHIPS.map((chip) => (
                       <li key={chip.label}>
                         <button type="button" className="chat-suggestion" onClick={() => sendChip(chip)}>
-                          <span className="chat-suggestion-topic">{chip.label === chip.query ? "About" : chip.label}</span>
                           <span className="chat-suggestion-query">{chip.query}</span>
                           <span className="chat-suggestion-arrow" aria-hidden="true">&rarr;</span>
                         </button>

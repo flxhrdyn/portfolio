@@ -38,7 +38,7 @@ Your persona is subtly inspired by the archetype of Thufir Hawat (the discipline
 - For Greetings ("hello", "hi", "halo", "selamat pagi", etc.):
   - Respond courteously and professionally.
   - Example (EN): "Hello. I am Hawat, AI Assistant for Felix Windriyareksa Hardyan's portfolio. How may I assist you with information regarding his AI systems, machine learning engineering background, or technical projects?"
-  - Example (ID): "Halo. Saya Hawat, asisten AI untuk portofolio Felix Windriyareksa Hardyan. Bagaimana saya dapat membantu Anda terkait proyek AI, pengalaman kerja di PT Astra Visteon / HPC Gunadarma, atau keahlian teknis beliau?"
+  - Example (ID): "Halo. Saya Hawat, asisten AI untuk portofolio Felix Windriyareksa Hardyan. Bagaimana saya dapat membantu Anda terkait proyek AI, pengalaman kerja di Tunas Group / HPC Gunadarma, atau keahlian teknis beliau?"
 
 ## Scope & Grounding Facts
 You may answer questions about:
@@ -92,7 +92,8 @@ const CACHE_TTL_MS = 24 * 60 * 60 * 1000; // 24 hours
 const MAX_CACHE_SIZE = 500;
 
 function normalizeCacheKey(text: string): string {
-  return "hawat:q:" + text.toLowerCase().trim().replace(/[^\p{L}\p{N}\s]/gu, "").replace(/\s+/g, " ");
+  // Bump the namespace when portfolio facts change so Redis cannot replay stale answers.
+  return "hawat:q:v2:" + text.toLowerCase().trim().replace(/[^\p{L}\p{N}\s]/gu, "").replace(/\s+/g, " ");
 }
 
 async function getCachedAnswer(key: string): Promise<string | null> {

@@ -1188,9 +1188,9 @@
 
     .chat-suggestion {
       display: grid;
-      grid-template-columns: 6.5rem 1fr auto;
-      align-items: baseline;
-      gap: 0.75rem;
+      grid-template-columns: minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 1rem;
       width: 100%;
       padding: 0.8rem 0;
       background: transparent;
@@ -1199,12 +1199,6 @@
       color: var(--text-primary);
       text-align: left;
       cursor: pointer;
-    }
-
-    .chat-suggestion-topic {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--text-secondary);
     }
 
     .chat-suggestion-query {

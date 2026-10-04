@@ -3,14 +3,14 @@ import hashlib
 from upstash_redis import Redis
 
 _redis = Redis.from_env()
-CACHE_TTL_SECONDS = 6 * 60 * 60  # 6h - long enough to absorb repeat chip clicks, short enough
-# that content edits in context/*.md show up the same day.
+CACHE_TTL_SECONDS = 6 * 60 * 60  # 6h; bump the key namespace when portfolio context changes.
 
 
 def _cache_key(message: str) -> str:
     normalized = message.strip().lower()
     digest = hashlib.sha256(normalized.encode("utf-8")).hexdigest()
-    return f"chat:response:{digest}"
+    # Keep old cached responses from surviving an update to the portfolio facts.
+    return f"chat:response:v2:{digest}"
 
 
 def get_cached_response(message: str, history: list[dict]) -> str | None:
