@@ -10,20 +10,20 @@ import Reveal from "./Reveal";
 import WordReveal from "./WordReveal";
 import { EASE_OUT, VIEWPORT } from "@/lib/motion";
 
-const listVariants: Variants = scrollVariants({
+const rowVariants: Variants = scrollVariants({
   hidden: {},
-  show: { transition: { staggerChildren: 0.12 } },
+  show: { transition: { staggerChildren: 0.1 } },
 });
 
 // Each row's top rule draws across first, then the row's text unmasks in sync like an inked ledger entry.
 const ruleVariants: Variants = scrollVariants({
   hidden: { scaleX: 0 },
-  show: { scaleX: 1, transition: { duration: 0.85, ease: EASE_OUT } },
+  show: { scaleX: 1, transition: { duration: 0.85, ease: [0.22, 1, 0.36, 1] } },
 });
 
 const textVariants: Variants = scrollVariants({
-  hidden: { opacity: 0 },
-  show: { opacity: 1, transition: { duration: 0.6, ease: EASE_OUT, delay: 0.25 } },
+  hidden: { opacity: 0, y: 12 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1], delay: 0.08 } },
 });
 
 function ExpRow({
@@ -65,7 +65,13 @@ function ExpRow({
   );
 
   return (
-    <m.li className="exp-row" variants={reduceMotion ? undefined : listVariants}>
+    <m.li
+      className="exp-row"
+      initial={reduceMotion ? false : "hidden"}
+      whileInView="show"
+      viewport={{ once: true, margin: "-40px" }}
+      variants={rowVariants}
+    >
       <m.span className="exp-row-rule" aria-hidden="true" variants={reduceMotion ? undefined : ruleVariants} />
       <m.div variants={reduceMotion ? undefined : textVariants}>
         {expandable ? (
@@ -78,61 +84,56 @@ function ExpRow({
           >
             {summary}
             <span className="exp-row-toggle" aria-hidden="true" data-open={open}>
-              +
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 12 12"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                className="exp-row-toggle-icon"
+              >
+                <line x1="6" y1="1.5" x2="6" y2="10.5" />
+                <line x1="1.5" y1="6" x2="10.5" y2="6" />
+              </svg>
             </span>
           </button>
         ) : (
           <div className="exp-row-head exp-row-head-static">{summary}</div>
         )}
 
-        <AnimatePresence initial={false}>
-          {open && (
-            <m.div
-              id={panelId}
-              className="exp-row-panel"
-              initial={reduceMotion ? false : { height: 0 }}
-              animate={{ height: "auto" }}
-              exit={reduceMotion ? undefined : { height: 0 }}
-              transition={reduceMotion ? { duration: 0 } : { duration: 0.4, ease: EASE_OUT }}
-            >
-              <m.span
-                className="exp-row-panel-rule"
-                aria-hidden="true"
-                initial={reduceMotion ? false : { scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={reduceMotion ? { duration: 0 } : { duration: 0.2, ease: EASE_OUT }}
-              />
-              <m.ul
-                className="exp-row-details"
-                initial={reduceMotion ? false : { opacity: 0 }}
-                animate={{ opacity: 1, transition: { duration: 0.25, delay: reduceMotion ? 0 : 0.2, ease: EASE_OUT } }}
-                exit={reduceMotion ? undefined : { opacity: 0, transition: { duration: 0.12 } }}
-              >
-                {details.map((d) => <li key={d}>{d}</li>)}
-              </m.ul>
-            </m.div>
-          )}
-        </AnimatePresence>
+        {expandable && (
+          <div
+            id={panelId}
+            className="exp-row-panel"
+            data-open={open}
+            aria-hidden={!open}
+          >
+            <div className="exp-row-panel-inner">
+              <span className="exp-row-panel-rule" aria-hidden="true" />
+              <ul className="exp-row-details">
+                {details.map((d) => (
+                  <li key={d}>{d}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        )}
       </m.div>
     </m.li>
   );
 }
 
 function ExpGroup({ label, children }: { label: string; children: React.ReactNode }) {
-  const reduceMotion = useReducedMotion();
-
   return (
     <div className="exp-group">
-      <p className="subsection-title">{label}</p>
-      <m.ul
-        className="exp-rows"
-        initial={reduceMotion ? false : "hidden"}
-        whileInView="show"
-        viewport={VIEWPORT}
-        variants={listVariants}
-      >
+      <Reveal delay={0.06}>
+        <p className="subsection-title">{label}</p>
+      </Reveal>
+      <ul className="exp-rows">
         {children}
-      </m.ul>
+      </ul>
     </div>
   );
 }

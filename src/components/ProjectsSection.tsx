@@ -47,30 +47,37 @@ const projectRuleVariants: Variants = scrollVariants({
   },
 });
 
-const featureBodyVariants: Variants = scrollVariants({
-  hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
-});
-
-const projectTextVariants: Variants = scrollVariants({
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08, delayChildren: 0.12 } },
-});
+// Text observes its own viewport, including featured copy below a large image.
+const projectTextVariants: Variants = { hidden: {}, show: {} };
 
 const projectCopyVariants: Variants = scrollVariants({
   hidden: { opacity: 0, y: 6 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: PROJECT_EASE } },
+  show: (stage: number = 0) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, delay: stage * 0.14, ease: PROJECT_EASE },
+  }),
 });
 
-const projectTitleVariants: Variants = scrollVariants({
-  hidden: {},
-  show: { transition: { staggerChildren: 0.035 } },
-});
-
+const projectTitleVariants: Variants = { hidden: {}, show: {} };
 const projectTitleWordVariants: Variants = scrollVariants({
   hidden: { y: "105%" },
-  show: { y: "0%", transition: { duration: 0.55, ease: PROJECT_EASE } },
+  show: (index: number = 0) => ({
+    y: "0%",
+    transition: { duration: 0.65, delay: 0.08 + Math.min(index * 0.025, 0.18), ease: PROJECT_EASE },
+  }),
 });
+
+function ProjectText({ children, className }: { children: React.ReactNode; className: string }) {
+  const reduceMotion = useReducedMotion();
+  return (
+    <m.div className={className} inherit={false}
+      initial={reduceMotion ? false : "hidden"} whileInView="show" viewport={VIEWPORT}
+      variants={projectTextVariants}>
+      {children}
+    </m.div>
+  );
+}
 
 function ProjectTitle({ title, className }: { title: string; className: string }) {
   const reduceMotion = useReducedMotion();
@@ -81,7 +88,7 @@ function ProjectTitle({ title, className }: { title: string; className: string }
       <span aria-hidden="true">
         {title.split(" ").map((word, index, words) => (
           <span key={index} style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom", padding: "0.08em 0.06em 0.16em", margin: "-0.08em -0.06em -0.16em" }}>
-            <m.span variants={projectTitleWordVariants} style={{ display: "inline-block", whiteSpace: "pre" }}>
+            <m.span custom={index} variants={projectTitleWordVariants} style={{ display: "inline-block", whiteSpace: "pre" }}>
               {word}{index < words.length - 1 ? " " : ""}
             </m.span>
           </span>
@@ -163,7 +170,7 @@ interface ProjectsSectionProps {
 function ProjectLinks({ project, onOpen }: { project: { repo: string }; onOpen: () => void }) {
   const reduceMotion = useReducedMotion();
   return (
-    <m.div className="project-links" variants={reduceMotion ? undefined : projectCopyVariants}>
+    <m.div className="project-links" custom={2} variants={reduceMotion ? undefined : projectCopyVariants}>
       <button type="button" className="project-link" onClick={onOpen}>
         <span>Case study</span>
         <span className="link-arrow" aria-hidden="true">&rarr;</span>
@@ -210,19 +217,16 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
             >
               <ProjectThumbnail src={featuredProject.image} alt={featuredProject.imageAlt} variant="featured" priority />
             </MediaButton>
-            <m.div
-              className="project-feature-body"
-              variants={reduceMotion ? undefined : featureBodyVariants}
-            >
-              <m.div variants={reduceMotion ? undefined : projectTextVariants}>
+            <ProjectText className="project-feature-body">
+              <div>
                 <m.p className="project-category" variants={reduceMotion ? undefined : projectCopyVariants}>{featuredProject.tags[0]}</m.p>
                 <ProjectTitle className="project-feature-title" title={featuredProject.title} />
-              </m.div>
-              <m.div variants={reduceMotion ? undefined : projectTextVariants}>
-                <m.p className="project-summary" variants={reduceMotion ? undefined : projectCopyVariants}>{featuredProject.summary}</m.p>
+              </div>
+              <div>
+                <m.p className="project-summary" custom={1} variants={reduceMotion ? undefined : projectCopyVariants}>{featuredProject.summary}</m.p>
                 <ProjectLinks project={featuredProject} onOpen={() => setOpenSlug(featuredProject.slug)} />
-              </m.div>
-            </m.div>
+              </div>
+            </ProjectText>
           </m.article>
         )}
 
@@ -243,12 +247,12 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
               >
                 <ProjectThumbnail src={project.image} alt={project.imageAlt} />
               </MediaButton>
-              <m.div className="project-row-text" variants={reduceMotion ? undefined : projectTextVariants}>
+              <ProjectText className="project-row-text">
                 <m.p className="project-category" variants={reduceMotion ? undefined : projectCopyVariants}>{project.tags[0]}</m.p>
                 <ProjectTitle className="project-row-title" title={project.title} />
-                <m.p className="project-summary" variants={reduceMotion ? undefined : projectCopyVariants}>{project.summary}</m.p>
+                <m.p className="project-summary" custom={1} variants={reduceMotion ? undefined : projectCopyVariants}>{project.summary}</m.p>
                 <ProjectLinks project={project} onOpen={() => setOpenSlug(project.slug)} />
-              </m.div>
+              </ProjectText>
               <m.span className="project-motion-rule" variants={reduceMotion ? undefined : projectRuleVariants} />
             </m.li>
           ))}

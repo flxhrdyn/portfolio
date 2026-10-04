@@ -37,3 +37,7 @@ readme-flx.md
 # Chatbot grounding files are runtime content for backend/app/tools.py.
 !context/
 !context/*.md
+
+# local agent tooling output
+.playwright-mcp/
+.superpowers/
