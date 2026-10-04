@@ -5140,9 +5140,10 @@
 .contact-build-foundation { position: absolute; left: 0; right: 0.12em; bottom: -0.045em; height: 1px; background: currentColor; transform-origin: left; pointer-events: none; }
 
 /* =========================================================================
-   404 NOT FOUND (EDITORIAL AGENCY MINIMALIST CANVAS)
+   404 NOT FOUND (EDITORIAL AGENCY CANVAS WITH HOVER ASCII DECODE)
    ========================================================================= */
 .notfound-canvas {
+  position: relative;
   height: 100vh;
   height: 100dvh;
   background-color: var(--bg-primary);
@@ -5151,11 +5152,23 @@
   overflow: hidden;
 }
 
-.notfound-container {
+/* BACKGROUND: STATIC AI & DEEP LEARNING CODE WITH INTERACTIVE HOVER DECODE */
+.notfound-ascii-canvas {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  max-width: 1100px;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.notfound-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1.75rem 2rem;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -5167,7 +5180,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 1.5rem;
+  padding-bottom: 1.25rem;
   border-bottom: 1px solid var(--border-color);
 }
 
@@ -5194,10 +5207,18 @@
 .notfound-header-meta {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 1.25rem;
   font-family: var(--font-mono);
   font-size: 0.78rem;
   color: var(--text-secondary);
+}
+
+.notfound-telemetry-badge {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.05em;
+  opacity: 0.6;
 }
 
 .notfound-theme-btn {
@@ -5233,104 +5254,114 @@
   text-align: left;
 }
 
-/* BOLD EDITORIAL HERO STAGE */
-.notfound-bold-stage {
+/* 2xA STUDIO DECONSTRUCTED ASYMMETRICAL SCATTER STAGE */
+.notfound-scatter-stage {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  grid-template-rows: auto auto;
+  align-items: center;
+  gap: clamp(1.25rem, 3vw, 3rem);
+  flex: 1;
+  padding: 1.25rem 0;
+}
+
+.notfound-scatter-word {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  flex: 1;
-  padding: 0.5rem 0;
 }
 
-.notfound-bold-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  align-items: center;
-  gap: clamp(2rem, 5vw, 5rem);
+.notfound-scatter-page {
+  grid-column: 2;
+  grid-row: 1;
+  align-items: flex-end;
+  text-align: right;
 }
 
-.notfound-num-block {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+.notfound-scatter-404 {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
 }
 
-.notfound-giant-num {
+.notfound-scatter-not {
+  grid-column: 1;
+  grid-row: 2;
+  align-self: flex-start;
+  margin-top: -0.75rem;
+}
+
+.notfound-scatter-found {
+  grid-column: 2;
+  grid-row: 2;
+  align-items: flex-end;
+  text-align: right;
+  gap: 1.25rem;
+}
+
+.notfound-mega-glyph {
   font-family: var(--font-sans);
-  font-size: clamp(10rem, 26vw, 22rem);
   font-weight: 800;
-  letter-spacing: -0.08em;
-  line-height: 0.78;
+  letter-spacing: -0.065em;
+  line-height: 0.82;
   color: var(--text-primary);
   user-select: none;
 }
 
-.notfound-content-block {
+.notfound-scatter-404 .notfound-mega-glyph {
+  font-size: clamp(7.5rem, 19vw, 15rem);
+  letter-spacing: -0.075em;
+}
+
+.notfound-scatter-page .notfound-mega-glyph,
+.notfound-scatter-not .notfound-mega-glyph,
+.notfound-scatter-found .notfound-mega-glyph {
+  font-size: clamp(5rem, 13vw, 10.5rem);
+}
+
+.notfound-scatter-action {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
+  gap: 0.75rem;
+  max-width: 32ch;
 }
 
-.notfound-badge {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  color: var(--text-secondary);
-  margin-bottom: 1.25rem;
-}
-
-.notfound-bold-title {
+.notfound-scatter-desc {
   font-family: var(--font-sans);
-  font-size: clamp(2.75rem, 6vw, 5rem);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 0.95;
-  color: var(--text-primary);
-  margin: 0 0 1.25rem 0;
-}
-
-.notfound-bold-desc {
-  font-family: var(--font-sans);
-  font-size: clamp(1rem, 1.25vw, 1.2rem);
+  font-size: 0.95rem;
   color: var(--text-secondary);
-  line-height: 1.5;
-  max-width: 36ch;
-  margin: 0 0 2rem 0;
+  line-height: 1.45;
+  margin: 0;
 }
 
-.notfound-action-wrap {
-  display: flex;
-  align-items: center;
-}
-
-.notfound-home-link {
+.notfound-scatter-link {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.65rem;
   font-family: var(--font-sans);
-  font-size: clamp(1.15rem, 1.6vw, 1.45rem);
+  font-size: 1.15rem;
   font-weight: 600;
   color: var(--text-primary);
   text-decoration: none;
-  padding-bottom: 0.35rem;
+  padding-bottom: 0.25rem;
   border-bottom: 1.5px solid currentColor;
   transition: color 180ms ease, border-color 180ms ease;
 }
 
-.notfound-home-link:hover {
+.notfound-scatter-link:hover {
   color: var(--text-secondary);
   border-color: var(--text-secondary);
 }
 
-.notfound-home-arrow {
+.notfound-scatter-arrow {
   display: inline-block;
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   transition: transform 220ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.notfound-home-link:hover .notfound-home-arrow {
-  transform: translateX(6px);
+.notfound-scatter-link:hover .notfound-scatter-arrow {
+  transform: translateX(5px);
 }
 
 /* MINIMAL FOOTER */
@@ -5347,46 +5378,71 @@
 }
 
 @media (max-width: 768px) {
-  .notfound-bold-grid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-  .notfound-giant-num {
-    font-size: clamp(6.5rem, 26vw, 9.5rem);
-    line-height: 0.85;
-  }
-  .notfound-bold-title {
-    font-size: clamp(2.25rem, 9vw, 3.25rem);
-    margin: 0 0 0.75rem 0;
-  }
-  .notfound-bold-desc {
-    font-size: 0.95rem;
-    margin: 0 0 1.25rem 0;
-  }
-}
-
-@media (max-width: 640px) {
   .notfound-container {
     padding: 1.25rem 1.25rem;
   }
-  .notfound-giant-num {
-    font-size: clamp(5.5rem, 24vw, 7.5rem);
-    margin-bottom: 0.5rem;
+  .notfound-telemetry-badge {
+    display: none;
   }
-  .notfound-bold-title {
-    font-size: clamp(2rem, 8.5vw, 2.75rem);
-    margin: 0 0 0.75rem 0;
+  .notfound-scatter-stage {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.35rem;
+    padding: 0.5rem 0;
   }
-  .notfound-bold-desc {
-    font-size: 0.9rem;
-    margin: 0 0 1.5rem 0;
+  .notfound-scatter-word {
+    display: flex;
+    flex-direction: column;
+  }
+  .notfound-scatter-404 {
+    align-items: flex-start;
+  }
+  .notfound-scatter-page {
+    align-items: flex-end;
+    text-align: right;
+  }
+  .notfound-scatter-not {
+    align-items: flex-start;
+    margin-top: 0;
+  }
+  .notfound-scatter-found {
+    align-items: flex-end;
+    text-align: right;
+    gap: 0.75rem;
+  }
+  .notfound-scatter-action {
+    align-items: flex-end;
+    text-align: right;
+    margin-top: 0.35rem;
+  }
+  .notfound-scatter-404 .notfound-mega-glyph {
+    font-size: clamp(3.75rem, 16vw, 5.5rem);
+    line-height: 0.82;
+  }
+  .notfound-scatter-page .notfound-mega-glyph,
+  .notfound-scatter-not .notfound-mega-glyph,
+  .notfound-scatter-found .notfound-mega-glyph {
+    font-size: clamp(2.5rem, 11vw, 3.75rem);
+    line-height: 0.82;
+  }
+  .notfound-scatter-desc {
+    font-size: 0.85rem;
+  }
+  .notfound-scatter-link {
+    font-size: 0.95rem;
   }
   .notfound-footer {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     gap: 0.5rem;
-    font-size: 0.7rem;
-    padding-top: 1rem;
+    font-size: 0.62rem;
+    letter-spacing: -0.01em;
+    padding-top: 0.85rem;
+  }
+  .notfound-footer-copy,
+  .notfound-footer-status {
+    white-space: nowrap;
   }
 }

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { m, useReducedMotion } from "motion/react";
+import AIAsciiCanvas from "@/components/AIAsciiCanvas";
 
 export default function NotFound() {
   const [theme, setTheme] = useState<"light" | "dark">("light");
@@ -11,6 +12,7 @@ export default function NotFound() {
 
   useEffect(() => {
     const current = document.documentElement.getAttribute("data-theme");
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setTheme(current === "dark" ? "dark" : "light");
 
     const updateTime = () => {
@@ -40,8 +42,11 @@ export default function NotFound() {
 
   return (
     <div className="notfound-canvas">
-      <div className="container notfound-container">
-        {/* HEADER */}
+      {/* STATIC AI CODE BACKGROUND WITH HOVER ASCII-ART DECODE EFFECT */}
+      <AIAsciiCanvas theme={theme} />
+
+      <div className="notfound-container">
+        {/* TOP AGENCY UTILITY HEADER */}
         <header className="notfound-header">
           <Link href="/" className="notfound-brand" aria-label="flxhrdyn home">
             <svg
@@ -72,6 +77,9 @@ export default function NotFound() {
           </Link>
 
           <div className="notfound-header-meta">
+            <span className="notfound-telemetry-badge" aria-hidden="true">
+              [ 0x404 :: NULL_VECTOR ]
+            </span>
             <button
               type="button"
               className="notfound-theme-btn"
@@ -84,47 +92,59 @@ export default function NotFound() {
           </div>
         </header>
 
-        {/* BOLD EDITORIAL HERO STAGE */}
-        <main id="main-content" className="notfound-bold-stage">
-          <div className="notfound-bold-grid">
-            {/* MONUMENTAL 404 DISPLAY */}
-            <m.div
-              className="notfound-num-block"
-              initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <span className="notfound-giant-num">404</span>
-            </m.div>
+        {/* 2xA ASYMMETRICAL DECONSTRUCTED SCATTER STAGE */}
+        <main id="main-content" className="notfound-scatter-stage">
+          {/* TOP RIGHT: 'page' */}
+          <m.div
+            className="notfound-scatter-word notfound-scatter-page"
+            initial={reduceMotion ? false : { opacity: 0, y: -24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.06, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="notfound-mega-glyph">page</span>
+          </m.div>
 
-            {/* EDITORIAL CONTENT & SINGLE DIRECT RETURN LINK */}
-            <m.div
-              className="notfound-content-block"
-              initial={reduceMotion ? false : { opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <span className="notfound-badge">[ ERROR // NOT_FOUND ]</span>
-              <h1 className="notfound-bold-title">
-                Page does
-                <br />
-                not exist.
-              </h1>
-              <p className="notfound-bold-desc">
-                The requested URL was not found on this server or has been relocated.
+          {/* CENTER LEFT: '404' (MONUMENTAL HERO ANCHOR) */}
+          <m.div
+            className="notfound-scatter-word notfound-scatter-404"
+            initial={reduceMotion ? false : { opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="notfound-mega-glyph">404</span>
+          </m.div>
+
+          {/* LOWER MID-LEFT: 'not' */}
+          <m.div
+            className="notfound-scatter-word notfound-scatter-not"
+            initial={reduceMotion ? false : { opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.65, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="notfound-mega-glyph">not</span>
+          </m.div>
+
+          {/* BOTTOM RIGHT: 'found.' + DIRECT RECOVERY LINK */}
+          <m.div
+            className="notfound-scatter-word notfound-scatter-found"
+            initial={reduceMotion ? false : { opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <span className="notfound-mega-glyph">found.</span>
+            <div className="notfound-scatter-action">
+              <p className="notfound-scatter-desc">
+                Requested coordinates unreachable in latent space.
               </p>
-
-              <div className="notfound-action-wrap">
-                <Link href="/" className="notfound-home-link">
-                  <span>Back to home</span>
-                  <span className="notfound-home-arrow" aria-hidden="true">→</span>
-                </Link>
-              </div>
-            </m.div>
-          </div>
+              <Link href="/" className="notfound-scatter-link">
+                <span>Back to home</span>
+                <span className="notfound-scatter-arrow" aria-hidden="true">→</span>
+              </Link>
+            </div>
+          </m.div>
         </main>
 
-        {/* FOOTER */}
+        {/* BOTTOM MINIMALIST FOOTER */}
         <footer className="notfound-footer">
           <span className="notfound-footer-copy">
             © {new Date().getFullYear()} FLXHRDYN • AI ENGINEER
