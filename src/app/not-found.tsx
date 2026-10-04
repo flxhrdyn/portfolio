@@ -77,9 +77,6 @@ export default function NotFound() {
           </Link>
 
           <div className="notfound-header-meta">
-            <span className="notfound-telemetry-badge" aria-hidden="true">
-              [ 0x404 :: NULL_VECTOR ]
-            </span>
             <button
               type="button"
               className="notfound-theme-btn"
@@ -137,7 +134,7 @@ export default function NotFound() {
                 Requested coordinates unreachable in latent space.
               </p>
               <Link href="/" className="notfound-scatter-link">
-                <span>Back to home</span>
+                <span className="notfound-scatter-link-text">Back to home</span>
                 <span className="notfound-scatter-arrow" aria-hidden="true">→</span>
               </Link>
             </div>

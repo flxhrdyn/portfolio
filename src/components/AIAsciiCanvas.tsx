@@ -199,15 +199,19 @@ export default function AIAsciiCanvas({ theme = "light" }: AIAsciiCanvasProps) {
 
         const totalHeight = lines.length * lineHeight;
 
-        // Controlled organic placement: sample candidate spots and reject heavy overlaps
+        // Controlled organic placement: sample candidate spots within safe bounds
+        // Keep header (top 95px) and footer (bottom 80px) zones completely clear
+        const minY = 95;
+        const maxY = Math.max(minY, cssHeight - totalHeight - 80);
+
         let bestX = Math.random() * (cssWidth + 40) - 20;
-        let bestY = Math.random() * (cssHeight + 20) - 10;
+        let bestY = minY + Math.random() * (maxY - minY);
         let minMaxOverlap = Infinity;
 
         const maxAttempts = 30;
         for (let attempt = 0; attempt < maxAttempts; attempt++) {
           const candX = Math.random() * (cssWidth + 60) - 30;
-          const candY = Math.random() * (cssHeight + 30) - 15;
+          const candY = minY + Math.random() * (maxY - minY);
 
           let worstOverlapWithPlaced = 0;
           for (let p = 0; p < fragments.length; p++) {
