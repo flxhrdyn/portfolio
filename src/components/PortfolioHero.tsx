@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { m, useReducedMotion, type Variants } from "motion/react";
 import ProfilePhoto from "./ProfilePhoto";
+import { GlyphTide } from "./ui/background-ascii-plasma";
 import { scrollToAnchor } from "@/lib/scrollToAnchor";
 import { EASE_OUT, DUR, LIST_STAGGER } from "@/lib/motion";
 
@@ -90,6 +91,7 @@ export default function PortfolioHero() {
       className="hero-wrapper portfolio-hero-wrapper"
       style={covered ? { visibility: "hidden" } : undefined}
     >
+      <GlyphTide className="hero-plasma" />
       <m.header
         className="container hero-stage"
         initial={reduceMotion ? undefined : "hidden"}
