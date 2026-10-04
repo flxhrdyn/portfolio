@@ -2,8 +2,8 @@
 
 import { scrollVariants } from "@/lib/scroll-motion";
 
-import { useState } from "react";
-import { m, useReducedMotion, type Variants } from "motion/react";
+import { useState, useRef, useEffect } from "react";
+import { m, useReducedMotion, useInView, useAnimationControls, type Variants } from "motion/react";
 import Modal from "./Modal";
 import GithubHeatmap from "./GithubHeatmap";
 import ProjectCaseStudyBody from "./ProjectCaseStudyBody";
@@ -23,9 +23,28 @@ const projectRowVariants: Variants = scrollVariants({
 
 const PROJECT_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
+// A short focus pull resolves before the image finishes settling.
 const mediaImageVariants: Variants = scrollVariants({
-  hidden: { scale: 1.035, y: 6, opacity: 0.85 },
-  show: { scale: 1, y: 0, opacity: 1, transition: { duration: 0.8, ease: PROJECT_EASE } },
+  hidden: { scale: 1.04, y: 0, opacity: 1, filter: "blur(10px)" },
+  show: {
+    scale: 1,
+    y: 0,
+    opacity: 1,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.85,
+      ease: PROJECT_EASE,
+      filter: { duration: 0.8, ease: [0.4, 0, 0.2, 1] },
+    },
+  },
+});
+
+const projectRuleVariants: Variants = scrollVariants({
+  hidden: { scaleX: 0 },
+  show: {
+    scaleX: 1,
+    transition: { duration: 0.7, ease: PROJECT_EASE, delay: 0.12 },
+  },
 });
 
 const featureBodyVariants: Variants = scrollVariants({
@@ -35,13 +54,42 @@ const featureBodyVariants: Variants = scrollVariants({
 
 const projectTextVariants: Variants = scrollVariants({
   hidden: {},
-  show: { transition: { staggerChildren: 0.07, delayChildren: 0.08 } },
+  show: { transition: { staggerChildren: 0.08, delayChildren: 0.12 } },
 });
 
 const projectCopyVariants: Variants = scrollVariants({
-  hidden: { opacity: 0.3, y: 8 },
+  hidden: { opacity: 0, y: 6 },
   show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: PROJECT_EASE } },
 });
+
+const projectTitleVariants: Variants = scrollVariants({
+  hidden: {},
+  show: { transition: { staggerChildren: 0.035 } },
+});
+
+const projectTitleWordVariants: Variants = scrollVariants({
+  hidden: { y: "105%" },
+  show: { y: "0%", transition: { duration: 0.55, ease: PROJECT_EASE } },
+});
+
+function ProjectTitle({ title, className }: { title: string; className: string }) {
+  const reduceMotion = useReducedMotion();
+  if (reduceMotion) return <h3 className={className}>{title}</h3>;
+  return (
+    <m.h3 className={className} variants={projectTitleVariants}>
+      <span className="sr-only">{title}</span>
+      <span aria-hidden="true">
+        {title.split(" ").map((word, index, words) => (
+          <span key={index} style={{ display: "inline-block", overflow: "hidden", verticalAlign: "bottom", padding: "0.08em 0.06em 0.16em", margin: "-0.08em -0.06em -0.16em" }}>
+            <m.span variants={projectTitleWordVariants} style={{ display: "inline-block", whiteSpace: "pre" }}>
+              {word}{index < words.length - 1 ? " " : ""}
+            </m.span>
+          </span>
+        ))}
+      </span>
+    </m.h3>
+  );
+}
 
 function MediaButton({ onClick, ariaLabel, className, children }: {
   onClick: () => void;
@@ -50,10 +98,50 @@ function MediaButton({ onClick, ariaLabel, className, children }: {
   children: React.ReactNode;
 }) {
   const reduceMotion = useReducedMotion();
+  const mediaRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const inView = useInView(buttonRef, VIEWPORT);
+  const controls = useAnimationControls();
+
+  useEffect(() => {
+    if (!inView || reduceMotion) return;
+    const image = mediaRef.current?.querySelector("img");
+    let cancelled = false;
+    const reveal = async () => {
+      // Start the focus transition only after the image has decoded.
+      if (image) await image.decode().catch(() => undefined);
+      if (!cancelled) void controls.start("show");
+    };
+    const onReady = () => { void reveal(); };
+    if (!image || image.complete) onReady();
+    else {
+      image.addEventListener("load", onReady, { once: true });
+      image.addEventListener("error", onReady, { once: true });
+    }
+    return () => {
+      cancelled = true;
+      image?.removeEventListener("load", onReady);
+      image?.removeEventListener("error", onReady);
+    };
+  }, [inView, reduceMotion, controls]);
   return (
-    <button type="button" className={className} onClick={onClick} aria-label={ariaLabel}
+    <button ref={buttonRef} type="button" className={className} onClick={onClick} aria-label={ariaLabel}
       style={{ overflow: "hidden", position: "relative" }}>
-      <m.div variants={reduceMotion ? undefined : mediaImageVariants}>
+      <m.div
+        ref={mediaRef}
+        inherit={false}
+        initial={reduceMotion ? false : "hidden"}
+        animate={reduceMotion ? "show" : controls}
+        variants={reduceMotion ? undefined : mediaImageVariants}
+        onAnimationStart={() => {
+          if (!reduceMotion && mediaRef.current) mediaRef.current.style.willChange = "filter, transform";
+        }}
+        onAnimationComplete={(definition) => {
+          if (definition === "show" && mediaRef.current) {
+            mediaRef.current.style.removeProperty("will-change");
+          }
+        }}
+      >
         {children}
       </m.div>
     </button>
@@ -128,7 +216,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
             >
               <m.div variants={reduceMotion ? undefined : projectTextVariants}>
                 <m.p className="project-category" variants={reduceMotion ? undefined : projectCopyVariants}>{featuredProject.tags[0]}</m.p>
-                <m.h3 className="project-feature-title" variants={reduceMotion ? undefined : projectCopyVariants}>{featuredProject.title}</m.h3>
+                <ProjectTitle className="project-feature-title" title={featuredProject.title} />
               </m.div>
               <m.div variants={reduceMotion ? undefined : projectTextVariants}>
                 <m.p className="project-summary" variants={reduceMotion ? undefined : projectCopyVariants}>{featuredProject.summary}</m.p>
@@ -157,10 +245,11 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
               </MediaButton>
               <m.div className="project-row-text" variants={reduceMotion ? undefined : projectTextVariants}>
                 <m.p className="project-category" variants={reduceMotion ? undefined : projectCopyVariants}>{project.tags[0]}</m.p>
-                <m.h3 className="project-row-title" variants={reduceMotion ? undefined : projectCopyVariants}>{project.title}</m.h3>
+                <ProjectTitle className="project-row-title" title={project.title} />
                 <m.p className="project-summary" variants={reduceMotion ? undefined : projectCopyVariants}>{project.summary}</m.p>
                 <ProjectLinks project={project} onOpen={() => setOpenSlug(project.slug)} />
               </m.div>
+              <m.span className="project-motion-rule" variants={reduceMotion ? undefined : projectRuleVariants} />
             </m.li>
           ))}
         </ul>

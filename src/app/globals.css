@@ -2311,12 +2311,24 @@
     }
 
     .project-row {
+      position: relative;
       display: grid;
       grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
       gap: clamp(1.5rem, 4vw, 3.5rem);
       align-items: center;
       padding: clamp(1.75rem, 3vw, 2.5rem) 0;
-      border-bottom: 1px solid var(--border-color);
+      border-bottom: 0;
+    }
+
+    .project-motion-rule {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: var(--border-color);
+      transform-origin: left;
+      pointer-events: none;
     }
 
     .project-row:nth-child(even) {
@@ -2394,6 +2406,10 @@
     .project-links .project-link:active .link-arrow { transform: translateX(2px); }
 
     @media (prefers-reduced-motion: reduce) {
+      .project-motion-rule {
+        transform: none !important;
+      }
+
       .project-feature-media img,
       .project-row-media img,
       .project-links .project-link .link-arrow,
