@@ -6,77 +6,95 @@ interface AIAsciiCanvasProps {
   theme?: "light" | "dark";
 }
 
-// Authentic AI / Deep Learning code fragments: multi-line blocks and bold one-liners
+// Authentic AI / Deep Learning functions, multi-line blocks, and telemetry
 const CODE_SNIPPETS: string[][] = [
-  // Multi-line functional code blocks
+  // Real PyTorch / AI functions
   [
-    "def forward(x: Tensor) -> Tensor:",
-    "    x = x + self.attn(self.ln_1(x))",
-    "    return self.mlp(self.ln_2(x))",
+    "def scaled_dot_product(q, k, v, mask=None):",
+    "    scores = (q @ k.transpose(-2, -1)) / math.sqrt(d_k)",
+    "    if mask is not None: scores = scores.masked_fill(mask == 0, -inf)",
+    "    return softmax(scores, dim=-1) @ v",
   ],
   [
-    "q = x @ W_q + b_q;  k = x @ W_k + b_k",
-    "attn = softmax(q @ k.T / sqrt(d_k)) @ v",
+    "def forward(self, x: Tensor) -> Tensor:",
+    "    x = x + self.attn(self.ln_1(x))",
+    "    x = x + self.mlp(self.ln_2(x))",
+    "    return self.norm(x)",
+  ],
+  [
+    "def apply_rotary_emb(xq, xk, freqs_cis):",
+    "    xq_ = torch.view_as_complex(xq.float().reshape(*xq.shape[:-1], -1, 2))",
+    "    xk_ = torch.view_as_complex(xk.float().reshape(*xk.shape[:-1], -1, 2))",
+    "    return torch.view_as_real(xq_ * freqs_cis).flatten(3)",
+  ],
+  [
+    "def training_step(model, batch, optimizer, scaler):",
+    "    with torch.autocast(device_type=\"cuda\", dtype=torch.bfloat16):",
+    "        loss = model(**batch).loss",
+    "    scaler.scale(loss).backward()",
+    "    scaler.step(optimizer); scaler.update()",
+  ],
+  [
+    "def resolve_latent_vector(query_coords: Tensor):",
+    "    target = latent_index.search(query_coords, top_k=1)",
+    "    if target.norm() == 0x0 or target.is_nan():",
+    "        raise CoordinateUnreachableError(\"0x404_NULL_VECTOR\")",
+    "    return target.state",
+  ],
+  [
+    "def swiglu(x: Tensor, W_gate: Tensor, W_up: Tensor) -> Tensor:",
+    "    gate = F.silu(torch.matmul(x, W_gate))",
+    "    up = torch.matmul(x, W_up)",
+    "    return gate * up",
+  ],
+  [
+    "def paged_kv_cache_lookup(layer_idx: int, block_table: Tensor):",
+    "    slot_mapping = block_table.to_slot_mapping()",
+    "    k_state = kv_cache[layer_idx].k[slot_mapping]",
+    "    v_state = kv_cache[layer_idx].v[slot_mapping]",
+    "    return flash_attn_v2(k_state, v_state)",
+  ],
+  [
+    "def moe_router(x: Tensor, num_experts: int = 8, top_k: int = 2):",
+    "    gates = F.softmax(self.router(x), dim=-1)",
+    "    weights, indices = torch.topk(gates, k=top_k)",
+    "    return sum(w * experts[i](x) for w, i in zip(weights, indices))",
+  ],
+  [
+    "class TransformerBlock(nn.Module):",
+    "    def __init__(self, d_model: int = 1536, nhead: int = 24):",
+    "        super().__init__()",
+    "        self.attn = CausalSelfAttention(d_model, nhead)",
+    "        self.mlp = MLP(d_model, 4 * d_model)",
+  ],
+  [
+    "def clip_and_step(parameters, optimizer, max_norm: float = 1.0):",
+    "    total_norm = torch.nn.utils.clip_grad_norm_(parameters, max_norm)",
+    "    optimizer.step()",
+    "    optimizer.zero_grad(set_to_none=True)",
+  ],
+  // Diagnostic & Latent blocks
+  [
+    "[ 0x404_LATENT_STATE ]",
+    "coordinate: [0.000, NAN, 0x404, NULL]",
+    "status: unmapped_topological_manifold",
+    "vector_error: pointer_dereference_failed",
+  ],
+  [
+    "with torch.no_grad():",
+    "    logits = model.generate(tokens, max_new_tokens=512)",
+    "    perplexity = torch.exp(loss.mean()).item()",
   ],
   [
     "loss = cross_entropy(logits.view(-1), targets)",
-    "scaler.scale(loss).backward()",
-    "scaler.step(optimizer)",
-  ],
-  [
-    "[ 0x404_NULL_VECTOR ]",
-    "latent_coords: [NAN, NULL, 0x0]",
-    "status: unreachable_state",
+    "ddp_gradient_reduce_scatter // rank_0",
+    "all_gather_into_tensor(output, input, group)",
   ],
   [
     "dim=1536 :: fp16 :: bfloat16",
     "tokens_per_sec: 148.6 // ctx: 8192",
     "perplexity: 8.42 // bpw: 4.12",
   ],
-  [
-    "rotary_embedding: [cos(theta * m), sin(theta * m)]",
-    "rope_freqs_cis // q_embed, k_embed",
-  ],
-  [
-    "torch.cuda.amp.autocast(dtype=torch.bfloat16):",
-    "    logits = model(input_ids, attention_mask)",
-  ],
-  [
-    "kv_cache[layer_idx].update(k_states, v_states)",
-    "flash_attn_func(q, k, v, causal=True)",
-  ],
-  [
-    "all_gather_into_tensor(output, input, group)",
-    "ddp_gradient_reduce_scatter // rank_0",
-  ],
-  [
-    "segmentation_fault: pointer 0x0 at address",
-    "[0x00007fff9b20 :: 0x404_NULL_POINTER]",
-  ],
-  [
-    "lr_scheduler.step()",
-    "optimizer.zero_grad(set_to_none=True)",
-  ],
-  [
-    "vllm::paged_attention_v2 // block_size: 16",
-    "moe_gates = softmax(router(x), dim=-1)",
-  ],
-  [
-    "loss: 0.0018 // grad_norm: 0.042 // step: 104200",
-    "metrics: eval_loss: 0.0021 // latency: 14.2ms",
-  ],
-  // Bold one-liners
-  ["0x404_LATENT_SPACE_NOT_CONVERGED"],
-  ["gelu(x) = 0.5 * x * (1 + tanh(sqrt(2/pi) * x))"],
-  ["attention_mask.masked_fill_(mask == 0, -inf)"],
-  ["layer_norm: y = (x - mean) / sqrt(var + eps)"],
-  ["torch.compile(model, mode='reduce-overhead')"],
-  ["clip_grad_norm_(parameters, max_norm=1.0)"],
-  ["bmm(batch1, batch2) // precision: tf32"],
-  ["cuda_stream_sync // pinned_memory_transfer"],
-  ["tensor([0.4812, -0.1920, 0.8841, -0.0041])"],
-  ["optimizer: AdamW(lr=1.25e-4, beta1=0.90)"],
-  ["weight_decay=0.01 // scheduler: cosine_decay"],
 ];
 
 const ASCII_POOL = [
@@ -157,8 +175,8 @@ export default function AIAsciiCanvas({ theme = "light" }: AIAsciiCanvasProps) {
       fragments = [];
       let snippetIndex = Math.floor(Math.random() * CODE_SNIPPETS.length);
 
-      // Balanced density for medium-sized code typography
-      const totalCount = Math.min(Math.max(Math.floor((cssWidth * cssHeight) / 22000), 28), 50);
+      // Balanced density for multi-line function blocks
+      const totalCount = Math.min(Math.max(Math.floor((cssWidth * cssHeight) / 28000), 22), 36);
 
       for (let i = 0; i < totalCount; i++) {
         const rawLines = CODE_SNIPPETS[snippetIndex % CODE_SNIPPETS.length];
