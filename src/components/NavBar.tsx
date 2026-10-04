@@ -114,7 +114,7 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
     <button ref={themeButtonRef} type="button" className="nav-utility nav-theme-control" onClick={toggleTheme}
       aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}>
       <span className="nav-theme-swatch" aria-hidden="true" />
-      {theme === "dark" ? "Dark" : "Light"}
+      <span className="nav-theme-text">{theme === "dark" ? "Dark" : "Light"}</span>
     </button>
   );
 
