@@ -18,7 +18,6 @@ test-results/
 playwright-report/
 blob-report/
 playwright/.cache/
-e2e/
 
 # Internal Design and Planning Docs (Keep local, exclude from remote)
 docs/
