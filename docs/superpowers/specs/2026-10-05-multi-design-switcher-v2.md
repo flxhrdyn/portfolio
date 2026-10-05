@@ -11,7 +11,10 @@
 
 Build an interactive multi-design portfolio system where 5 distinct, premium design directions can be experienced seamlessly via an integrated switcher in the navigation bar.
 
-The entire experience must strictly mirror the craft, layout discipline, and micro-interactions of the curated reference sites (**Awwwards SOTD / Nominee level**). No AI-slop graphics, no superficial gimmicks, no pretentious copy. Copywriting must remain factual, confident, and immediately scannable for engineering hiring managers and recruiters.
+**Core Positioning:**
+This is an artisan portfolio showcasing **Full-Stack Web Development, UI/UX, and Visual Design Craft** alongside AI/ML engineering. It is **NOT a SaaS product, NOT a cloud console, and NOT an AI startup landing page**. The website itself is the primary showcase of agency-level web development, art direction, and interaction design (benchmarked against Awwwards SOTD winners like Cristiana Araujo, 2xA, Givelet, and Studio Merge).
+
+All 5 directions lead with aesthetics, craft, typography, whitespace, and tactile UI details. Technical AI depth acts as supporting proof of engineering capability, not a SaaS pitch. No AI-slop graphics, no superficial gimmicks, no fake product widgets, no pretentious buzzwords. Copywriting is direct, honest, and instantly scannable for design directors, tech leads, and engineering recruiters.
 
 ---
 

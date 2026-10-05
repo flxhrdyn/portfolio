@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a robust, 0-gimmick multi-design portfolio system featuring 5 distinct, Awwwards-caliber design directions selectable via an integrated navigation switcher pill, with full remote configuration support.
+**Goal:** Build a robust, 0-gimmick personal portfolio system for full-stack web development, UI/UX, and visual design (with supporting AI/ML engineering proof), featuring 5 distinct Awwwards-caliber agency-level design directions selectable via an integrated navigation switcher pill. Not a SaaS or console product.
 
 **Architecture:** A single-source-of-truth config (`src/config/design.ts`) defines available designs and the global default. A lightweight client context (`src/context/DesignContext.tsx`) manages active design via URL query param (`?v=`), localStorage, or remote fallback. Five modular layouts consume identical shared content (`content/*.json`), with a persistent high-craft switcher pill in the navigation header.
 
