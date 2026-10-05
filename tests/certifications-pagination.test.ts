@@ -56,4 +56,19 @@ describe("Certifications In-Place Pagination", () => {
     const pageData = getCertificationsPage(dummyItems, 0, 6);
     assert.equal(pageData.pageIndicator, "01 / 03");
   });
+
+  it("handles exactly balanced items (18 items, 6 per page)", () => {
+    const items18 = Array.from({ length: 18 }, (_, i) => ({ title: `Cert ${i + 1}` }));
+    const p1 = getCertificationsPage(items18, 0, 6);
+    const p2 = getCertificationsPage(items18, 1, 6);
+    const p3 = getCertificationsPage(items18, 2, 6);
+
+    assert.equal(p1.totalPages, 3);
+    assert.equal(p1.items.length, 6);
+    assert.equal(p2.items.length, 6);
+    assert.equal(p3.items.length, 6);
+    assert.equal(p3.hasPrev, true);
+    assert.equal(p3.hasNext, false);
+    assert.equal(p3.pageIndicator, "03 / 03");
+  });
 });

@@ -373,7 +373,9 @@ export function CertificationsContent({
   return (
     <div className="direction-cert-wrapper">
       <ul className={`direction-cert-ledger ${className}`}>
-        {items.map((cert) => {
+        {items.map((cert, idx) => {
+          const isLastVisible = idx === items.length - 1;
+          const hasGhosts = items.length < effectivePageSize;
           const issuerLabel = cert.issuer.includes('BNSP')
             ? 'BNSP'
             : cert.issuer.includes('McKinsey')
@@ -384,10 +386,15 @@ export function CertificationsContent({
             ? 'DeepLearning.AI'
             : cert.issuer.includes('Gunadarma')
             ? 'UG'
+            : cert.issuer.includes('Brighten')
+            ? 'Brighten'
             : cert.issuer;
 
           return (
-            <li key={cert.title}>
+            <li
+              key={cert.title}
+              className={isLastVisible && hasGhosts ? 'direction-cert-last-visible' : undefined}
+            >
               <div className="direction-cert-line">
                 {cert.url ? (
                   <a
@@ -409,6 +416,14 @@ export function CertificationsContent({
             </li>
           );
         })}
+        {Array.from({ length: Math.max(0, effectivePageSize - items.length) }).map((_, idx) => (
+          <li key={`ghost-${idx}`} className="direction-cert-ghost" aria-hidden="true">
+            <div className="direction-cert-line">
+              <span className="direction-cert-title">&nbsp;</span>
+              <span className="direction-cert-meta">&nbsp;</span>
+            </div>
+          </li>
+        ))}
       </ul>
       {totalPages > 1 && (
         <div className="direction-cert-pager">
