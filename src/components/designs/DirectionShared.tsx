@@ -212,6 +212,53 @@ export function ProjectCopy({ project, index }: { project: ProjectItem; index?: 
   );
 }
 
+function CareerRoleItem({
+  role,
+  defaultOpen = false,
+}: {
+  role: (typeof WORK_ROLES)[number];
+  defaultOpen?: boolean;
+}) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+  const hasHighlights = Boolean(role.highlights && role.highlights.length > 0);
+
+  return (
+    <article className="direction-career-row" key={`${role.company}-${role.title}`}>
+      <p className="direction-overline">{role.date}</p>
+      <div className="direction-career-body">
+        <button
+          type="button"
+          className="direction-career-toggle-btn"
+          onClick={() => hasHighlights && setIsOpen(!isOpen)}
+          aria-expanded={hasHighlights ? isOpen : undefined}
+          disabled={!hasHighlights}
+        >
+          <span className="direction-career-toggle-icon" aria-hidden="true">
+            {hasHighlights ? (isOpen ? '−' : '+') : ''}
+          </span>
+          <div className="direction-career-title-block">
+            <h3>{role.title}</h3>
+            <p className="direction-career-company">{role.company}</p>
+          </div>
+        </button>
+
+        <div className="direction-career-content">
+          {role.headline && (
+            <p className="direction-muted direction-career-headline">{role.headline}</p>
+          )}
+          {hasHighlights && isOpen && (
+            <ul className="direction-career-bullets">
+              {role.highlights?.map((item) => (
+                <li key={item}>{item}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export function ExperienceContent({
   compact = false,
   only,
@@ -222,14 +269,27 @@ export function ExperienceContent({
   const showWork = !only || only === 'all' || only === 'work';
   const showEdu = !only || only === 'all' || only === 'education';
 
-  return <div className={`direction-career ${compact ? 'direction-career-compact' : ''}`}>
-    {showWork && WORK_ROLES.map((role) => <article className="direction-career-row" key={`${role.company}-${role.title}`}>
-      <p className="direction-overline">{role.date}</p><div><h3>{role.title}</h3><p>{role.company}</p>{role.headline && <p className="direction-muted">{role.headline}</p>}{role.highlights?.length ? <details><summary>Responsibilities</summary><ul>{role.highlights.map((item) => <li key={item}>{item}</li>)}</ul></details> : null}</div>
-    </article>)}
-    {showEdu && EDUCATION.map((item) => <article className="direction-career-row direction-education-row" key={`${item.company}-${item.title}`}>
-      <p className="direction-overline">{item.date}</p><div><h3>{item.title}</h3><p>{item.company}{item.statLabel ? ` / ${item.statLabel}` : ''}</p>{item.description && <p className="direction-muted">{item.description}</p>}</div>
-    </article>)}
-  </div>;
+  return (
+    <div className={`direction-career ${compact ? 'direction-career-compact' : ''}`}>
+      {showWork && WORK_ROLES.map((role, index) => (
+        <CareerRoleItem
+          key={`${role.company}-${role.title}`}
+          role={role}
+          defaultOpen={index === 0}
+        />
+      ))}
+      {showEdu && EDUCATION.map((item) => (
+        <article className="direction-career-row direction-education-row" key={`${item.company}-${item.title}`}>
+          <p className="direction-overline">{item.date}</p>
+          <div>
+            <h3>{item.title}</h3>
+            <p>{item.company}{item.statLabel ? ` / ${item.statLabel}` : ''}</p>
+            {item.description && <p className="direction-muted">{item.description}</p>}
+          </div>
+        </article>
+      ))}
+    </div>
+  );
 }
 
 export function WorkExperienceContent({ compact = false }: { compact?: boolean } = {}) {

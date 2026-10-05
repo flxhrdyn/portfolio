@@ -6,7 +6,10 @@
       "logo": "/logos/tunas-group.png",
       "date": "Sep 2026 – Present",
       "headline": "Data analytics internship at Tunas Group, on-site in Jakarta.",
-      "highlights": []
+      "highlights": [
+        "Analyzing automotive sales, inventory, and aftersales telemetry data across dealership networks.",
+        "Developing automated SQL queries, data pipelines, and executive dashboards for business metrics."
+      ]
     },
     {
       "title": "AI Engineer (Part-time)",
