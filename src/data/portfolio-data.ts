@@ -71,7 +71,7 @@ export const PROFILE = {
   name: 'Felix Windriyareksa Hardyan',
   shortName: 'Felix',
   role: 'AI Engineer & Data Scientist',
-  tagline: 'Building production RAG systems, computer vision models, and industrial data pipelines.',
+  tagline: 'AI/ML Engineer building production AI systems, deep learning architectures, and industrial data pipelines.',
   location: 'Jakarta, Indonesia',
   email: 'felixhardyanwork@gmail.com',
   github: 'https://github.com/flxhrdyn',
