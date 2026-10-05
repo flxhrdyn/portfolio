@@ -4,6 +4,7 @@ import { GeistMono } from "geist/font/mono";
 import { GeistPixelSquare } from "geist/font/pixel";
 import ThemeScript from "@/components/ThemeScript";
 import MotionProvider from "@/components/MotionProvider";
+import { DesignProvider } from "@/context/DesignContext";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import "./globals.css";
@@ -50,7 +51,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         <MotionProvider>
-          {children}
+          <DesignProvider>
+            {children}
+          </DesignProvider>
           <Analytics />
           <SpeedInsights />
         </MotionProvider>

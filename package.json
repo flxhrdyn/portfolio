@@ -9,6 +9,7 @@
     "clean": "rm -rf .next",
     "lint": "tsc --noEmit",
     "lint:eslint": "eslint .",
+    "test": "node --test",
     "test:e2e": "playwright test"
   },
   "dependencies": {
