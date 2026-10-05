@@ -340,9 +340,7 @@
   justify-content: space-between;
   align-items: baseline;
   gap: 16px;
-  margin-bottom: 22px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--dir-line);
+  margin-bottom: 20px;
 }
 .direction-skills-index {
   font: 11px var(--font-geist-mono), monospace;
