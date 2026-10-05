@@ -190,9 +190,6 @@ export function ProjectCopy({ project, index }: { project: ProjectItem; index?: 
       <h3>{project.title}</h3>
       <p>{project.summary}</p>
       <div className="direction-project-links">
-        <a href={`https://github.com/flxhrdyn/${project.repo}`} target="_blank" rel="noreferrer">
-          GitHub
-        </a>
         <button
           type="button"
           className="direction-detail-trigger"
@@ -200,6 +197,9 @@ export function ProjectCopy({ project, index }: { project: ProjectItem; index?: 
         >
           Project details
         </button>
+        <a href={`https://github.com/flxhrdyn/${project.repo}`} target="_blank" rel="noreferrer">
+          GitHub
+        </a>
       </div>
 
       <ProjectDetailModal
