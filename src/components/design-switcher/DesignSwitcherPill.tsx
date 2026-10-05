@@ -27,6 +27,7 @@ export function DesignSwitcherPill({ className = '' }: DesignSwitcherPillProps) 
           <button
             key={opt.id}
             type="button"
+            data-design={opt.id}
             onClick={() => setDesign(opt.id)}
             aria-pressed={opt.isActive}
             title={opt.title}

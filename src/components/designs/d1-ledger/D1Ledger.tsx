@@ -68,7 +68,7 @@ export function D1Ledger() {
           {/* 3-Up Arrow Index (Tacto / Hans Sleutelaar inspired) */}
           <div className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-3 border-t border-neutral-200 dark:border-neutral-800 pt-6">
             <a
-              href="#selected-work"
+              href="#projects"
               className="group p-3 -mx-3 rounded-lg hover:bg-neutral-100/70 dark:hover:bg-neutral-900/50 transition-colors"
             >
               <span className="font-mono text-xs text-neutral-400 dark:text-neutral-500 block mb-1">
@@ -90,7 +90,7 @@ export function D1Ledger() {
               </span>
             </a>
             <a
-              href="#research-paper"
+              href="#research"
               className="group p-3 -mx-3 rounded-lg hover:bg-neutral-100/70 dark:hover:bg-neutral-900/50 transition-colors"
             >
               <span className="font-mono text-xs text-neutral-400 dark:text-neutral-500 block mb-1">
@@ -104,7 +104,7 @@ export function D1Ledger() {
         </section>
 
         {/* 3. Selected Work (Hairline Ledger Rows) */}
-        <section id="selected-work" className="pt-20 border-b border-neutral-200 dark:border-neutral-800 pb-20">
+        <section id="projects" className="pt-20 border-b border-neutral-200 dark:border-neutral-800 pb-20">
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-10 gap-2">
             <div>
               <span className="font-mono text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
@@ -225,7 +225,7 @@ export function D1Ledger() {
 
         {/* 5. Peer-Reviewed Research & Technical Proof */}
         {paper && (
-          <section id="research-paper" className="pt-20 border-b border-neutral-200 dark:border-neutral-800 pb-20">
+          <section id="research" className="pt-20 border-b border-neutral-200 dark:border-neutral-800 pb-20">
             <div className="mb-10">
               <span className="font-mono text-xs uppercase tracking-widest text-neutral-400 dark:text-neutral-500">
                 03 / Peer-Reviewed Research

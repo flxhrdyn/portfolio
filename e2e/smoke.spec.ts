@@ -9,9 +9,8 @@ test.describe("portfolio home page", () => {
 
     await page.goto("/");
 
-    // Verify hero presence
-    await expect(page.locator(".hero-name")).toContainText("Felix Windriyareksa Hardyan");
-    await expect(page.locator(".hero-headline")).toBeVisible();
+    // Verify hero text presence
+    await expect(page.locator("h1")).toContainText("Designer & full-stack web developer");
 
     // Verify core sections exist on the page
     await expect(page.locator("#projects")).toBeAttached();
@@ -23,35 +22,12 @@ test.describe("portfolio home page", () => {
     expect(errors).toEqual([]);
   });
 
-  test("navigation brand and minimal actions are visible", async ({ page }) => {
+  test("design switcher navigation pill is visible", async ({ page }) => {
     await page.goto("/");
 
-    const brand = page.locator(".nav-brand");
-    await expect(brand).toBeVisible();
-    await expect(brand).toContainText("flxhrdyn");
-
-    await expect(page.locator("#top-nav")).toBeVisible();
-  });
-
-  test("menu panel opens and displays navigation links", async ({ page }) => {
-    await page.goto("/");
-
-    const menuTrigger = page.locator(".nav-menu-trigger");
-    if (await menuTrigger.isVisible()) {
-      await menuTrigger.click();
-      await expect(page.locator("#nav-section-menu")).toBeVisible();
-      await expect(page.locator('#nav-section-menu a[href="#projects"]')).toBeVisible();
-    }
-  });
-
-  test("Ask AI chat panel toggles open", async ({ page }) => {
-    await page.goto("/");
-
-    const askButton = page.locator(".nav-ask-link");
-    if (await askButton.isVisible()) {
-      await askButton.click();
-      await expect(page.locator("#portfolio-chat-panel")).toBeVisible();
-    }
+    const switcher = page.locator('nav[aria-label="Design version switcher"]');
+    await expect(switcher).toBeVisible();
+    await expect(page.locator('button[data-design="d1"]')).toBeVisible();
   });
 });
 
