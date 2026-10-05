@@ -2,7 +2,8 @@ import Image from 'next/image';
 import {
   DirectionShell, SectionHeading, ProjectImage, ProjectCopy,
   WorkExperienceContent, EducationContent,
-  SkillsContent, ResearchContent, ContactContent, PROFILE, PROJECTS,
+  SkillsContent, ResearchPaperContent, CertificationsContent,
+  ContactContent, PROFILE, PROJECTS, CERTIFICATIONS,
 } from '@/components/designs/DirectionShared';
 
 export function D1Synthesis() {
@@ -50,10 +51,16 @@ export function D1Synthesis() {
           </div>
         </section>
 
-        <section className="direction-section d1-section" id="research">
-          <p className="d1-label">Research</p>
-          <div className="d1-research-grid">
-            <ResearchContent abstract />
+        <section className="direction-section d1-synthesis-research" id="research">
+          <div className="d1-synthesis-rc-grid">
+            <div className="d1-synthesis-rc-research">
+              <SectionHeading>Research</SectionHeading>
+              <ResearchPaperContent minimal={true} />
+            </div>
+            <div className="d1-synthesis-rc-certs" id="certifications">
+              <SectionHeading>Certifications</SectionHeading>
+              <CertificationsContent />
+            </div>
           </div>
         </section>
 

@@ -304,7 +304,119 @@ export function SkillsContent() {
   return <div className="direction-skills">{SKILL_GROUPS.map((group) => <article key={group.category}><h3>{group.category}</h3><p>{group.items.join(' / ')}</p></article>)}</div>;
 }
 
-export function ResearchContent({ abstract = false }: { abstract?: boolean }) {
+export function ResearchPaperContent({
+  minimal = true,
+  abstract = false,
+}: {
+  minimal?: boolean;
+  abstract?: boolean;
+} = {}) {
+  const paper = PUBLICATIONS[0];
+  if (!paper) return null;
+  return (
+    <article className={`direction-research ${minimal ? 'direction-research-minimal' : ''}`}>
+      <div className="direction-research-top">
+        <span>{paper.journal.split(' ')[0]} · {paper.volume}</span>
+        <span>Peer-Reviewed Publication</span>
+      </div>
+      <h3 className="direction-research-title">{paper.title}</h3>
+      <p className="direction-research-authors">
+        Ulfa Hidayati, <strong className="direction-author-self">Felix Windriyareksa Hardyan</strong>, Faizah Rizki Auliawati, Ali Akbar Rafsanjani, Fanka Arie Reza, Mario Mora Siregar
+      </p>
+      {!minimal && <p className="direction-research-journal">{paper.journal}</p>}
+      {!minimal && <p className="direction-muted">{paper.authors}</p>}
+      {!minimal && <p>{paper.summary}</p>}
+      <div className="direction-paper-stats">
+        {paper.stats.map((stat) => (
+          <div key={stat.label}>
+            <strong>{stat.value}</strong>
+            <span>{stat.label}</span>
+          </div>
+        ))}
+      </div>
+      {abstract && !minimal && (
+        <details>
+          <summary>Read abstract</summary>
+          <p className="direction-detail-body">
+            {(paper as typeof paper & { abstract?: string }).abstract}
+          </p>
+        </details>
+      )}
+      {paper.doi && (
+        <a className="direction-text-link" href={paper.doi} target="_blank" rel="noreferrer">
+          <span>Read publication on JITET</span>
+          <span aria-hidden="true"> ↗</span>
+        </a>
+      )}
+    </article>
+  );
+}
+
+export function CertificationsContent({
+  className = '',
+  initialLimit = 6,
+}: {
+  className?: string;
+  initialLimit?: number;
+} = {}) {
+  const [showAll, setShowAll] = useState(false);
+  const items = showAll || initialLimit <= 0 ? CERTIFICATIONS : CERTIFICATIONS.slice(0, initialLimit);
+  const remaining = CERTIFICATIONS.length - initialLimit;
+
+  return (
+    <div className="direction-cert-wrapper">
+      <ul className={`direction-cert-ledger ${className}`}>
+        {items.map((cert) => {
+          const issuerLabel = cert.issuer.includes('BNSP')
+            ? 'BNSP'
+            : cert.issuer.includes('McKinsey')
+            ? 'McKinsey'
+            : cert.issuer.includes('Stanford')
+            ? 'Stanford'
+            : cert.issuer.includes('DeepLearning.AI')
+            ? 'DeepLearning.AI'
+            : cert.issuer.includes('Gunadarma')
+            ? 'UG'
+            : cert.issuer;
+
+          return (
+            <li key={cert.title}>
+              <div className="direction-cert-line">
+                {cert.url ? (
+                  <a
+                    href={cert.url}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="direction-cert-title-link"
+                  >
+                    <span>{cert.title}</span>
+                    <span className="direction-cert-arrow" aria-hidden="true">↗</span>
+                  </a>
+                ) : (
+                  <span className="direction-cert-title">{cert.title}</span>
+                )}
+                <span className="direction-cert-meta">
+                  {issuerLabel} · {cert.date.slice(-4)}
+                </span>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
+      {initialLimit > 0 && remaining > 0 && (
+        <button
+          type="button"
+          className="direction-cert-toggle-btn"
+          onClick={() => setShowAll(!showAll)}
+        >
+          {showAll ? '− Show less' : `+ ${remaining} more accreditations`}
+        </button>
+      )}
+    </div>
+  );
+}
+
+export function ResearchContent({ abstract = false }: { abstract?: boolean } = {}) {
   const paper = PUBLICATIONS[0];
   if (!paper) return null;
   return <article className="direction-research">
