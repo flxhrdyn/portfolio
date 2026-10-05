@@ -9,6 +9,7 @@ import {
   PROFILE, ALL_PROJECTS, WORK_ROLES, EDUCATION, SKILL_GROUPS,
   PUBLICATIONS, CERTIFICATIONS, CONTACT_LINKS, ProjectItem,
 } from '@/data/portfolio-data';
+import { getCertificationsPage } from './certifications-utils';
 import './directions.css';
 
 export const PROJECTS = ALL_PROJECTS;
@@ -354,14 +355,20 @@ export function ResearchPaperContent({
 
 export function CertificationsContent({
   className = '',
-  initialLimit = 6,
+  pageSize = 6,
+  initialLimit,
 }: {
   className?: string;
+  pageSize?: number;
   initialLimit?: number;
 } = {}) {
-  const [showAll, setShowAll] = useState(false);
-  const items = showAll || initialLimit <= 0 ? CERTIFICATIONS : CERTIFICATIONS.slice(0, initialLimit);
-  const remaining = CERTIFICATIONS.length - initialLimit;
+  const effectivePageSize = pageSize || initialLimit || 6;
+  const [page, setPage] = useState(0);
+  const { items, hasPrev, hasNext, pageIndicator, totalPages } = getCertificationsPage(
+    CERTIFICATIONS,
+    page,
+    effectivePageSize
+  );
 
   return (
     <div className="direction-cert-wrapper">
@@ -403,14 +410,31 @@ export function CertificationsContent({
           );
         })}
       </ul>
-      {initialLimit > 0 && remaining > 0 && (
-        <button
-          type="button"
-          className="direction-cert-toggle-btn"
-          onClick={() => setShowAll(!showAll)}
-        >
-          {showAll ? '− Show less' : `+ ${remaining} more accreditations`}
-        </button>
+      {totalPages > 1 && (
+        <div className="direction-cert-pager">
+          <span className="direction-cert-pager-label">Accreditations</span>
+          <div className="direction-cert-pager-controls">
+            <button
+              type="button"
+              className="direction-cert-pager-btn"
+              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              disabled={!hasPrev}
+              aria-label="Previous accreditations page"
+            >
+              ←
+            </button>
+            <span className="direction-cert-pager-indicator">{pageIndicator}</span>
+            <button
+              type="button"
+              className="direction-cert-pager-btn"
+              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              disabled={!hasNext}
+              aria-label="Next accreditations page"
+            >
+              →
+            </button>
+          </div>
+        </div>
       )}
     </div>
   );

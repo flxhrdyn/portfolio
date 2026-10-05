@@ -415,8 +415,13 @@
 .direction-cert-arrow { display: inline-block; margin-left: 4px; font-size: 12px; opacity: .5; transition: transform .15s ease, opacity .15s ease; }
 .direction-cert-title-link:hover .direction-cert-arrow { opacity: 1; transform: translate(2px, -2px); }
 .direction-cert-meta { font-size: 12.5px; color: var(--dir-muted); font-family: var(--font-geist-mono), monospace; white-space: nowrap; flex-shrink: 0; letter-spacing: .02em; }
-.direction-cert-toggle-btn { margin-top: 20px; background: transparent; border: 0; padding: 6px 0; font-size: 13px; font-family: var(--font-geist-mono), monospace; color: var(--dir-muted); cursor: pointer; display: inline-flex; align-items: center; gap: 6px; text-decoration: underline; text-underline-offset: 4px; transition: color .15s ease; }
-.direction-cert-toggle-btn:hover { color: var(--dir-fg); }
+.direction-cert-pager { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; padding-top: 14px; }
+.direction-cert-pager-label { font: 11.5px var(--font-geist-mono), monospace; color: var(--dir-muted); text-transform: uppercase; letter-spacing: .06em; }
+.direction-cert-pager-controls { display: inline-flex; align-items: center; gap: 12px; }
+.direction-cert-pager-btn { background: transparent; border: 0; padding: 4px 6px; color: var(--dir-fg); font-family: var(--font-geist-mono), monospace; font-size: 15px; line-height: 1; cursor: pointer; transition: opacity .15s ease, transform .15s ease; }
+.direction-cert-pager-btn:hover:not(:disabled) { opacity: .5; transform: translateY(-1px); }
+.direction-cert-pager-btn:disabled { opacity: .18; cursor: not-allowed; }
+.direction-cert-pager-indicator { font: 12px var(--font-geist-mono), monospace; color: var(--dir-muted); letter-spacing: .08em; font-feature-settings: "tnum" 1; }
 .d1-section { display: grid; grid-template-columns: minmax(145px, .27fr) 1fr; gap: clamp(28px, 6vw, 88px); }
 .d1-label { color: var(--dir-muted); font: 12px var(--font-geist-mono), monospace; }
 .d1-project-list { border-top: 1px solid var(--dir-line); }
