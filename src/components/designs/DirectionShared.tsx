@@ -10,6 +10,7 @@ import {
   PUBLICATIONS, CERTIFICATIONS, CONTACT_LINKS, ProjectItem,
 } from '@/data/portfolio-data';
 import { getCertificationsPage } from './certifications-utils';
+import { getSkillTelemetry } from './skills-utils';
 import './directions.css';
 
 export const PROJECTS = ALL_PROJECTS;
@@ -301,8 +302,31 @@ export function EducationContent({ compact = false }: { compact?: boolean } = {}
   return <ExperienceContent compact={compact} only="education" />;
 }
 
-export function SkillsContent() {
-  return <div className="direction-skills">{SKILL_GROUPS.map((group) => <article key={group.category}><h3>{group.category}</h3><p>{group.items.join(' / ')}</p></article>)}</div>;
+export function SkillsContent({ className = '' }: { className?: string } = {}) {
+  const telemetryGroups = getSkillTelemetry(SKILL_GROUPS);
+
+  return (
+    <div className={`direction-skills-matrix ${className}`}>
+      {telemetryGroups.map((group) => (
+        <article key={group.category} className="direction-skills-cell">
+          <header className="direction-skills-cell-header">
+            <span className="direction-skills-index">
+              {`${group.indexLabel} // ${group.title}`}
+            </span>
+            <span className="direction-skills-count">{group.countLabel}</span>
+          </header>
+          <ul className="direction-skills-list">
+            {group.items.map((item) => (
+              <li key={item} className="direction-skills-item">
+                <span className="direction-skills-bullet" aria-hidden="true">*</span>
+                <span className="direction-skills-name">{item}</span>
+              </li>
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+  );
 }
 
 export function ResearchPaperContent({

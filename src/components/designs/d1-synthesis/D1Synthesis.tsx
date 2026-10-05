@@ -64,12 +64,9 @@ export function D1Synthesis() {
           </div>
         </section>
 
-        <section className="direction-section d1-section" id="skills">
-          <p className="d1-label">Skills</p>
-          <div>
-            <SectionHeading>Technical skills</SectionHeading>
-            <SkillsContent />
-          </div>
+        <section className="direction-section d1-synthesis-skills" id="skills">
+          <SectionHeading>Technical skills</SectionHeading>
+          <SkillsContent />
         </section>
 
         <section className="direction-section d1-section" id="contact">
