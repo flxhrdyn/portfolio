@@ -121,9 +121,5 @@ export function DesignProvider({ children }: { children: React.ReactNode }) {
 }
 
 export function useDesign(): DesignContextValue {
-  const context = useContext(DesignContext);
-  if (!context) {
-    throw new Error('useDesign must be used within a DesignProvider');
-  }
-  return context;
+  return useContext(DesignContext);
 }
