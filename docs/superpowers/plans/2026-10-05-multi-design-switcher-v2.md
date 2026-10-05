@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Build a robust, 0-gimmick personal portfolio system for full-stack web development, UI/UX, and visual design (with supporting AI/ML engineering proof), featuring 5 distinct Awwwards-caliber agency-level design directions selectable via an integrated navigation switcher pill. Not a SaaS or console product.
+**Goal:** Build a robust, 0-gimmick portfolio for an AI Engineer & Data Scientist, executed with Awwwards-caliber agency-level web development and UI/UX design craft, featuring 5 distinct directions selectable via an integrated navigation switcher pill. Not a SaaS or console product.
 
 **Architecture:** A single-source-of-truth config (`src/config/design.ts`) defines available designs and the global default. A lightweight client context (`src/context/DesignContext.tsx`) manages active design via URL query param (`?v=`), localStorage, or remote fallback. Five modular layouts consume identical shared content (`content/*.json`), with a persistent high-craft switcher pill in the navigation header.
 
@@ -159,11 +159,11 @@ git commit -m "feat(design): implement Direction 1 Swiss Editorial Ledger"
 **Interfaces:**
 - Consumes: Shared data from `content/*.json` and `src/components/design-switcher/DesignSwitcherPill`
 - Reference Inspiration: `2xa.studio` + *Studio Merge*
-- Features: 16px inset canvas frame around viewport, meta bar with real-time local clock (WIB / UTC), multi-column typographic hero, asymmetric project grid with 1 wide showcase card.
+- Features: 16px inset canvas frame around viewport, clean top metadata bar, high-impact typographic hero, asymmetric project grid with 1 wide showcase block.
 
 - [ ] **Step 1: Implement D2 Architectural layout component**
 
-Setup live clock hook, inset border frame, typographic hero layout, asymmetric project grid, and data tables.
+Setup inset border frame, typographic hero layout, asymmetric project grid, and data tables.
 
 - [ ] **Step 2: Style D2 with modular CSS**
 

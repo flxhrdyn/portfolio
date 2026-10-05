@@ -10,7 +10,7 @@ test.describe("portfolio home page", () => {
     await page.goto("/");
 
     // Verify hero text presence
-    await expect(page.locator("h1")).toContainText("Designer & full-stack web developer");
+    await expect(page.locator("[data-direction-shell] h1")).toContainText("Felix Windriyareksa Hardyan");
 
     // Verify core sections exist on the page
     await expect(page.locator("#projects")).toBeAttached();

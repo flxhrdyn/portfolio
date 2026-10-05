@@ -12,9 +12,9 @@
 Build an interactive multi-design portfolio system where 5 distinct, premium design directions can be experienced seamlessly via an integrated switcher in the navigation bar.
 
 **Core Positioning:**
-This is an artisan portfolio showcasing **Full-Stack Web Development, UI/UX, and Visual Design Craft** alongside AI/ML engineering. It is **NOT a SaaS product, NOT a cloud console, and NOT an AI startup landing page**. The website itself is the primary showcase of agency-level web development, art direction, and interaction design (benchmarked against Awwwards SOTD winners like Cristiana Araujo, 2xA, Givelet, and Studio Merge).
+Personal portfolio for an **AI Engineer & Data Scientist**. The website itself is built with **elite agency-grade web development and UI/UX design craft** (benchmarked against Awwwards SOTD winners like Cristiana Araujo, 2xA, Givelet, and Studio Merge). The primary professional identity remains strictly **AI Engineer & Data Scientist**; the website's execution, composition, typography, and interaction design serve as living proof of high-level web dev and aesthetic standards.
 
-All 5 directions lead with aesthetics, craft, typography, whitespace, and tactile UI details. Technical AI depth acts as supporting proof of engineering capability, not a SaaS pitch. No AI-slop graphics, no superficial gimmicks, no fake product widgets, no pretentious buzzwords. Copywriting is direct, honest, and instantly scannable for design directors, tech leads, and engineering recruiters.
+All 5 directions deliver agency-grade craft: disciplined typography, generous whitespace, confident composition, and tactile UI details. Zero cheap terminal gimmicks (no UNIX paths, no bracketed fluff, no fake console clocks or status tags), zero fake product widgets, and no pretentious buzzwords. Content strictly showcases real AI/ML systems and research. Copywriting is direct, honest, and instantly scannable for engineering recruiters, tech leads, and collaborators.
 
 ---
 
@@ -28,29 +28,29 @@ Each direction translates specific verified references while maintaining content
 - **Layout:** Three-up index under hero, dated chronological ledgers with hairline dividers, address-style single-letter footer blocks (`A`, `T`, `S`).
 - **Signature Interaction:** 1px rule draw intro, quiet underline transitions, zero decorative noise.
 
-### Direction 2: Code-Driven Architectural Frame
+### Direction 2: Architectural Frame & Asymmetric Posters
 - **Primary Reference:** `2xa.studio (Awwwards SOTD)` + `Studio Merge`
-- **Visual Character:** Inset canvas frame (16px viewport gutter border), stretched monospace caps for telemetry and navigation, display headings composed across grid columns.
-- **Layout:** Top meta bar with real-time clocks (e.g. `JKT 14:20 WIB` / `UTC`), full-width hero with typographic texture, asymmetric project grid featuring one primary wide case-study tile.
-- **Signature Interaction:** Subtle letter-hover fills, crisp rectangular highlight states, grid-aligned structure.
+- **Visual Character:** Inset canvas frame (viewport gutter border), bold architectural structure, confident display headings composed with expansive whitespace.
+- **Layout:** Minimal top identity bar, full-width high-impact hero composition, asymmetric project grid featuring prominent case-study showcase blocks without decorative clock or telemetry gimmicks.
+- **Signature Interaction:** Crisp rectangular highlight states, grid-aligned structural transitions.
 
-### Direction 3: Scientific Proof Sheet & Data Matrix
+### Direction 3: Modular Precision Matrix
 - **Primary Reference:** `typesafe.ai` + `Grids (Awwwards)`
-- **Visual Character:** Clean data-first presentation, high-contrast monochrome surfaces, crisp window frames reserved specifically for proof and system architectures.
-- **Layout:** Monospace window headers, real performance metric strips, architectural node flow diagrams, and structured benchmark tables.
-- **Signature Interaction:** Slow underline-offset transitions, precision data bars, strict hairline matrix.
+- **Visual Character:** Clean data-first presentation, high-contrast monochrome surfaces, visible modular hairline grid lines (horizontal & vertical) without faux-terminal window decoration.
+- **Layout:** Precision technical matrix, real performance metric strips (LUCIAN, InvenioAI), structured empirical benchmark tables, and rigorous data ledgers.
+- **Signature Interaction:** Precision data bars, strict hairline grid alignment.
 
 ### Direction 4: Swiss Quiet Inline
 - **Primary Reference:** `matthieugivelet.com (Awwwards Nominee)` + `Cristiana Araujo Portfolio`
-- **Visual Character:** Centered layout, inline portrait badge integrated directly into the display name typography, bracketed labels (`[ Selected Work ]`, `[ About ]`), superscript counts (`Projects(8)`).
-- **Layout:** 3-column splits (bracket label left, indented indexed paragraph center, arrow action link right), 2-up imagery grid with strict captions (`01 Project Name`).
-- **Signature Interaction:** Slow-settle unmasking, generous vertical whitespace, deliberate long-eased transitions.
+- **Visual Character:** Centered layout, inline portrait badge integrated into the typography, generous Swiss proportions, zero bracket gimmicks.
+- **Layout:** 3-column splits (clean category label left, indented indexed paragraph center, arrow action link right), ultra-spacious vertical whitespace.
+- **Signature Interaction:** Slow-settle reveals, generous vertical whitespace, deliberate long-eased transitions.
 
-### Direction 5: Kinetic Minimal Workspace
+### Direction 5: Kinetic Minimal Desk & Dock
 - **Primary Reference:** `rifqisakha.my.id` + `Avec Anni`
-- **Visual Character:** High-contrast pure monochrome, UNIX path labels (`~/projects`, `~/experience`), bold full-bleed dark-and-light section pacing, zero generic floating cards.
-- **Layout:** Floating minimal bottom dock navigation, hairline rows with expandable drawers, instant preview on hover/touch.
-- **Signature Interaction:** Smooth drawer accordion, tactile button states, stark section interlude.
+- **Visual Character:** High-contrast pure monochrome, tactile project drawers, clean section pacing, zero UNIX/terminal path gimmicks.
+- **Layout:** Floating minimal bottom dock navigation, hairline rows with expandable interactive drawers for inspecting AI systems, instant preview on hover/touch.
+- **Signature Interaction:** Smooth drawer accordion, tactile button states, refined floating dock.
 
 ---
 

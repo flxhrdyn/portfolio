@@ -1,5 +1,8 @@
 @import "tailwindcss";
 
+/* Force dark: variant to class-based so OS dark mode doesn't override light-first designs */
+@custom-variant dark (&:where(.dark, .dark *));
+
     /* Baseline focus-visible ring for every interactive element that doesn't define its own. */
     a:focus-visible,
     button:focus-visible,

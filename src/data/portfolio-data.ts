@@ -12,8 +12,16 @@ export interface ProjectItem {
   tags: string[];
   summary: string;
   repo: string;
+  video?: string;
+  modalTitle?: string;
   featured?: boolean;
   showcase?: boolean;
+  overview?: string;
+  architectureTitle?: string;
+  architectureText?: string;
+  codeBlock?: string;
+  resultsTitle?: string;
+  results?: string[];
 }
 
 export interface WorkRole {
@@ -23,6 +31,7 @@ export interface WorkRole {
   location?: string;
   headline?: string;
   description?: string[];
+  highlights?: string[];
 }
 
 export interface EducationItem {
@@ -30,6 +39,7 @@ export interface EducationItem {
   company: string;
   date: string;
   statLabel?: string;
+  description?: string;
 }
 
 export interface SkillCategory {
@@ -53,14 +63,16 @@ export interface CertificationItem {
   issuer: string;
   date: string;
   badge: string;
+  description?: string;
+  url?: string;
 }
 
 export const PROFILE = {
   name: 'Felix Windriyareksa Hardyan',
   shortName: 'Felix',
-  role: 'Designer & Full-Stack Web Developer • AI Engineer',
-  tagline: 'Crafting minimal, agency-caliber web interfaces and high-performance digital systems backed by production machine learning.',
-  location: 'Jakarta, Indonesia (WIB / UTC+7)',
+  role: 'AI Engineer & Data Scientist',
+  tagline: 'Building production RAG systems, computer vision models, and industrial data pipelines.',
+  location: 'Jakarta, Indonesia',
   email: 'felixhardyanwork@gmail.com',
   github: 'https://github.com/flxhrdyn',
   linkedin: 'https://linkedin.com/in/felixhrdyn',
@@ -68,7 +80,9 @@ export const PROFILE = {
   photoAlt: 'Felix standing beside NVIDIA DGX A100 compute racks',
 };
 
-export const PROJECTS: ProjectItem[] = (projectsJson as ProjectItem[]).filter(
+export const ALL_PROJECTS: ProjectItem[] = projectsJson as ProjectItem[];
+
+export const PROJECTS: ProjectItem[] = ALL_PROJECTS.filter(
   (p) => p.showcase !== false
 );
 

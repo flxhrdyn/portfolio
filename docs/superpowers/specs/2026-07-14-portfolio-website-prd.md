@@ -2,7 +2,7 @@
 
 ## 1. Ringkasan
 
-Website portfolio pribadi untuk AI/ML Engineer & Full-Stack Web Developer.
+Website portfolio pribadi untuk AI Engineer & Data Scientist.
 Melengkapi CV dengan detail, konteks, dan visual craft berstandar agency Awwwards: proses arsitektur sistem,
 metrik produksi terukur, demo interaktif, tulisan riset, dan sistem multi-design switcher terintegrasi.
 Mendukung 5 variasi desain visual berkarakter unik tanpa gimmick/AI-slop, dengan navigasi switcher instan.

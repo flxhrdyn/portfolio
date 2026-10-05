@@ -30,23 +30,23 @@ export const DESIGN_META: Record<DesignVersion, DesignMetadata> = {
   d3: {
     id: 'd3',
     label: '03',
-    name: 'Scientific Proof Sheet',
-    ref: 'typesafe.ai + Grids',
-    description: 'Data-first layout with metric bars, benchmark matrix, and technical window headers.',
+    name: 'Research Matrix',
+    ref: 'TypeSafe + Grids',
+    description: 'A structured view of projects, model results, research and skills.',
   },
   d4: {
     id: 'd4',
     label: '04',
-    name: 'Swiss Quiet Inline',
-    ref: 'matthieugivelet.com + Cristiana Araujo',
-    description: 'Inline portrait hero mask, bracketed labels, and generous Swiss proportions.',
+    name: 'Quiet Inline',
+    ref: 'Matthieu Givelet + Cristiana Araujo',
+    description: 'A quiet, spacious reading flow with project imagery between sections.',
   },
   d5: {
     id: 'd5',
     label: '05',
-    name: 'Kinetic Minimal Workspace',
-    ref: 'rifqisakha.my.id + Avec Anni',
-    description: 'UNIX path labels, tactile interactive drawers, and floating bottom workspace dock.',
+    name: 'Curated Synthesis',
+    ref: 'Sleutelaar + TypeSafe + Givelet (D1 + D3 + D4)',
+    description: 'Flagship synthesis based on Editorial Ledger with empirical model proof and quiet portrait framing.',
   },
 };
 
