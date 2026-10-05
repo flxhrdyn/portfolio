@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import {
-  DirectionShell, SectionHeading, ProjectImage, ProjectCopy, ExperienceContent,
+  DirectionShell, SectionHeading, ProjectImage, ProjectCopy,
+  WorkExperienceContent, EducationContent,
   SkillsContent, ResearchContent, ContactContent, PROFILE, PROJECTS,
 } from '@/components/designs/DirectionShared';
 
@@ -35,11 +36,17 @@ export function D1Synthesis() {
           </div>
         </section>
 
-        <section className="direction-section d1-section" id="experience">
-          <p className="d1-label">Experience & education</p>
-          <div>
+        <section className="direction-section d1-synthesis-career" id="experience">
+          <div className="d1-synthesis-career-layout">
             <SectionHeading>Experience</SectionHeading>
-            <ExperienceContent />
+            <WorkExperienceContent />
+          </div>
+        </section>
+
+        <section className="direction-section d1-synthesis-career" id="education">
+          <div className="d1-synthesis-career-layout">
+            <SectionHeading>Education</SectionHeading>
+            <EducationContent />
           </div>
         </section>
 

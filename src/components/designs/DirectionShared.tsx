@@ -212,15 +212,32 @@ export function ProjectCopy({ project, index }: { project: ProjectItem; index?: 
   );
 }
 
-export function ExperienceContent({ compact = false }: { compact?: boolean } = {}) {
+export function ExperienceContent({
+  compact = false,
+  only,
+}: {
+  compact?: boolean;
+  only?: 'all' | 'work' | 'education';
+} = {}) {
+  const showWork = !only || only === 'all' || only === 'work';
+  const showEdu = !only || only === 'all' || only === 'education';
+
   return <div className={`direction-career ${compact ? 'direction-career-compact' : ''}`}>
-    {WORK_ROLES.map((role) => <article className="direction-career-row" key={`${role.company}-${role.title}`}>
+    {showWork && WORK_ROLES.map((role) => <article className="direction-career-row" key={`${role.company}-${role.title}`}>
       <p className="direction-overline">{role.date}</p><div><h3>{role.title}</h3><p>{role.company}</p>{role.headline && <p className="direction-muted">{role.headline}</p>}{role.highlights?.length ? <details><summary>Responsibilities</summary><ul>{role.highlights.map((item) => <li key={item}>{item}</li>)}</ul></details> : null}</div>
     </article>)}
-    {EDUCATION.map((item) => <article className="direction-career-row direction-education-row" key={`${item.company}-${item.title}`}>
+    {showEdu && EDUCATION.map((item) => <article className="direction-career-row direction-education-row" key={`${item.company}-${item.title}`}>
       <p className="direction-overline">{item.date}</p><div><h3>{item.title}</h3><p>{item.company}{item.statLabel ? ` / ${item.statLabel}` : ''}</p>{item.description && <p className="direction-muted">{item.description}</p>}</div>
     </article>)}
   </div>;
+}
+
+export function WorkExperienceContent({ compact = false }: { compact?: boolean } = {}) {
+  return <ExperienceContent compact={compact} only="work" />;
+}
+
+export function EducationContent({ compact = false }: { compact?: boolean } = {}) {
+  return <ExperienceContent compact={compact} only="education" />;
 }
 
 export function SkillsContent() {
