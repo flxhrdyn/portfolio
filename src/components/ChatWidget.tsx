@@ -441,9 +441,6 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
             <span className="chat-header-title">Ask my portfolio</span>
           </div>
           <div className="chat-header-actions">
-            <span className={`chat-header-status chat-header-status--${chatState}`} aria-hidden="true">
-              {chatState === "answering" ? "Thinking" : chatState === "error" ? "Error" : "Ready"}
-            </span>
             {onClose && (
               <button
                 ref={closeButtonRef}
