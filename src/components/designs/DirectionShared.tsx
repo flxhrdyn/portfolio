@@ -16,6 +16,26 @@ import './directions.css';
 export const PROJECTS = ALL_PROJECTS;
 export { PROFILE, WORK_ROLES, EDUCATION, SKILL_GROUPS, PUBLICATIONS, CERTIFICATIONS, CONTACT_LINKS };
 
+function D1SynthesisFooter() {
+  const year = new Date().getFullYear();
+
+  return (
+    <footer className="d1-minimal-footer">
+      <div className="d1-minimal-footer-meta">
+        <span>© {year}</span>
+        <nav aria-label="Footer links">
+          <a href="https://github.com/flxhrdyn/portfolio" target="_blank" rel="noopener noreferrer">Source</a>
+          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
+        </nav>
+      </div>
+      <div className="d1-minimal-footer-signoff">
+        <p className="d1-minimal-footer-name">{PROFILE.name}</p>
+        <a className="d1-minimal-footer-top" href="#hero">Back to top <span aria-hidden="true">↑</span></a>
+      </div>
+    </footer>
+  );
+}
+
 export function DirectionShell({
   children,
   className = '',
@@ -42,7 +62,13 @@ export function DirectionShell({
         <DesignSwitcherPill className="direction-switcher" />
       </header>
       {children}
-      {!dock && <footer className="direction-footer"><span>{PROFILE.name}</span><a href="#hero">Back to top</a></footer>}
+      {!dock && (
+        className.includes('d1-synthesis') ? (
+          <D1SynthesisFooter />
+        ) : (
+          <footer className="direction-footer"><span>{PROFILE.name}</span><a href="#hero">Back to top</a></footer>
+        )
+      )}
       {dock && <nav className="direction-dock" aria-label="Workspace navigation">
         <a href="#projects">Work</a><a href="#experience">About</a><a href="#research">Research</a><a href={`mailto:${PROFILE.email}`}>Contact</a>
       </nav>}
