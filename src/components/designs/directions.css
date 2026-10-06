@@ -471,7 +471,7 @@
 .d1-hero-side p:last-child { font-size: 15px; }
 
 /* D1 Synthesis — Asymmetrical Hero per sketch (D1 Ledger + D4 Portrait) */
-.d1-synthesis-hero { min-height: auto; display: grid; grid-template-columns: 1.22fr .78fr; align-items: stretch; gap: clamp(32px, 5vw, 64px); padding: clamp(32px, 5vh, 56px) 0 clamp(40px, 6vh, 64px); }
+.d1-synthesis-hero { min-height: auto; display: grid; grid-template-columns: 1.22fr .78fr; align-items: stretch; gap: clamp(32px, 5vw, 64px); row-gap: clamp(20px, 2.4vw, 30px); padding: clamp(32px, 5vh, 56px) 0 clamp(40px, 6vh, 64px); }
 .d1-synthesis .d1-synthesis-hero + .direction-section { border-top: 0; }
 .d1-synthesis-col-left { display: flex; flex-direction: column; }
 .d1-synthesis-col-left .direction-overline { margin-bottom: 14px; margin-left: clamp(54px, 7vw, 120px); }
@@ -480,6 +480,12 @@
 .d1-synthesis-portrait { align-self: flex-start; width: clamp(200px, 22vw, 280px); aspect-ratio: 1.25; border: 1px solid var(--dir-line); margin-bottom: 0; margin-left: clamp(-90px, -7vw, -40px); }
 .d1-synthesis-about { align-self: flex-end; width: clamp(250px, 26vw, 340px); text-align: left; margin-top: auto; margin-bottom: clamp(60px, 10vh, 110px); padding-top: 24px; }
 .d1-synthesis-about p { font-size: clamp(16px, 1.4vw, 19px); color: var(--dir-muted); line-height: 1.5; margin: 0; }
+.d1-synthesis-hero-cta { position: relative; isolation: isolate; grid-column: 1 / -1; justify-self: center; display: inline-flex; align-items: center; margin-top: clamp(-8px, -1vh, 0px); padding: 14px 20px; color: var(--dir-ink); font-size: 1.25rem; line-height: 1.2; overflow: hidden; transition: color 220ms cubic-bezier(.22, 1, .36, 1), transform 220ms cubic-bezier(.22, 1, .36, 1); }
+.d1-synthesis-hero-cta::before { position: absolute; z-index: -1; inset: 0; background: var(--dir-ink); content: ""; opacity: 0; transition: opacity 220ms cubic-bezier(.22, 1, .36, 1); }
+.d1-synthesis-hero-cta:hover, .d1-synthesis-hero-cta:focus-visible { color: var(--dir-paper); transform: translateY(-2px); }
+.direction .d1-synthesis-hero-cta:hover, .direction .d1-synthesis-hero-cta:focus-visible { opacity: 1; }
+.d1-synthesis-hero-cta:hover::before, .d1-synthesis-hero-cta:focus-visible::before { opacity: 1; }
+.d1-synthesis-hero-cta:focus-visible { outline: 1px solid var(--dir-ink); outline-offset: 4px; }
 .d1-synthesis-projects .direction-section-heading { margin-bottom: clamp(44px, 6vw, 76px); }
 .d1-synthesis-projects .direction-section-heading h2 { font-size: clamp(46px, 6.4vw, 88px); font-weight: 550; letter-spacing: -.065em; line-height: .96; }
 .d1-synthesis-projects .d2-gallery { gap: clamp(48px, 7vw, 96px) clamp(20px, 3vw, 36px); }
@@ -553,7 +559,7 @@
 .direction-cert-pager-indicator { font: 12px var(--font-geist-mono), monospace; color: var(--dir-muted); letter-spacing: .08em; font-feature-settings: "tnum" 1; }
 .d1-section { display: grid; grid-template-columns: minmax(145px, .27fr) 1fr; gap: clamp(28px, 6vw, 88px); }
 .d1-label { color: var(--dir-muted); font: 12px var(--font-geist-mono), monospace; }
-.d1-synthesis .d1-synthesis-contact { display: block; padding: clamp(120px, 18vw, 240px) 0; }
+.d1-synthesis .d1-synthesis-contact { display: grid; align-items: center; min-height: calc(100svh - 90px); padding: clamp(48px, 8vh, 88px) 0; scroll-margin-top: 45px; }
 .d1-contact-editorial { min-width: 0; text-align: center; }
 .d1-contact-editorial h2 { max-width: 1100px; margin-inline: auto; font-size: clamp(56px, 9vw, 124px); font-weight: 600; letter-spacing: -.075em; line-height: .92; }
 .d1-contact-editorial-footer { display: flex; flex-direction: column; align-items: center; gap: 30px; margin-top: clamp(32px, 5vw, 58px); }
@@ -654,7 +660,7 @@
   .d1-hero, .d2-hero, .d3-hero, .d1-synthesis-hero { grid-template-columns: 1fr; }
   .d1-synthesis-hero { min-height: auto; gap: 32px; padding: 48px 0; }
   .d1-synthesis .d1-synthesis-projects { padding-top: clamp(88px, 12vh, 128px); }
-  .d1-synthesis .d1-synthesis-contact { padding: clamp(104px, 16vw, 160px) 0; }
+  .d1-synthesis .d1-synthesis-contact { min-height: calc(100svh - 90px); padding: clamp(40px, 7vh, 64px) 0; }
   .d1-contact-editorial-footer { gap: 22px; }
   .d1-synthesis-col-right { align-items: flex-start; }
   .d1-synthesis-col-left .direction-overline { margin-left: 0; }

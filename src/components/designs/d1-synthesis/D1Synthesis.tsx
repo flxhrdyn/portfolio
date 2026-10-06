@@ -3,8 +3,10 @@ import {
   DirectionShell, SectionHeading, ProjectImage, ProjectCopy,
   WorkExperienceContent, EducationContent,
   SkillsContent, ResearchPaperContent, CertificationsContent,
-  PROFILE, PROJECTS, CERTIFICATIONS, CONTACT_LINKS,
 } from '@/components/designs/DirectionShared';
+import {
+  PROFILE, ALL_PROJECTS as PROJECTS, CERTIFICATIONS, CONTACT_LINKS,
+} from '@/data/portfolio-data';
 
 const contactOrder = ['Email', 'LinkedIn', 'GitHub', 'Hugging Face'];
 const prioritizedContactLinks = [...CONTACT_LINKS].sort(
@@ -32,7 +34,7 @@ function ContactLinks({ className = '' }: { className?: string }) {
 
 export function D1Synthesis() {
   return (
-    <DirectionShell className="d1 d1-synthesis">
+    <DirectionShell className="d1 d1-synthesis" hideNavigation>
       <main className="direction-main d1-main" data-layout="synthesis-ledger">
         <section className="direction-hero d1-synthesis-hero" id="hero">
           <div className="d1-synthesis-col-left">
@@ -47,6 +49,9 @@ export function D1Synthesis() {
               <p>{PROFILE.tagline}</p>
             </div>
           </div>
+          <a className="d1-synthesis-hero-cta" href="#contact">
+            <span>Get in touch</span>
+          </a>
         </section>
 
         <section className="direction-section d1-synthesis-projects" id="projects">

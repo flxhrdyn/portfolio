@@ -113,8 +113,14 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
   const themeButton = (
     <button ref={themeButtonRef} type="button" className="nav-utility nav-theme-control" onClick={toggleTheme}
       aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}>
-      <span className="nav-theme-swatch" aria-hidden="true" />
-      <span className="nav-theme-text">{theme === "dark" ? "Dark" : "Light"}</span>
+      <span className="nav-theme-text">{theme === "dark" ? "Light mode" : "Dark mode"}</span>
+      <svg className="nav-theme-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        {theme === "dark" ? (
+          <><circle cx="10" cy="10" r="3.2" /><path d="M10 1.8v2M10 16.2v2M18.2 10h-2M3.8 10h-2m14-5.8-1.4 1.4M5.6 14.4l-1.4 1.4m11.6 0-1.4-1.4M5.6 5.6 4.2 4.2" /></>
+        ) : (
+          <path d="M17.4 12.2A7 7 0 0 1 7.8 2.6a7.1 7.1 0 1 0 9.6 9.6Z" />
+        )}
+      </svg>
     </button>
   );
 
@@ -160,9 +166,8 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
               </a>
               <button type="button" className="nav-ask-link" aria-label="Ask AI" aria-expanded={chatOpen}
                 aria-controls="portfolio-chat-panel" onClick={(event) => { setMenuOpen(false); onAskAI?.(event.currentTarget); }}>
-                Ask AI <Arrow diagonal />
+                Ask AI <Arrow />
               </button>
-              <span className="nav-action-divider" aria-hidden="true" />
               <button ref={menuButtonRef} type="button" className={`nav-menu-trigger${menuOpen ? " is-open" : ""}`}
                 aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
                 aria-expanded={menuOpen} aria-controls="nav-section-menu" onClick={() => setMenuOpen((open) => !open)}>
@@ -193,7 +198,7 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
                   animate={menuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}
                   transition={reduceMotion ? { duration: 0 } : { duration: 0.2, delay: index * 0.024, ease: EASE_OUT }}
                 >
-                  <span>{link.label}</span><Arrow />
+                  <span>{link.label}</span>
                 </m.a>
               ))}
             </div>
