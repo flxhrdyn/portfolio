@@ -100,8 +100,8 @@ function SkillIcon({ name }: { name: string }) {
 
 export default function SkillsSection() {
   const reduceMotion = useReducedMotion();
-  const categoryGroups = skills.filter((group) => group.category !== "Languages & Bio");
-  const languageGroup = skills.find((group) => group.category === "Languages & Bio");
+  const categoryGroups = skills.filter((group) => group.category !== "Spoken Languages");
+  const languageGroup = skills.find((group) => group.category === "Spoken Languages");
 
   return (
     <section className="section" id="skills">

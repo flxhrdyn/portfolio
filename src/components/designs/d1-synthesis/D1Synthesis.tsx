@@ -3,8 +3,32 @@ import {
   DirectionShell, SectionHeading, ProjectImage, ProjectCopy,
   WorkExperienceContent, EducationContent,
   SkillsContent, ResearchPaperContent, CertificationsContent,
-  ContactContent, PROFILE, PROJECTS, CERTIFICATIONS,
+  PROFILE, PROJECTS, CERTIFICATIONS, CONTACT_LINKS,
 } from '@/components/designs/DirectionShared';
+
+const contactOrder = ['Email', 'LinkedIn', 'GitHub', 'Hugging Face'];
+const prioritizedContactLinks = [...CONTACT_LINKS].sort(
+  (a, b) => contactOrder.indexOf(a.label) - contactOrder.indexOf(b.label),
+);
+
+function ContactLinks({ className = '' }: { className?: string }) {
+  return (
+    <div className={`d1-contact-links ${className}`}>
+      {prioritizedContactLinks.map((item) => (
+        <a
+          href={item.href}
+          key={item.label}
+          target={item.href.startsWith('mailto:') ? undefined : '_blank'}
+          rel={item.href.startsWith('mailto:') ? undefined : 'noreferrer'}
+        >
+          <span>{item.label}</span>
+          <span>{item.handle}</span>
+          <span className="d1-contact-arrow" aria-hidden="true">↗</span>
+        </a>
+      ))}
+    </div>
+  );
+}
 
 export function D1Synthesis() {
   return (
@@ -51,6 +75,11 @@ export function D1Synthesis() {
           </div>
         </section>
 
+        <section className="direction-section d1-synthesis-skills" id="skills">
+          <SectionHeading>Technical skills</SectionHeading>
+          <SkillsContent className="d5-synthesis-skill-grid" showMetadata={false} />
+        </section>
+
         <section className="direction-section d1-synthesis-research" id="research">
           <div className="d1-synthesis-rc-grid">
             <div className="d1-synthesis-rc-research">
@@ -64,16 +93,13 @@ export function D1Synthesis() {
           </div>
         </section>
 
-        <section className="direction-section d1-synthesis-skills" id="skills">
-          <SectionHeading>Technical skills</SectionHeading>
-          <SkillsContent />
-        </section>
-
-        <section className="direction-section d1-section" id="contact">
-          <p className="d1-label">Contact</p>
-          <div>
-            <SectionHeading>Get in touch</SectionHeading>
-            <ContactContent />
+        <section className="direction-section d1-synthesis-contact" id="contact" aria-labelledby="contact-editorial-heading">
+          <div className="d1-contact-editorial">
+            <h2 id="contact-editorial-heading">Let’s talk about<br />AI engineering.</h2>
+            <div className="d1-contact-editorial-footer">
+              <p>Open to AI/ML engineering roles and practical collaborations.</p>
+              <ContactLinks className="d1-contact-links-inline" />
+            </div>
           </div>
         </section>
       </main>

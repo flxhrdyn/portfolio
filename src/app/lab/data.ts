@@ -57,8 +57,8 @@ export const isCurrent = (date: string) => date.includes("Present");
 
 type SkillGroup = { category: string; items: string[] };
 const skillGroups = skillsJson as SkillGroup[];
-export const SKILLS = skillGroups.filter((s) => s.category !== "Languages & Bio");
-export const LANGUAGES = skillGroups.find((s) => s.category === "Languages & Bio")!.items;
+export const SKILLS = skillGroups.filter((s) => s.category !== "Spoken Languages");
+export const LANGUAGES = skillGroups.find((s) => s.category === "Spoken Languages")!.items;
 
 type Paper = { title: string; kind: string; journal: string; volume: string; authors: string; summary: string; stats: { value: string; label: string }[] };
 export const PAPER = (writingJson as Paper[])[0];

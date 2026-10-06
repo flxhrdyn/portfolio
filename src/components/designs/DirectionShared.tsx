@@ -302,7 +302,10 @@ export function EducationContent({ compact = false }: { compact?: boolean } = {}
   return <ExperienceContent compact={compact} only="education" />;
 }
 
-export function SkillsContent({ className = '' }: { className?: string } = {}) {
+export function SkillsContent({
+  className = '',
+  showMetadata = true,
+}: { className?: string; showMetadata?: boolean } = {}) {
   const telemetryGroups = getSkillTelemetry(SKILL_GROUPS);
 
   return (
@@ -311,9 +314,19 @@ export function SkillsContent({ className = '' }: { className?: string } = {}) {
         <article key={group.category} className="direction-skills-cell">
           <header className="direction-skills-cell-header">
             <span className="direction-skills-index">
-              {`${group.indexLabel} // ${group.title}`}
+              {showMetadata && (
+                <>
+                  <span className="direction-skills-index-number">{group.indexLabel}</span>
+                  {' '}
+                  <span className="direction-skills-index-divider" aria-hidden="true">//</span>
+                  {' '}
+                </>
+              )}
+              <span className={`direction-skills-index-title${showMetadata ? '' : ' direction-skills-index-title-plain'}`}>
+                {showMetadata ? group.title : group.category}
+              </span>
             </span>
-            <span className="direction-skills-count">{group.countLabel}</span>
+            {showMetadata && <span className="direction-skills-count">{group.countLabel}</span>}
           </header>
           <ul className="direction-skills-list">
             {group.items.map((item) => (
