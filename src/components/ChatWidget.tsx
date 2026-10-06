@@ -83,12 +83,6 @@ function toPlainText(msg: Message): string {
   return "";
 }
 
-const STATUS_MESSAGES = [
-  "Consulting portfolio index...",
-  "Retrieving curated context nodes...",
-  "Synthesizing structured response...",
-];
-
 function determineSources(text: string): string[] {
   const lower = text.toLowerCase();
   const sources = new Set<string>();
@@ -188,7 +182,6 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [isStreaming, setIsStreaming] = useState(false);
-  const [statusIndex, setStatusIndex] = useState(0);
   const lastMessage = messages[messages.length - 1];
   const hasConversation = messages.some((msg) => msg.sender === "user");
   const chatState = isTyping || isStreaming ? "answering" : lastMessage?.isError ? "error" : "idle";
@@ -216,14 +209,6 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
     sources: [],
     rafId: null,
   });
-
-  useEffect(() => {
-    if (!isTyping) return;
-    const id = setInterval(() => {
-      setStatusIndex((i) => (i + 1) % STATUS_MESSAGES.length);
-    }, 2200);
-    return () => clearInterval(id);
-  }, [isTyping]);
 
   useEffect(() => {
     const body = bodyRef.current;
@@ -314,7 +299,6 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
     const userMsgId = `${Date.now()}-u`;
     setMessages((prev) => [...prev, { id: userMsgId, sender: "user", text: chip.query }]);
     setIsTyping(true);
-    setStatusIndex(0);
 
     const thinkingDelay = Math.floor(Math.random() * 300) + 300;
     setTimeout(() => {
@@ -364,7 +348,6 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
     // Initiate network fetch asynchronously with preserved history
     (async () => {
         setIsTyping(true);
-        setStatusIndex(0);
 
         const replyId = `${Date.now()}-b`;
         const state = streamStateRef.current;
@@ -535,9 +518,9 @@ export default function ChatWidget({ onClose, closeButtonRef }: ChatWidgetProps 
                     transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                   >
                     <div className="msg-content-wrapper">
-                      <div className="typing-status-pill">
-                        <span className="typing-status-label">{STATUS_MESSAGES[statusIndex]}</span>
-                        <div className="typing-indicator">
+                      <div className="typing-status">
+                        <span className="typing-status-label">Writing a reply</span>
+                        <div className="typing-indicator" aria-hidden="true">
                           <div className="typing-dot" />
                           <div className="typing-dot" />
                           <div className="typing-dot" />
