@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode, useEffect, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
-import { DesignSwitcherPill } from '@/components/design-switcher/DesignSwitcherPill';
 import {
   PROFILE, ALL_PROJECTS, WORK_ROLES, EDUCATION, SKILL_GROUPS,
   PUBLICATIONS, CERTIFICATIONS, CONTACT_LINKS, ProjectItem,
@@ -41,26 +40,29 @@ export function DirectionShell({
   className = '',
   framed = false,
   dock = false,
+  hideNavigation = false,
 }: {
   children: ReactNode;
   className?: string;
   framed?: boolean;
   dock?: boolean;
+  hideNavigation?: boolean;
 }) {
   return (
     <div className={`direction ${className}`} data-direction-shell>
-      <header className={`direction-nav ${framed ? 'direction-nav-framed' : ''}`}>
-        <Link href="#hero" className="direction-brand" aria-label={`${PROFILE.name}, home`}>
-          <span>flxhrdyn</span>
-        </Link>
-        <nav className="direction-links" aria-label="Page sections">
-          <a href="#projects">Work</a>
-          <a href="#experience">About</a>
-          <a href="#research">Research</a>
-          <a href="#contact">Contact</a>
-        </nav>
-        <DesignSwitcherPill className="direction-switcher" />
-      </header>
+      {!hideNavigation && (
+        <header className={`direction-nav ${framed ? 'direction-nav-framed' : ''}`}>
+          <Link href="#hero" className="direction-brand" aria-label={`${PROFILE.name}, home`}>
+            <span>flxhrdyn</span>
+          </Link>
+          <nav className="direction-links" aria-label="Page sections">
+            <a href="#projects">Work</a>
+            <a href="#experience">About</a>
+            <a href="#research">Research</a>
+            <a href="#contact">Contact</a>
+          </nav>
+        </header>
+      )}
       {children}
       {!dock && (
         className.includes('d1-synthesis') ? (
@@ -81,7 +83,8 @@ export function SectionHeading({ children, id }: { children: ReactNode; id?: str
 }
 
 export function ProjectImage({ project, className = '' }: { project: ProjectItem; className?: string }) {
-  return <div className={`direction-image ${className}`}><Image src={project.image} alt={project.imageAlt} fill sizes="(max-width: 760px) 100vw, 70vw" /></div>;
+  const quality = project.slug === 'invenioai' || project.slug === 'angrist' ? 100 : 75;
+  return <div className={`direction-image ${className}`} data-project-slug={project.slug}><Image src={project.image} alt={project.imageAlt} fill sizes="(max-width: 760px) 100vw, 70vw" quality={quality} /></div>;
 }
 
 export function ProjectDetailModal({
@@ -240,14 +243,8 @@ export function ProjectCopy({ project, index }: { project: ProjectItem; index?: 
   );
 }
 
-function CareerRoleItem({
-  role,
-  defaultOpen = false,
-}: {
-  role: (typeof WORK_ROLES)[number];
-  defaultOpen?: boolean;
-}) {
-  const [isOpen, setIsOpen] = useState(defaultOpen);
+function CareerRoleItem({ role }: { role: (typeof WORK_ROLES)[number] }) {
+  const [isOpen, setIsOpen] = useState(false);
   const hasHighlights = Boolean(role.highlights && role.highlights.length > 0);
 
   return (
@@ -299,11 +296,10 @@ export function ExperienceContent({
 
   return (
     <div className={`direction-career ${compact ? 'direction-career-compact' : ''}`}>
-      {showWork && WORK_ROLES.map((role, index) => (
+      {showWork && WORK_ROLES.map((role) => (
         <CareerRoleItem
           key={`${role.company}-${role.title}`}
           role={role}
-          defaultOpen={index === 0}
         />
       ))}
       {showEdu && EDUCATION.map((item) => (
@@ -444,7 +440,7 @@ export function CertificationsContent({
             : cert.issuer.includes('McKinsey')
             ? 'McKinsey'
             : cert.issuer.includes('Stanford')
-            ? 'Stanford'
+            ? 'Stanford Online'
             : cert.issuer.includes('DeepLearning.AI')
             ? 'DeepLearning.AI'
             : cert.issuer.includes('Gunadarma')
@@ -490,7 +486,6 @@ export function CertificationsContent({
       </ul>
       {totalPages > 1 && (
         <div className="direction-cert-pager">
-          <span className="direction-cert-pager-label">Accreditations</span>
           <div className="direction-cert-pager-controls">
             <button
               type="button"

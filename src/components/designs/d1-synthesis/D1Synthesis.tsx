@@ -80,12 +80,12 @@ export function D1Synthesis() {
       <main className="direction-main d1-main" data-layout="synthesis-ledger">
         <section className="direction-hero d1-synthesis-hero" id="hero">
           <div className="d1-synthesis-col-left">
-            <p className="direction-overline">AI Engineer & Data Scientist · Jakarta, Indonesia</p>
+            <p className="direction-overline">AI Engineer & Data Scientist · Jakarta, IDN</p>
             <h1 className="d1-synthesis-title">{PROFILE.name}</h1>
           </div>
           <div className="d1-synthesis-col-right">
             <div className="direction-image d1-synthesis-portrait">
-              <Image src={PROFILE.photo} alt={PROFILE.photoAlt} fill sizes="(max-width: 800px) 100vw, 270px" priority />
+              <Image src={PROFILE.photo} alt={PROFILE.photoAlt} fill sizes="(max-width: 909px) 200px, (max-width: 1272px) 22vw, 280px" unoptimized priority />
             </div>
             <div className="d1-synthesis-about">
               <p>{PROFILE.tagline}</p>
