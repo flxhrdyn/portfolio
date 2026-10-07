@@ -595,7 +595,7 @@
 .d1-contact-links-inline a:hover { color: var(--dir-ink); opacity: 1; }
 .d1-contact-links-inline a > span:first-child { font-size: 17px; }
 .d1-contact-links-inline a > span:nth-child(2) { font-size: 15px; }
-.d1-contact-links-inline .d1-contact-arrow { color: var(--dir-muted); transition: color 180ms ease, transform 180ms ease; }
+.d1-contact-links-inline .d1-contact-arrow { color: var(--dir-muted); font-size: 14px; transition: color 180ms ease, transform 180ms ease; }
 .d1-contact-links-inline a:hover .d1-contact-arrow { color: var(--dir-ink); transform: translate(2px, -2px); }
 .d1-project-list { border-top: 1px solid var(--dir-line); }
 .d1-project { display: grid; grid-template-columns: minmax(170px, .4fr) 1fr; gap: 24px; padding: 25px 0; border-bottom: 1px solid var(--dir-line); }
