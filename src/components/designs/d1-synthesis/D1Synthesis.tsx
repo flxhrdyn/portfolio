@@ -2,10 +2,11 @@ import Image from 'next/image';
 import {
   DirectionShell, SectionHeading, ProjectImage, ProjectCopy,
   WorkExperienceContent, EducationContent,
-  SkillsContent, ResearchPaperContent, CertificationsContent,
+  SkillsContent, CertificationsContent,
 } from '@/components/designs/DirectionShared';
 import {
   PROFILE, ALL_PROJECTS as PROJECTS, CERTIFICATIONS, CONTACT_LINKS,
+  PUBLICATIONS,
 } from '@/data/portfolio-data';
 
 const contactOrder = ['Email', 'LinkedIn', 'GitHub', 'Hugging Face'];
@@ -29,6 +30,47 @@ function ContactLinks({ className = '' }: { className?: string }) {
         </a>
       ))}
     </div>
+  );
+}
+
+function ResearchDesignPreviews() {
+  const paper = PUBLICATIONS[0];
+  const testAccuracy = paper?.stats.find((stat) => stat.label === 'Test Accuracy');
+  if (!paper || !testAccuracy) return null;
+  const accuracyNumber = testAccuracy.value.replace('%', '');
+  const paperAuthors = paper.authors.split(',').map((author) => author.trim());
+  const compactAuthorsLine = (
+    <p className="d1-research-compact-authors">
+      <strong>Felix Windriyareksa Hardyan</strong>
+      <span>+ {paperAuthors.length - 1} co-authors</span>
+    </p>
+  );
+
+  const paperLink = () => (
+    <a href={paper.doi} target="_blank" rel="noreferrer" className="d1-research-paper-link">
+      Read publication <span aria-hidden="true">↗</span>
+    </a>
+  );
+
+  return (
+    <article className="d1-research-study-models">
+      <div className="d1-research-models-title">
+        <span>{paper.journal} · {paper.volume}</span>
+        <h3>{paper.title}</h3>
+        {compactAuthorsLine}
+      </div>
+      <div className="d1-research-model-flow">
+        <div className="d1-research-model-result">
+          <span>MobileNetV2 · test accuracy</span>
+          <strong aria-label={`${testAccuracy.value} test accuracy`}>
+            {accuracyNumber}<span aria-hidden="true">%</span>
+          </strong>
+        </div>
+      </div>
+      <div className="d1-research-models-footer">
+        {paperLink()}
+      </div>
+    </article>
   );
 }
 
@@ -89,7 +131,7 @@ export function D1Synthesis() {
           <div className="d1-synthesis-rc-grid">
             <div className="d1-synthesis-rc-research">
               <SectionHeading>Research</SectionHeading>
-              <ResearchPaperContent minimal={true} />
+              <ResearchDesignPreviews />
             </div>
             <div className="d1-synthesis-rc-certs" id="certifications">
               <SectionHeading>Certifications</SectionHeading>
