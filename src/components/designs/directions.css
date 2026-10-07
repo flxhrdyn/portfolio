@@ -786,3 +786,6 @@
 @media (prefers-reduced-motion: reduce) {
   .direction *, .direction *::before, .direction *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; animation-duration: .01ms !important; }
 }
+
+.d1-synthesis .direction-section-heading h2,
+.d1-synthesis .d1-contact-editorial h2 { letter-spacing: -.06em; }
