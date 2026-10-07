@@ -8,6 +8,7 @@ export default function PortfolioShell({ children }: { children: ReactNode }) {
   const [chatOpen, setChatOpen] = useState(false);
   const askAITriggerRef = useRef<HTMLButtonElement | null>(null);
   const portfolioRef = useRef<HTMLDivElement>(null);
+  const pendingScrollTransferRef = useRef<{ target: "portfolio" | "window"; top: number } | null>(null);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -38,12 +39,34 @@ export default function PortfolioShell({ children }: { children: ReactNode }) {
     };
   }, [chatOpen]);
 
+  useLayoutEffect(() => {
+    const transfer = pendingScrollTransferRef.current;
+    pendingScrollTransferRef.current = null;
+    if (!transfer) return;
+
+    if (transfer.target === "portfolio") {
+      if (portfolioRef.current) portfolioRef.current.scrollTop = transfer.top;
+      return;
+    }
+
+    window.scrollTo(0, transfer.top);
+  }, [chatOpen]);
+
   const openChat = (trigger: HTMLButtonElement) => {
     askAITriggerRef.current = trigger;
+    if (window.matchMedia("(min-width: 1200px)").matches) {
+      pendingScrollTransferRef.current = { target: "portfolio", top: window.scrollY };
+    }
     setChatOpen(true);
   };
 
   const closeChat = () => {
+    if (window.matchMedia("(min-width: 1200px)").matches) {
+      pendingScrollTransferRef.current = {
+        target: "window",
+        top: portfolioRef.current?.scrollTop ?? 0,
+      };
+    }
     setChatOpen(false);
     requestAnimationFrame(() => askAITriggerRef.current?.focus());
   };
