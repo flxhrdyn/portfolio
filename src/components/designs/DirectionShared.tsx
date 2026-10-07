@@ -92,12 +92,15 @@ export function ProjectDetailModal({
   index,
   isOpen,
   onClose,
+  presentation,
 }: {
   project: ProjectItem;
   index?: number;
   isOpen: boolean;
   onClose: () => void;
+  presentation?: 'case-study';
 }) {
+  const isCaseStudy = presentation === 'case-study';
   const mounted = useSyncExternalStore(
     () => () => {},
     () => true,
@@ -122,7 +125,7 @@ export function ProjectDetailModal({
 
   return createPortal(
     <div
-      className="direction direction-modal-backdrop"
+      className={`direction direction-modal-backdrop${isCaseStudy ? ' direction-modal-backdrop--case-study' : ''}`}
       role="dialog"
       aria-modal="true"
       aria-labelledby={`modal-title-${project.slug}`}
@@ -143,7 +146,7 @@ export function ProjectDetailModal({
           </button>
         </div>
 
-        <div className="direction-modal-body">
+        <div className={`direction-modal-body${isCaseStudy ? ' direction-modal-body--case-study' : ''}`}>
           <div className="direction-modal-title-group">
             <h2 id={`modal-title-${project.slug}`} className="direction-modal-title">
               {project.title}
@@ -153,9 +156,34 @@ export function ProjectDetailModal({
             )}
           </div>
 
+          {isCaseStudy && (
+            <figure className="direction-modal-visual">
+              <div className={`direction-modal-visual-frame${project.video ? ' direction-modal-visual-frame--video' : ' direction-modal-visual-frame--image'}`}>
+                {project.video ? (
+                  <video
+                    src={project.video}
+                    poster={project.image}
+                    controls
+                    playsInline
+                    preload="metadata"
+                    aria-label={`${project.title} project demo`}
+                  />
+                ) : (
+                  <Image
+                    src={project.image}
+                    alt={project.imageAlt}
+                    fill
+                    sizes="(max-width: 760px) 100vw, 900px"
+                  />
+                )}
+              </div>
+              <figcaption>{project.video ? 'Project demo' : 'Dashboard preview'}</figcaption>
+            </figure>
+          )}
+
           {project.overview && (
             <div className="direction-modal-section">
-              <h3 className="direction-modal-label">Overview</h3>
+              <h3 className="direction-modal-label">{isCaseStudy ? 'Problem & intent' : 'Overview'}</h3>
               <p className="direction-modal-text">{project.overview}</p>
             </div>
           )}
@@ -171,7 +199,7 @@ export function ProjectDetailModal({
 
           {project.codeBlock && (
             <div className="direction-modal-section">
-              <h3 className="direction-modal-label">Core implementation</h3>
+              <h3 className="direction-modal-label">{isCaseStudy ? 'Implementation snapshot' : 'Core implementation'}</h3>
               <pre className="direction-code">
                 <code>{project.codeBlock}</code>
               </pre>
@@ -211,7 +239,7 @@ export function ProjectDetailModal({
   );
 }
 
-export function ProjectCopy({ project, index }: { project: ProjectItem; index?: number }) {
+export function ProjectCopy({ project, index, presentation }: { project: ProjectItem; index?: number; presentation?: 'case-study' }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -242,6 +270,7 @@ export function ProjectCopy({ project, index }: { project: ProjectItem; index?: 
         index={index}
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
+        presentation={presentation}
       />
     </div>
   );

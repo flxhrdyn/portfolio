@@ -102,7 +102,7 @@ export function D1Synthesis() {
             {PROJECTS.map((project, index) => (
               <article className="d2-gallery-item" key={project.slug}>
                 <ProjectImage project={project} />
-                <ProjectCopy project={project} index={index} />
+                <ProjectCopy project={project} index={index} presentation="case-study" />
               </article>
             ))}
           </div>
