@@ -83,7 +83,7 @@ export function SectionHeading({ children, id }: { children: ReactNode; id?: str
 }
 
 export function ProjectImage({ project, className = '' }: { project: ProjectItem; className?: string }) {
-  const quality = project.slug === 'invenioai' || project.slug === 'angrist' ? 100 : 75;
+  const quality = project.slug === 'invenioai' || project.slug === 'angrist' || project.slug === 'aeroguard' ? 100 : 75;
   return <div className={`direction-image ${className}`} data-project-slug={project.slug}><Image src={project.image} alt={project.imageAlt} fill sizes="(max-width: 760px) 100vw, 70vw" quality={quality} /></div>;
 }
 
@@ -191,17 +191,19 @@ export function ProjectDetailModal({
             </div>
           ) : null}
 
-          <div className="direction-modal-footer">
-            <a
-              href={`https://github.com/flxhrdyn/${project.repo}`}
-              target="_blank"
-              rel="noreferrer"
-              className="direction-modal-link"
-            >
-              <span>View on GitHub</span>
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
+          {project.repo ? (
+            <div className="direction-modal-footer">
+              <a
+                href={`https://github.com/flxhrdyn/${project.repo}`}
+                target="_blank"
+                rel="noreferrer"
+                className="direction-modal-link"
+              >
+                <span>View on GitHub</span>
+                <span aria-hidden="true">↗</span>
+              </a>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>,
@@ -228,9 +230,11 @@ export function ProjectCopy({ project, index }: { project: ProjectItem; index?: 
         >
           Project details
         </button>
-        <a href={`https://github.com/flxhrdyn/${project.repo}`} target="_blank" rel="noreferrer">
-          GitHub
-        </a>
+        {project.repo ? (
+          <a href={`https://github.com/flxhrdyn/${project.repo}`} target="_blank" rel="noreferrer">
+            GitHub
+          </a>
+        ) : null}
       </div>
 
       <ProjectDetailModal

@@ -39,8 +39,8 @@ const QUICK_CHIPS = [
     query: "What are his featured projects?",
     answer:
       "Felix's featured projects: InvenioAI, an advanced RAG system for document Q&A " +
-      "([explore the project](https://github.com/flxhrdyn/InvenioAI)); Omnius, an automated media " +
-      "intelligence platform ([explore the project](https://github.com/flxhrdyn/Omnius)); and " +
+      "([explore the project](https://github.com/flxhrdyn/InvenioAI)); Aeroguard, an industrial " +
+      "compressor predictive-maintenance system developed for PT Astra Visteon Indonesia; and " +
       "LUCIAN, a lung cancer histopathology classifier reaching 93.67% accuracy " +
       "([explore the project](https://github.com/flxhrdyn/LUCIAN)).",
     sources: ["projects.md", "project-context.md"],
@@ -86,7 +86,7 @@ function toPlainText(msg: Message): string {
 function determineSources(text: string): string[] {
   const lower = text.toLowerCase();
   const sources = new Set<string>();
-  if (lower.includes("invenio") || lower.includes("omnius") || lower.includes("lucian") || lower.includes("amon") || lower.includes("angrist") || lower.includes("project")) {
+  if (lower.includes("invenio") || lower.includes("aeroguard") || lower.includes("lucian") || lower.includes("amon") || lower.includes("angrist") || lower.includes("project")) {
     sources.add("projects.md");
   }
   if (lower.includes("research") || lower.includes("paper") || lower.includes("publikasi") || lower.includes("coral") || lower.includes("jitet")) {
