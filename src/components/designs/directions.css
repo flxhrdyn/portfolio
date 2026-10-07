@@ -475,9 +475,9 @@
 .d1-synthesis .d1-synthesis-hero + .direction-section { border-top: 0; }
 .d1-synthesis-col-left { display: flex; flex-direction: column; }
 .d1-synthesis-col-left .direction-overline { margin-bottom: 14px; margin-left: clamp(54px, 7vw, 120px); }
-.d1-synthesis-title { max-width: 720px; font-size: clamp(48px, 6.2vw, 92px); line-height: .94; letter-spacing: -.045em; font-weight: 550; margin: 0; }
+.d1-synthesis .d1-synthesis-title { max-width: 720px; font-size: clamp(56px, 9.8vw, 142px); line-height: .94; letter-spacing: -.06em; font-weight: 550; margin: 0; }
 .d1-synthesis-col-right { display: flex; flex-direction: column; justify-content: flex-start; align-items: stretch; padding-top: 4px; min-height: 100%; }
-.d1-synthesis-portrait { align-self: flex-start; width: clamp(200px, 22vw, 280px); aspect-ratio: 1.1; border: 0; margin-bottom: 0; margin-left: clamp(-90px, -7vw, -40px); }
+.d1-synthesis-portrait { align-self: flex-start; width: clamp(200px, 22vw, 280px); aspect-ratio: 1.1; border: 0; margin-bottom: 0; margin-left: clamp(18px, 1.9vw, 36px); }
 .d1-synthesis-portrait img { object-position: center 36%; }
 .d1-synthesis-about { align-self: flex-end; width: clamp(250px, 26vw, 340px); text-align: left; margin-top: clamp(56px, 7vh, 80px); margin-bottom: 0; padding-top: 0; }
 .d1-synthesis-about p { font-size: clamp(16px, 1.4vw, 19px); color: var(--dir-muted); line-height: 1.5; margin: 0; }
