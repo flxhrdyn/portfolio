@@ -3,15 +3,70 @@ import { expect, test } from "@playwright/test";
 const portfolioUrl = process.env.PORTFOLIO_TEST_URL ?? "http://localhost:3000";
 
 test.describe("experience photo interlude", () => {
+  test("aligns captions on the initial render before client hydration", async ({ browser }) => {
+    const context = await browser.newContext({
+      javaScriptEnabled: false,
+      viewport: { width: 1920, height: 1080 },
+    });
+    const page = await context.newPage();
+    await page.goto(portfolioUrl);
+
+    const grid = page.locator(".d1-experience-photo-grid");
+    await grid.scrollIntoViewIfNeeded();
+    await page.waitForFunction(() =>
+      [...document.querySelectorAll(".d1-experience-photo-grid figure img")].every((image) =>
+        image instanceof HTMLImageElement && image.complete && image.naturalWidth > 0,
+      ),
+    );
+
+    for (const width of [1920, 1440, 917, 761]) {
+      await page.setViewportSize({ width, height: 1080 });
+      const differences = await grid.evaluate((root) =>
+        [...root.querySelectorAll("figure")].map((figure) => {
+          const image = figure.querySelector("img");
+          const caption = figure.querySelector("figcaption");
+          if (!image || !caption || !image.naturalWidth || !image.naturalHeight) return null;
+
+          const frame = image.parentElement!.getBoundingClientRect();
+          const scale = Math.min(frame.width / image.naturalWidth, frame.height / image.naturalHeight);
+          const visibleWidth = image.naturalWidth * scale;
+          const horizontalPosition = getComputedStyle(image).objectPosition.split(/\s+/)[0];
+          const parsedPosition = Number.parseFloat(horizontalPosition);
+          const position = horizontalPosition === "right"
+            ? 1
+            : horizontalPosition === "left"
+              ? 0
+              : Number.isNaN(parsedPosition)
+                ? 0.5
+                : parsedPosition / 100;
+          const visibleLeft = frame.left + (frame.width - visibleWidth) * position;
+          return {
+            difference: Math.abs(caption.getBoundingClientRect().left - visibleLeft),
+            captionFits: caption.scrollWidth <= caption.clientWidth,
+          };
+        }),
+      );
+
+      expect(differences).toHaveLength(3);
+      for (const difference of differences) {
+        expect(difference).not.toBeNull();
+        expect(difference!.difference).toBeLessThan(3);
+        expect(difference!.captionFits).toBe(true);
+      }
+    }
+    await context.close();
+  });
+
   test("shows Tunas, Astra, and HPC after work experience and education", async ({ page }) => {
     await page.goto(portfolioUrl);
 
     const interlude = page.getByRole("region", { name: "Experience and education photo break" });
     await expect(interlude).toBeVisible();
     await expect(interlude.getByRole("img")).toHaveCount(3);
-    await expect(interlude.getByText("01 Tunas")).toBeVisible();
-    await expect(interlude.getByText("02 Astra Visteon")).toBeVisible();
-    await expect(interlude.getByText("03 HPC Universitas Gunadarma")).toBeVisible();
+    await expect(interlude.getByText("PT Tunas Ridean Tbk (Tunas Group)", { exact: true })).toBeVisible();
+    await expect(interlude.getByText("PT Astra Visteon Indonesia", { exact: true })).toBeVisible();
+    await expect(interlude.getByText("HPC Universitas Gunadarma", { exact: true })).toBeVisible();
+    await expect(interlude.locator(".d1-experience-photo-index")).toHaveCount(0);
 
     const order = await page.evaluate(() => {
       const work = document.querySelector("#experience");
@@ -28,6 +83,80 @@ test.describe("experience photo interlude", () => {
     expect(order).not.toBeNull();
     expect(order![0]).toBeLessThan(order![1]);
     expect(order![1]).toBeLessThan(order![2]);
+  });
+
+  test("fills the open gallery space with the editorial intro on desktop", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const interlude = page.getByRole("region", { name: "Experience and education photo break" });
+    const note = interlude.locator(".d1-experience-photo-note");
+    await expect(note).toContainText("A few places where my work took shape.");
+    await expect(note.locator(".d1-experience-photo-note-detail")).toHaveText("From office floors to computing labs.");
+    await expect(note.locator(".direction-overline")).toHaveCount(0);
+
+    const detailType = await note.locator(".d1-experience-photo-note-detail").evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { size: Number.parseFloat(style.fontSize), weight: Number.parseInt(style.fontWeight, 10) };
+    });
+    const titleSize = await note.locator(".d1-experience-photo-note-title").evaluate((element) =>
+      Number.parseFloat(getComputedStyle(element).fontSize),
+    );
+    expect(detailType.size).toBeGreaterThanOrEqual(39);
+    expect(detailType.weight).toBeGreaterThanOrEqual(500);
+    expect(titleSize).toBe(detailType.size);
+
+    const [titlePlacement, detailPlacement] = await Promise.all([
+      note.locator(".d1-experience-photo-note-title").evaluate((element) => {
+        const style = getComputedStyle(element);
+        return { column: style.gridColumnStart, row: style.gridRowStart };
+      }),
+      note.locator(".d1-experience-photo-note-detail").evaluate((element) => {
+        const style = getComputedStyle(element);
+        return { column: style.gridColumnStart, row: style.gridRowStart };
+      }),
+    ]);
+    expect(titlePlacement).toEqual({ column: "3", row: "1" });
+    expect(detailPlacement).toEqual({ column: "2", row: "2" });
+  });
+
+  test("moves the editorial intro between Tunas and the small photos on mobile", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto(portfolioUrl);
+
+    const grid = page.locator(".d1-experience-photo-grid");
+    const note = grid.locator(".d1-experience-photo-note");
+    await grid.scrollIntoViewIfNeeded();
+    await page.waitForFunction(() =>
+      [...document.querySelectorAll(".d1-experience-photo-grid figure")].every((figure) => {
+        const image = figure.querySelector("img");
+        const caption = figure.querySelector("figcaption");
+        return Boolean(image?.naturalWidth && caption);
+      }),
+    );
+    const placement = await note.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { column: style.gridColumnStart, row: style.gridRowStart };
+    });
+    expect(placement).toEqual({ column: "1", row: "2" });
+
+    const leftOffset = await grid.evaluate((element) => {
+      const noteText = element.querySelector(".d1-experience-photo-note p");
+      const tunasCaption = element.querySelector(".d1-experience-photo-tunas figcaption");
+      if (!noteText || !tunasCaption) return null;
+      return Math.abs(noteText.getBoundingClientRect().left - tunasCaption.getBoundingClientRect().left);
+    });
+    expect(leftOffset).not.toBeNull();
+    expect(leftOffset!).toBeLessThan(3);
+
+    const detailSize = await note.locator(".d1-experience-photo-note-detail").evaluate((element) =>
+      Number.parseFloat(getComputedStyle(element).fontSize),
+    );
+    const titleSize = await note.locator(".d1-experience-photo-note-title").evaluate((element) =>
+      Number.parseFloat(getComputedStyle(element).fontSize),
+    );
+    expect(detailSize).toBeGreaterThanOrEqual(34.5);
+    expect(titleSize).toBe(detailSize);
   });
 
   test("keeps the Tunas photo smaller than its grid column", async ({ page }) => {
@@ -189,7 +318,7 @@ test.describe("experience photo interlude", () => {
       });
     };
 
-    for (const width of [1920, 390]) {
+    for (const width of [1920, 917, 390]) {
       await page.setViewportSize({ width, height: 1080 });
       const homeDifference = await measureAlignment(portfolioUrl, ".d1-experience-photo-grid");
       const previewDifference = await measureAlignment(
