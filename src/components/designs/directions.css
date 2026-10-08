@@ -546,6 +546,19 @@
 .d1-synthesis-career .direction-education-row > div { padding-left: 30px; }
 .d1-synthesis-career .direction-career { border-top: 0; }
 .d1-synthesis-career .direction-career-row:last-child { border-bottom: 0; }
+.d1-experience-photo-break { padding: clamp(18px, 3vw, 38px) 0 clamp(60px, 8vw, 110px); }
+.d1-experience-photo-grid { --photo-grid-width: min(1434px, 94vw); --photo-row-one: clamp(280px, 32vw, 390px); --photo-row-two: clamp(220px, 24vw, 300px); --photo-column-gap: clamp(14px, 2vw, 24px); --photo-row-gap: clamp(18px, 2.4vw, 30px); display: grid; width: var(--photo-grid-width); margin-inline: calc((100% - var(--photo-grid-width)) / 2); grid-template-columns: 1.05fr .86fr 1.15fr; grid-template-rows: var(--photo-row-one) var(--photo-row-two); gap: var(--photo-row-gap) var(--photo-column-gap); }
+.d1-experience-photo-figure { display: flex; min-width: 0; min-height: 0; flex-direction: column; }
+.d1-experience-photo-frame { position: relative; flex: 1; min-height: 0; overflow: hidden; background: transparent; }
+.d1-experience-photo-frame img { object-fit: contain; }
+.d1-experience-photo-figure figcaption { display: flex; align-items: baseline; gap: 9px; padding-top: 9px; color: var(--dir-ink); font-size: 12px; line-height: 1.35; }
+.d1-experience-photo-index { color: var(--dir-muted); font: 10px/1.35 var(--font-geist-mono), monospace; }
+.d1-experience-photo-tunas { grid-column: 1; grid-row: 1 / 3; width: 80%; height: auto; justify-self: start; align-self: center; }
+.d1-experience-photo-tunas .d1-experience-photo-frame { aspect-ratio: 576 / 1022; flex: none; }
+.d1-experience-photo-astra { grid-column: 2; grid-row: 1; margin-top: max(0px, calc((var(--photo-row-one) + var(--photo-row-two) + var(--photo-row-gap) - (((var(--photo-grid-width) - 2 * var(--photo-column-gap)) * .4875) + 25.2px)) / 2)); }
+.d1-experience-photo-astra img { object-position: 70% center; }
+.d1-experience-photo-hpc { grid-column: 3; grid-row: 2; margin-top: clamp(-24px, -2vw, -12px); }
+.d1-experience-photo-hpc img { object-position: right center; }
 .d1-synthesis-research { padding: clamp(48px, 6vw, 84px) 0; }
 .d1-synthesis-rc-research .direction-section-heading { margin-bottom: calc(var(--d1-section-content-gap) - clamp(6px, .5vw, 7px)); }
 .d1-synthesis-rc-research .direction-section-heading h2 { font-size: clamp(56px, 8vw, 110px); font-weight: 550; letter-spacing: -.065em; line-height: .92; }
@@ -864,6 +877,7 @@
       width: min(100%, 320px);
       margin-top: clamp(32px, 4cqi, 54px);
     }
+    .portfolio-shell--chat-open .d1-experience-photo-grid { --photo-grid-width: 100%; width: 100%; margin-inline: 0; }
     .portfolio-shell--chat-open .d1-synthesis-rc-grid { gap: clamp(32px, 4cqi, 60px); }
     .portfolio-shell--chat-open .d1-research-model-flow { margin-top: clamp(-48px, -3.2cqi, -24px); }
     .portfolio-shell--chat-open .d1-research-model-result strong { font-size: clamp(112px, 13cqi, 172px); }
@@ -881,4 +895,21 @@
     }
     .portfolio-shell--chat-open .d1-synthesis-rc-certs { margin-top: 0; }
   }
+}
+
+@media (max-width: 760px) {
+  .d1-experience-photo-break { padding: 18px 0 clamp(52px, 12vw, 82px); }
+  .d1-experience-photo-grid { width: 100%; margin: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto auto; gap: 32px 14px; }
+  .d1-experience-photo-tunas { grid-column: 1 / -1; grid-row: 1; width: 80%; height: auto; justify-self: center; }
+  .d1-experience-photo-tunas .d1-experience-photo-frame { aspect-ratio: 576 / 1022; flex: none; }
+  .d1-experience-photo-astra { grid-column: 1; grid-row: 2; margin-top: 0; }
+  .d1-experience-photo-astra .d1-experience-photo-frame { aspect-ratio: .74; flex: none; }
+  .d1-experience-photo-hpc { grid-column: 2; grid-row: 2; margin: 0; }
+  .d1-experience-photo-hpc .d1-experience-photo-frame { aspect-ratio: 1.33; flex: none; }
+}
+
+@media (max-width: 540px) {
+  .d1-experience-photo-tunas { width: clamp(176px, 80vw, 288px); }
+  .d1-experience-photo-figure figcaption { gap: 7px; padding-top: 8px; font-size: 11px; }
+  .d1-experience-photo-index { font-size: 9px; }
 }

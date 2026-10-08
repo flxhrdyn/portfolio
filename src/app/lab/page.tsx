@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import "./lab.css";
 import { V4Computation, V5Inline, V6Synthesis, V7Synthesis } from "./versions";
 
@@ -45,6 +46,10 @@ export default function LabPage() {
             <span>{v.name}</span>
           </button>
         ))}
+        <Link className="lab-tab lab-photo-tab" href="/lab/photo-break" aria-label="Open photo interlude design studies">
+          <b>PHOTO</b>
+          <span>Interlude study</span>
+        </Link>
         <span className="lab-ref">ref: {VERSIONS[active].ref}</span>
         <span className="lab-keys">keys 0, 4-7</span>
       </nav>

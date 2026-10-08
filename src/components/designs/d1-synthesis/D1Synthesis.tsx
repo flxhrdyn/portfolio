@@ -8,6 +8,7 @@ import {
   PROFILE, ALL_PROJECTS as PROJECTS, CERTIFICATIONS, CONTACT_LINKS,
   PUBLICATIONS,
 } from '@/data/portfolio-data';
+import { ExperiencePhotoInterlude } from './ExperiencePhotoInterlude';
 
 const contactOrder = ['Email', 'LinkedIn', 'GitHub', 'Hugging Face'];
 const prioritizedContactLinks = [...CONTACT_LINKS].sort(
@@ -121,6 +122,8 @@ export function D1Synthesis() {
             <EducationContent />
           </div>
         </section>
+
+        <ExperiencePhotoInterlude />
 
         <section className="direction-section d1-synthesis-skills" id="skills">
           <SectionHeading>Technical skills</SectionHeading>
