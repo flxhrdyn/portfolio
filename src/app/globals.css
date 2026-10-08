@@ -397,7 +397,7 @@
       max-height: calc(100dvh - 5.5rem);
       overflow-y: auto;
       overflow-x: clip;
-      padding: 0.75rem 0;
+      padding: 0;
       background: var(--bg-primary);
       border: 0;
       border-radius: 0;
@@ -417,6 +417,8 @@
       isolation: isolate;
       display: flex;
       align-items: center;
+      box-sizing: border-box;
+      width: 100%;
       min-height: 56px;
       margin: 0;
       padding: 8px 14px;
@@ -425,7 +427,7 @@
       font-family: var(--font-sans);
       font-size: 1.1rem;
       letter-spacing: -0.025em;
-      transition: color 180ms ease, transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      transition: color 180ms ease;
     }
 
     .nav-menu-section::before {
@@ -441,18 +443,23 @@
     .nav-menu-section:hover,
     .nav-menu-section:focus-visible {
       color: var(--bg-primary);
-      transform: translateX(2px);
     }
 
     .nav-menu-section:hover::before,
     .nav-menu-section:focus-visible::before { opacity: 1; }
 
+    .navbar-minimal .nav-menu-section:focus-visible {
+      outline: none;
+      border-radius: 0;
+    }
+
     .nav-menu-footer {
-      display: flex;
-      align-items: center;
-      margin-top: 0.75rem;
+      display: block;
+      width: 100%;
+      margin-top: 0;
       padding: 0;
       min-height: 0;
+      border: 0;
     }
 
     .nav-menu-footer .nav-theme-control {
@@ -460,6 +467,7 @@
       isolation: isolate;
       justify-content: flex-start;
       width: 100%;
+      box-sizing: border-box;
       min-height: 56px;
       padding: 8px 14px;
       gap: 0.65rem;
@@ -468,7 +476,7 @@
       font-family: var(--font-sans);
       font-size: 1.1rem;
       letter-spacing: -0.025em;
-      transition: color 180ms ease, transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+      transition: color 180ms ease;
     }
 
     .nav-menu-footer .nav-theme-control::before {
@@ -485,7 +493,7 @@
     .nav-menu-footer .nav-theme-control:focus-visible {
       color: var(--bg-primary);
       background: transparent;
-      transform: translateX(2px);
+      outline: none;
     }
 
     .nav-menu-footer .nav-theme-control:hover::before,
