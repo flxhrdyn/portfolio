@@ -29,6 +29,56 @@ function Arrow({ diagonal = false }: { diagonal?: boolean }) {
   );
 }
 
+/**
+ * One `.nav-hl` per group glides between hovered/focused `[data-hl-item]`s.
+ * Entering the group from outside wipes it up in place, so a single hover still animates.
+ */
+function clearHighlight(group: HTMLElement) {
+  group.querySelector("[data-hl-active]")?.removeAttribute("data-hl-active");
+  const hl = group.querySelector<HTMLElement>(":scope > .nav-hl");
+  if (!hl) return;
+  hl.style.transformOrigin = "50% 0%";
+  hl.style.setProperty("--hl-scale", "0");
+}
+
+function showHighlight(group: HTMLElement, target: EventTarget) {
+  const hl = group.querySelector<HTMLElement>(":scope > .nav-hl");
+  const item = (target as Element).closest?.<HTMLElement>("[data-hl-item]");
+  const active = group.querySelector<HTMLElement>("[data-hl-active]");
+  if (!hl || !item || item === active) return;
+  active?.removeAttribute("data-hl-active");
+  item.setAttribute("data-hl-active", "");
+  if (!active) {
+    hl.style.transition = "none";
+    hl.style.setProperty("--hl-scale", "0");
+  }
+  hl.style.transformOrigin = "50% 100%";
+  // Layout offsets, not client rects: menu items are still easing in when first hovered.
+  hl.style.setProperty("--hl-x", `${item.offsetLeft}px`);
+  hl.style.setProperty("--hl-y", `${item.offsetTop}px`);
+  hl.style.width = `${item.offsetWidth}px`;
+  hl.style.height = `${item.offsetHeight}px`;
+  if (!active) {
+    void hl.offsetWidth;
+    hl.style.transition = "";
+  }
+  hl.style.setProperty("--hl-scale", "1");
+}
+
+const highlightHandlers = {
+  onPointerOver: (event: React.PointerEvent<HTMLElement>) => showHighlight(event.currentTarget, event.target),
+  onPointerLeave: (event: React.PointerEvent<HTMLElement>) => clearHighlight(event.currentTarget),
+  // Opening the menu moves focus to its first item; only keyboard focus should light it.
+  onFocus: (event: React.FocusEvent<HTMLElement>) => {
+    if (event.target.matches(":focus-visible")) showHighlight(event.currentTarget, event.target);
+  },
+  onBlur: (event: React.FocusEvent<HTMLElement>) => {
+    // Opening the menu moves focus away while the pointer still rests on the trigger.
+    const group = event.currentTarget;
+    if (!group.contains(event.relatedTarget as Node | null) && !group.matches(":hover")) clearHighlight(group);
+  },
+};
+
 export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = false }: NavBarProps) {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -38,6 +88,10 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const themeButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!menuOpen && menuRef.current) clearHighlight(menuRef.current);
+  }, [menuOpen]);
 
   useEffect(() => {
     const current = document.documentElement.getAttribute("data-theme");
@@ -75,7 +129,9 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
   useEffect(() => {
     const nav = navRef.current;
     if (!nav) return;
-    if (menuOpen) {
+    // Chat open scrolls the column, not the window; closing it jumps the window to the
+    // column's position, which must not read as a downward scroll.
+    if (menuOpen || chatOpen) {
       nav.dataset.scrollHidden = "false";
       return;
     }
@@ -90,7 +146,7 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
     };
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, [menuOpen]);
+  }, [menuOpen, chatOpen]);
 
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
@@ -134,7 +190,7 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
   };
 
   const themeButton = (
-    <button ref={themeButtonRef} type="button" className="nav-utility nav-theme-control" onClick={toggleTheme}
+    <button ref={themeButtonRef} type="button" data-hl-item className="nav-utility nav-theme-control" onClick={toggleTheme}
       aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}>
       <span className="nav-theme-text">{theme === "dark" ? "Light mode" : "Dark mode"}</span>
       <svg className="nav-theme-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -181,17 +237,18 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
           </svg>
           <span className="brand-wordmark">flxhrdyn</span>
         </Link>
-        <div className="nav-minimal-actions">
+        <div className="nav-minimal-actions nav-hl-group" {...highlightHandlers}>
+          <span className="nav-hl" aria-hidden="true" />
           {variant === "portfolio" ? (
             <>
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="nav-utility nav-resume-link" aria-label="Resume PDF (opens in a new tab)">
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" data-hl-item className="nav-utility nav-resume-link" aria-label="Resume PDF (opens in a new tab)">
                 <span>Resume</span><Arrow diagonal />
               </a>
-              <button type="button" className="nav-ask-link" aria-label="Ask AI" aria-expanded={chatOpen}
+              <button type="button" data-hl-item className="nav-ask-link" aria-label="Ask AI" aria-expanded={chatOpen}
                 aria-controls="portfolio-chat-panel" onClick={(event) => { setMenuOpen(false); onAskAI?.(event.currentTarget); }}>
                 Ask AI <Arrow />
               </button>
-              <button ref={menuButtonRef} type="button" className={`nav-menu-trigger${menuOpen ? " is-open" : ""}`}
+              <button ref={menuButtonRef} type="button" data-hl-item className={`nav-menu-trigger${menuOpen ? " is-open" : ""}`}
                 aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
                 aria-expanded={menuOpen} aria-controls="nav-section-menu" onClick={() => setMenuOpen((open) => !open)}>
                 Menu
@@ -203,19 +260,21 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
             </>
           ) : (
             <>
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" className="nav-utility">Resume <Arrow diagonal /></a>
+              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" data-hl-item className="nav-utility">Resume <Arrow diagonal /></a>
               {themeButton}
             </>
           )}
         </div>
         {variant === "portfolio" && (
-          <div ref={menuRef} id="nav-section-menu" className="nav-menu-panel" hidden={!menuOpen}>
+          <div ref={menuRef} id="nav-section-menu" className={`nav-menu-panel nav-hl-group${menuOpen ? " is-open" : ""}`} inert={!menuOpen} aria-hidden={!menuOpen} {...highlightHandlers}>
+            <span className="nav-hl" aria-hidden="true" />
             <div className="nav-menu-sections">
               {NAV_LINKS.map((link, index) => (
                 <m.a
                   key={link.href}
                   href={link.href}
                   onClick={(event) => handleNavClick(event, link.href)}
+                  data-hl-item
                   className="nav-menu-section"
                   initial={false}
                   animate={menuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}

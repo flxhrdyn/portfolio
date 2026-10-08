@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import NavBar from "@/components/NavBar";
 import ChatPanel from "@/components/ChatPanel";
+import { createPortfolioLenis } from "@/components/MotionProvider";
 
 export default function PortfolioShell({ children }: { children: ReactNode }) {
   const [chatOpen, setChatOpen] = useState(false);
@@ -52,6 +53,23 @@ export default function PortfolioShell({ children }: { children: ReactNode }) {
     window.scrollTo(0, transfer.top);
   }, [chatOpen]);
 
+  // Desktop chat turns the column into its own scroller; give it the same damped feel as the window.
+  useEffect(() => {
+    const portfolio = portfolioRef.current;
+    const desktop = window.matchMedia("(min-width: 1200px)").matches;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!chatOpen || !portfolio || !desktop || reduced) return;
+    const lenis = createPortfolioLenis(portfolio);
+    let frame = requestAnimationFrame(function raf(time) {
+      lenis.raf(time);
+      frame = requestAnimationFrame(raf);
+    });
+    return () => {
+      cancelAnimationFrame(frame);
+      lenis.destroy();
+    };
+  }, [chatOpen]);
+
   const openChat = (trigger: HTMLButtonElement) => {
     askAITriggerRef.current = trigger;
     if (window.matchMedia("(min-width: 1200px)").matches) {
@@ -73,7 +91,8 @@ export default function PortfolioShell({ children }: { children: ReactNode }) {
 
   return (
     <div className={`portfolio-shell${chatOpen ? " portfolio-shell--chat-open" : ""}`}>
-      <div ref={portfolioRef} className="portfolio-main-column">
+      {/* Keeps the window Lenis off this column's wheel while the column Lenis drives it. */}
+      <div ref={portfolioRef} className="portfolio-main-column" data-lenis-prevent={chatOpen || undefined}>
         <NavBar variant="portfolio" onAskAI={openChat} chatOpen={chatOpen} />
         {children}
       </div>

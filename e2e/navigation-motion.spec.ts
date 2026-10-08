@@ -11,7 +11,15 @@ test.describe("sticky editorial navigation", () => {
 
     const askAi = page.locator(".nav-ask-link");
     await askAi.hover();
-    await expect(askAi).not.toHaveCSS("background-color", "rgba(0, 0, 0, 0)");
+    // Hover fill is one shared highlight that glides onto the hovered control.
+    await expect(askAi).toHaveAttribute("data-hl-active", "");
+    await expect.poll(async () => {
+      const [hl, item] = await Promise.all([
+        page.locator(".nav-minimal-actions > .nav-hl").boundingBox(),
+        askAi.boundingBox(),
+      ]);
+      return hl && item ? Math.abs(hl.x - item.x) + Math.abs(hl.width - item.width) : Infinity;
+    }).toBeLessThan(1);
 
     await page.getByRole("button", { name: "Open navigation menu" }).click();
     const menu = page.locator("#nav-section-menu");

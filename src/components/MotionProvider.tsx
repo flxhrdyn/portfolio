@@ -25,6 +25,27 @@ export function usePortfolioScroll(): PortfolioScrollController {
   return controller;
 }
 
+/** The portfolio's scroll feel; `wrapper` scopes it to an element scroller instead of the window. */
+export function createPortfolioLenis(wrapper?: HTMLElement) {
+  return new Lenis({
+    ...(wrapper && { wrapper, content: wrapper, eventsTarget: wrapper }),
+    autoRaf: false,
+    smoothWheel: true,
+    // Deliberately heavy: speed is capped so reveals have time to land.
+    wheelMultiplier: 0.7,
+    lerp: 0.085,
+    syncTouch: false,
+    stopInertiaOnNavigate: true,
+    virtualScroll: (input) => {
+      if (input.event.type === "wheel") {
+        input.deltaY = limitWheelDelta(input.deltaY, 120);
+      }
+
+      return true;
+    },
+  });
+}
+
 export default function MotionProvider({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
 
@@ -70,23 +91,7 @@ export default function MotionProvider({ children }: { children: React.ReactNode
 
       if (reducedMotion.matches) return;
 
-      const lenis = new Lenis({
-        autoRaf: false,
-        smoothWheel: true,
-        // Deliberately heavy: speed is capped so reveals have time to land.
-        wheelMultiplier: 0.7,
-        lerp: 0.085,
-        syncTouch: false,
-        stopInertiaOnNavigate: true,
-        virtualScroll: (input) => {
-          if (input.event.type === "wheel") {
-            input.deltaY = limitWheelDelta(input.deltaY, 120);
-          }
-
-          return true;
-        },
-      });
-
+      const lenis = createPortfolioLenis();
       lenisRef.current = lenis;
 
       const raf = (time: number) => {
