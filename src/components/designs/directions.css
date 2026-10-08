@@ -591,8 +591,40 @@
 /* Clips only vertically: display type may overhang its column sideways. Padding keeps
    ascenders and descenders inside the clip; negative margins cancel it in layout. */
 .d1-mask { display: block; clip-path: inset(0 -100vw); padding: .1em 0 .14em; margin: -.1em 0 -.14em; }
-.d1-mask-line { display: inline-block; will-change: transform; }
+.d1-mask-line { display: inline-block; will-change: transform; transition: transform 1.05s cubic-bezier(.75, 0, .25, 1) var(--d, 0s); }
+.d1-mask[data-reveal="hidden"] .d1-mask-line { transform: translateY(110%); }
+
+/* Directional reveals (see Reveal.tsx). Roles: fade, rise, focus, and row (hairline
+   draws, then the row's children rise). --i staggers siblings, --j items within one. */
+/* Scoped under [data-reveal] to outrank component transitions; color keeps hover fades. */
+[data-reveal] :is([data-r], [data-r="row"] > *) {
+  --rv-delay: calc(var(--i, 0) * 90ms + var(--j, 0) * 35ms + var(--d, 0s));
+  transition:
+    color 160ms ease,
+    opacity .8s cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
+    transform 1s cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
+    background-size 1.1s cubic-bezier(.75, 0, .25, 1) var(--rv-delay);
+}
+[data-r="row"] > * { --d: .18s; }
+/* Zoom-settle: media lands fast and opaque, then eases down to size inside a frame that stays put. */
+[data-reveal] [data-r="focus"] { transition: opacity .6s cubic-bezier(.22, 1, .36, 1) var(--rv-delay), transform 1.6s cubic-bezier(.16, 1, .3, 1) var(--rv-delay); }
+[data-r="row"]:not(:last-child):not(.direction-cert-last-visible) {
+  border-bottom-color: transparent;
+  background: linear-gradient(var(--dir-line), var(--dir-line)) left bottom / 100% 1px no-repeat;
+}
+[data-reveal="hidden"] [data-r="fade"] { opacity: 0; }
+[data-reveal="hidden"] :is([data-r="rise"], [data-r="row"] > *) { opacity: 0; transform: translate3d(0, 18px, 0); }
+[data-reveal="hidden"] [data-r="row"] { background-size: 0 1px; }
+[data-reveal="hidden"] [data-r="focus"] { opacity: 0; transform: scale(1.18); }
+/* Photos are letterboxed (contain): zooming would pull their visible edge off the caption. */
+[data-reveal="hidden"] .d1-experience-photo-frame [data-r="focus"] { transform: none; }
+/* The frame's grey placeholder would read as a faded image while the media lands. */
+.d1-synthesis-projects .d2-gallery-item:nth-child(n) .direction-image[data-reveal] { background: transparent; }
+:is([data-reveal="hidden"], [data-reveal="instant"]) :is([data-r], [data-r="row"] > *),
+.d1-mask:is([data-reveal="hidden"], [data-reveal="instant"]) .d1-mask-line { transition: none; }
 @media (prefers-reduced-motion: reduce) {
+  [data-r], [data-r="row"] > *, .d1-mask-line { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+  [data-r="row"] { background-size: 100% 1px !important; }
   [data-motion-reveal],
   [data-motion-parallax] { opacity: 1 !important; filter: none !important; transform: none !important; }
   .d1-parallax { inset: 0 !important; }
@@ -633,7 +665,7 @@
 .d1-research-models-title .d1-research-compact-authors { margin-top: 10px; }
 .d1-research-model-flow { display: flex; justify-content: flex-end; margin-top: -56px; }
 .d1-research-model-result { display: flex; flex-direction: column; align-items: flex-end; }
-.d1-research-model-result > span { color: var(--dir-muted); font-size: 14px; line-height: 1.5; text-align: right; }
+.d1-research-model-result > span:not(.d1-mask) { color: var(--dir-muted); font-size: 14px; line-height: 1.5; text-align: right; }
 .d1-research-model-result strong { display: inline-flex; align-items: baseline; gap: .075em; margin-top: 5px; font-size: clamp(112px, 15vw, 184px); font-weight: 500; letter-spacing: -.07em; line-height: .76; }
 .d1-research-model-result strong > span { font-size: .84em; letter-spacing: -.04em; }
 .d1-research-models-footer { display: flex; justify-content: flex-end; align-items: baseline; margin-top: 22px; }

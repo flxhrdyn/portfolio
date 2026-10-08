@@ -2,9 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ReactNode, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { CSSProperties, ReactNode, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { m, useReducedMotion, useScroll, useTransform } from 'motion/react';
-import { DUR, EASE_OUT, FOCUS_REVEAL, SHARP_IN_OUT, VIEWPORT } from '@/lib/motion';
+import { Reveal } from './Reveal';
 import { createPortal } from 'react-dom';
 import { PortfolioAnchor } from '@/components/PortfolioAnchor';
 import {
@@ -100,27 +100,13 @@ export function SectionHeading({
   );
 }
 
-const maskLineVariants = {
-  hidden: { y: '110%' },
-  show: (delay: number) => ({ y: '0%', transition: { duration: 1.05, delay, ease: SHARP_IN_OUT } }),
-};
-
 /** One line of display type rising from behind its own baseline. */
 export function MaskLine({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
-  const reduceMotion = useReducedMotion();
-  // The observer sits on the static mask: the translated line is clipped to zero area until revealed.
+  // The reveal state sits on the static mask: the translated line is clipped to zero area until revealed.
   return (
-    <m.span
-      className="d1-mask"
-      initial={reduceMotion ? false : 'hidden'}
-      whileInView={reduceMotion ? undefined : 'show'}
-      viewport={VIEWPORT}
-      custom={delay}
-    >
-      <m.span className="d1-mask-line" data-motion-reveal="mask" variants={maskLineVariants} custom={delay}>
-        {children}
-      </m.span>
-    </m.span>
+    <Reveal as="span" className="d1-mask" style={{ '--d': `${delay}s` } as CSSProperties}>
+      <span className="d1-mask-line" data-motion-reveal="mask">{children}</span>
+    </Reveal>
   );
 }
 
@@ -134,28 +120,20 @@ export function ProjectImage({
   motionPreset?: 'd1-synthesis';
 }) {
   const quality = project.slug === 'invenioai' || project.slug === 'angrist' || project.slug === 'aeroguard' ? 100 : 75;
-  const reduceMotion = useReducedMotion();
-  const focusReveal = motionPreset === 'd1-synthesis' && !reduceMotion;
+  const image = <Image src={project.image} alt={project.imageAlt} fill sizes="(max-width: 760px) 100vw, 70vw" quality={quality} />;
+  if (motionPreset !== 'd1-synthesis') {
+    return (
+      <div className={`direction-image ${className}`} data-project-slug={project.slug}>
+        <div className="direction-image-reveal" style={{ position: 'absolute', inset: 0 }}>{image}</div>
+      </div>
+    );
+  }
   return (
-    <div className={`direction-image ${className}`} data-project-slug={project.slug} data-motion-preset={motionPreset}>
-      <m.div
-        className="direction-image-reveal"
-        data-motion-reveal="focus"
-        initial={focusReveal ? FOCUS_REVEAL.hidden : false}
-        whileInView={focusReveal ? FOCUS_REVEAL.show : undefined}
-        viewport={{ once: true, amount: 0.18 }}
-        transition={FOCUS_REVEAL.transition}
-        style={{ position: 'absolute', inset: 0 }}
-      >
-        {motionPreset === 'd1-synthesis' ? (
-          <InFrameParallax>
-            <Image src={project.image} alt={project.imageAlt} fill sizes="(max-width: 760px) 100vw, 70vw" quality={quality} />
-          </InFrameParallax>
-        ) : (
-          <Image src={project.image} alt={project.imageAlt} fill sizes="(max-width: 760px) 100vw, 70vw" quality={quality} />
-        )}
-      </m.div>
-    </div>
+    <Reveal className={`direction-image ${className}`} data-project-slug={project.slug} data-motion-preset={motionPreset}>
+      <div className="direction-image-reveal" data-motion-reveal="focus" data-r="focus" style={{ position: 'absolute', inset: 0 }}>
+        <InFrameParallax>{image}</InFrameParallax>
+      </div>
+    </Reveal>
   );
 }
 
@@ -338,24 +316,17 @@ export function ProjectCopy({
   motionPreset?: 'd1-synthesis';
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const reduceMotion = useReducedMotion();
+  const rise = (i: number) => motionPreset ? { 'data-r': 'rise', style: { '--i': i, '--d': '.2s' } as CSSProperties } : {};
 
   return (
-    <m.div
-      className="direction-project-copy"
-      data-motion-preset={motionPreset}
-      initial={reduceMotion || !motionPreset ? false : { opacity: 0 }}
-      whileInView={reduceMotion || !motionPreset ? undefined : { opacity: 1 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: DUR.entrance, delay: 0.2, ease: EASE_OUT }}
-    >
-      <div className="direction-project-meta">
+    <Reveal className="direction-project-copy" data-motion-preset={motionPreset}>
+      <div className="direction-project-meta" {...rise(0)}>
         <span>{index === undefined ? project.tags[0] : String(index + 1).padStart(2, '0')}</span>
         <span>{project.tags.slice(0, 2).join(' / ')}</span>
       </div>
-      <h3>{project.title}</h3>
-      <p>{project.summary}</p>
-      <div className="direction-project-links">
+      <h3 {...rise(1)}>{project.title}</h3>
+      <p {...rise(2)}>{project.summary}</p>
+      <div className="direction-project-links" {...rise(3)}>
         <button
           type="button"
           className="direction-detail-trigger"
@@ -377,16 +348,16 @@ export function ProjectCopy({
         onClose={() => setIsOpen(false)}
         presentation={presentation}
       />
-    </m.div>
+    </Reveal>
   );
 }
 
-function CareerRoleItem({ role }: { role: (typeof WORK_ROLES)[number] }) {
+function CareerRoleItem({ role, index }: { role: (typeof WORK_ROLES)[number]; index: number }) {
   const [isOpen, setIsOpen] = useState(false);
   const hasHighlights = Boolean(role.highlights && role.highlights.length > 0);
 
   return (
-    <article className="direction-career-row" key={`${role.company}-${role.title}`}>
+    <article className="direction-career-row" data-r="row" style={{ '--i': index } as CSSProperties}>
       <p className="direction-overline">{role.date}</p>
       <div className="direction-career-body">
         <button
@@ -433,15 +404,16 @@ export function ExperienceContent({
   const showEdu = !only || only === 'all' || only === 'education';
 
   return (
-    <div className={`direction-career ${compact ? 'direction-career-compact' : ''}`}>
-      {showWork && WORK_ROLES.map((role) => (
+    <Reveal className={`direction-career ${compact ? 'direction-career-compact' : ''}`}>
+      {showWork && WORK_ROLES.map((role, index) => (
         <CareerRoleItem
           key={`${role.company}-${role.title}`}
           role={role}
+          index={index}
         />
       ))}
-      {showEdu && EDUCATION.map((item) => (
-        <article className="direction-career-row direction-education-row" key={`${item.company}-${item.title}`}>
+      {showEdu && EDUCATION.map((item, index) => (
+        <article className="direction-career-row direction-education-row" data-r="row" style={{ '--i': index } as CSSProperties} key={`${item.company}-${item.title}`}>
           <p className="direction-overline">{item.date}</p>
           <div>
             <h3>{item.title}</h3>
@@ -450,7 +422,7 @@ export function ExperienceContent({
           </div>
         </article>
       ))}
-    </div>
+    </Reveal>
   );
 }
 
@@ -469,10 +441,10 @@ export function SkillsContent({
   const telemetryGroups = getSkillTelemetry(SKILL_GROUPS);
 
   return (
-    <div className={`direction-skills-matrix ${className}`}>
-      {telemetryGroups.map((group) => (
-        <article key={group.category} className="direction-skills-cell">
-          <header className="direction-skills-cell-header">
+    <Reveal className={`direction-skills-matrix ${className}`}>
+      {telemetryGroups.map((group, i) => (
+        <article key={group.category} className="direction-skills-cell" style={{ '--i': i * 1.5 } as CSSProperties}>
+          <header className="direction-skills-cell-header" data-r="rise">
             <span className="direction-skills-index">
               {showMetadata && (
                 <>
@@ -489,8 +461,8 @@ export function SkillsContent({
             {showMetadata && <span className="direction-skills-count">{group.countLabel}</span>}
           </header>
           <ul className="direction-skills-list">
-            {group.items.map((item) => (
-              <li key={item} className="direction-skills-item">
+            {group.items.map((item, j) => (
+              <li key={item} className="direction-skills-item" data-r="fade" style={{ '--j': j + 2 } as CSSProperties}>
                 <span className="direction-skills-bullet" aria-hidden="true">*</span>
                 <span className="direction-skills-name">{item}</span>
               </li>
@@ -498,7 +470,7 @@ export function SkillsContent({
           </ul>
         </article>
       ))}
-    </div>
+    </Reveal>
   );
 }
 
@@ -568,8 +540,8 @@ export function CertificationsContent({
   );
 
   return (
-    <div className="direction-cert-wrapper">
-      <ul className={`direction-cert-ledger ${className}`}>
+    <Reveal className="direction-cert-wrapper">
+      <ul className={`direction-cert-ledger ${className}`} key={page}>
         {items.map((cert, idx) => {
           const isLastVisible = idx === items.length - 1;
           const hasGhosts = items.length < effectivePageSize;
@@ -591,6 +563,8 @@ export function CertificationsContent({
             <li
               key={cert.title}
               className={isLastVisible && hasGhosts ? 'direction-cert-last-visible' : undefined}
+              data-r="row"
+              style={{ '--i': idx } as CSSProperties}
             >
               <div className="direction-cert-line">
                 {cert.url ? (
@@ -614,7 +588,7 @@ export function CertificationsContent({
           );
         })}
         {Array.from({ length: Math.max(0, effectivePageSize - items.length) }).map((_, idx) => (
-          <li key={`ghost-${idx}`} className="direction-cert-ghost" aria-hidden="true">
+          <li key={`ghost-${idx}`} className="direction-cert-ghost" aria-hidden="true" data-r="row" style={{ '--i': items.length + idx } as CSSProperties}>
             <div className="direction-cert-line">
               <span className="direction-cert-title">&nbsp;</span>
               <span className="direction-cert-meta">&nbsp;</span>
@@ -623,7 +597,7 @@ export function CertificationsContent({
         ))}
       </ul>
       {totalPages > 1 && (
-        <div className="direction-cert-pager">
+        <div className="direction-cert-pager" data-r="fade" style={{ '--i': effectivePageSize } as CSSProperties}>
           <div className="direction-cert-pager-controls">
             <button
               type="button"
@@ -647,7 +621,7 @@ export function CertificationsContent({
           </div>
         </div>
       )}
-    </div>
+    </Reveal>
   );
 }
 

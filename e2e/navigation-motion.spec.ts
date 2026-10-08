@@ -68,7 +68,9 @@ test.describe("sticky editorial navigation", () => {
 
     const navbar = page.locator("#top-nav");
     await page.evaluate(() => window.scrollTo({ top: 600, behavior: "instant" }));
-
+    // Reading down hides the header; any upward scroll brings it back, stuck to the top.
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(600);
+    await page.evaluate(() => window.scrollTo({ top: 560, behavior: "instant" }));
     await expect(navbar).toHaveCSS("position", "sticky");
     await expect(navbar).toHaveCSS("background-color", "rgb(247, 246, 242)");
 

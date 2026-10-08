@@ -11,6 +11,8 @@ import { ProjectArchive } from './ProjectArchive';
 import { ExperiencePhotoInterlude } from './ExperiencePhotoInterlude';
 import { D1HeroEntrance } from './D1HeroEntrance';
 import { PinnedScene, ScrollLitText } from './PinnedScene';
+import { Reveal } from '../Reveal';
+import type { CSSProperties } from 'react';
 
 const contactOrder = ['Email', 'LinkedIn', 'GitHub', 'Hugging Face'];
 const prioritizedContactLinks = [...CONTACT_LINKS].sort(
@@ -19,9 +21,11 @@ const prioritizedContactLinks = [...CONTACT_LINKS].sort(
 
 function ContactLinks({ className = '' }: { className?: string }) {
   return (
-    <div className={`d1-contact-links ${className}`}>
-      {prioritizedContactLinks.map((item) => (
+    <Reveal className={`d1-contact-links ${className}`}>
+      {prioritizedContactLinks.map((item, index) => (
         <a
+          data-r="rise"
+          style={{ '--i': index } as CSSProperties}
           href={item.href}
           key={item.label}
           target={item.href.startsWith('mailto:') ? undefined : '_blank'}
@@ -32,7 +36,7 @@ function ContactLinks({ className = '' }: { className?: string }) {
           <span className="d1-contact-arrow" aria-hidden="true">↗</span>
         </a>
       ))}
-    </div>
+    </Reveal>
   );
 }
 
@@ -50,23 +54,25 @@ function ResearchDesignPreviews() {
   );
 
   return (
-    <article className="d1-research-study-models">
+    <Reveal as="article" className="d1-research-study-models">
       <div className="d1-research-models-title">
-        <span><abbr title={paper.journal}>{journalShortName}</abbr> · {paper.volume}</span>
+        <span data-r="fade"><abbr title={paper.journal}>{journalShortName}</abbr> · {paper.volume}</span>
         <h3><ScrollLitText text={paper.title} /></h3>
       </div>
       <div className="d1-research-model-flow">
         <div className="d1-research-model-result">
-          <span>MobileNetV2 test accuracy</span>
-          <strong aria-label={`${testAccuracy.value} test accuracy`}>
-            {accuracyNumber}<span aria-hidden="true">%</span>
-          </strong>
+          <span data-r="fade" style={{ '--d': '.3s' } as CSSProperties}>MobileNetV2 test accuracy</span>
+          <MaskLine delay={0.15}>
+            <strong aria-label={`${testAccuracy.value} test accuracy`}>
+              {accuracyNumber}<span aria-hidden="true">%</span>
+            </strong>
+          </MaskLine>
         </div>
       </div>
-      <div className="d1-research-models-footer">
+      <div className="d1-research-models-footer" data-r="fade" style={{ '--d': '.6s' } as CSSProperties}>
         {paperLink()}
       </div>
-    </article>
+    </Reveal>
   );
 }
 
@@ -137,10 +143,10 @@ export function D1Synthesis() {
               <MaskLine>Let’s talk about</MaskLine>
               <MaskLine delay={0.12}>AI engineering.</MaskLine>
             </h2>
-            <div className="d1-contact-editorial-footer">
-              <p>Open to AI/ML engineering roles and practical collaborations.</p>
+            <Reveal className="d1-contact-editorial-footer">
+              <p data-r="fade" style={{ '--d': '.35s' } as CSSProperties}>Open to AI/ML engineering roles and practical collaborations.</p>
               <ContactLinks className="d1-contact-links-inline" />
-            </div>
+            </Reveal>
           </div>
         </section>
       </main>

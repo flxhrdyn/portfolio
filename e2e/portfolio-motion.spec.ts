@@ -166,6 +166,14 @@ test.describe("portfolio motion", () => {
     await expect(nav).toHaveAttribute("data-scroll-hidden", "true");
     await expect.poll(() => nav.evaluate((element) => element.getBoundingClientRect().bottom)).toBeLessThanOrEqual(1);
 
+    // Let the damped glide finish; an up tick during it only shortens the downward glide.
+    let lastY = -1;
+    await expect.poll(async () => {
+      const y = await page.evaluate(() => window.scrollY);
+      const settled = y === lastY;
+      lastY = y;
+      return settled;
+    }, { intervals: [150] }).toBe(true);
     await page.mouse.wheel(0, -300);
     await expect(nav).toHaveAttribute("data-scroll-hidden", "false");
   });
@@ -206,6 +214,43 @@ test.describe("portfolio motion", () => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 1440, height: 900 });
     await expect.poll(position).toBe("static");
+  });
+
+  test("section content reveals scrolling down, shows instantly scrolling up, and re-arms below", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const group = page.locator("#experience .direction-career[data-reveal]");
+    const firstRow = group.locator('[data-r="row"] > *').first();
+    const top = await page.locator("#experience").evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
+    const jumpTo = (y: number) => page.evaluate((target) => window.scrollTo({ top: target, behavior: "instant" }), y);
+
+    await expect(group).toHaveAttribute("data-reveal", "hidden");
+    await jumpTo(top - 500);
+    await expect(group).toHaveAttribute("data-reveal", "in");
+    await expect.poll(() => firstRow.evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+
+    await jumpTo(Math.max(0, top - 3000));
+    await expect(group).toHaveAttribute("data-reveal", "hidden");
+
+    // Reached from above the viewport top, i.e. while scrolling up: no replay.
+    await jumpTo(top + 200);
+    await expect(group).toHaveAttribute("data-reveal", "instant");
+    expect(await firstRow.evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+  });
+
+  test("reduced motion shows section content immediately", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const roles = page.locator('[data-r], [data-r="row"] > *, .d1-mask-line');
+    expect(await roles.count()).toBeGreaterThan(20);
+    const visible = await roles.evaluateAll((elements) => elements.every((element) => {
+      const style = getComputedStyle(element);
+      return style.opacity === "1" && style.transform === "none";
+    }));
+    expect(visible).toBe(true);
   });
 
   test("reduced motion renders project and photo media immediately", async ({ page }) => {
