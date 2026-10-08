@@ -1,11 +1,14 @@
 [
-  { "name": "Sekilas.ai", "repo": "Sekilas.ai", "category": "Agentic News Insights", "stack": "FastAPI, LangChain, React", "status": "WIP", "statusColor": "yellow" },
-  { "name": "iot-predictive-maintenance", "repo": "iot-predictive-maintenance", "category": "Industrial ML / MLOps", "stack": "PyTorch, MLflow, Docker", "status": "Completed", "statusColor": "green" },
-  { "name": "Mango Leaf Disease Classifier", "repo": "CNN-Mango-Leaf-Disease-Classification", "category": "Computer Vision", "stack": "CNN, TensorFlow, Keras", "status": "Completed", "statusColor": "green" },
-  { "name": "Gold Price Prediction Dashboard", "repo": "Gold-Price-Prediction-Dashboard", "category": "Time Series Forecasting", "stack": "scikit-learn, Streamlit", "status": "Completed", "statusColor": "green" },
-  { "name": "LUCIAN Lung Classifier", "repo": "LUCIAN", "category": "Medical Vision", "stack": "ConvNeXt-Base, TensorFlow", "status": "Featured", "statusColor": "blue" },
+  { "name": "IoT Predictive Maintenance", "repo": "iot-predictive-maintenance", "category": "Industrial ML / MLOps", "stack": "PyTorch, MLflow, Docker", "status": "Completed", "statusColor": "green" },
+  { "name": "Mango Leaf Disease Classifier Dashboard", "repo": "CNN-Mango-Leaf-Disease-Classification-Dashboard", "category": "Computer Vision", "stack": "CNN, TensorFlow, Keras", "status": "Completed", "statusColor": "green" },
+  { "name": "LUCIAN", "repo": "LUCIAN", "category": "Medical Vision", "stack": "ConvNeXt-Base, TensorFlow", "status": "Featured", "statusColor": "blue" },
   { "name": "InvenioAI", "repo": "InvenioAI", "category": "Advanced RAG", "stack": "LangChain, Qdrant, FastAPI", "status": "Featured", "statusColor": "blue" },
-  { "name": "Aeroguard", "repo": "", "category": "Industrial Predictive Maintenance", "stack": "FastAPI, React, Isolation Forest", "status": "Completed", "statusColor": "green" },
   { "name": "Amon Hen", "repo": "amon-hen", "category": "Video Moment Retrieval", "stack": "ONNX, SQLite FTS5, sqlite-vec", "status": "Featured", "statusColor": "blue" },
-  { "name": "Angrist", "repo": "angrist", "category": "LLM Developer Tools", "stack": "Python, Tree-sitter, Git", "status": "Featured", "statusColor": "blue" }
+  { "name": "Angrist", "repo": "angrist", "category": "LLM Developer Tools", "stack": "Python, Tree-sitter, Git", "status": "Featured", "statusColor": "blue" },
+  { "name": "Omnius", "repo": "Omnius", "category": "Media Intelligence", "stack": "React, FastAPI, Pydantic AI, D3.js", "status": "Completed", "statusColor": "green" },
+  { "name": "isflaky", "repo": "isflaky", "category": "CI Reliability / Developer Tools", "stack": "Python, pytest, GitHub Actions", "status": "In progress", "statusColor": "yellow" },
+  { "name": "FA-SVM Heart Failure Classification", "repo": "FA_SVM-Heart-Failure-Classification", "category": "Healthcare / Applied ML", "stack": "SVM, Firefly Algorithm, Streamlit", "status": "Completed", "statusColor": "green" },
+  { "name": "Bike Sharing Dashboard", "repo": "Bike-Sharing-Data-Analysis", "category": "Data Analytics", "stack": "Python, Pandas, Streamlit, Seaborn", "status": "Completed", "statusColor": "green" },
+  { "name": "F1 WDC History", "repo": "F1-WDC-History", "category": "Web Development", "stack": "React, JavaScript", "status": "Completed", "statusColor": "green" },
+  { "name": "Filrek Movie Recommendation Website", "repo": "Filrek-A-Movie-Recommendation-Website", "category": "Full-Stack Web / Team Project", "stack": "PHP, MySQL", "status": "Completed", "statusColor": "green" }
 ]
