@@ -2,8 +2,7 @@
 
 import Image from "next/image";
 import { m, useReducedMotion } from "motion/react";
-import { DUR, EASE_OUT, VIEWPORT } from "@/lib/motion";
-import { BoundedScrollScene } from "../BoundedScrollScene";
+import { DUR, EASE_OUT, FOCUS_REVEAL, VIEWPORT } from "@/lib/motion";
 
 const experiences = [
   {
@@ -37,36 +36,44 @@ export function ExperiencePhotoInterlude() {
       className="d1-experience-photo-break"
       aria-label="Experience and education photo break"
     >
-      <BoundedScrollScene scene="experience-photos" className="d1-experience-photo-scene">
-        <div className="d1-experience-photo-grid">
-          <div className="d1-experience-photo-note">
-            <p className="d1-experience-photo-note-title">A few places where my work took shape.</p>
-            <p className="d1-experience-photo-note-detail">From office floors to computing labs.</p>
-          </div>
-          {experiences.map((experience, index) => (
-            <m.figure
-              className={`d1-experience-photo-figure ${experience.className}`}
-              key={experience.name}
-              initial={reduceMotion ? false : { opacity: 0, filter: "blur(12px)" }}
-              whileInView={reduceMotion ? undefined : { opacity: 1, filter: "blur(0px)" }}
-              viewport={VIEWPORT}
-              transition={{ duration: DUR.entrance, delay: index * 0.1, ease: EASE_OUT }}
-            >
-              <div className="d1-experience-photo-frame">
+      <div className="d1-experience-photo-grid">
+        <div className="d1-experience-photo-note">
+          <p className="d1-experience-photo-note-title">A few places where my work took shape.</p>
+          <p className="d1-experience-photo-note-detail">From office floors to computing labs.</p>
+        </div>
+        {experiences.map((experience, index) => (
+          <figure
+            className={`d1-experience-photo-figure ${experience.className}`}
+            key={experience.name}
+          >
+            <div className="d1-experience-photo-frame">
+              <m.div
+                data-motion-reveal="focus"
+                initial={reduceMotion ? false : { ...FOCUS_REVEAL.hidden, scale: 1 }}
+                whileInView={reduceMotion ? undefined : FOCUS_REVEAL.show}
+                viewport={VIEWPORT}
+                transition={{ ...FOCUS_REVEAL.transition, delay: index * 0.12 }}
+                style={{ position: "absolute", inset: 0 }}
+              >
                 <Image
                   src={experience.src}
                   alt={experience.alt}
                   fill
                   sizes={experience.sizes}
                 />
-              </div>
-              <figcaption>
-                <span>{experience.name}</span>
-              </figcaption>
-            </m.figure>
-          ))}
-        </div>
-      </BoundedScrollScene>
+              </m.div>
+            </div>
+            <m.figcaption
+              initial={reduceMotion ? false : { opacity: 0 }}
+              whileInView={reduceMotion ? undefined : { opacity: 1 }}
+              viewport={VIEWPORT}
+              transition={{ duration: DUR.entrance, delay: index * 0.12 + 0.3, ease: EASE_OUT }}
+            >
+              <span>{experience.name}</span>
+            </m.figcaption>
+          </figure>
+        ))}
+      </div>
     </section>
   );
 }

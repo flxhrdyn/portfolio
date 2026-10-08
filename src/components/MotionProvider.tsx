@@ -73,8 +73,9 @@ export default function MotionProvider({ children }: { children: React.ReactNode
       const lenis = new Lenis({
         autoRaf: false,
         smoothWheel: true,
-        wheelMultiplier: 0.8,
-        lerp: 0.12,
+        // Deliberately heavy: speed is capped so reveals have time to land.
+        wheelMultiplier: 0.7,
+        lerp: 0.085,
         syncTouch: false,
         stopInertiaOnNavigate: true,
         virtualScroll: (input) => {

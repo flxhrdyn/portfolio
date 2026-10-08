@@ -70,6 +70,28 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
     };
   }, [menuOpen]);
 
+  // Header yields the screen while reading down and returns on any upward scroll.
+  // Written to a data attribute, not state, so scrolling never re-renders the nav.
+  useEffect(() => {
+    const nav = navRef.current;
+    if (!nav) return;
+    if (menuOpen) {
+      nav.dataset.scrollHidden = "false";
+      return;
+    }
+    let lastY = window.scrollY;
+    const onScroll = () => {
+      const y = window.scrollY;
+      const delta = y - lastY;
+      if (Math.abs(delta) < 6) return;
+      const hide = delta > 0 && y > 160 && !nav.contains(document.activeElement);
+      nav.dataset.scrollHidden = String(hide);
+      lastY = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, [menuOpen]);
+
   const toggleTheme = () => {
     const next = theme === "dark" ? "light" : "dark";
     const applyTheme = () => {

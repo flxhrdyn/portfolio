@@ -2,7 +2,9 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ReactNode, useEffect, useState, useSyncExternalStore } from 'react';
+import { ReactNode, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { m, useReducedMotion, useScroll, useTransform } from 'motion/react';
+import { DUR, EASE_OUT, FOCUS_REVEAL, SHARP_IN_OUT, VIEWPORT } from '@/lib/motion';
 import { createPortal } from 'react-dom';
 import { PortfolioAnchor } from '@/components/PortfolioAnchor';
 import {
@@ -79,13 +81,97 @@ export function DirectionShell({
   );
 }
 
-export function SectionHeading({ children, id }: { children: ReactNode; id?: string }) {
-  return <div className="direction-section-heading" id={id}><h2>{children}</h2></div>;
+export function SectionHeading({
+  children,
+  id,
+  motionPreset,
+}: {
+  children: ReactNode;
+  id?: string;
+  motionPreset?: 'd1-synthesis';
+}) {
+  if (motionPreset !== 'd1-synthesis') {
+    return <div className="direction-section-heading" id={id}><h2>{children}</h2></div>;
+  }
+  return (
+    <div className="direction-section-heading" id={id}>
+      <h2><MaskLine>{children}</MaskLine></h2>
+    </div>
+  );
 }
 
-export function ProjectImage({ project, className = '' }: { project: ProjectItem; className?: string }) {
+const maskLineVariants = {
+  hidden: { y: '110%' },
+  show: (delay: number) => ({ y: '0%', transition: { duration: 1.05, delay, ease: SHARP_IN_OUT } }),
+};
+
+/** One line of display type rising from behind its own baseline. */
+export function MaskLine({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
+  const reduceMotion = useReducedMotion();
+  // The observer sits on the static mask: the translated line is clipped to zero area until revealed.
+  return (
+    <m.span
+      className="d1-mask"
+      initial={reduceMotion ? false : 'hidden'}
+      whileInView={reduceMotion ? undefined : 'show'}
+      viewport={VIEWPORT}
+      custom={delay}
+    >
+      <m.span className="d1-mask-line" data-motion-reveal="mask" variants={maskLineVariants} custom={delay}>
+        {children}
+      </m.span>
+    </m.span>
+  );
+}
+
+export function ProjectImage({
+  project,
+  className = '',
+  motionPreset,
+}: {
+  project: ProjectItem;
+  className?: string;
+  motionPreset?: 'd1-synthesis';
+}) {
   const quality = project.slug === 'invenioai' || project.slug === 'angrist' || project.slug === 'aeroguard' ? 100 : 75;
-  return <div className={`direction-image ${className}`} data-project-slug={project.slug}><Image src={project.image} alt={project.imageAlt} fill sizes="(max-width: 760px) 100vw, 70vw" quality={quality} /></div>;
+  const reduceMotion = useReducedMotion();
+  const focusReveal = motionPreset === 'd1-synthesis' && !reduceMotion;
+  return (
+    <div className={`direction-image ${className}`} data-project-slug={project.slug} data-motion-preset={motionPreset}>
+      <m.div
+        className="direction-image-reveal"
+        data-motion-reveal="focus"
+        initial={focusReveal ? FOCUS_REVEAL.hidden : false}
+        whileInView={focusReveal ? FOCUS_REVEAL.show : undefined}
+        viewport={{ once: true, amount: 0.18 }}
+        transition={FOCUS_REVEAL.transition}
+        style={{ position: 'absolute', inset: 0 }}
+      >
+        {motionPreset === 'd1-synthesis' ? (
+          <InFrameParallax>
+            <Image src={project.image} alt={project.imageAlt} fill sizes="(max-width: 760px) 100vw, 70vw" quality={quality} />
+          </InFrameParallax>
+        ) : (
+          <Image src={project.image} alt={project.imageAlt} fill sizes="(max-width: 760px) 100vw, 70vw" quality={quality} />
+        )}
+      </m.div>
+    </div>
+  );
+}
+
+/** Image drifts with the scroll inside a frame that stays put, so motion follows the reader. */
+function InFrameParallax({ children }: { children: ReactNode }) {
+  const frameRef = useRef<HTMLDivElement>(null);
+  const reduceMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: frameRef, offset: ['start end', 'end start'] });
+  const y = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
+  return (
+    <div ref={frameRef} style={{ position: 'absolute', inset: 0 }}>
+      <m.div className="d1-parallax" data-motion-parallax="frame" style={reduceMotion ? undefined : { y }}>
+        {children}
+      </m.div>
+    </div>
+  );
 }
 
 export function ProjectDetailModal({
@@ -240,11 +326,29 @@ export function ProjectDetailModal({
   );
 }
 
-export function ProjectCopy({ project, index, presentation }: { project: ProjectItem; index?: number; presentation?: 'case-study' }) {
+export function ProjectCopy({
+  project,
+  index,
+  presentation,
+  motionPreset,
+}: {
+  project: ProjectItem;
+  index?: number;
+  presentation?: 'case-study';
+  motionPreset?: 'd1-synthesis';
+}) {
   const [isOpen, setIsOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   return (
-    <div className="direction-project-copy">
+    <m.div
+      className="direction-project-copy"
+      data-motion-preset={motionPreset}
+      initial={reduceMotion || !motionPreset ? false : { opacity: 0 }}
+      whileInView={reduceMotion || !motionPreset ? undefined : { opacity: 1 }}
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: DUR.entrance, delay: 0.2, ease: EASE_OUT }}
+    >
       <div className="direction-project-meta">
         <span>{index === undefined ? project.tags[0] : String(index + 1).padStart(2, '0')}</span>
         <span>{project.tags.slice(0, 2).join(' / ')}</span>
@@ -273,7 +377,7 @@ export function ProjectCopy({ project, index, presentation }: { project: Project
         onClose={() => setIsOpen(false)}
         presentation={presentation}
       />
-    </div>
+    </m.div>
   );
 }
 
@@ -374,7 +478,7 @@ export function SkillsContent({
                 <>
                   <span className="direction-skills-index-number">{group.indexLabel}</span>
                   {' '}
-                  <span className="direction-skills-index-divider" aria-hidden="true">//</span>
+                  <span className="direction-skills-index-divider" aria-hidden="true">{'//'}</span>
                   {' '}
                 </>
               )}

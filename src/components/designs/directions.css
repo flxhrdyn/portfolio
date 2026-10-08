@@ -574,6 +574,29 @@
 .d1-experience-photo-figure { display: flex; min-width: 0; min-height: 0; flex-direction: column; }
 .d1-experience-photo-frame { position: relative; flex: 1; min-height: 0; overflow: hidden; background: transparent; }
 .d1-experience-photo-frame img { object-fit: contain; }
+/* Pinned scenes: one extra viewport of hold on wide desktops only. */
+@media (min-width: 1200px) and (prefers-reduced-motion: no-preference) {
+  .d1-pinned-scene { min-height: 190svh; }
+  .d1-pinned-scene__inner { position: sticky; top: 0; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
+  .portfolio-shell--chat-open .d1-pinned-scene { min-height: 0; }
+  .portfolio-shell--chat-open .d1-pinned-scene__inner { position: static; min-height: 0; }
+}
+/* Unpinned, scroll lighting has no hold to play in, so text simply reads. */
+@media (max-width: 1199px), (prefers-reduced-motion: reduce) {
+  [data-lit-word] { opacity: 1 !important; }
+}
+.portfolio-shell--chat-open [data-lit-word] { opacity: 1 !important; }
+/* Taller than its frame so the image can drift inside it without exposing an edge. */
+.d1-parallax { position: absolute; inset: -7% 0; }
+/* Clips only vertically: display type may overhang its column sideways. Padding keeps
+   ascenders and descenders inside the clip; negative margins cancel it in layout. */
+.d1-mask { display: block; clip-path: inset(0 -100vw); padding: .1em 0 .14em; margin: -.1em 0 -.14em; }
+.d1-mask-line { display: inline-block; will-change: transform; }
+@media (prefers-reduced-motion: reduce) {
+  [data-motion-reveal],
+  [data-motion-parallax] { opacity: 1 !important; filter: none !important; transform: none !important; }
+  .d1-parallax { inset: 0 !important; }
+}
 .d1-experience-photo-figure figcaption { display: flex; align-items: baseline; gap: 9px; padding-top: 9px; color: var(--dir-ink); font-size: 12px; line-height: 1.35; }
 .d1-experience-photo-tunas { grid-column: 1; grid-row: 1 / 3; width: 80%; height: auto; justify-self: start; align-self: center; }
 .d1-experience-photo-tunas .d1-experience-photo-frame { aspect-ratio: 576 / 1022; flex: none; }
@@ -969,26 +992,4 @@
 @media (max-width: 540px) {
   .d1-experience-photo-tunas { width: clamp(176px, 80vw, 288px); }
   .d1-experience-photo-figure figcaption { gap: 7px; padding-top: 8px; font-size: 11px; }
-}
-
-.d1-bounded-scene { min-width: 0; }
-.d1-bounded-scene__inner { min-width: 0; }
-
-@media (min-width: 1200px) and (prefers-reduced-motion: no-preference) {
-  .d1-bounded-scene { min-height: calc(200svh - 4rem); }
-  .d1-bounded-scene__inner {
-    position: sticky;
-    top: 4rem;
-    min-height: calc(100svh - 4rem);
-  }
-}
-
-@media (max-width: 1199px), (prefers-reduced-motion: reduce) {
-  .d1-bounded-scene { min-height: 0; }
-  .d1-bounded-scene__inner { position: static; min-height: 0; }
-}
-
-@media (min-width: 1200px) {
-  .portfolio-shell--chat-open .d1-bounded-scene { min-height: 0; }
-  .portfolio-shell--chat-open .d1-bounded-scene__inner { position: static; min-height: 0; }
 }

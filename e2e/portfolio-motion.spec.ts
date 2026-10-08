@@ -27,6 +27,17 @@ async function countNativeScrollIntoViewCalls(page: import("@playwright/test").P
   });
 }
 
+/** Wheels like a reader would (Lenis caps each tick) until the page reaches `targetY`. */
+async function wheelTo(page: import("@playwright/test").Page, targetY: number) {
+  for (let i = 0; i < 200; i++) {
+    const y = await page.evaluate(() => window.scrollY);
+    if (Math.abs(targetY - y) < 40) break;
+    await page.mouse.wheel(0, Math.sign(targetY - y) * 120);
+    await page.waitForTimeout(16);
+  }
+  await page.waitForTimeout(600);
+}
+
 test.describe("portfolio motion", () => {
   test("wheel damping moderates a large burst and allows reversal", async ({ page }) => {
     await page.goto(portfolioUrl);
@@ -100,45 +111,135 @@ test.describe("portfolio motion", () => {
     expect(await page.evaluate(() => (window as unknown as MotionTestWindow).scrollIntoViewCalls)).toBe(0);
   });
 
-  test("bounded scenes pin only at desktop widths and remain within one viewport of extra scroll", async ({ page }) => {
+  test("projects and photos stay in normal flow with no pinned scene or curtain", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    await expect(page.locator("#projects [data-scroll-scene], .d1-experience-photo-break [data-scroll-scene]")).toHaveCount(0);
+    await expect(page.locator(".direction-image-curtain, .d1-photo-curtain")).toHaveCount(0);
+
+    const stickyAncestors = await page.locator('[data-project-slug="invenioai"], .d1-experience-photo-frame').evaluateAll((elements) =>
+      elements.filter((element) => {
+        for (let node: Element | null = element; node; node = node.parentElement) {
+          if (getComputedStyle(node).position === "sticky") return true;
+        }
+        return false;
+      }).length,
+    );
+    expect(stickyAncestors).toBe(0);
+  });
+
+  test("project and photo reveals focus in place without moving against scroll", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const reveals = page.locator('[data-project-slug="invenioai"] [data-motion-reveal="focus"], .d1-experience-photo-frame [data-motion-reveal="focus"]');
+    await expect(reveals).toHaveCount(4);
+
+    const invenio = page.locator('[data-project-slug="invenioai"]');
+    const frameTop = () => invenio.evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
+    const before = await frameTop();
+    await invenio.scrollIntoViewIfNeeded();
+    await page.waitForTimeout(150);
+    const during = await frameTop();
+    expect(Math.abs(during - before)).toBeLessThan(1);
+
+    for (const target of [invenio, page.locator(".d1-experience-photo-break")]) {
+      await target.scrollIntoViewIfNeeded();
+    }
+    await expect.poll(() => reveals.evaluateAll((elements) => elements.every((element) => {
+      const style = getComputedStyle(element);
+      return style.opacity === "1" && (style.filter === "none" || style.filter === "blur(0px)") && (style.transform === "none" || style.transform === "matrix(1, 0, 0, 1, 0, 0)");
+    })), { timeout: 4000 }).toBe(true);
+  });
+
+  test("header yields while scrolling down and returns on scroll up", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+    const nav = page.locator("#top-nav");
+    await page.mouse.move(700, 450);
+
+    for (let i = 0; i < 10; i++) {
+      await page.mouse.wheel(0, 120);
+      await page.waitForTimeout(16);
+    }
+    await expect(nav).toHaveAttribute("data-scroll-hidden", "true");
+    await expect.poll(() => nav.evaluate((element) => element.getBoundingClientRect().bottom)).toBeLessThanOrEqual(1);
+
+    await page.mouse.wheel(0, -300);
+    await expect(nav).toHaveAttribute("data-scroll-hidden", "false");
+  });
+
+  test("research is the only pinned scene, bounded and desktop-only", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(portfolioUrl);
 
     const scenes = page.locator("[data-scroll-scene]");
-    await expect(scenes).toHaveCount(2);
-    const ownership = await scenes.evaluateAll((elements) => elements.map((element) => ({
-      scene: element.getAttribute("data-scroll-scene"),
-      section: element.closest("#projects") ? "projects" : element.closest(".d1-experience-photo-break") ? "photos" : "other",
-    })));
-    expect(ownership).toEqual([
-      { scene: "featured-project", section: "projects" },
-      { scene: "experience-photos", section: "photos" },
-    ]);
+    await expect(scenes).toHaveCount(1);
+    await expect(page.locator('#research [data-scroll-scene="research"]')).toHaveCount(1);
+    const scene = page.locator('[data-scroll-scene="research"]');
+    const inner = scene.locator(".d1-pinned-scene__inner");
+    const position = () => inner.evaluate((element) => getComputedStyle(element).position);
 
-    const desktop = await scenes.evaluateAll((elements) => elements.map((element) => ({
-      position: getComputedStyle(element.querySelector(".d1-bounded-scene__inner")!).position,
+    expect(await position()).toBe("sticky");
+    const { height, innerHeight, contentHeight } = await scene.evaluate((element) => ({
       height: element.getBoundingClientRect().height,
-      viewportHeight: window.innerHeight,
-    })));
-    for (const scene of desktop) {
-      expect(scene.position).toBe("sticky");
-      expect(scene.height).toBeLessThanOrEqual(scene.viewportHeight * 2);
-    }
+      innerHeight: window.innerHeight,
+      contentHeight: element.querySelector(".d1-synthesis-rc-grid")!.getBoundingClientRect().height,
+    }));
+    expect(height).toBeLessThanOrEqual(innerHeight * 2);
+    expect(contentHeight).toBeLessThanOrEqual(innerHeight);
+
+    // Jump to just before the scene, then wheel through the hold like a reader.
+    const sceneTop = await scene.evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
+    await page.evaluate((top) => window.scrollTo(0, top - 200), sceneTop);
+    await page.mouse.move(700, 450);
+    await wheelTo(page, await scene.evaluate((element) =>
+      element.getBoundingClientRect().top + window.scrollY + (element as HTMLElement).offsetHeight - window.innerHeight,
+    ));
+    await expect.poll(() => page.locator("[data-lit-word]").last().evaluate((element) => Number(getComputedStyle(element).opacity))).toBeGreaterThan(0.9);
 
     await page.setViewportSize({ width: 917, height: 900 });
-    await expect.poll(() => scenes.evaluateAll((elements) =>
-      elements.map((element) => getComputedStyle(element.querySelector(".d1-bounded-scene__inner")!).position),
-    )).toEqual(["static", "static"]);
-
-    await page.setViewportSize({ width: 390, height: 844 });
-    await expect.poll(() => scenes.evaluateAll((elements) =>
-      elements.map((element) => getComputedStyle(element.querySelector(".d1-bounded-scene__inner")!).position),
-    )).toEqual(["static", "static"]);
+    await expect.poll(position).toBe("static");
+    expect(await page.locator("[data-lit-word]").first().evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
 
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 1440, height: 900 });
-    await expect.poll(() => scenes.evaluateAll((elements) =>
-      elements.map((element) => getComputedStyle(element.querySelector(".d1-bounded-scene__inner")!).position),
-    )).toEqual(["static", "static"]);
+    await expect.poll(position).toBe("static");
+  });
+
+  test("reduced motion renders project and photo media immediately", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const reveals = page.locator('[data-motion-reveal="focus"]');
+    expect(await reveals.count()).toBeGreaterThan(0);
+    const settled = await reveals.evaluateAll((elements) => elements.every((element) => {
+      const style = getComputedStyle(element);
+      return style.opacity === "1" && style.filter === "none";
+    }));
+    expect(settled).toBe(true);
+  });
+
+  test("hero and project choreography keeps the existing D1 content intact", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const hero = page.locator('[data-motion-sequence="d1-hero"]');
+    await expect(hero).toBeVisible();
+    await expect(hero.locator(".direction-overline")).toHaveText("AI Engineer & Data Scientist · Jakarta, IDN");
+    await expect(hero.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(hero.getByRole("img", { name: /Felix/i })).toBeVisible();
+    await expect(hero.locator(".d1-synthesis-about p")).not.toBeEmpty();
+    await expect(hero.getByRole("link", { name: "Get in touch" })).toHaveAttribute("href", "#contact");
+
+    const featured = page.locator(".d2-gallery-item").first();
+    await expect(featured.locator("[data-project-slug]")).toHaveAttribute("data-motion-preset", "d1-synthesis");
+    await expect(featured.getByRole("heading", { level: 3 }).first()).toBeVisible();
+
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await expect(hero.getByRole("heading", { level: 1 })).toBeVisible();
+    await expect(featured.getByRole("heading", { level: 3 }).first()).toBeVisible();
   });
 });
