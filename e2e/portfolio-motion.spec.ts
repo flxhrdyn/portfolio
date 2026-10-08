@@ -99,4 +99,46 @@ test.describe("portfolio motion", () => {
     await expect(page.locator("#experience")).toBeInViewport();
     expect(await page.evaluate(() => (window as unknown as MotionTestWindow).scrollIntoViewCalls)).toBe(0);
   });
+
+  test("bounded scenes pin only at desktop widths and remain within one viewport of extra scroll", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const scenes = page.locator("[data-scroll-scene]");
+    await expect(scenes).toHaveCount(2);
+    const ownership = await scenes.evaluateAll((elements) => elements.map((element) => ({
+      scene: element.getAttribute("data-scroll-scene"),
+      section: element.closest("#projects") ? "projects" : element.closest(".d1-experience-photo-break") ? "photos" : "other",
+    })));
+    expect(ownership).toEqual([
+      { scene: "featured-project", section: "projects" },
+      { scene: "experience-photos", section: "photos" },
+    ]);
+
+    const desktop = await scenes.evaluateAll((elements) => elements.map((element) => ({
+      position: getComputedStyle(element.querySelector(".d1-bounded-scene__inner")!).position,
+      height: element.getBoundingClientRect().height,
+      viewportHeight: window.innerHeight,
+    })));
+    for (const scene of desktop) {
+      expect(scene.position).toBe("sticky");
+      expect(scene.height).toBeLessThanOrEqual(scene.viewportHeight * 2);
+    }
+
+    await page.setViewportSize({ width: 917, height: 900 });
+    await expect.poll(() => scenes.evaluateAll((elements) =>
+      elements.map((element) => getComputedStyle(element.querySelector(".d1-bounded-scene__inner")!).position),
+    )).toEqual(["static", "static"]);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await expect.poll(() => scenes.evaluateAll((elements) =>
+      elements.map((element) => getComputedStyle(element.querySelector(".d1-bounded-scene__inner")!).position),
+    )).toEqual(["static", "static"]);
+
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await expect.poll(() => scenes.evaluateAll((elements) =>
+      elements.map((element) => getComputedStyle(element.querySelector(".d1-bounded-scene__inner")!).position),
+    )).toEqual(["static", "static"]);
+  });
 });

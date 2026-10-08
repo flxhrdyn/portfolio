@@ -10,6 +10,7 @@ import {
 } from '@/data/portfolio-data';
 import { ExperiencePhotoInterlude } from './ExperiencePhotoInterlude';
 import { PortfolioAnchor } from '@/components/PortfolioAnchor';
+import { BoundedScrollScene } from '../BoundedScrollScene';
 
 const contactOrder = ['Email', 'LinkedIn', 'GitHub', 'Hugging Face'];
 const prioritizedContactLinks = [...CONTACT_LINKS].sort(
@@ -101,12 +102,24 @@ export function D1Synthesis() {
         <section className="direction-section d1-synthesis-projects" id="projects">
           <SectionHeading>Projects</SectionHeading>
           <div className="d2-gallery">
-            {PROJECTS.map((project, index) => (
-              <article className="d2-gallery-item" key={project.slug}>
-                <ProjectImage project={project} />
-                <ProjectCopy project={project} index={index} presentation="case-study" />
-              </article>
-            ))}
+            {PROJECTS.map((project, index) => {
+              const item = (
+                <article className="d2-gallery-item" key={project.slug}>
+                  <ProjectImage project={project} />
+                  <ProjectCopy project={project} index={index} presentation="case-study" />
+                </article>
+              );
+
+              return index === 0 ? (
+                <BoundedScrollScene
+                  key={project.slug}
+                  scene="featured-project"
+                  className="d2-gallery-item d1-featured-project-scene"
+                >
+                  {item}
+                </BoundedScrollScene>
+              ) : item;
+            })}
           </div>
         </section>
 

@@ -970,3 +970,25 @@
   .d1-experience-photo-tunas { width: clamp(176px, 80vw, 288px); }
   .d1-experience-photo-figure figcaption { gap: 7px; padding-top: 8px; font-size: 11px; }
 }
+
+.d1-bounded-scene { min-width: 0; }
+.d1-bounded-scene__inner { min-width: 0; }
+
+@media (min-width: 1200px) and (prefers-reduced-motion: no-preference) {
+  .d1-bounded-scene { min-height: calc(200svh - 4rem); }
+  .d1-bounded-scene__inner {
+    position: sticky;
+    top: 4rem;
+    min-height: calc(100svh - 4rem);
+  }
+}
+
+@media (max-width: 1199px), (prefers-reduced-motion: reduce) {
+  .d1-bounded-scene { min-height: 0; }
+  .d1-bounded-scene__inner { position: static; min-height: 0; }
+}
+
+@media (min-width: 1200px) {
+  .portfolio-shell--chat-open .d1-bounded-scene { min-height: 0; }
+  .portfolio-shell--chat-open .d1-bounded-scene__inner { position: static; min-height: 0; }
+}
