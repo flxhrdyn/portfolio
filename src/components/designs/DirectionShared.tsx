@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode, useEffect, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
+import { PortfolioAnchor } from '@/components/PortfolioAnchor';
 import {
   PROFILE, ALL_PROJECTS, WORK_ROLES, EDUCATION, SKILL_GROUPS,
   PUBLICATIONS, CERTIFICATIONS, CONTACT_LINKS, ProjectItem,
@@ -29,7 +30,7 @@ function D1SynthesisFooter() {
       </div>
       <div className="d1-minimal-footer-signoff">
         <p className="d1-minimal-footer-name">{PROFILE.name}</p>
-        <a className="d1-minimal-footer-top" href="#hero">Back to top <span aria-hidden="true">↑</span></a>
+        <PortfolioAnchor className="d1-minimal-footer-top" href="#hero">Back to top <span aria-hidden="true">↑</span></PortfolioAnchor>
       </div>
     </footer>
   );

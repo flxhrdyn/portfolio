@@ -3,8 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { m, useReducedMotion } from "motion/react";
+import { usePortfolioScroll } from "@/components/MotionProvider";
 import { scrollToAnchor } from "@/lib/scrollToAnchor";
-import { EASE_OUT, SECTION_NAVIGATION_EVENT } from "@/lib/motion";
+import { EASE_OUT } from "@/lib/motion";
 
 const NAV_LINKS = [
   { href: "#projects", label: "Projects" },
@@ -32,6 +33,7 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [menuOpen, setMenuOpen] = useState(false);
   const reduceMotion = useReducedMotion();
+  const scrollController = usePortfolioScroll();
   const navRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -106,8 +108,7 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
 
   const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     setMenuOpen(false);
-    window.dispatchEvent(new CustomEvent(SECTION_NAVIGATION_EVENT, { detail: href.slice(1) }));
-    scrollToAnchor(event, href);
+    scrollToAnchor(event, href, scrollController);
   };
 
   const themeButton = (

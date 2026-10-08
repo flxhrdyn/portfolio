@@ -9,6 +9,7 @@ import {
   PUBLICATIONS,
 } from '@/data/portfolio-data';
 import { ExperiencePhotoInterlude } from './ExperiencePhotoInterlude';
+import { PortfolioAnchor } from '@/components/PortfolioAnchor';
 
 const contactOrder = ['Email', 'LinkedIn', 'GitHub', 'Hugging Face'];
 const prioritizedContactLinks = [...CONTACT_LINKS].sort(
@@ -92,9 +93,9 @@ export function D1Synthesis() {
               <p>{PROFILE.tagline}</p>
             </div>
           </div>
-          <a className="d1-synthesis-hero-cta" href="#contact">
+          <PortfolioAnchor className="d1-synthesis-hero-cta" href="#contact">
             <span>Get in touch</span>
-          </a>
+          </PortfolioAnchor>
         </section>
 
         <section className="direction-section d1-synthesis-projects" id="projects">
