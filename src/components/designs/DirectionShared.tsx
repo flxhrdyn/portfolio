@@ -2,8 +2,8 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { CSSProperties, ReactNode, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
-import { m, useReducedMotion, useScroll, useTransform } from 'motion/react';
+import { CSSProperties, ReactNode, useEffect, useId, useRef, useState, useSyncExternalStore, type Ref } from 'react';
+import { AnimatePresence, m, useIsPresent, useReducedMotion } from 'motion/react';
 import { Reveal } from './Reveal';
 import { createPortal } from 'react-dom';
 import { PortfolioAnchor } from '@/components/PortfolioAnchor';
@@ -22,8 +22,8 @@ function D1SynthesisFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="d1-minimal-footer">
-      <div className="d1-minimal-footer-meta">
+    <Reveal as="footer" className="d1-minimal-footer">
+      <div className="d1-minimal-footer-meta" data-r="fade">
         <span>© {year}</span>
         <nav aria-label="Footer links">
           <a href="https://github.com/flxhrdyn/portfolio" target="_blank" rel="noopener noreferrer">Source</a>
@@ -31,10 +31,10 @@ function D1SynthesisFooter() {
         </nav>
       </div>
       <div className="d1-minimal-footer-signoff">
-        <p className="d1-minimal-footer-name">{PROFILE.name}</p>
-        <PortfolioAnchor className="d1-minimal-footer-top" href="#hero">Back to top <span aria-hidden="true">↑</span></PortfolioAnchor>
+        <p className="d1-minimal-footer-name" data-r="fade" style={{ '--d': '.08s' } as CSSProperties}>{PROFILE.name}</p>
+        <PortfolioAnchor className="d1-minimal-footer-top" href="#hero" data-r="fade" style={{ '--d': '.16s' } as CSSProperties}>Back to top <span aria-hidden="true">↑</span></PortfolioAnchor>
       </div>
-    </footer>
+    </Reveal>
   );
 }
 
@@ -85,17 +85,28 @@ export function SectionHeading({
   children,
   id,
   motionPreset,
+  entrance = 'mask',
 }: {
   children: ReactNode;
   id?: string;
   motionPreset?: 'd1-synthesis';
+  entrance?: 'mask' | 'fade' | 'from-left' | 'from-right' | 'soft-focus' | 'tracking';
 }) {
   if (motionPreset !== 'd1-synthesis') {
     return <div className="direction-section-heading" id={id}><h2>{children}</h2></div>;
   }
+
+  const heading = entrance === 'mask'
+    ? <MaskLine>{children}</MaskLine>
+    : (
+      <Reveal as="span" className="d1-section-heading-reveal">
+        <span data-r={entrance}>{children}</span>
+      </Reveal>
+    );
+
   return (
-    <div className="direction-section-heading" id={id}>
-      <h2><MaskLine>{children}</MaskLine></h2>
+    <div className="direction-section-heading" id={id} data-motion-signature={entrance}>
+      <h2>{heading}</h2>
     </div>
   );
 }
@@ -131,24 +142,65 @@ export function ProjectImage({
   return (
     <Reveal className={`direction-image ${className}`} data-project-slug={project.slug} data-motion-preset={motionPreset}>
       <div className="direction-image-reveal" data-motion-reveal="focus" data-r="focus" style={{ position: 'absolute', inset: 0 }}>
-        <InFrameParallax>{image}</InFrameParallax>
+        {image}
       </div>
     </Reveal>
   );
 }
 
-/** Image drifts with the scroll inside a frame that stays put, so motion follows the reader. */
-function InFrameParallax({ children }: { children: ReactNode }) {
-  const frameRef = useRef<HTMLDivElement>(null);
+export function MotionDialogLayer({
+  children,
+  className,
+  id,
+  labelledBy,
+  onBackdropClick,
+  panelRef,
+  panelClassName = '',
+  animated = true,
+}: {
+  children: ReactNode;
+  className: string;
+  id?: string;
+  labelledBy: string;
+  onBackdropClick: () => void;
+  panelRef?: Ref<HTMLDivElement>;
+  panelClassName?: string;
+  animated?: boolean;
+}) {
+  const isPresent = useIsPresent();
   const reduceMotion = useReducedMotion();
-  const { scrollYProgress } = useScroll({ target: frameRef, offset: ['start end', 'end start'] });
-  const y = useTransform(scrollYProgress, [0, 1], ['-6%', '6%']);
+  const enterDuration = reduceMotion || !animated ? 0 : 0.42;
+  const exitDuration = reduceMotion || !animated ? 0 : 0.18;
+
   return (
-    <div ref={frameRef} style={{ position: 'absolute', inset: 0 }}>
-      <m.div className="d1-parallax" data-motion-parallax="frame" style={reduceMotion ? undefined : { y }}>
+    <m.div
+      className={className}
+      id={id}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby={labelledBy}
+      aria-hidden={!isPresent}
+      inert={!isPresent}
+      data-motion-state={isPresent ? 'open' : 'closing'}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0, transition: { duration: exitDuration, ease: 'easeIn' } }}
+      transition={{ duration: enterDuration, ease: [0.16, 1, 0.3, 1] }}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) onBackdropClick();
+      }}
+    >
+      <m.div
+        ref={panelRef}
+        className={`direction-modal-panel ${panelClassName}`.trim()}
+        initial={{ opacity: 0, y: 14, scale: 0.99 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, y: 8, scale: 0.99, transition: { duration: exitDuration, ease: 'easeIn' } }}
+        transition={{ duration: enterDuration, ease: [0.16, 1, 0.3, 1] }}
+      >
         {children}
       </m.div>
-    </div>
+    </m.div>
   );
 }
 
@@ -158,12 +210,14 @@ export function ProjectDetailModal({
   isOpen,
   onClose,
   presentation,
+  motionPreset,
 }: {
   project: ProjectItem;
   index?: number;
   isOpen: boolean;
   onClose: () => void;
   presentation?: 'case-study';
+  motionPreset?: 'd1-synthesis';
 }) {
   const isCaseStudy = presentation === 'case-study';
   const mounted = useSyncExternalStore(
@@ -171,37 +225,69 @@ export function ProjectDetailModal({
     () => true,
     () => false
   );
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!isOpen) return;
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+    const previousActiveElement = document.activeElement instanceof HTMLElement
+      ? document.activeElement
+      : null;
+    const originalOverflow = document.body.style.overflow;
+    const focusFrame = window.requestAnimationFrame(() => closeRef.current?.focus());
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        onClose();
+        return;
+      }
+
+      if (event.key !== 'Tab') return;
+      const focusableElements = panelRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not(:disabled), video[controls], [tabindex]:not([tabindex="-1"])'
+      );
+      if (!focusableElements?.length) {
+        event.preventDefault();
+        return;
+      }
+
+      const first = focusableElements[0];
+      const last = focusableElements[focusableElements.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
-    const origOverflow = document.body.style.overflow;
     document.body.style.overflow = 'hidden';
     return () => {
+      window.cancelAnimationFrame(focusFrame);
       window.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = origOverflow;
+      document.body.style.overflow = originalOverflow;
+      if (previousActiveElement?.isConnected) previousActiveElement.focus();
     };
   }, [isOpen, onClose]);
 
-  if (!mounted || !isOpen || typeof document === 'undefined') return null;
+  if (!mounted || typeof document === 'undefined') return null;
 
   return createPortal(
-    <div
-      className={`direction direction-modal-backdrop${isCaseStudy ? ' direction-modal-backdrop--case-study' : ''}`}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby={`modal-title-${project.slug}`}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
-    >
-      <div className="direction-modal-panel">
+    <AnimatePresence initial={false}>
+      {isOpen && (
+      <MotionDialogLayer
+        key={`project-dialog-${project.slug}`}
+        className={`direction direction-modal-backdrop${isCaseStudy ? ' direction-modal-backdrop--case-study' : ''}`}
+        labelledBy={`modal-title-${project.slug}`}
+        onBackdropClick={onClose}
+        panelRef={panelRef}
+        animated={motionPreset === 'd1-synthesis'}
+      >
         <div className="direction-modal-header">
           <span className="direction-modal-meta">Case study</span>
           <button
+            ref={closeRef}
             type="button"
             className="direction-modal-close"
             onClick={onClose}
@@ -298,8 +384,9 @@ export function ProjectDetailModal({
             </div>
           ) : null}
         </div>
-      </div>
-    </div>,
+      </MotionDialogLayer>
+      )}
+    </AnimatePresence>,
     document.body
   );
 }
@@ -316,17 +403,17 @@ export function ProjectCopy({
   motionPreset?: 'd1-synthesis';
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const rise = (i: number) => motionPreset ? { 'data-r': 'rise', style: { '--i': i, '--d': '.2s' } as CSSProperties } : {};
+  const reveal = (i: number) => motionPreset ? { 'data-r': 'fade', style: { '--i': i, '--d': '.12s' } as CSSProperties } : {};
 
   return (
     <Reveal className="direction-project-copy" data-motion-preset={motionPreset}>
-      <div className="direction-project-meta" {...rise(0)}>
+      <div className="direction-project-meta" {...reveal(0)}>
         <span>{index === undefined ? project.tags[0] : String(index + 1).padStart(2, '0')}</span>
         <span>{project.tags.slice(0, 2).join(' / ')}</span>
       </div>
-      <h3 {...rise(1)}>{project.title}</h3>
-      <p {...rise(2)}>{project.summary}</p>
-      <div className="direction-project-links" {...rise(3)}>
+      <h3 {...reveal(1)}>{project.title}</h3>
+      <p {...reveal(2)}>{project.summary}</p>
+      <div className="direction-project-links" {...reveal(3)}>
         <button
           type="button"
           className="direction-detail-trigger"
@@ -347,6 +434,7 @@ export function ProjectCopy({
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         presentation={presentation}
+        motionPreset={motionPreset}
       />
     </Reveal>
   );
@@ -384,13 +472,13 @@ function CareerRoleItem({ role, index }: { role: (typeof WORK_ROLES)[number]; in
             <div className="direction-career-title-mask">
               <h3 className="direction-career-title-reveal" data-r="rise" style={{ '--d': '.08s' } as CSSProperties}>{role.title}</h3>
             </div>
-            <p className="direction-career-company direction-career-copy-reveal" data-r="rise" style={{ '--d': '.14s' } as CSSProperties}>{role.company}</p>
+            <p className="direction-career-company" data-r="fade" style={{ '--d': '.14s' } as CSSProperties}>{role.company}</p>
           </div>
         </button>
 
         <div className="direction-career-content">
           {role.headline && (
-            <p className="direction-muted direction-career-headline direction-career-copy-reveal" data-r="rise" style={{ '--d': '.2s' } as CSSProperties}>{role.headline}</p>
+            <p className="direction-muted direction-career-headline" data-r="fade" style={{ '--d': '.2s' } as CSSProperties}>{role.headline}</p>
           )}
           {hasHighlights && (
             <div
@@ -446,12 +534,12 @@ export function ExperienceContent({
           <p className="direction-overline" data-r="fade">{item.date}</p>
           <div className="direction-career-body direction-education-body">
             <div className="direction-career-title-mask">
-              <h3 className="direction-career-title-reveal" data-r="rise" style={{ '--d': '.08s' } as CSSProperties}>{item.title}</h3>
+              <h3 className="direction-career-title-reveal" data-r="from-left" style={{ '--d': '.08s' } as CSSProperties}>{item.title}</h3>
             </div>
-            <p className="direction-career-company direction-career-copy-reveal" data-r="rise" style={{ '--d': '.14s' } as CSSProperties}>
+            <p className="direction-career-company" data-r="fade" style={{ '--d': '.14s' } as CSSProperties}>
               {item.company}{item.statLabel ? ` / ${item.statLabel}` : ''}
             </p>
-            {item.description && <p className="direction-muted direction-career-copy-reveal" data-r="rise" style={{ '--d': '.2s' } as CSSProperties}>{item.description}</p>}
+            {item.description && <p className="direction-muted" data-r="fade" style={{ '--d': '.2s' } as CSSProperties}>{item.description}</p>}
           </div>
         </Reveal>
       ))}
@@ -477,7 +565,7 @@ export function SkillsContent({
     <Reveal className={`direction-skills-matrix ${className}`}>
       {telemetryGroups.map((group, i) => (
         <article key={group.category} className="direction-skills-cell" style={{ '--i': i * 1.5 } as CSSProperties}>
-          <header className="direction-skills-cell-header" data-r="rise">
+          <header className="direction-skills-cell-header" data-r="fade">
             <span className="direction-skills-index">
               {showMetadata && (
                 <>
@@ -559,13 +647,16 @@ export function CertificationsContent({
   className = '',
   pageSize = 6,
   initialLimit,
+  motionPreset,
 }: {
   className?: string;
   pageSize?: number;
   initialLimit?: number;
+  motionPreset?: 'd1-synthesis';
 } = {}) {
   const effectivePageSize = pageSize || initialLimit || 6;
   const [page, setPage] = useState(0);
+  const [hasPaged, setHasPaged] = useState(false);
   const { items, hasPrev, hasNext, pageIndicator, totalPages } = getCertificationsPage(
     CERTIFICATIONS,
     page,
@@ -574,7 +665,14 @@ export function CertificationsContent({
 
   return (
     <Reveal className="direction-cert-wrapper">
-      <ul className={`direction-cert-ledger ${className}`} key={page}>
+      <ul
+        className={`direction-cert-ledger ${className}`}
+        key={page}
+        data-motion-preset={motionPreset}
+        data-page={motionPreset ? page : undefined}
+        data-page-transition={motionPreset && hasPaged ? 'settle' : undefined}
+        aria-live={motionPreset ? 'polite' : undefined}
+      >
         {items.map((cert, idx) => {
           const isLastVisible = idx === items.length - 1;
           const hasGhosts = items.length < effectivePageSize;
@@ -635,7 +733,10 @@ export function CertificationsContent({
             <button
               type="button"
               className="direction-cert-pager-btn"
-              onClick={() => setPage((p) => Math.max(0, p - 1))}
+              onClick={() => {
+                setHasPaged(true);
+                setPage((p) => Math.max(0, p - 1));
+              }}
               disabled={!hasPrev}
               aria-label="Previous accreditations page"
             >
@@ -645,7 +746,10 @@ export function CertificationsContent({
             <button
               type="button"
               className="direction-cert-pager-btn"
-              onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
+              onClick={() => {
+                setHasPaged(true);
+                setPage((p) => Math.min(totalPages - 1, p + 1));
+              }}
               disabled={!hasNext}
               aria-label="Next accreditations page"
             >

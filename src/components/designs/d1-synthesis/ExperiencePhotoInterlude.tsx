@@ -33,13 +33,14 @@ export function ExperiencePhotoInterlude() {
     <section
       className="d1-experience-photo-break"
       aria-label="Experience and education photo break"
+      data-motion-signature="editorial-spread"
     >
       <div className="d1-experience-photo-grid">
         <Reveal as="p" className="d1-experience-photo-note-title">
-          <span data-r="rise">A few places where my work took shape.</span>
+          <span data-r="from-right">A few places where my work took shape.</span>
         </Reveal>
         <Reveal as="p" className="d1-experience-photo-note-detail" style={{ "--i": 1 } as CSSProperties}>
-          <span data-r="rise">From office floors to computing labs.</span>
+          <span data-r="fade">From office floors to computing labs.</span>
         </Reveal>
         {experiences.map((experience, index) => (
           <Reveal

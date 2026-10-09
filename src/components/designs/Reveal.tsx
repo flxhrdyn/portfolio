@@ -27,6 +27,7 @@ export function Reveal({
 function observeReveal(el: HTMLElement | null) {
   if (!el) return;
   const set = (state: RevealState) => { el.dataset.reveal = state; };
+  set('hidden');
 
   // Plays once the element clears the bottom 15% band, so every block starts its
   // motion at the same point on screen regardless of its height.

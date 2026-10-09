@@ -2,7 +2,9 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
+import { AnimatePresence } from 'motion/react';
 import archiveProjects from '@/content/archive-projects.json';
+import { MotionDialogLayer } from '@/components/designs/DirectionShared';
 
 export function ProjectArchive() {
   const [isOpen, setIsOpen] = useState(false);
@@ -75,18 +77,18 @@ export function ProjectArchive() {
         </button>
       </div>
 
-      {mounted && isOpen && createPortal(
-        <div
-          className="direction direction-modal-backdrop d1-project-archive-backdrop"
-          id="d1-project-archive-dialog"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby="d1-project-archive-title"
-          onClick={(event) => {
-            if (event.target === event.currentTarget) setIsOpen(false);
-          }}
-        >
-          <div className="direction-modal-panel d1-project-archive-panel" ref={panelRef}>
+      {mounted && createPortal(
+        <AnimatePresence initial={false}>
+          {isOpen && (
+          <MotionDialogLayer
+            key="project-archive-dialog"
+            className="direction direction-modal-backdrop d1-project-archive-backdrop"
+            id="d1-project-archive-dialog"
+            panelClassName="d1-project-archive-panel"
+            labelledBy="d1-project-archive-title"
+            onBackdropClick={() => setIsOpen(false)}
+            panelRef={panelRef}
+          >
             <div className="direction-modal-header">
               <span className="direction-modal-meta">Projects / Index</span>
               <button ref={closeRef} type="button" className="direction-modal-close" onClick={() => setIsOpen(false)}>
@@ -132,8 +134,9 @@ export function ProjectArchive() {
                 </tbody>
               </table>
             </div>
-          </div>
-        </div>,
+          </MotionDialogLayer>
+          )}
+        </AnimatePresence>,
         document.body
       )}
     </>

@@ -49,6 +49,30 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeScript />
       </head>
       <body>
+        <noscript>
+          <style>{`
+            [data-reveal="hidden"] [data-r],
+            [data-reveal="hidden"] [data-r="row"] > *,
+            [data-reveal="hidden"] [data-motion-reveal],
+            [data-reveal="hidden"] .d1-mask-line {
+              opacity: 1 !important;
+              transform: none !important;
+              filter: none !important;
+              transition: none !important;
+            }
+            .d5-synthesis-skill-grid .direction-skills-cell::before {
+              transform: none !important;
+            }
+            [data-reveal="hidden"] [data-r="row"],
+            [data-reveal="hidden"][data-r="row"],
+            [data-reveal="hidden"].direction-career-row {
+              background-size: 100% 1px !important;
+            }
+            [data-reveal="hidden"] [data-r="tracking"] {
+              letter-spacing: inherit !important;
+            }
+          `}</style>
+        </noscript>
         <MotionProvider>
           {children}
           <Analytics />

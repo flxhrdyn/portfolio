@@ -143,12 +143,16 @@ test.describe("portfolio motion", () => {
         borderWidth: style.borderTopWidth,
         background: style.backgroundColor,
         imageOpacity: reveal ? getComputedStyle(reveal).opacity : null,
+        top: element.getBoundingClientRect().top,
       };
     }));
 
-    expect(appearances.every(({ state, borderWidth, background, imageOpacity }) =>
-      state === "hidden" && borderWidth === "0px" && background === "rgba(0, 0, 0, 0)" && imageOpacity === "0",
+    expect(appearances.every(({ borderWidth, background }) =>
+      borderWidth === "0px" && background === "rgba(0, 0, 0, 0)",
     ), JSON.stringify(appearances)).toBe(true);
+    const belowFold = appearances.filter(({ top }) => top > 900 * 0.85);
+    expect(belowFold.length).toBeGreaterThan(0);
+    expect(belowFold.every(({ state, imageOpacity }) => state === "hidden" && imageOpacity === "0"), JSON.stringify(belowFold)).toBe(true);
   });
 
   test("project and photo reveals focus in place without moving against scroll", async ({ page }) => {
@@ -173,6 +177,99 @@ test.describe("portfolio motion", () => {
       const style = getComputedStyle(element);
       return style.opacity === "1" && (style.filter === "none" || style.filter === "blur(0px)") && (style.transform === "none" || style.transform === "matrix(1, 0, 0, 1, 0, 0)");
     })), { timeout: 4000 }).toBe(true);
+
+    await expect(page.locator(".d1-synthesis-projects [data-motion-parallax]")).toHaveCount(0);
+  });
+
+  test("project detail dialog enters and exits with focus contained and restored", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const project = page.locator(".d2-gallery-item").nth(1);
+    const trigger = project.getByRole("button", { name: "Project details" });
+    await trigger.scrollIntoViewIfNeeded();
+    await trigger.click();
+
+    const dialog = page.getByRole("dialog");
+    const close = dialog.getByRole("button", { name: "Close modal" });
+    await expect(dialog).toBeVisible();
+    await expect(dialog).toHaveAttribute("data-motion-state", "open");
+    await expect(close).toBeFocused();
+    await page.keyboard.press("Shift+Tab");
+    await expect(dialog.locator("a[href]").last()).toBeFocused();
+
+    await page.keyboard.press("Escape");
+    const closingLayer = page.locator('.direction-modal-backdrop[data-motion-state="closing"]');
+    await expect(closingLayer).toHaveCount(1);
+    await expect(dialog).toHaveCount(0);
+    await expect(closingLayer).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+  });
+
+  test("archive dialog exits cleanly and restores its trigger", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const trigger = page.getByRole("button", { name: "View all projects" });
+    await trigger.scrollIntoViewIfNeeded();
+    await trigger.click();
+
+    const dialog = page.getByRole("dialog", { name: "All projects" });
+    await expect(dialog).toHaveAttribute("data-motion-state", "open");
+    await expect(dialog.getByRole("button", { name: "Close [Esc]" })).toBeFocused();
+    await page.keyboard.press("Escape");
+    const closingLayer = page.locator('.direction-modal-backdrop[data-motion-state="closing"]');
+    await expect(closingLayer).toHaveCount(1);
+    await expect(dialog).toHaveCount(0);
+    await expect(closingLayer).toHaveCount(0);
+    await expect(trigger).toBeFocused();
+  });
+
+  test("certification pages announce the new page and settle into place", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const certifications = page.locator("#certifications");
+    const ledger = certifications.locator(".direction-cert-ledger");
+    await certifications.scrollIntoViewIfNeeded();
+    await expect(ledger).toHaveAttribute("data-page", "0");
+    const firstPageTitle = await ledger.locator("li:not(.direction-cert-ghost)").first().textContent();
+
+    await certifications.getByRole("button", { name: "Next accreditations page" }).click();
+    await expect(ledger).toHaveAttribute("data-page", "1");
+    await expect(ledger).toHaveAttribute("aria-live", "polite");
+    await expect.poll(() => ledger.locator("li:not(.direction-cert-ghost)").first().textContent()).not.toBe(firstPageTitle);
+    await expect(ledger).toHaveCSS("animation-name", "d1-cert-page-enter");
+
+    await certifications.getByRole("button", { name: "Previous accreditations page" }).click();
+    await expect(ledger).toHaveAttribute("data-page", "0");
+    await expect(ledger).toHaveCSS("animation-name", "d1-cert-page-enter");
+  });
+
+  test("footer signs off with a paced reveal", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const footer = page.locator(".d1-minimal-footer");
+    await expect(footer).toHaveAttribute("data-reveal", "hidden");
+    await footer.scrollIntoViewIfNeeded();
+    await expect(footer).toHaveAttribute("data-reveal", /^(in|instant)$/);
+    await expect.poll(() => footer.locator(".d1-minimal-footer-name").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+    await expect(footer.getByRole("link", { name: /Back to top/ })).toBeVisible();
+  });
+
+  test("section copy remains visible when JavaScript is unavailable", async ({ browser }) => {
+    const context = await browser.newContext({
+      javaScriptEnabled: false,
+      viewport: { width: 1440, height: 900 },
+    });
+    const noScriptPage = await context.newPage();
+    await noScriptPage.goto(portfolioUrl);
+
+    const title = noScriptPage.locator(".d1-experience-photo-note-title");
+    await expect(title).toHaveText("A few places where my work took shape.");
+    await expect(title.locator("[data-r='from-right']")).toHaveCSS("opacity", "1");
+    await context.close();
   });
 
   test("header yields while scrolling down and returns on scroll up", async ({ page }) => {
@@ -324,12 +421,23 @@ test.describe("portfolio motion", () => {
     await expect(title).toHaveText("A few places where my work took shape.");
     await expect(detail).toHaveText("From office floors to computing labs.");
 
+    const interlude = page.locator(".d1-experience-photo-break");
+    const interludeTop = await interlude.evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
+    await wheelTo(page, interludeTop + 180);
+    await page.waitForTimeout(1200);
+    await expect(title).toHaveAttribute("data-reveal", /^(in|instant)$/);
+    await expect(detail).toHaveAttribute("data-reveal", /^(in|instant)$/);
+    await expect(title.locator("[data-r='from-right']")).toBeAttached();
+    await expect(detail.locator("[data-r='fade']")).toBeAttached();
+    await expect.poll(() => title.locator("[data-r='from-right']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+    await expect.poll(() => detail.locator("[data-r='fade']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+
     await title.scrollIntoViewIfNeeded();
     await expect(title).toHaveAttribute("data-reveal", /^(in|instant)$/);
-    await expect.poll(() => title.locator("[data-r='rise']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+    await expect.poll(() => title.locator("[data-r='from-right']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
     await detail.scrollIntoViewIfNeeded();
     await expect(detail).toHaveAttribute("data-reveal", /^(in|instant)$/);
-    await expect.poll(() => detail.locator("[data-r='rise']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+    await expect.poll(() => detail.locator("[data-r='fade']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
 
     const photo = page.locator(".d1-experience-photo-frame [data-motion-reveal='focus']").first();
     const durations = await photo.evaluate((element) => getComputedStyle(element).transitionDuration.split(",").map((duration) => parseFloat(duration)));
@@ -362,16 +470,82 @@ test.describe("portfolio motion", () => {
     expect(mobileLayout.pageWidth).toBeLessThanOrEqual(mobileLayout.viewportWidth);
   });
 
-  test("education uses the shared paced reveal without an accordion", async ({ page }) => {
+  test("education enters laterally while experience keeps its masked ledger reveal", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(portfolioUrl);
 
     const row = page.locator("#education .direction-education-row[data-reveal]").first();
     await expect(row).toHaveAttribute("data-r", "row");
     await expect(row.locator(".direction-overline")).toHaveAttribute("data-r", "fade");
-    await expect(row.locator(".direction-career-title-mask h3")).toHaveAttribute("data-r", "rise");
-    await expect(row.locator(".direction-career-company")).toHaveAttribute("data-r", "rise");
+    const educationTitle = row.locator(".direction-career-title-mask h3");
+    await expect(educationTitle).toHaveAttribute("data-r", "from-left");
+    await expect(row.locator(".direction-career-company")).toHaveAttribute("data-r", "fade");
+    const educationMotion = await educationTitle.evaluate((element) => {
+      const style = getComputedStyle(element);
+      const matrix = new DOMMatrixReadOnly(style.transform);
+      return { opacity: style.opacity, x: matrix.m41, y: matrix.m42 };
+    });
+    expect(educationMotion.opacity).toBe("0");
+    expect(educationMotion.x).toBeLessThan(-15);
+    expect(Math.abs(educationMotion.y)).toBeLessThan(1);
+
+    const experienceTitle = page.locator("#experience .direction-career-title-reveal").first();
+    await expect(experienceTitle).toHaveAttribute("data-r", "rise");
+    const experienceMotion = await experienceTitle.evaluate((element) => {
+      const matrix = new DOMMatrixReadOnly(getComputedStyle(element).transform);
+      return { x: matrix.m41, y: matrix.m42 };
+    });
+    expect(Math.abs(experienceMotion.x)).toBeLessThan(1);
+    expect(experienceMotion.y).toBeGreaterThan(15);
     await expect(row.locator("button")).toHaveCount(0);
+  });
+
+  test("each portfolio section uses a distinct motion signature", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const signatures = await page.evaluate(() => ({
+      projects: document.querySelector("#projects")?.getAttribute("data-motion-signature"),
+      experience: document.querySelector("#experience")?.getAttribute("data-motion-signature"),
+      education: document.querySelector("#education")?.getAttribute("data-motion-signature"),
+      photoBreak: document.querySelector(".d1-experience-photo-break")?.getAttribute("data-motion-signature"),
+      skills: document.querySelector("#skills")?.getAttribute("data-motion-signature"),
+      research: document.querySelector(".d1-synthesis-rc-grid")?.getAttribute("data-motion-signature"),
+      certifications: document.querySelector("#certifications")?.getAttribute("data-motion-signature"),
+      contact: document.querySelector("#contact")?.getAttribute("data-motion-signature"),
+    }));
+    expect(Object.values(signatures).every(Boolean), JSON.stringify(signatures)).toBe(true);
+    expect(new Set(Object.values(signatures)).size, JSON.stringify(signatures)).toBe(Object.keys(signatures).length);
+
+    const educationHeading = page.locator("#education .direction-section-heading [data-r='tracking']");
+    const tracking = await educationHeading.evaluate((element) => ({
+      value: parseFloat(getComputedStyle(element).letterSpacing),
+      target: parseFloat(getComputedStyle(element.closest("h2")!).letterSpacing),
+      transition: getComputedStyle(element).transitionProperty,
+    }));
+    expect(tracking.value).toBeGreaterThan(tracking.target);
+    const educationHeadingReveal = page.locator("#education .d1-section-heading-reveal");
+    await educationHeadingReveal.scrollIntoViewIfNeeded();
+    await expect(educationHeadingReveal).toHaveAttribute("data-reveal", /^(in|instant)$/);
+    expect(await educationHeading.evaluate((element) => getComputedStyle(element).transitionProperty)).toContain("letter-spacing");
+
+    const skillRule = page.locator("#skills .direction-skills-cell").first();
+    const rule = await skillRule.evaluate((element) => ({
+      transform: getComputedStyle(element, "::before").transform,
+      duration: getComputedStyle(element, "::before").transitionDuration,
+      origin: getComputedStyle(element, "::before").transformOrigin,
+    }));
+    expect(rule.transform).toBe("matrix(1, 0, 0, 0, 0, 0)");
+    expect(rule.duration).toBe("0.9s");
+    expect(rule.origin).toContain("0px");
+
+    const certificationRow = page.locator("#certifications .direction-cert-ledger > li[data-r='row']").first();
+    const certMotion = await certificationRow.evaluate((element) => ({
+      transform: getComputedStyle(element).transform,
+      opacity: getComputedStyle(element).opacity,
+    }));
+    expect(["none", "matrix(1, 0, 0, 1, 0, 0)"]).toContain(certMotion.transform);
+    expect(certMotion.opacity).toBe("0");
   });
 
   test("reduced motion shows section content immediately", async ({ page }) => {
@@ -386,6 +560,13 @@ test.describe("portfolio motion", () => {
       return { ok: style.opacity === "1" && style.transform === "none", tag: element.tagName, className: element.className, role: element.getAttribute("data-r"), opacity: style.opacity, transform: style.transform };
     }));
     expect(visibility.every(({ ok }) => ok), JSON.stringify(visibility.filter(({ ok }) => !ok))).toBe(true);
+    const educationTracking = await page.locator("#education .direction-section-heading [data-r='tracking']").evaluate((element) => ({
+      tracking: getComputedStyle(element).letterSpacing,
+      heading: getComputedStyle(element.closest("h2")!).letterSpacing,
+    }));
+    expect(educationTracking.tracking).toBe(educationTracking.heading);
+    const skillRuleTransform = await page.locator("#skills .direction-skills-cell").first().evaluate((element) => getComputedStyle(element, "::before").transform);
+    expect(["none", "matrix(1, 0, 0, 1, 0, 0)"]).toContain(skillRuleTransform);
   });
 
   test("reduced motion renders project and photo media immediately", async ({ page }) => {

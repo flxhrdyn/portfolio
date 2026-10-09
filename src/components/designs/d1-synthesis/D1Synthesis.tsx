@@ -24,7 +24,7 @@ function ContactLinks({ className = '' }: { className?: string }) {
     <Reveal className={`d1-contact-links ${className}`}>
       {prioritizedContactLinks.map((item, index) => (
         <a
-          data-r="rise"
+          data-r="fade"
           style={{ '--i': index } as CSSProperties}
           href={item.href}
           key={item.label}
@@ -88,8 +88,8 @@ export function D1Synthesis() {
           tagline={PROFILE.tagline}
         />
 
-        <section className="direction-section d1-synthesis-projects" id="projects">
-          <SectionHeading motionPreset="d1-synthesis">Projects</SectionHeading>
+        <section className="direction-section d1-synthesis-projects" id="projects" data-motion-signature="image-focus">
+          <SectionHeading motionPreset="d1-synthesis" entrance="mask">Projects</SectionHeading>
           <div className="d2-gallery">
             {PROJECTS.map((project, index) => (
               <article className="d2-gallery-item" key={project.slug}>
@@ -101,43 +101,43 @@ export function D1Synthesis() {
           <ProjectArchive />
         </section>
 
-        <section className="direction-section d1-synthesis-career" id="experience">
+        <section className="direction-section d1-synthesis-career" id="experience" data-motion-signature="drawn-ledger">
           <div className="d1-synthesis-career-layout">
-            <SectionHeading motionPreset="d1-synthesis">Experience</SectionHeading>
+            <SectionHeading motionPreset="d1-synthesis" entrance="fade">Experience</SectionHeading>
             <WorkExperienceContent />
           </div>
         </section>
 
-        <section className="direction-section d1-synthesis-career" id="education">
+        <section className="direction-section d1-synthesis-career" id="education" data-motion-signature="reverse-ledger">
           <div className="d1-synthesis-career-layout">
-            <SectionHeading motionPreset="d1-synthesis">Education</SectionHeading>
+            <SectionHeading motionPreset="d1-synthesis" entrance="tracking">Education</SectionHeading>
             <EducationContent />
           </div>
         </section>
 
         <ExperiencePhotoInterlude />
 
-        <section className="direction-section d1-synthesis-skills" id="skills">
-          <SectionHeading motionPreset="d1-synthesis">Technical skills</SectionHeading>
+        <section className="direction-section d1-synthesis-skills" id="skills" data-motion-signature="vertical-rules">
+          <SectionHeading motionPreset="d1-synthesis" entrance="fade">Technical skills</SectionHeading>
           <SkillsContent className="d5-synthesis-skill-grid" showMetadata={false} />
         </section>
 
         <section className="direction-section d1-synthesis-research" id="research">
           <PinnedScene name="research">
-          <div className="d1-synthesis-rc-grid">
+          <div className="d1-synthesis-rc-grid" data-motion-signature="measured-results">
             <div className="d1-synthesis-rc-research">
-              <SectionHeading motionPreset="d1-synthesis">Research</SectionHeading>
+              <SectionHeading motionPreset="d1-synthesis" entrance="soft-focus">Research</SectionHeading>
               <ResearchDesignPreviews />
             </div>
-            <div className="d1-synthesis-rc-certs" id="certifications">
-              <SectionHeading motionPreset="d1-synthesis">Certifications</SectionHeading>
-              <CertificationsContent />
+            <div className="d1-synthesis-rc-certs" id="certifications" data-motion-signature="quiet-ledger">
+              <SectionHeading motionPreset="d1-synthesis" entrance="fade">Certifications</SectionHeading>
+              <CertificationsContent motionPreset="d1-synthesis" />
             </div>
           </div>
           </PinnedScene>
         </section>
 
-        <section className="direction-section d1-synthesis-contact" id="contact" aria-labelledby="contact-editorial-heading">
+        <section className="direction-section d1-synthesis-contact" id="contact" aria-labelledby="contact-editorial-heading" data-motion-signature="type-mask">
           <div className="d1-contact-editorial">
             <h2 id="contact-editorial-heading">
               <MaskLine>Let’s talk about</MaskLine>
