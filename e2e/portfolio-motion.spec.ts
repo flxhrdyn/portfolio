@@ -688,4 +688,53 @@ test.describe("portfolio motion", () => {
     await expect(hero.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(featured.getByRole("heading", { level: 3 }).first()).toBeVisible();
   });
+  test("hero builds from hairlines, sets the name word by word, and recedes on scroll", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const hero = page.locator('[data-motion-sequence="d1-hero"]');
+    const rules = hero.locator(".d1-hero-rule");
+    await expect(rules).toHaveCount(2);
+
+    const words = hero.locator("h1 .d1-hero-word");
+    expect(await words.count()).toBe(3);
+    const delays = await words.evaluateAll((elements) =>
+      elements.map((element) => Number.parseFloat(getComputedStyle(element).getPropertyValue("--d"))),
+    );
+    expect(delays[0]).toBeGreaterThan(0.2);
+    expect(delays[1]).toBeGreaterThan(delays[0]);
+    expect(delays[2]).toBeGreaterThan(delays[1]);
+
+    await page.waitForTimeout(2600);
+    const settledRules = await rules.evaluateAll((elements) => elements.map((element) => getComputedStyle(element).transform));
+    for (const transform of settledRules) expect(["none", "matrix(1, 0, 0, 1, 0, 0)"]).toContain(transform);
+
+    const title = hero.locator(".d1-synthesis-col-left");
+    const portrait = hero.locator(".d1-synthesis-col-right");
+    const read = () => Promise.all([
+      title.evaluate((element) => Number.parseFloat(getComputedStyle(element).opacity)),
+      portrait.evaluate((element) => new DOMMatrix(getComputedStyle(element).transform).m42),
+    ]);
+    const [restOpacity, restShift] = await read();
+    expect(restOpacity).toBe(1);
+    expect(Math.abs(restShift)).toBeLessThan(1);
+
+    await page.mouse.move(700, 450);
+    for (let step = 0; step < 6 && (await page.evaluate(() => window.scrollY)) < 400; step++) {
+      await page.mouse.wheel(0, 300);
+      await page.waitForTimeout(500);
+    }
+    await page.waitForTimeout(600);
+    const [outOpacity, outShift] = await read();
+    expect(outOpacity).toBeLessThan(0.9);
+    expect(outShift).toBeGreaterThan(20);
+
+    for (let step = 0; step < 10 && (await page.evaluate(() => window.scrollY)) > 0; step++) {
+      await page.mouse.wheel(0, -600);
+      await page.waitForTimeout(500);
+    }
+    await page.waitForTimeout(600);
+    const [backOpacity] = await read();
+    expect(backOpacity).toBe(1);
+  });
 });

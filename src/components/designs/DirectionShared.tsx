@@ -102,10 +102,10 @@ export function SectionHeading({
 }
 
 /** One line of display type rising from behind its own baseline. */
-export function MaskLine({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
+export function MaskLine({ children, delay = 0, className = '' }: { children: ReactNode; delay?: number; className?: string }) {
   // The reveal state sits on the static mask: the translated line is clipped to zero area until revealed.
   return (
-    <Reveal as="span" className="d1-mask" style={{ '--d': `${delay}s` } as CSSProperties}>
+    <Reveal as="span" className={`d1-mask ${className}`} style={{ '--d': `${delay}s` } as CSSProperties}>
       <span className="d1-mask-line" data-motion-reveal="mask">{children}</span>
     </Reveal>
   );
