@@ -188,7 +188,7 @@ test.describe("experience photo interlude", () => {
       images.map((image) => getComputedStyle(image.parentElement!).backgroundColor),
     );
 
-    await page.goto("http://localhost:3001/lab/photo-break");
+    await page.goto("/lab/photo-break");
     const studyImages = page.locator(".photo-study__grid-layout").getByRole("img");
     const studyFits = await studyImages.evaluateAll((images) =>
       images.map((image) => getComputedStyle(image).objectFit),
@@ -205,7 +205,7 @@ test.describe("experience photo interlude", () => {
 
   test("matches the marked Architectural grid composition", async ({ page }) => {
     await page.setViewportSize({ width: 1920, height: 1080 });
-    await page.goto("http://localhost:3001/lab/photo-break");
+    await page.goto("/lab/photo-break");
     await page.locator(".photo-study__grid-layout").scrollIntoViewIfNeeded();
     await page.waitForTimeout(700);
 
@@ -249,7 +249,7 @@ test.describe("experience photo interlude", () => {
 
       for (const [route, selector] of [
         [portfolioUrl, ".d1-experience-photo-grid"],
-        ["http://localhost:3001/lab/photo-break", ".photo-study__grid-layout"],
+        ["/lab/photo-break", ".photo-study__grid-layout"],
       ]) {
         await page.goto(route);
         const grid = page.locator(selector);
@@ -322,7 +322,7 @@ test.describe("experience photo interlude", () => {
       await page.setViewportSize({ width, height: 1080 });
       const homeDifference = await measureAlignment(portfolioUrl, ".d1-experience-photo-grid");
       const previewDifference = await measureAlignment(
-        "http://localhost:3001/lab/photo-break",
+        "/lab/photo-break",
         ".photo-study__grid-layout",
       );
 

@@ -555,7 +555,7 @@ export function SkillsContent({
     <Reveal className={`direction-skills-matrix ${className}`}>
       {telemetryGroups.map((group, i) => (
         <article key={group.category} className="direction-skills-cell" style={{ '--i': i * 1.5 } as CSSProperties}>
-          <header className="direction-skills-cell-header" data-r="fade">
+          <header className="direction-skills-cell-header">
             <span className="direction-skills-index">
               {showMetadata && (
                 <>
@@ -565,7 +565,10 @@ export function SkillsContent({
                   {' '}
                 </>
               )}
-              <span className={`direction-skills-index-title${showMetadata ? '' : ' direction-skills-index-title-plain'}`}>
+              <span
+                className={`direction-skills-index-title direction-skills-title-reveal${showMetadata ? '' : ' direction-skills-index-title-plain'}`}
+                data-r="rise"
+              >
                 {showMetadata ? group.title : group.category}
               </span>
             </span>
@@ -573,7 +576,7 @@ export function SkillsContent({
           </header>
           <ul className="direction-skills-list">
             {group.items.map((item, j) => (
-              <li key={item} className="direction-skills-item" data-r="fade" style={{ '--j': j + 2 } as CSSProperties}>
+              <li key={item} className="direction-skills-item" data-r="fade" style={{ '--j': j, '--d': '.55s' } as CSSProperties}>
                 <span className="direction-skills-bullet" aria-hidden="true">*</span>
                 <span className="direction-skills-name">{item}</span>
               </li>

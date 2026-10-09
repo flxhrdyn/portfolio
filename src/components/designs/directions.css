@@ -721,6 +721,12 @@
 :is(.direction-career-row[data-reveal="hidden"], [data-reveal="hidden"] .direction-career-row) .direction-career-title-reveal[data-r="rise"] { opacity: 0; transform: translate3d(0, 110%, 0); }
 :is([data-reveal="hidden"], [data-reveal="instant"]) .direction-career-row :is([data-r], .direction-career-title-reveal) { transition: none; }
 :is([data-reveal="instant"])[data-r="row"].direction-career-row { transition: none; }
+/* Skill group titles rise through the same line mask as section headings; items follow. */
+.direction-skills-index { display: block; clip-path: inset(0 -100vw); padding: .1em 0 .14em; margin: -.1em 0 -.14em; }
+.direction-skills-title-reveal { display: inline-block; }
+[data-reveal] .direction-skills-index .direction-skills-title-reveal[data-r="rise"] { transition: transform 1.05s cubic-bezier(.75, 0, .25, 1) var(--rv-delay); }
+[data-reveal="hidden"] .direction-skills-index .direction-skills-title-reveal[data-r="rise"] { opacity: 1; transform: translate3d(0, 110%, 0); }
+[data-reveal="instant"] .direction-skills-index .direction-skills-title-reveal[data-r="rise"] { transition: none; }
 /* Photos are letterboxed (contain): zooming would pull their visible edge off the caption. */
 [data-reveal="hidden"] .d1-experience-photo-frame [data-r="focus"] { transform: none; }
 .d1-experience-photo-frame [data-motion-reveal="focus"] {

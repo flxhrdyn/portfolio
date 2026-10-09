@@ -598,6 +598,46 @@ test.describe("portfolio motion", () => {
     }
   });
 
+  test("skill group titles rise through a mask before their items fade in", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const matrix = page.locator("#skills .direction-skills-matrix");
+    await expect(matrix).toHaveAttribute("data-reveal", "hidden");
+    const hidden = await matrix.evaluate((element) => {
+      const title = element.querySelector(".direction-skills-title-reveal")!;
+      return {
+        clip: getComputedStyle(title.parentElement!).clipPath,
+        transform: new DOMMatrix(getComputedStyle(title).transform).m42,
+        height: title.getBoundingClientRect().height,
+        opacity: getComputedStyle(title).opacity,
+      };
+    });
+    expect(hidden.clip).not.toBe("none");
+    expect(hidden.opacity).toBe("1");
+    expect(hidden.transform).toBeGreaterThanOrEqual(hidden.height);
+
+    const top = await matrix.evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
+    await wheelTo(page, top - 500);
+    await expect(matrix).toHaveAttribute("data-reveal", "in");
+    const timing = await matrix.evaluate((element) => {
+      const delay = (node: Element, property: string) => {
+        const style = getComputedStyle(node);
+        const index = style.transitionProperty.split(",").map((item) => item.trim()).indexOf(property);
+        return parseFloat(style.transitionDelay.split(",")[index]);
+      };
+      const cell = element.querySelector(".direction-skills-cell")!;
+      return {
+        title: delay(cell.querySelector(".direction-skills-title-reveal")!, "transform"),
+        item: delay(cell.querySelector(".direction-skills-item")!, "opacity"),
+      };
+    });
+    expect(timing.item, JSON.stringify(timing)).toBeGreaterThan(timing.title + 0.2);
+    await expect.poll(() => matrix.locator(".direction-skills-title-reveal").first().evaluate(
+      (element) => new DOMMatrix(getComputedStyle(element).transform).m42,
+    )).toBe(0);
+  });
+
   test("reduced motion shows section content immediately", async ({ page }) => {
     await page.emulateMedia({ reducedMotion: "reduce" });
     await page.setViewportSize({ width: 1440, height: 900 });
