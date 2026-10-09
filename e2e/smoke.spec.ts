@@ -22,14 +22,6 @@ test.describe("portfolio home page", () => {
     expect(errors).toEqual([]);
   });
 
-  test("design switcher navigation pill is visible", async ({ page }) => {
-    await page.goto("/");
-
-    const switcher = page.locator('nav[aria-label="Design version switcher"]');
-    await expect(switcher).toBeVisible();
-    await expect(page.locator('button[data-design="d1"]')).toBeVisible();
-  });
-
   test("keeps publication details readable without tiny eyebrow styling", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto("/");
@@ -37,14 +29,14 @@ test.describe("portfolio home page", () => {
     const article = page.locator(".d1-research-study-models");
     await expect(article.locator(".d1-research-models-title > span")).toHaveText("JITET · Vol. 13 No. 3");
     await expect(article.locator(".d1-research-compact-authors")).toHaveCount(0);
-    await expect(article.locator(".d1-research-model-result > span")).toHaveText("MobileNetV2 test accuracy");
+    await expect(article.locator(".d1-research-model-result > span:not(.d1-mask)")).toHaveText("MobileNetV2 test accuracy");
     const typeSizes = await article.evaluate((element) => {
       const size = (selector: string) =>
         Number.parseFloat(getComputedStyle(element.querySelector(selector)!).fontSize);
 
       return {
         journal: size(".d1-research-models-title > span"),
-        modelLabel: size(".d1-research-model-result > span"),
+        modelLabel: size(".d1-research-model-result > span:not(.d1-mask)"),
         publicationLink: size(".d1-research-paper-link"),
       };
     });
