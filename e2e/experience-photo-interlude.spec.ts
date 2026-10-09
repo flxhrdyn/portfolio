@@ -90,8 +90,8 @@ test.describe("experience photo interlude", () => {
     await page.goto(portfolioUrl);
 
     const interlude = page.getByRole("region", { name: "Experience and education photo break" });
-    const note = interlude.locator(".d1-experience-photo-note");
-    await expect(note).toContainText("A few places where my work took shape.");
+    const note = interlude.locator(".d1-experience-photo-grid");
+    await expect(note.locator(".d1-experience-photo-note-title")).toHaveText("A few places where my work took shape.");
     await expect(note.locator(".d1-experience-photo-note-detail")).toHaveText("From office floors to computing labs.");
     await expect(note.locator(".direction-overline")).toHaveCount(0);
 
@@ -125,7 +125,7 @@ test.describe("experience photo interlude", () => {
     await page.goto(portfolioUrl);
 
     const grid = page.locator(".d1-experience-photo-grid");
-    const note = grid.locator(".d1-experience-photo-note");
+    const note = grid;
     await grid.scrollIntoViewIfNeeded();
     await page.waitForFunction(() =>
       [...document.querySelectorAll(".d1-experience-photo-grid figure")].every((figure) => {
@@ -134,14 +134,18 @@ test.describe("experience photo interlude", () => {
         return Boolean(image?.naturalWidth && caption);
       }),
     );
-    const placement = await note.evaluate((element) => {
+    const placement = await note.locator(".d1-experience-photo-note-title").evaluate((element) => {
       const style = getComputedStyle(element);
       return { column: style.gridColumnStart, row: style.gridRowStart };
     });
     expect(placement).toEqual({ column: "1", row: "2" });
 
+    const title = grid.locator(".d1-experience-photo-note-title");
+    await title.scrollIntoViewIfNeeded();
+    await expect(title).toHaveAttribute("data-reveal", "in");
+    await page.waitForTimeout(1200);
     const leftOffset = await grid.evaluate((element) => {
-      const noteText = element.querySelector(".d1-experience-photo-note p");
+      const noteText = element.querySelector(".d1-experience-photo-note-title > span");
       const tunasCaption = element.querySelector(".d1-experience-photo-tunas figcaption");
       if (!noteText || !tunasCaption) return null;
       return Math.abs(noteText.getBoundingClientRect().left - tunasCaption.getBoundingClientRect().left);
