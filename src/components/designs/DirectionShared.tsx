@@ -85,28 +85,18 @@ export function SectionHeading({
   children,
   id,
   motionPreset,
-  entrance = 'mask',
 }: {
   children: ReactNode;
   id?: string;
   motionPreset?: 'd1-synthesis';
-  entrance?: 'mask' | 'fade' | 'from-left' | 'from-right' | 'soft-focus' | 'tracking';
 }) {
   if (motionPreset !== 'd1-synthesis') {
     return <div className="direction-section-heading" id={id}><h2>{children}</h2></div>;
   }
 
-  const heading = entrance === 'mask'
-    ? <MaskLine>{children}</MaskLine>
-    : (
-      <Reveal as="span" className="d1-section-heading-reveal">
-        <span data-r={entrance}>{children}</span>
-      </Reveal>
-    );
-
   return (
-    <div className="direction-section-heading" id={id} data-motion-signature={entrance}>
-      <h2>{heading}</h2>
+    <div className="direction-section-heading" id={id} data-motion-signature="line-mask">
+      <h2><MaskLine>{children}</MaskLine></h2>
     </div>
   );
 }
@@ -452,7 +442,7 @@ function CareerRoleItem({ role, index }: { role: (typeof WORK_ROLES)[number]; in
       data-r="row"
       style={{ '--i': Math.min(index, 4) } as CSSProperties}
     >
-      <p className="direction-overline" data-r="fade">{role.date}</p>
+      <p className="direction-overline" data-r="fade" style={{ '--d': '1.32s' } as CSSProperties}>{role.date}</p>
       <div className="direction-career-body">
         <button
           type="button"
@@ -470,15 +460,15 @@ function CareerRoleItem({ role, index }: { role: (typeof WORK_ROLES)[number]; in
           </span>
           <div className="direction-career-title-block">
             <div className="direction-career-title-mask">
-              <h3 className="direction-career-title-reveal" data-r="rise" style={{ '--d': '.08s' } as CSSProperties}>{role.title}</h3>
+              <h3 className="direction-career-title-reveal" data-r="rise" style={{ '--d': '.62s' } as CSSProperties}>{role.title}</h3>
             </div>
-            <p className="direction-career-company" data-r="fade" style={{ '--d': '.14s' } as CSSProperties}>{role.company}</p>
+            <p className="direction-career-company" data-r="fade" style={{ '--d': '1.48s' } as CSSProperties}>{role.company}</p>
           </div>
         </button>
 
         <div className="direction-career-content">
           {role.headline && (
-            <p className="direction-muted direction-career-headline" data-r="fade" style={{ '--d': '.2s' } as CSSProperties}>{role.headline}</p>
+            <p className="direction-muted direction-career-headline" data-r="fade" style={{ '--d': '1.64s' } as CSSProperties}>{role.headline}</p>
           )}
           {hasHighlights && (
             <div
@@ -531,15 +521,15 @@ export function ExperienceContent({
           style={{ '--i': Math.min(index, 4) } as CSSProperties}
           key={`${item.company}-${item.title}`}
         >
-          <p className="direction-overline" data-r="fade">{item.date}</p>
+          <p className="direction-overline" data-r="fade" style={{ '--d': '1.32s' } as CSSProperties}>{item.date}</p>
           <div className="direction-career-body direction-education-body">
             <div className="direction-career-title-mask">
-              <h3 className="direction-career-title-reveal" data-r="from-left" style={{ '--d': '.08s' } as CSSProperties}>{item.title}</h3>
+              <h3 className="direction-career-title-reveal" data-r="rise" style={{ '--d': '.62s' } as CSSProperties}>{item.title}</h3>
             </div>
-            <p className="direction-career-company" data-r="fade" style={{ '--d': '.14s' } as CSSProperties}>
+            <p className="direction-career-company" data-r="fade" style={{ '--d': '1.48s' } as CSSProperties}>
               {item.company}{item.statLabel ? ` / ${item.statLabel}` : ''}
             </p>
-            {item.description && <p className="direction-muted" data-r="fade" style={{ '--d': '.2s' } as CSSProperties}>{item.description}</p>}
+            {item.description && <p className="direction-muted" data-r="fade" style={{ '--d': '1.64s' } as CSSProperties}>{item.description}</p>}
           </div>
         </Reveal>
       ))}

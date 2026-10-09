@@ -641,8 +641,6 @@
 .d1-mask { display: block; clip-path: inset(0 -100vw); padding: .1em 0 .14em; margin: -.1em 0 -.14em; }
 .d1-mask-line { display: inline-block; will-change: transform; transition: transform 1.05s cubic-bezier(.75, 0, .25, 1) var(--d, 0s); }
 .d1-mask[data-reveal="hidden"] .d1-mask-line { transform: translateY(110%); }
-.d1-section-heading-reveal { display: block; }
-.d1-section-heading-reveal > [data-r] { display: inline-block; }
 
 /* Directional reveals (see Reveal.tsx). Roles: fade, rise, focus, and row (hairline
    draws, then the row's children rise). --i staggers siblings, --j items within one. */
@@ -656,10 +654,6 @@
     filter .85s cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
     background-size 1.1s cubic-bezier(.75, 0, .25, 1) var(--rv-delay);
 }
-[data-reveal] [data-r="tracking"] {
-  transition: opacity 850ms cubic-bezier(.22, 1, .36, 1) var(--rv-delay), letter-spacing 1.15s cubic-bezier(.16, 1, .3, 1) var(--rv-delay);
-}
-[data-reveal="hidden"] [data-r="tracking"] { opacity: 0; letter-spacing: .045em; }
 [data-r="row"] > * { --d: .18s; }
 /* Media settles into focus inside a frame that stays put. */
 [data-reveal] [data-r="focus"] { transition: opacity .6s cubic-bezier(.22, 1, .36, 1) var(--rv-delay), transform 1.6s cubic-bezier(.16, 1, .3, 1) var(--rv-delay); }
@@ -711,6 +705,16 @@
     transform 640ms cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
     background-size 720ms cubic-bezier(.75, 0, .25, 1) var(--rv-delay);
 }
+.d1-synthesis-career .direction-career-row[data-r="row"] {
+  transition:
+    color 160ms ease,
+    opacity 560ms cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
+    transform 640ms cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
+    background-size 620ms cubic-bezier(.75, 0, .25, 1) var(--rv-delay);
+}
+.d1-synthesis-career .direction-career-row [data-r="fade"] {
+  transition: color 160ms ease, opacity 720ms cubic-bezier(.22, 1, .36, 1) var(--rv-delay);
+}
 :is(.direction-career-row[data-reveal="hidden"], [data-reveal="hidden"] .direction-career-row) > * { opacity: 1; transform: none; }
 :is(.direction-career-row[data-reveal="hidden"], [data-reveal="hidden"] .direction-career-row) [data-r="fade"] { opacity: 0; }
 :is(.direction-career-row[data-reveal="hidden"], [data-reveal="hidden"] .direction-career-row) .direction-career-copy-reveal[data-r="rise"] { opacity: 0; transform: translate3d(0, 7px, 0); }
@@ -733,7 +737,6 @@
 .d1-mask:is([data-reveal="hidden"], [data-reveal="instant"]) .d1-mask-line { transition: none; }
 @media (prefers-reduced-motion: reduce) {
   [data-r], [data-r="row"] > *, .d1-mask-line { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
-  [data-r="tracking"] { letter-spacing: inherit !important; }
   [data-r="row"] { background-size: 100% 1px !important; }
   .direction-career-bullets-panel, .direction-career-bullets li { transition: none !important; }
   [data-motion-reveal] { opacity: 1 !important; filter: none !important; transform: none !important; }

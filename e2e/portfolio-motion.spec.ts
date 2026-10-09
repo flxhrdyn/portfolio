@@ -470,7 +470,7 @@ test.describe("portfolio motion", () => {
     expect(mobileLayout.pageWidth).toBeLessThanOrEqual(mobileLayout.viewportWidth);
   });
 
-  test("education enters laterally while experience keeps its masked ledger reveal", async ({ page }) => {
+  test("education and experience titles rise from the ledger line", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(portfolioUrl);
 
@@ -478,7 +478,7 @@ test.describe("portfolio motion", () => {
     await expect(row).toHaveAttribute("data-r", "row");
     await expect(row.locator(".direction-overline")).toHaveAttribute("data-r", "fade");
     const educationTitle = row.locator(".direction-career-title-mask h3");
-    await expect(educationTitle).toHaveAttribute("data-r", "from-left");
+    await expect(educationTitle).toHaveAttribute("data-r", "rise");
     await expect(row.locator(".direction-career-company")).toHaveAttribute("data-r", "fade");
     const educationMotion = await educationTitle.evaluate((element) => {
       const style = getComputedStyle(element);
@@ -486,8 +486,8 @@ test.describe("portfolio motion", () => {
       return { opacity: style.opacity, x: matrix.m41, y: matrix.m42 };
     });
     expect(educationMotion.opacity).toBe("0");
-    expect(educationMotion.x).toBeLessThan(-15);
-    expect(Math.abs(educationMotion.y)).toBeLessThan(1);
+    expect(Math.abs(educationMotion.x)).toBeLessThan(1);
+    expect(educationMotion.y).toBeGreaterThan(15);
 
     const experienceTitle = page.locator("#experience .direction-career-title-reveal").first();
     await expect(experienceTitle).toHaveAttribute("data-r", "rise");
@@ -517,28 +517,6 @@ test.describe("portfolio motion", () => {
     expect(Object.values(signatures).every(Boolean), JSON.stringify(signatures)).toBe(true);
     expect(new Set(Object.values(signatures)).size, JSON.stringify(signatures)).toBe(Object.keys(signatures).length);
 
-    const educationHeading = page.locator("#education .direction-section-heading [data-r='tracking']");
-    const tracking = await educationHeading.evaluate((element) => ({
-      value: parseFloat(getComputedStyle(element).letterSpacing),
-      target: parseFloat(getComputedStyle(element.closest("h2")!).letterSpacing),
-      transition: getComputedStyle(element).transitionProperty,
-    }));
-    expect(tracking.value).toBeGreaterThan(tracking.target);
-    const educationHeadingReveal = page.locator("#education .d1-section-heading-reveal");
-    await educationHeadingReveal.scrollIntoViewIfNeeded();
-    await expect(educationHeadingReveal).toHaveAttribute("data-reveal", /^(in|instant)$/);
-    expect(await educationHeading.evaluate((element) => getComputedStyle(element).transitionProperty)).toContain("letter-spacing");
-
-    const skillRule = page.locator("#skills .direction-skills-cell").first();
-    const rule = await skillRule.evaluate((element) => ({
-      transform: getComputedStyle(element, "::before").transform,
-      duration: getComputedStyle(element, "::before").transitionDuration,
-      origin: getComputedStyle(element, "::before").transformOrigin,
-    }));
-    expect(rule.transform).toBe("matrix(1, 0, 0, 0, 0, 0)");
-    expect(rule.duration).toBe("0.9s");
-    expect(rule.origin).toContain("0px");
-
     const certificationRow = page.locator("#certifications .direction-cert-ledger > li[data-r='row']").first();
     const certMotion = await certificationRow.evaluate((element) => ({
       transform: getComputedStyle(element).transform,
@@ -546,6 +524,78 @@ test.describe("portfolio motion", () => {
     }));
     expect(["none", "matrix(1, 0, 0, 1, 0, 0)"]).toContain(certMotion.transform);
     expect(certMotion.opacity).toBe("0");
+  });
+
+  test("display section titles rise through a measured line mask", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const sectionHeadings = [
+      ["projects", "#projects"],
+      ["experience", "#experience"],
+      ["education", "#education"],
+      ["skills", "#skills"],
+      ["research", "#research .d1-synthesis-rc-research"],
+      ["certifications", "#certifications"],
+    ];
+    for (const [sectionId, selector] of sectionHeadings) {
+      const title = page.locator(`${selector} .direction-section-heading h2 .d1-mask-line`);
+      const mask = page.locator(`${selector} .direction-section-heading .d1-mask`);
+      await expect(title, `#${sectionId} should reveal its display heading through a mask`).toHaveCount(1);
+      await mask.scrollIntoViewIfNeeded();
+      await expect(mask).toHaveAttribute("data-reveal", /^(in|instant)$/);
+      const motion = await title.evaluate((element) => ({
+        duration: getComputedStyle(element).transitionDuration,
+        transform: getComputedStyle(element).transitionProperty,
+        clipping: getComputedStyle(element.parentElement!).clipPath,
+      }));
+      expect(motion.transform).toContain("transform");
+      expect(motion.duration).toBe("1.05s");
+      expect(motion.clipping).toContain("inset");
+    }
+  });
+
+  test("experience and education draw each hairline before title and metadata", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    for (const sectionId of ["experience", "education"]) {
+      const row = page.locator(`#${sectionId} .direction-career-row[data-r='row']`).first();
+      const rowTop = await row.evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
+      await wheelTo(page, rowTop - 180);
+      await expect(row).toHaveAttribute("data-reveal", /^(in|instant)$/);
+      const title = row.locator(".direction-career-title-reveal");
+      const date = row.locator(".direction-overline");
+      const company = row.locator(".direction-career-company");
+      const timing = await row.evaluate((element) => {
+        const transitionValue = (node: Element, property: string, field: "transitionDuration" | "transitionDelay") => {
+          const style = getComputedStyle(node);
+          const properties = style.transitionProperty.split(",").map((item) => item.trim());
+          const values = style[field].split(",").map((item) => parseFloat(item));
+          return values[properties.indexOf(property)];
+        };
+        const rowStyle = getComputedStyle(element);
+        return {
+          state: element.getAttribute("data-reveal"),
+          ruleDuration: transitionValue(element, "background-size", "transitionDuration"),
+          ruleDelay: transitionValue(element, "background-size", "transitionDelay"),
+          titleDelay: transitionValue(element.querySelector(".direction-career-title-reveal")!, "transform", "transitionDelay"),
+          titleDuration: transitionValue(element.querySelector(".direction-career-title-reveal")!, "transform", "transitionDuration"),
+          dateDelay: transitionValue(element.querySelector(".direction-overline")!, "opacity", "transitionDelay"),
+          companyDelay: transitionValue(element.querySelector(".direction-career-company")!, "opacity", "transitionDelay"),
+          copyDelay: (() => {
+            const copy = element.querySelector(".direction-career-headline, .direction-education-body > .direction-muted");
+            return copy ? transitionValue(copy, "opacity", "transitionDelay") : null;
+          })(),
+        };
+      });
+
+      await expect(title).toHaveAttribute("data-r", "rise");
+      expect(timing.titleDelay, JSON.stringify(timing)).toBeGreaterThanOrEqual(timing.ruleDelay + timing.ruleDuration - 0.02);
+      expect(timing.dateDelay, JSON.stringify(timing)).toBeGreaterThanOrEqual(timing.titleDelay + timing.titleDuration - 0.02);
+      expect(timing.companyDelay, JSON.stringify(timing)).toBeGreaterThan(timing.dateDelay);
+      if (timing.copyDelay !== null) expect(timing.copyDelay, JSON.stringify(timing)).toBeGreaterThan(timing.companyDelay);
+    }
   });
 
   test("reduced motion shows section content immediately", async ({ page }) => {
@@ -560,13 +610,8 @@ test.describe("portfolio motion", () => {
       return { ok: style.opacity === "1" && style.transform === "none", tag: element.tagName, className: element.className, role: element.getAttribute("data-r"), opacity: style.opacity, transform: style.transform };
     }));
     expect(visibility.every(({ ok }) => ok), JSON.stringify(visibility.filter(({ ok }) => !ok))).toBe(true);
-    const educationTracking = await page.locator("#education .direction-section-heading [data-r='tracking']").evaluate((element) => ({
-      tracking: getComputedStyle(element).letterSpacing,
-      heading: getComputedStyle(element.closest("h2")!).letterSpacing,
-    }));
-    expect(educationTracking.tracking).toBe(educationTracking.heading);
-    const skillRuleTransform = await page.locator("#skills .direction-skills-cell").first().evaluate((element) => getComputedStyle(element, "::before").transform);
-    expect(["none", "matrix(1, 0, 0, 1, 0, 0)"]).toContain(skillRuleTransform);
+    const sectionTitles = await page.locator(".d1-synthesis .direction-section-heading h2 .d1-mask-line").evaluateAll((elements) => elements.every((element) => getComputedStyle(element).transform === "none"));
+    expect(sectionTitles).toBe(true);
   });
 
   test("reduced motion renders project and photo media immediately", async ({ page }) => {

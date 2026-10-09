@@ -68,9 +68,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             [data-reveal="hidden"].direction-career-row {
               background-size: 100% 1px !important;
             }
-            [data-reveal="hidden"] [data-r="tracking"] {
-              letter-spacing: inherit !important;
-            }
           `}</style>
         </noscript>
         <MotionProvider>

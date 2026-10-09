@@ -89,7 +89,7 @@ export function D1Synthesis() {
         />
 
         <section className="direction-section d1-synthesis-projects" id="projects" data-motion-signature="image-focus">
-          <SectionHeading motionPreset="d1-synthesis" entrance="mask">Projects</SectionHeading>
+          <SectionHeading motionPreset="d1-synthesis">Projects</SectionHeading>
           <div className="d2-gallery">
             {PROJECTS.map((project, index) => (
               <article className="d2-gallery-item" key={project.slug}>
@@ -103,14 +103,14 @@ export function D1Synthesis() {
 
         <section className="direction-section d1-synthesis-career" id="experience" data-motion-signature="drawn-ledger">
           <div className="d1-synthesis-career-layout">
-            <SectionHeading motionPreset="d1-synthesis" entrance="fade">Experience</SectionHeading>
+            <SectionHeading motionPreset="d1-synthesis">Experience</SectionHeading>
             <WorkExperienceContent />
           </div>
         </section>
 
         <section className="direction-section d1-synthesis-career" id="education" data-motion-signature="reverse-ledger">
           <div className="d1-synthesis-career-layout">
-            <SectionHeading motionPreset="d1-synthesis" entrance="tracking">Education</SectionHeading>
+            <SectionHeading motionPreset="d1-synthesis">Education</SectionHeading>
             <EducationContent />
           </div>
         </section>
@@ -118,7 +118,7 @@ export function D1Synthesis() {
         <ExperiencePhotoInterlude />
 
         <section className="direction-section d1-synthesis-skills" id="skills" data-motion-signature="vertical-rules">
-          <SectionHeading motionPreset="d1-synthesis" entrance="fade">Technical skills</SectionHeading>
+          <SectionHeading motionPreset="d1-synthesis">Technical skills</SectionHeading>
           <SkillsContent className="d5-synthesis-skill-grid" showMetadata={false} />
         </section>
 
@@ -126,11 +126,11 @@ export function D1Synthesis() {
           <PinnedScene name="research">
           <div className="d1-synthesis-rc-grid" data-motion-signature="measured-results">
             <div className="d1-synthesis-rc-research">
-              <SectionHeading motionPreset="d1-synthesis" entrance="soft-focus">Research</SectionHeading>
+              <SectionHeading motionPreset="d1-synthesis">Research</SectionHeading>
               <ResearchDesignPreviews />
             </div>
             <div className="d1-synthesis-rc-certs" id="certifications" data-motion-signature="quiet-ledger">
-              <SectionHeading motionPreset="d1-synthesis" entrance="fade">Certifications</SectionHeading>
+              <SectionHeading motionPreset="d1-synthesis">Certifications</SectionHeading>
               <CertificationsContent motionPreset="d1-synthesis" />
             </div>
           </div>
