@@ -129,6 +129,28 @@ test.describe("portfolio motion", () => {
     expect(stickyAncestors).toBe(0);
   });
 
+  test("project images stay absent until reveal without placeholder frames", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const frames = page.locator(".d1-synthesis-projects .d2-gallery-item .direction-image");
+    await expect(frames).toHaveCount(5);
+    const appearances = await frames.evaluateAll((elements) => elements.map((element) => {
+      const style = getComputedStyle(element);
+      const reveal = element.querySelector<HTMLElement>('[data-motion-reveal="focus"]');
+      return {
+        state: element.getAttribute("data-reveal"),
+        borderWidth: style.borderTopWidth,
+        background: style.backgroundColor,
+        imageOpacity: reveal ? getComputedStyle(reveal).opacity : null,
+      };
+    }));
+
+    expect(appearances.every(({ state, borderWidth, background, imageOpacity }) =>
+      state === "hidden" && borderWidth === "0px" && background === "rgba(0, 0, 0, 0)" && imageOpacity === "0",
+    ), JSON.stringify(appearances)).toBe(true);
+  });
+
   test("project and photo reveals focus in place without moving against scroll", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(portfolioUrl);
@@ -216,27 +238,140 @@ test.describe("portfolio motion", () => {
     await expect.poll(position).toBe("static");
   });
 
-  test("section content reveals scrolling down, shows instantly scrolling up, and re-arms below", async ({ page }) => {
+  test("experience rows reveal at their own scroll position, show instantly on the way up, and re-arm below", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(portfolioUrl);
 
-    const group = page.locator("#experience .direction-career[data-reveal]");
-    const firstRow = group.locator('[data-r="row"] > *').first();
-    const top = await page.locator("#experience").evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
+    const firstRow = page.locator("#experience .direction-career-row[data-reveal]").first();
+    const top = await firstRow.evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
     const jumpTo = (y: number) => page.evaluate((target) => window.scrollTo({ top: target, behavior: "instant" }), y);
 
-    await expect(group).toHaveAttribute("data-reveal", "hidden");
+    await expect(firstRow).toHaveAttribute("data-reveal", "hidden");
     await jumpTo(top - 500);
-    await expect(group).toHaveAttribute("data-reveal", "in");
-    await expect.poll(() => firstRow.evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+    await expect(firstRow).toHaveAttribute("data-reveal", "in");
+    await expect.poll(() => firstRow.locator(".direction-career-title-mask h3").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
 
     await jumpTo(Math.max(0, top - 3000));
-    await expect(group).toHaveAttribute("data-reveal", "hidden");
+    await expect(firstRow).toHaveAttribute("data-reveal", "hidden");
 
     // Reached from above the viewport top, i.e. while scrolling up: no replay.
-    await jumpTo(top + 200);
-    await expect(group).toHaveAttribute("data-reveal", "instant");
-    expect(await firstRow.evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+    await jumpTo(top + 30);
+    await expect(firstRow).toHaveAttribute("data-reveal", "instant");
+    expect(await firstRow.locator(".direction-career-title-mask h3").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+  });
+
+  test("experience highlights open and close smoothly without unmounting", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const row = page.locator("#experience .direction-career-row").first();
+    const toggle = row.locator(".direction-career-toggle-btn");
+    const panel = row.locator(".direction-career-bullets-panel");
+    const horizontalStroke = toggle.locator(".direction-career-toggle-stroke-horizontal");
+    const verticalStroke = toggle.locator(".direction-career-toggle-stroke-vertical");
+
+    await row.scrollIntoViewIfNeeded();
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    await expect(panel).toBeAttached();
+    await expect(panel).toHaveAttribute("data-open", "false");
+    expect(await panel.evaluate((element) => (element as HTMLElement).inert)).toBe(true);
+    expect(await panel.evaluate((element) => element.getBoundingClientRect().height)).toBe(0);
+    const horizontalSize = await horizontalStroke.evaluate((element) => ({ width: element.getBoundingClientRect().width, height: element.getBoundingClientRect().height }));
+    const verticalSize = await verticalStroke.evaluate((element) => ({ width: element.getBoundingClientRect().width, height: element.getBoundingClientRect().height }));
+    expect(horizontalSize.width).toBeCloseTo(10, 0);
+    expect(horizontalSize.height).toBeCloseTo(1, 0);
+    expect(verticalSize.width).toBeCloseTo(1, 0);
+    expect(verticalSize.height).toBeCloseTo(10, 0);
+
+    await toggle.click();
+    await expect(toggle).toHaveAttribute("aria-expanded", "true");
+    await expect(panel).toHaveAttribute("data-open", "true");
+    expect(await panel.evaluate((element) => (element as HTMLElement).inert)).toBe(false);
+    await expect.poll(() => verticalStroke.evaluate((element) => element.getBoundingClientRect().height)).toBeLessThan(0.1);
+    await expect(panel.locator("li")).toHaveCount(2);
+    const bulletMarkers = await panel.locator("li").evaluateAll((elements) => elements.map((element) => {
+      const marker = getComputedStyle(element, "::before");
+      const listLeft = element.parentElement?.getBoundingClientRect().left ?? 0;
+      return {
+        content: marker.content,
+        width: marker.width,
+        height: marker.height,
+        color: marker.backgroundColor,
+        radius: marker.borderRadius,
+        insideList: element.getBoundingClientRect().left >= listLeft,
+      };
+    }));
+    expect(bulletMarkers.every(({ content, width, height, color, radius, insideList }) =>
+      content === '""' && width === "4px" && height === "4px" && color !== "rgba(0, 0, 0, 0)" && radius === "50%" && insideList,
+    ), JSON.stringify(bulletMarkers)).toBe(true);
+    expect(await panel.evaluate((element) => getComputedStyle(element).transitionProperty)).toContain("grid-template-rows");
+    expect(await panel.locator("li").nth(1).evaluate((element) => getComputedStyle(element).transitionDelay)).toBe("0.04s");
+    await expect.poll(() => panel.evaluate((element) => element.getBoundingClientRect().height)).toBeGreaterThan(0);
+
+    await toggle.click();
+    await expect(toggle).toHaveAttribute("aria-expanded", "false");
+    await expect(panel).toHaveAttribute("data-open", "false");
+    await expect(panel).toBeAttached();
+    await expect.poll(() => panel.evaluate((element) => element.getBoundingClientRect().height)).toBe(0);
+  });
+
+  test("experience photo copy reveals and photos settle into focus", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const title = page.locator(".d1-experience-photo-note-title");
+    const detail = page.locator(".d1-experience-photo-note-detail");
+    await expect(title).toHaveText("A few places where my work took shape.");
+    await expect(detail).toHaveText("From office floors to computing labs.");
+
+    await title.scrollIntoViewIfNeeded();
+    await expect(title).toHaveAttribute("data-reveal", /^(in|instant)$/);
+    await expect.poll(() => title.locator("[data-r='rise']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+    await detail.scrollIntoViewIfNeeded();
+    await expect(detail).toHaveAttribute("data-reveal", /^(in|instant)$/);
+    await expect.poll(() => detail.locator("[data-r='rise']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+
+    const photo = page.locator(".d1-experience-photo-frame [data-motion-reveal='focus']").first();
+    const durations = await photo.evaluate((element) => getComputedStyle(element).transitionDuration.split(",").map((duration) => parseFloat(duration)));
+    expect(durations).toContain(1.1);
+
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.reload();
+    await title.scrollIntoViewIfNeeded();
+    await detail.scrollIntoViewIfNeeded();
+    const mobileLayout = await page.evaluate(() => {
+      const rect = (selector: string) => {
+        const element = document.querySelector(selector);
+        if (!element) throw new Error(`Missing ${selector}`);
+        const { top, bottom } = element.getBoundingClientRect();
+        return { top, bottom };
+      };
+      return {
+        tunas: rect(".d1-experience-photo-tunas"),
+        title: rect(".d1-experience-photo-note-title"),
+        detail: rect(".d1-experience-photo-note-detail"),
+        astra: rect(".d1-experience-photo-astra"),
+        hpc: rect(".d1-experience-photo-hpc"),
+        pageWidth: document.documentElement.scrollWidth,
+        viewportWidth: document.documentElement.clientWidth,
+      };
+    });
+    expect(mobileLayout.tunas.bottom).toBeLessThan(mobileLayout.title.top);
+    expect(mobileLayout.title.bottom).toBeLessThan(mobileLayout.detail.top);
+    expect(mobileLayout.detail.bottom).toBeLessThan(Math.min(mobileLayout.astra.top, mobileLayout.hpc.top));
+    expect(mobileLayout.pageWidth).toBeLessThanOrEqual(mobileLayout.viewportWidth);
+  });
+
+  test("education uses the shared paced reveal without an accordion", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const row = page.locator("#education .direction-education-row[data-reveal]").first();
+    await expect(row).toHaveAttribute("data-r", "row");
+    await expect(row.locator(".direction-overline")).toHaveAttribute("data-r", "fade");
+    await expect(row.locator(".direction-career-title-mask h3")).toHaveAttribute("data-r", "rise");
+    await expect(row.locator(".direction-career-company")).toHaveAttribute("data-r", "rise");
+    await expect(row.locator("button")).toHaveCount(0);
   });
 
   test("reduced motion shows section content immediately", async ({ page }) => {
@@ -246,11 +381,11 @@ test.describe("portfolio motion", () => {
 
     const roles = page.locator('[data-r], [data-r="row"] > *, .d1-mask-line');
     expect(await roles.count()).toBeGreaterThan(20);
-    const visible = await roles.evaluateAll((elements) => elements.every((element) => {
+    const visibility = await roles.evaluateAll((elements) => elements.map((element) => {
       const style = getComputedStyle(element);
-      return style.opacity === "1" && style.transform === "none";
+      return { ok: style.opacity === "1" && style.transform === "none", tag: element.tagName, className: element.className, role: element.getAttribute("data-r"), opacity: style.opacity, transform: style.transform };
     }));
-    expect(visible).toBe(true);
+    expect(visibility.every(({ ok }) => ok), JSON.stringify(visibility.filter(({ ok }) => !ok))).toBe(true);
   });
 
   test("reduced motion renders project and photo media immediately", async ({ page }) => {

@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { CSSProperties, ReactNode, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { CSSProperties, ReactNode, useEffect, useId, useRef, useState, useSyncExternalStore } from 'react';
 import { m, useReducedMotion, useScroll, useTransform } from 'motion/react';
 import { Reveal } from './Reveal';
 import { createPortal } from 'react-dom';
@@ -354,42 +354,65 @@ export function ProjectCopy({
 
 function CareerRoleItem({ role, index }: { role: (typeof WORK_ROLES)[number]; index: number }) {
   const [isOpen, setIsOpen] = useState(false);
+  const panelId = useId();
   const hasHighlights = Boolean(role.highlights && role.highlights.length > 0);
 
   return (
-    <article className="direction-career-row" data-r="row" style={{ '--i': index } as CSSProperties}>
-      <p className="direction-overline">{role.date}</p>
+    <Reveal
+      as="article"
+      className="direction-career-row"
+      data-r="row"
+      style={{ '--i': Math.min(index, 4) } as CSSProperties}
+    >
+      <p className="direction-overline" data-r="fade">{role.date}</p>
       <div className="direction-career-body">
         <button
           type="button"
           className="direction-career-toggle-btn"
           onClick={() => hasHighlights && setIsOpen(!isOpen)}
           aria-expanded={hasHighlights ? isOpen : undefined}
+          aria-controls={hasHighlights ? panelId : undefined}
           disabled={!hasHighlights}
         >
-          <span className="direction-career-toggle-icon" aria-hidden="true">
-            {hasHighlights ? (isOpen ? '−' : '+') : ''}
+          <span className="direction-career-toggle-icon" aria-hidden="true" data-open={isOpen}>
+            {hasHighlights && <>
+              <span className="direction-career-toggle-stroke direction-career-toggle-stroke-horizontal" />
+              <span className="direction-career-toggle-stroke direction-career-toggle-stroke-vertical" />
+            </>}
           </span>
           <div className="direction-career-title-block">
-            <h3>{role.title}</h3>
-            <p className="direction-career-company">{role.company}</p>
+            <div className="direction-career-title-mask">
+              <h3 className="direction-career-title-reveal" data-r="rise" style={{ '--d': '.08s' } as CSSProperties}>{role.title}</h3>
+            </div>
+            <p className="direction-career-company direction-career-copy-reveal" data-r="rise" style={{ '--d': '.14s' } as CSSProperties}>{role.company}</p>
           </div>
         </button>
 
         <div className="direction-career-content">
           {role.headline && (
-            <p className="direction-muted direction-career-headline">{role.headline}</p>
+            <p className="direction-muted direction-career-headline direction-career-copy-reveal" data-r="rise" style={{ '--d': '.2s' } as CSSProperties}>{role.headline}</p>
           )}
-          {hasHighlights && isOpen && (
-            <ul className="direction-career-bullets">
-              {role.highlights?.map((item) => (
-                <li key={item}>{item}</li>
-              ))}
-            </ul>
+          {hasHighlights && (
+            <div
+              id={panelId}
+              className="direction-career-bullets-panel"
+              data-open={isOpen}
+              aria-hidden={!isOpen}
+              inert={!isOpen}
+              style={{ '--bullet-count': role.highlights?.length ?? 0 } as CSSProperties}
+            >
+              <div className="direction-career-bullets-panel-inner">
+                <ul className="direction-career-bullets">
+                  {role.highlights?.map((item, bulletIndex) => (
+                    <li key={item} style={{ '--j': bulletIndex } as CSSProperties}>{item}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           )}
         </div>
       </div>
-    </article>
+    </Reveal>
   );
 }
 
@@ -404,7 +427,7 @@ export function ExperienceContent({
   const showEdu = !only || only === 'all' || only === 'education';
 
   return (
-    <Reveal className={`direction-career ${compact ? 'direction-career-compact' : ''}`}>
+    <div className={`direction-career ${compact ? 'direction-career-compact' : ''}`}>
       {showWork && WORK_ROLES.map((role, index) => (
         <CareerRoleItem
           key={`${role.company}-${role.title}`}
@@ -413,16 +436,26 @@ export function ExperienceContent({
         />
       ))}
       {showEdu && EDUCATION.map((item, index) => (
-        <article className="direction-career-row direction-education-row" data-r="row" style={{ '--i': index } as CSSProperties} key={`${item.company}-${item.title}`}>
-          <p className="direction-overline">{item.date}</p>
-          <div>
-            <h3>{item.title}</h3>
-            <p>{item.company}{item.statLabel ? ` / ${item.statLabel}` : ''}</p>
-            {item.description && <p className="direction-muted">{item.description}</p>}
+        <Reveal
+          as="article"
+          className="direction-career-row direction-education-row"
+          data-r="row"
+          style={{ '--i': Math.min(index, 4) } as CSSProperties}
+          key={`${item.company}-${item.title}`}
+        >
+          <p className="direction-overline" data-r="fade">{item.date}</p>
+          <div className="direction-career-body direction-education-body">
+            <div className="direction-career-title-mask">
+              <h3 className="direction-career-title-reveal" data-r="rise" style={{ '--d': '.08s' } as CSSProperties}>{item.title}</h3>
+            </div>
+            <p className="direction-career-company direction-career-copy-reveal" data-r="rise" style={{ '--d': '.14s' } as CSSProperties}>
+              {item.company}{item.statLabel ? ` / ${item.statLabel}` : ''}
+            </p>
+            {item.description && <p className="direction-muted direction-career-copy-reveal" data-r="rise" style={{ '--d': '.2s' } as CSSProperties}>{item.description}</p>}
           </div>
-        </article>
+        </Reveal>
       ))}
-    </Reveal>
+    </div>
   );
 }
 

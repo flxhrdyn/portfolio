@@ -35,9 +35,11 @@ export function ExperiencePhotoInterlude() {
       aria-label="Experience and education photo break"
     >
       <div className="d1-experience-photo-grid">
-        <Reveal className="d1-experience-photo-note">
-          <p className="d1-experience-photo-note-title" data-r="rise">A few places where my work took shape.</p>
-          <p className="d1-experience-photo-note-detail" data-r="rise" style={{ "--i": 1 } as CSSProperties}>From office floors to computing labs.</p>
+        <Reveal as="p" className="d1-experience-photo-note-title">
+          <span data-r="rise">A few places where my work took shape.</span>
+        </Reveal>
+        <Reveal as="p" className="d1-experience-photo-note-detail" style={{ "--i": 1 } as CSSProperties}>
+          <span data-r="rise">From office floors to computing labs.</span>
         </Reveal>
         {experiences.map((experience, index) => (
           <Reveal
