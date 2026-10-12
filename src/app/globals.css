@@ -434,10 +434,10 @@
     .portfolio-shell--minimalist {
       --accent-ease: cubic-bezier(0.22, 1, 0.36, 1);
     }
-    .portfolio-shell--minimalist :is(.nav-resume-link svg, .nav-ask-link svg, .chat-suggestion-arrow, .chat-send-btn svg, .nav-brand-bracket, .nav-theme-icon) {
+    .portfolio-shell--minimalist :is(.navbar-minimal a[href="/resume.pdf"] svg, .nav-ask-link svg, .chat-suggestion-arrow, .chat-send-btn svg, .nav-brand-bracket, .nav-theme-icon) {
       transition: transform 200ms var(--accent-ease), color 0.15s ease;
     }
-    .portfolio-shell--minimalist .nav-resume-link:hover svg { transform: translate(2px, -2px); }
+    .portfolio-shell--minimalist .navbar-minimal a[href="/resume.pdf"]:hover svg { transform: translate(2px, -2px); }
     .portfolio-shell--minimalist .nav-ask-link:hover svg { transform: translateX(3px); }
     .portfolio-shell--minimalist .nav-brand:hover .nav-brand-bracket--left { transform: translateX(-1.5px); }
     .portfolio-shell--minimalist .nav-brand:hover .nav-brand-bracket--right { transform: translateX(1.5px); }
@@ -450,7 +450,7 @@
     }
     .portfolio-shell--minimalist :is(.nav-utility, .nav-ask-link, .nav-menu-trigger, .chat-suggestion, .chat-send-btn:not(:disabled)):active { scale: 0.97; }
     @media (prefers-reduced-motion: reduce) {
-      .portfolio-shell--minimalist :is(.nav-resume-link svg, .nav-ask-link svg, .chat-suggestion-arrow, .chat-send-btn svg, .nav-brand-bracket, .nav-theme-icon) { transition: none; }
+      .portfolio-shell--minimalist :is(.navbar-minimal a[href="/resume.pdf"] svg, .nav-ask-link svg, .chat-suggestion-arrow, .chat-send-btn svg, .nav-brand-bracket, .nav-theme-icon) { transition: none; }
       .portfolio-shell--minimalist :is(.nav-utility, .nav-ask-link, .nav-menu-trigger, .chat-suggestion, .chat-send-btn):active { scale: none; }
     }
 

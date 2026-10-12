@@ -333,6 +333,8 @@ test.describe("portfolio motion", () => {
     await nudge(".nav-resume-link", ".nav-resume-link svg", [2, -2]);
     await nudge(".nav-ask-link", ".nav-ask-link svg", [3, 0]);
     await nudge(".d1-research-paper-link", ".d1-research-paper-link span", [2, -2]);
+    await nudge(".d1-contact-links-inline > a", ".d1-contact-links-inline .d1-contact-arrow", [2, -2]);
+    await nudge(".d1-minimal-footer-top", ".d1-minimal-footer-top span", [0, -3]);
 
     // Project links stay arrowless; on hover the label lifts while its underline holds still.
     const detail = page.locator(".direction-detail-trigger").first();

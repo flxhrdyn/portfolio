@@ -848,20 +848,20 @@
 .d1-contact-links a > span:first-child { font-size: 18px; font-weight: 550; }
 .d1-contact-links a > span:nth-child(2) { overflow-wrap: anywhere; color: var(--dir-muted); font-size: 16px; }
 .d1-contact-arrow { justify-self: end; font-size: 18px; transition: transform 160ms ease; }
-.d1-contact-links a:hover .d1-contact-arrow { transform: translate(2px, -2px); }
+.d1-contact-links:not(.d1-contact-links-inline) a:hover .d1-contact-arrow { transform: translate(2px, -2px); }
 .d1-contact-links a:focus-visible { outline: 1px solid currentColor; outline-offset: 4px; }
 .d1-contact-links-inline { display: flex; width: min(100%, 1080px); margin-inline: auto; justify-content: space-between; flex-wrap: wrap; column-gap: clamp(12px, 1.5vw, 24px); row-gap: 8px; }
 .d1-contact-links-inline a { display: flex; align-items: baseline; gap: 11px; padding: 10px 0; }
 .d1-contact-links-inline a:hover { color: var(--dir-ink); opacity: 1; }
 .d1-contact-links-inline a > span:first-child { font-size: 17px; }
 .d1-contact-links-inline a > span:nth-child(2) { font-size: 15px; }
-.d1-contact-links-inline .d1-contact-arrow { color: var(--dir-muted); font-size: 14px; transition: color 180ms ease, transform 180ms ease; }
+.d1-contact-links-inline .d1-contact-arrow { color: var(--dir-muted); font-size: 14px; }
 .d1-contact-links-inline a:hover .d1-contact-arrow { color: var(--dir-ink); }
 /* Links rise one after another once the statement lands. The hover nudge uses `translate`
    so it never waits on the reveal's delayed `transform`. */
 .d1-contact-links-inline > [data-r="rise"] { --d: .5s; }
-.d1-contact-links-inline > [data-r="rise"] .d1-contact-arrow { translate: 0 0; transition: color 180ms ease, translate 180ms ease; }
-.d1-contact-links-inline > [data-r="rise"]:hover .d1-contact-arrow { translate: 2px -2px; transform: none; }
+.d1-contact-links-inline > [data-r="rise"] .d1-contact-arrow { translate: 0 0; transition: color 180ms ease, translate 200ms cubic-bezier(.22, 1, .36, 1); }
+.d1-contact-links-inline > [data-r="rise"]:hover .d1-contact-arrow { translate: 2px -2px; }
 .d1-project-list { border-top: 1px solid var(--dir-line); }
 .d1-project { display: grid; grid-template-columns: minmax(170px, .4fr) 1fr; gap: 24px; padding: 25px 0; border-bottom: 1px solid var(--dir-line); }
 .d1-project .direction-project-copy h3 { font-size: clamp(21px, 2.4vw, 30px); }
