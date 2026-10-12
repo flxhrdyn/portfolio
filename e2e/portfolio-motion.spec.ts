@@ -334,12 +334,19 @@ test.describe("portfolio motion", () => {
     await nudge(".nav-ask-link", ".nav-ask-link svg", [3, 0]);
     await nudge(".d1-research-paper-link", ".d1-research-paper-link span", [2, -2]);
 
-    // Project links stay arrowless; their underline slides up into place on hover instead.
+    // Project links stay arrowless; on hover the label lifts while its underline holds still.
     const detail = page.locator(".direction-detail-trigger").first();
     await expect(detail).toHaveText("Project details");
     await detail.scrollIntoViewIfNeeded();
+    const lineTop = () => detail.evaluate((element) => {
+      const box = element.getBoundingClientRect();
+      const line = getComputedStyle(element, "::after");
+      return Math.round(box.bottom - parseFloat(line.height) + parseFloat(line.translate.split(" ")[1] ?? "0"));
+    });
+    const restLine = await lineTop();
     await detail.hover({ force: true });
-    expect(await detail.evaluate((element) => getComputedStyle(element, "::after").animationName)).toBe("direction-underline-rise");
+    await expect.poll(() => detail.evaluate((element) => getComputedStyle(element).translate)).toBe("0px -2px");
+    expect(await lineTop()).toBe(restLine);
   });
 
   test("theme switch develops in place with compositor-only motion", async ({ page }) => {
