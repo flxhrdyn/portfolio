@@ -87,7 +87,6 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
   const navRef = useRef<HTMLElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
-  const themeButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!menuOpen && menuRef.current) clearHighlight(menuRef.current);
@@ -159,29 +158,22 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
       startViewTransition?: (callback: () => void) => { ready: Promise<void>; finished: Promise<void> };
     };
 
-    if (reduceMotion || !viewTransitionDocument.startViewTransition || !themeButtonRef.current) {
+    if (reduceMotion || !viewTransitionDocument.startViewTransition) {
       applyTheme();
       return;
     }
 
-    const rect = themeButtonRef.current.getBoundingClientRect();
-    const x = rect.left + rect.width / 2;
-    const y = rect.top + rect.height / 2;
-    const radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+    // Exposure: the new theme develops over the old one. Opacity and scale only, so it stays on the
+    // compositor; color transitions are paused meanwhile so the live layer doesn't repaint each frame.
     const root = document.documentElement;
-    root.style.setProperty("--theme-reveal-x", `${x}px`);
-    root.style.setProperty("--theme-reveal-y", `${y}px`);
-    root.style.setProperty("--theme-reveal-radius", `${radius}px`);
-
+    root.dataset.themeTransition = "exposure";
     const transition = viewTransitionDocument.startViewTransition(applyTheme);
-    const clearOrigin = () => {
-      root.style.removeProperty("--theme-reveal-x");
-      root.style.removeProperty("--theme-reveal-y");
-      root.style.removeProperty("--theme-reveal-radius");
+    const clear = () => {
+      delete root.dataset.themeTransition;
     };
     // `ready` rejects when the transition is skipped (hidden tab, rapid re-toggle); the theme still applies.
     transition.ready.catch(() => {});
-    void transition.finished.then(clearOrigin, clearOrigin);
+    void transition.finished.then(clear, clear);
   };
 
   const handleNavClick = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -190,7 +182,7 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
   };
 
   const themeButton = (
-    <button ref={themeButtonRef} type="button" data-hl-item className="nav-utility nav-theme-control" onClick={toggleTheme}
+    <button type="button" data-hl-item className="nav-utility nav-theme-control" onClick={toggleTheme}
       aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}>
       <span className="nav-theme-text">{theme === "dark" ? "Light mode" : "Dark mode"}</span>
       <svg className="nav-theme-icon" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

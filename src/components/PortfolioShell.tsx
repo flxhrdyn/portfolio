@@ -2,10 +2,12 @@
 
 import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import NavBar from "@/components/NavBar";
+import TechnicalNavBar from "@/components/TechnicalNavBar";
 import ChatPanel from "@/components/ChatPanel";
 import { createPortfolioLenis } from "@/components/MotionProvider";
+import type { Design } from "@/lib/design";
 
-export default function PortfolioShell({ children }: { children: ReactNode }) {
+export default function PortfolioShell({ children, design }: { children: ReactNode; design: Design }) {
   const [chatOpen, setChatOpen] = useState(false);
   const askAITriggerRef = useRef<HTMLButtonElement | null>(null);
   const portfolioRef = useRef<HTMLDivElement>(null);
@@ -90,10 +92,14 @@ export default function PortfolioShell({ children }: { children: ReactNode }) {
   };
 
   return (
-    <div className={`portfolio-shell${chatOpen ? " portfolio-shell--chat-open" : ""}`}>
+    <div className={`portfolio-shell portfolio-shell--${design}${chatOpen ? " portfolio-shell--chat-open" : ""}`}>
       {/* Keeps the window Lenis off this column's wheel while the column Lenis drives it. */}
       <div ref={portfolioRef} className="portfolio-main-column" data-lenis-prevent={chatOpen || undefined}>
-        <NavBar variant="portfolio" onAskAI={openChat} chatOpen={chatOpen} />
+        {design === "technical" ? (
+          <TechnicalNavBar variant="portfolio" onAskAI={openChat} chatOpen={chatOpen} />
+        ) : (
+          <NavBar variant="portfolio" onAskAI={openChat} chatOpen={chatOpen} />
+        )}
         {children}
       </div>
       <ChatPanel open={chatOpen} onClose={closeChat} />

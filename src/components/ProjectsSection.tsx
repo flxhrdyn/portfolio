@@ -197,7 +197,7 @@ export default function ProjectsSection({ contributions }: ProjectsSectionProps)
 
   const featuredProject = projects.find((project) => project.featured);
   // Projects marked `showcase: false` are listed only in the "View all projects" table.
-  const gridProjects = projects.filter((project) => !project.featured && project.showcase !== false);
+  const gridProjects = projects.filter((project) => !project.featured && !("showcase" in project && project.showcase === false));
 
   return (
     <section className="section" id="projects">

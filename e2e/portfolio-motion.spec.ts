@@ -272,6 +272,26 @@ test.describe("portfolio motion", () => {
     await context.close();
   });
 
+  test("theme switch develops in place with compositor-only motion", async ({ page }) => {
+    await page.goto(portfolioUrl);
+    const html = page.locator("html");
+    const before = await html.getAttribute("data-theme");
+
+    await page.evaluate(() => document.querySelector<HTMLButtonElement>(".nav-theme-control")?.click());
+    await expect(html).toHaveAttribute("data-theme-transition", "exposure");
+    const motion = await page.evaluate(() => {
+      const style = getComputedStyle(document.documentElement, "::view-transition-new(root)");
+      const keyframes = [...document.styleSheets].flatMap((sheet) => [...sheet.cssRules])
+        .find((rule): rule is CSSKeyframesRule => rule instanceof CSSKeyframesRule && rule.name === style.animationName);
+      return { name: style.animationName, body: keyframes?.cssText ?? "" };
+    });
+    expect(motion.name).toBe("theme-exposure-in");
+    expect(motion.body).not.toContain("clip-path");
+
+    await expect(html).not.toHaveAttribute("data-theme-transition", /.*/);
+    await expect(html).not.toHaveAttribute("data-theme", before ?? "");
+  });
+
   test("header yields while scrolling down and returns on scroll up", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(portfolioUrl);
@@ -555,7 +575,7 @@ test.describe("portfolio motion", () => {
     }
   });
 
-  test("experience and education draw each hairline before title and metadata", async ({ page }) => {
+  test("experience and education draw each hairline with the title, then metadata", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(portfolioUrl);
 
@@ -591,8 +611,9 @@ test.describe("portfolio motion", () => {
       });
 
       await expect(title).toHaveAttribute("data-r", "rise");
-      expect(timing.titleDelay, JSON.stringify(timing)).toBeGreaterThanOrEqual(timing.ruleDelay + timing.ruleDuration - 0.02);
-      expect(timing.dateDelay, JSON.stringify(timing)).toBeGreaterThanOrEqual(timing.titleDelay + timing.titleDuration - 0.02);
+      expect(Math.abs(timing.titleDelay - timing.ruleDelay), JSON.stringify(timing)).toBeLessThan(0.05);
+      expect(timing.dateDelay, JSON.stringify(timing)).toBeGreaterThanOrEqual(timing.titleDelay + timing.titleDuration * 0.6);
+      expect(timing.copyDelay ?? timing.companyDelay, JSON.stringify(timing)).toBeLessThan(1.2);
       expect(timing.companyDelay, JSON.stringify(timing)).toBeGreaterThan(timing.dateDelay);
       if (timing.copyDelay !== null) expect(timing.copyDelay, JSON.stringify(timing)).toBeGreaterThan(timing.companyDelay);
     }
@@ -645,11 +666,13 @@ test.describe("portfolio motion", () => {
 
     const roles = page.locator('[data-r], [data-r="row"] > *, .d1-mask-line');
     expect(await roles.count()).toBeGreaterThan(20);
-    const visibility = await roles.evaluateAll((elements) => elements.map((element) => {
+    // Polls because the server-rendered markup can still carry entrance styles until hydration settles.
+    await expect.poll(() => roles.evaluateAll((elements) => elements.flatMap((element) => {
       const style = getComputedStyle(element);
-      return { ok: style.opacity === "1" && style.transform === "none", tag: element.tagName, className: element.className, role: element.getAttribute("data-r"), opacity: style.opacity, transform: style.transform };
-    }));
-    expect(visibility.every(({ ok }) => ok), JSON.stringify(visibility.filter(({ ok }) => !ok))).toBe(true);
+      return style.opacity === "1" && style.transform === "none"
+        ? []
+        : [{ tag: element.tagName, className: element.className, role: element.getAttribute("data-r"), opacity: style.opacity, transform: style.transform }];
+    }))).toEqual([]);
     const sectionTitles = await page.locator(".d1-synthesis .direction-section-heading h2 .d1-mask-line").evaluateAll((elements) => elements.every((element) => getComputedStyle(element).transform === "none"));
     expect(sectionTitles).toBe(true);
   });
@@ -688,13 +711,12 @@ test.describe("portfolio motion", () => {
     await expect(hero.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(featured.getByRole("heading", { level: 3 }).first()).toBeVisible();
   });
-  test("hero builds from hairlines, sets the name word by word, and recedes on scroll", async ({ page }) => {
+  test("hero sets the name word by word, and recedes on scroll", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(portfolioUrl);
 
     const hero = page.locator('[data-motion-sequence="d1-hero"]');
-    const rules = hero.locator(".d1-hero-rule");
-    await expect(rules).toHaveCount(2);
+    await expect(hero.locator(".d1-hero-rule")).toHaveCount(0);
 
     const words = hero.locator("h1 .d1-hero-word");
     expect(await words.count()).toBe(3);
@@ -706,8 +728,6 @@ test.describe("portfolio motion", () => {
     expect(delays[2]).toBeGreaterThan(delays[1]);
 
     await page.waitForTimeout(2600);
-    const settledRules = await rules.evaluateAll((elements) => elements.map((element) => getComputedStyle(element).transform));
-    for (const transform of settledRules) expect(["none", "matrix(1, 0, 0, 1, 0, 0)"]).toContain(transform);
 
     const title = hero.locator(".d1-synthesis-col-left");
     const portrait = hero.locator(".d1-synthesis-col-right");
@@ -736,5 +756,59 @@ test.describe("portfolio motion", () => {
     await page.waitForTimeout(600);
     const [backOpacity] = await read();
     expect(backOpacity).toBe(1);
+  });
+  test("career rows start empty: the toggle icon waits for the row reveal", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const row = page.locator("#experience .direction-career-row").last();
+    await expect(row).toHaveAttribute("data-reveal", "hidden");
+    const icon = row.locator(".direction-career-toggle-icon");
+    expect(await icon.evaluate((element) => getComputedStyle(element).opacity)).toBe("0");
+
+    await row.scrollIntoViewIfNeeded();
+    await expect(row).toHaveAttribute("data-reveal", "in");
+    await expect.poll(() => icon.evaluate((element) => getComputedStyle(element).opacity), { timeout: 4000 }).toBe("1");
+  });
+  test("reveal stagger compresses when scrolling fast", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+    await page.mouse.move(700, 450);
+
+    const paces = async () => page.evaluate(() =>
+      [...document.querySelectorAll<HTMLElement>('[data-reveal="in"]')]
+        .map((element) => Number.parseFloat(element.style.getPropertyValue("--rv-pace")))
+        .filter((pace) => !Number.isNaN(pace)),
+    );
+
+    for (let step = 0; step < 3; step++) {
+      await page.mouse.wheel(0, 120);
+      await page.waitForTimeout(450);
+    }
+    const slow = await paces();
+    expect(slow.length).toBeGreaterThan(0);
+    expect(Math.min(...slow)).toBeGreaterThan(0.9);
+
+    const before = slow.length;
+    for (let step = 0; step < 12; step++) await page.mouse.wheel(0, 900);
+    await page.waitForTimeout(1500);
+    const fast = (await paces()).slice(before);
+    expect(fast.length).toBeGreaterThan(0);
+    expect(Math.min(...fast)).toBeLessThan(0.7);
+  });
+  test("landing starts blank: the navbar joins the hero sequence after the name", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl, { waitUntil: "commit" });
+    const nav = page.locator("#top-nav .nav-container");
+    await nav.waitFor({ state: "attached" });
+
+    const early = await nav.evaluate((element) => {
+      const animation = element.getAnimations()[0];
+      return { opacity: getComputedStyle(element).opacity, delay: Number(animation?.effect?.getTiming().delay ?? 0) };
+    });
+    expect(early.opacity).toBe("0");
+    expect(early.delay).toBeGreaterThan(600);
+
+    await expect.poll(() => nav.evaluate((element) => getComputedStyle(element).opacity), { timeout: 5000 }).toBe("1");
   });
 });
