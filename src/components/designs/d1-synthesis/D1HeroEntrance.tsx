@@ -9,9 +9,8 @@ import { MaskLine } from "../DirectionShared";
 
 // Same rise curve and distance as the section reveals (directions.css `data-r="rise"`).
 const RISE_EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
-const DRAW_EASE: [number, number, number, number] = [0.65, 0, 0.35, 1];
 
-// Two hairlines draw the frame first, the name sets word by word onto it, supporting pieces follow in reading order.
+// The name sets word by word, supporting pieces follow in reading order.
 const item: Variants = {
   hidden: { opacity: 0, y: 18 },
   show: (delay: number) => ({
@@ -29,11 +28,6 @@ const focus: Variants = {
     filter: "blur(0px)",
     transition: { delay, duration: 1.2, ease: RISE_EASE },
   }),
-};
-
-const drawX: Variants = {
-  hidden: { scaleX: 0 },
-  show: (delay: number) => ({ scaleX: 1, transition: { delay, duration: 1, ease: DRAW_EASE } }),
 };
 
 const NAME_START = 0.3;
@@ -73,7 +67,6 @@ export function D1HeroEntrance({
       initial={reduceMotion ? false : "hidden"}
       animate="show"
     >
-      <m.span className="d1-hero-rule" aria-hidden="true" variants={drawX} custom={0} />
       <m.div
         className="d1-synthesis-col-left"
         style={reduceMotion ? undefined : { opacity: titleOpacity, scale: titleScale, transformOrigin: "left bottom" }}
@@ -103,7 +96,6 @@ export function D1HeroEntrance({
           <p>{tagline}</p>
         </m.div>
       </m.div>
-      <m.span className="d1-hero-rule" aria-hidden="true" variants={drawX} custom={0.14} />
       <m.a
         className="d1-synthesis-hero-cta"
         href="#contact"

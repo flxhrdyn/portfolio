@@ -24,9 +24,40 @@ export function Reveal({
   return createElement(as, { ref: observeReveal, className, style, 'data-reveal': 'hidden', ...rest }, children);
 }
 
+// Scroll speed at reveal time compresses the stagger: a fast pass should not leave
+// half-revealed rows behind it. Pace 1 is the authored timing, 0.35 the floor.
+let lastY = 0;
+let lastTime = 0;
+let velocity = 0;
+let tracking = false;
+
+function trackScrollSpeed() {
+  if (tracking || typeof window === 'undefined') return;
+  tracking = true;
+  lastY = window.scrollY;
+  lastTime = performance.now();
+  window.addEventListener('scroll', () => {
+    const now = performance.now();
+    const elapsed = Math.max(now - lastTime, 1);
+    const instant = Math.abs(window.scrollY - lastY) / elapsed;
+    velocity = velocity * 0.6 + instant * 0.4;
+    lastY = window.scrollY;
+    lastTime = now;
+  }, { passive: true });
+}
+
+function currentPace() {
+  const speed = performance.now() - lastTime > 200 ? 0 : velocity;
+  return Math.min(1, Math.max(0.35, 1 - (speed - 0.3) * 0.5));
+}
+
 function observeReveal(el: HTMLElement | null) {
   if (!el) return;
-  const set = (state: RevealState) => { el.dataset.reveal = state; };
+  trackScrollSpeed();
+  const set = (state: RevealState) => {
+    if (state === 'in') el.style.setProperty('--rv-pace', currentPace().toFixed(2));
+    el.dataset.reveal = state;
+  };
   set('hidden');
 
   // Plays once the element clears the bottom 15% band, so every block starts its

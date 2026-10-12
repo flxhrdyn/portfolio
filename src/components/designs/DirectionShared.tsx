@@ -442,7 +442,7 @@ function CareerRoleItem({ role, index }: { role: (typeof WORK_ROLES)[number]; in
       data-r="row"
       style={{ '--i': Math.min(index, 4) } as CSSProperties}
     >
-      <p className="direction-overline" data-r="fade" style={{ '--d': '1.32s' } as CSSProperties}>{role.date}</p>
+      <p className="direction-overline" data-r="fade" style={{ '--d': '.4s' } as CSSProperties}>{role.date}</p>
       <div className="direction-career-body">
         <button
           type="button"
@@ -452,7 +452,7 @@ function CareerRoleItem({ role, index }: { role: (typeof WORK_ROLES)[number]; in
           aria-controls={hasHighlights ? panelId : undefined}
           disabled={!hasHighlights}
         >
-          <span className="direction-career-toggle-icon" aria-hidden="true" data-open={isOpen}>
+          <span className="direction-career-toggle-icon" aria-hidden="true" data-open={isOpen} data-r="fade" style={{ '--d': '.4s' } as CSSProperties}>
             {hasHighlights && <>
               <span className="direction-career-toggle-stroke direction-career-toggle-stroke-horizontal" />
               <span className="direction-career-toggle-stroke direction-career-toggle-stroke-vertical" />
@@ -460,15 +460,15 @@ function CareerRoleItem({ role, index }: { role: (typeof WORK_ROLES)[number]; in
           </span>
           <div className="direction-career-title-block">
             <div className="direction-career-title-mask">
-              <h3 className="direction-career-title-reveal" data-r="rise" style={{ '--d': '.62s' } as CSSProperties}>{role.title}</h3>
+              <h3 className="direction-career-title-reveal" data-r="rise" style={{ '--d': '0s' } as CSSProperties}>{role.title}</h3>
             </div>
-            <p className="direction-career-company" data-r="fade" style={{ '--d': '1.48s' } as CSSProperties}>{role.company}</p>
+            <p className="direction-career-company" data-r="fade" style={{ '--d': '.48s' } as CSSProperties}>{role.company}</p>
           </div>
         </button>
 
         <div className="direction-career-content">
           {role.headline && (
-            <p className="direction-muted direction-career-headline" data-r="fade" style={{ '--d': '1.64s' } as CSSProperties}>{role.headline}</p>
+            <p className="direction-muted direction-career-headline" data-r="fade" style={{ '--d': '.56s' } as CSSProperties}>{role.headline}</p>
           )}
           {hasHighlights && (
             <div
@@ -521,15 +521,15 @@ export function ExperienceContent({
           style={{ '--i': Math.min(index, 4) } as CSSProperties}
           key={`${item.company}-${item.title}`}
         >
-          <p className="direction-overline" data-r="fade" style={{ '--d': '1.32s' } as CSSProperties}>{item.date}</p>
+          <p className="direction-overline" data-r="fade" style={{ '--d': '.4s' } as CSSProperties}>{item.date}</p>
           <div className="direction-career-body direction-education-body">
             <div className="direction-career-title-mask">
-              <h3 className="direction-career-title-reveal" data-r="rise" style={{ '--d': '.62s' } as CSSProperties}>{item.title}</h3>
+              <h3 className="direction-career-title-reveal" data-r="rise" style={{ '--d': '0s' } as CSSProperties}>{item.title}</h3>
             </div>
-            <p className="direction-career-company" data-r="fade" style={{ '--d': '1.48s' } as CSSProperties}>
+            <p className="direction-career-company" data-r="fade" style={{ '--d': '.48s' } as CSSProperties}>
               {item.company}{item.statLabel ? ` / ${item.statLabel}` : ''}
             </p>
-            {item.description && <p className="direction-muted" data-r="fade" style={{ '--d': '1.64s' } as CSSProperties}>{item.description}</p>}
+            {item.description && <p className="direction-muted" data-r="fade" style={{ '--d': '.56s' } as CSSProperties}>{item.description}</p>}
           </div>
         </Reveal>
       ))}

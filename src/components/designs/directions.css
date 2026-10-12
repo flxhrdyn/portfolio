@@ -542,8 +542,6 @@
 .d1-synthesis-portrait img { object-position: center 36%; }
 .d1-synthesis-about { align-self: flex-end; width: clamp(250px, 26vw, 340px); text-align: left; margin-top: clamp(56px, 7vh, 80px); margin-bottom: 0; padding-top: 0; }
 .d1-synthesis-about p { font-size: clamp(16px, 1.4vw, 19px); color: var(--dir-muted); line-height: 1.5; margin: 0; }
-/* Hero hairlines: drawn first, they stay as the frame the name and portrait settle into. */
-.d1-hero-rule { grid-column: 1 / -1; display: block; height: 1px; background: var(--dir-line); transform-origin: left center; pointer-events: none; }
 .d1-mask.d1-hero-word { display: inline-block; }
 .d1-synthesis-hero-cta { position: relative; isolation: isolate; grid-column: 1 / -1; justify-self: center; display: inline-flex; align-items: center; margin-top: clamp(-8px, -1vh, 0px); padding: 14px 20px; color: var(--dir-ink); font-size: 1.25rem; line-height: 1.2; overflow: hidden; transition: color 220ms cubic-bezier(.22, 1, .36, 1), transform 220ms cubic-bezier(.22, 1, .36, 1); }
 .d1-synthesis-hero-cta::before { position: absolute; z-index: -1; inset: 0; background: var(--dir-ink); content: ""; opacity: 0; transition: opacity 220ms cubic-bezier(.22, 1, .36, 1); }
@@ -642,14 +640,14 @@
 /* Clips only vertically: display type may overhang its column sideways. Padding keeps
    ascenders and descenders inside the clip; negative margins cancel it in layout. */
 .d1-mask { display: block; clip-path: inset(0 -100vw); padding: .1em 0 .14em; margin: -.1em 0 -.14em; }
-.d1-mask-line { display: inline-block; will-change: transform; transition: transform 1.05s cubic-bezier(.75, 0, .25, 1) var(--d, 0s); }
+.d1-mask-line { display: inline-block; will-change: transform; transition: transform 1.05s cubic-bezier(.75, 0, .25, 1) calc(var(--d, 0s) * var(--rv-pace, 1)); }
 .d1-mask[data-reveal="hidden"] .d1-mask-line { transform: translateY(110%); }
 
 /* Directional reveals (see Reveal.tsx). Roles: fade, rise, focus, and row (hairline
    draws, then the row's children rise). --i staggers siblings, --j items within one. */
 /* Scoped under [data-reveal] to outrank component transitions; color keeps hover fades. */
 [data-reveal] :is([data-r], [data-r="row"] > *) {
-  --rv-delay: calc(var(--i, 0) * 90ms + var(--j, 0) * 35ms + var(--d, 0s));
+  --rv-delay: calc((var(--i, 0) * 90ms + var(--j, 0) * 35ms + var(--d, 0s)) * var(--rv-pace, 1));
   transition:
     color 160ms ease,
     opacity .8s cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
@@ -701,22 +699,22 @@
 .d1-synthesis-rc-certs .direction-cert-wrapper [data-motion-preset="d1-synthesis"] > li.direction-cert-last-visible { border-bottom-color: transparent; }
 /* Career entries reveal as they reach the viewport, so their timing follows the scroll. */
 .direction-career [data-r] {
-  --rv-delay: calc(var(--i, 0) * 70ms + var(--j, 0) * 40ms + var(--d, 0s));
+  --rv-delay: calc((var(--i, 0) * 70ms + var(--j, 0) * 40ms + var(--d, 0s)) * var(--rv-pace, 1));
   transition:
     color 160ms ease,
-    opacity 560ms cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
-    transform 640ms cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
-    background-size 720ms cubic-bezier(.75, 0, .25, 1) var(--rv-delay);
+    opacity calc(520ms * var(--rv-pace, 1)) cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
+    transform calc(560ms * var(--rv-pace, 1)) cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
+    background-size calc(720ms * var(--rv-pace, 1)) cubic-bezier(.75, 0, .25, 1) var(--rv-delay);
 }
 .d1-synthesis-career .direction-career-row[data-r="row"] {
   transition:
     color 160ms ease,
-    opacity 560ms cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
-    transform 640ms cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
-    background-size 620ms cubic-bezier(.75, 0, .25, 1) var(--rv-delay);
+    opacity calc(520ms * var(--rv-pace, 1)) cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
+    transform calc(560ms * var(--rv-pace, 1)) cubic-bezier(.22, 1, .36, 1) var(--rv-delay),
+    background-size calc(520ms * var(--rv-pace, 1)) cubic-bezier(.75, 0, .25, 1) var(--rv-delay);
 }
 .d1-synthesis-career .direction-career-row [data-r="fade"] {
-  transition: color 160ms ease, opacity 720ms cubic-bezier(.22, 1, .36, 1) var(--rv-delay);
+  transition: color 160ms ease, opacity calc(520ms * var(--rv-pace, 1)) cubic-bezier(.22, 1, .36, 1) var(--rv-delay);
 }
 :is(.direction-career-row[data-reveal="hidden"], [data-reveal="hidden"] .direction-career-row) > * { opacity: 1; transform: none; }
 :is(.direction-career-row[data-reveal="hidden"], [data-reveal="hidden"] .direction-career-row) [data-r="fade"] { opacity: 0; }
