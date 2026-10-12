@@ -98,7 +98,7 @@ export default function PortfolioShell({ children, design }: { children: ReactNo
         {design === "technical" ? (
           <TechnicalNavBar variant="portfolio" onAskAI={openChat} chatOpen={chatOpen} />
         ) : (
-          <NavBar variant="portfolio" onAskAI={openChat} chatOpen={chatOpen} />
+          <NavBar onAskAI={openChat} chatOpen={chatOpen} />
         )}
         {children}
       </div>

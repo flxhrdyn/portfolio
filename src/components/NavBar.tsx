@@ -16,7 +16,6 @@ const NAV_LINKS = [
 ];
 
 interface NavBarProps {
-  variant?: "chat" | "portfolio";
   onAskAI?: (trigger: HTMLButtonElement) => void;
   chatOpen?: boolean;
 }
@@ -79,7 +78,7 @@ const highlightHandlers = {
   },
 };
 
-export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = false }: NavBarProps) {
+export default function NavBar({ onAskAI, chatOpen = false }: NavBarProps) {
   const [theme, setTheme] = useState<"light" | "dark">("light");
   const [menuOpen, setMenuOpen] = useState(false);
   const reduceMotion = useReducedMotion();
@@ -196,7 +195,7 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
   );
 
   return (
-    <nav ref={navRef} className={`navbar navbar-${variant} navbar-minimal`} id="top-nav" aria-label="Main navigation">
+    <nav ref={navRef} className="navbar navbar-portfolio navbar-minimal" id="top-nav" aria-label="Main navigation">
       <div className="nav-container">
         <Link href="/" className="nav-brand" aria-label="flxhrdyn home">
           <svg
@@ -231,56 +230,45 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
         </Link>
         <div className="nav-minimal-actions nav-hl-group" {...highlightHandlers}>
           <span className="nav-hl" aria-hidden="true" />
-          {variant === "portfolio" ? (
-            <>
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" data-hl-item className="nav-utility nav-resume-link" aria-label="Resume PDF (opens in a new tab)">
-                <span>Resume</span><Arrow diagonal />
-              </a>
-              <button type="button" data-hl-item className="nav-ask-link" aria-label="Ask AI" aria-expanded={chatOpen}
-                aria-controls="portfolio-chat-panel" onClick={(event) => { setMenuOpen(false); onAskAI?.(event.currentTarget); }}>
-                Ask AI <Arrow />
-              </button>
-              <button ref={menuButtonRef} type="button" data-hl-item className={`nav-menu-trigger${menuOpen ? " is-open" : ""}`}
-                aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
-                aria-expanded={menuOpen} aria-controls="nav-section-menu" onClick={() => setMenuOpen((open) => !open)}>
-                Menu
-                <svg className="nav-menu-mark" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.25" aria-hidden="true">
-                  <path d="M2 7h10" />
-                  <path className="nav-menu-mark-vertical" d="M7 2v10" />
-                </svg>
-              </button>
-            </>
-          ) : (
-            <>
-              <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" data-hl-item className="nav-utility">Resume <Arrow diagonal /></a>
-              {themeButton}
-            </>
-          )}
+          <a href="/resume.pdf" target="_blank" rel="noopener noreferrer" data-hl-item className="nav-utility nav-resume-link" aria-label="Resume PDF (opens in a new tab)">
+            <span>Resume</span><Arrow diagonal />
+          </a>
+          <button type="button" data-hl-item className="nav-ask-link" aria-label="Ask AI" aria-expanded={chatOpen}
+            aria-controls="portfolio-chat-panel" onClick={(event) => { setMenuOpen(false); onAskAI?.(event.currentTarget); }}>
+            Ask AI <Arrow />
+          </button>
+          <button ref={menuButtonRef} type="button" data-hl-item className={`nav-menu-trigger${menuOpen ? " is-open" : ""}`}
+            aria-label={menuOpen ? "Close navigation menu" : "Open navigation menu"}
+            aria-expanded={menuOpen} aria-controls="nav-section-menu" onClick={() => setMenuOpen((open) => !open)}>
+            Menu
+            <svg className="nav-menu-mark" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.25" aria-hidden="true">
+              <path d="M2 7h10" />
+              <path className="nav-menu-mark-vertical" d="M7 2v10" />
+            </svg>
+          </button>
         </div>
-        {variant === "portfolio" && (
-          <div ref={menuRef} id="nav-section-menu" className={`nav-menu-panel nav-hl-group${menuOpen ? " is-open" : ""}`} inert={!menuOpen} aria-hidden={!menuOpen} {...highlightHandlers}>
-            <span className="nav-hl" aria-hidden="true" />
-            <div className="nav-menu-sections">
-              {NAV_LINKS.map((link, index) => (
-                <m.a
-                  key={link.href}
-                  href={link.href}
-                  onClick={(event) => handleNavClick(event, link.href)}
-                  data-hl-item
-                  className="nav-menu-section"
-                  initial={false}
-                  animate={menuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}
-                  transition={reduceMotion ? { duration: 0 } : { duration: 0.2, delay: index * 0.024, ease: EASE_OUT }}
-                >
-                  <span>{link.label}</span>
-                </m.a>
-              ))}
-            </div>
-            <div className="nav-menu-footer">
-              {themeButton}
-            </div>
+        <div ref={menuRef} id="nav-section-menu" className={`nav-menu-panel nav-hl-group${menuOpen ? " is-open" : ""}`} inert={!menuOpen} aria-hidden={!menuOpen} {...highlightHandlers}>
+          <span className="nav-hl" aria-hidden="true" />
+          <div className="nav-menu-sections">
+            {NAV_LINKS.map((link, index) => (
+              <m.a
+                key={link.href}
+                href={link.href}
+                onClick={(event) => handleNavClick(event, link.href)}
+                data-hl-item
+                className="nav-menu-section"
+                initial={false}
+                animate={menuOpen ? { opacity: 1, y: 0 } : { opacity: 0, y: 5 }}
+                transition={reduceMotion ? { duration: 0 } : { duration: 0.2, delay: index * 0.024, ease: EASE_OUT }}
+              >
+                <span>{link.label}</span>
+              </m.a>
+            ))}
           </div>
-        )}
+          <div className="nav-menu-footer">
+            {themeButton}
+          </div>
+        </div>
       </div>
     </nav>
   );
