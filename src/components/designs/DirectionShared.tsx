@@ -367,7 +367,7 @@ export function ProjectDetailModal({
                 className="direction-modal-link"
               >
                 <span>View on GitHub</span>
-                <span aria-hidden="true">↗</span>
+                <span className="direction-link-arrow" aria-hidden="true">↗</span>
               </a>
             </div>
           ) : null}
@@ -407,11 +407,11 @@ export function ProjectCopy({
           className="direction-detail-trigger"
           onClick={() => setIsOpen(true)}
         >
-          Project details
+          Project details<span className="direction-link-arrow" aria-hidden="true">→</span>
         </button>
         {project.repo ? (
           <a href={`https://github.com/flxhrdyn/${project.repo}`} target="_blank" rel="noreferrer">
-            GitHub
+            GitHub<span className="direction-link-arrow" aria-hidden="true">↗</span>
           </a>
         ) : null}
       </div>
@@ -627,7 +627,7 @@ export function ResearchPaperContent({
       {paper.doi && (
         <a className="direction-text-link" href={paper.doi} target="_blank" rel="noreferrer">
           <span>Read publication on JITET</span>
-          <span aria-hidden="true"> ↗</span>
+          <span className="direction-link-arrow" aria-hidden="true"> ↗</span>
         </a>
       )}
     </article>

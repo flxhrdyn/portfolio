@@ -212,8 +212,8 @@ export default function NavBar({ variant = "portfolio", onAskAI, chatOpen = fals
             style={{ color: "var(--accent-color)", flexShrink: 0 }}
           >
             {/* Matrix brackets */}
-            <path d="M5 4H2V20H5" />
-            <path d="M19 4H22V20H19" />
+            <path className="nav-brand-bracket nav-brand-bracket--left" d="M5 4H2V20H5" />
+            <path className="nav-brand-bracket nav-brand-bracket--right" d="M19 4H22V20H19" />
             {/* 3x3 Tensor Data Matrix */}
             <rect x="7" y="6" width="2.5" height="2.5" fill="currentColor" stroke="none" />
             <rect x="11" y="6" width="2.5" height="2.5" fill="currentColor" stroke="none" opacity="0.3" />

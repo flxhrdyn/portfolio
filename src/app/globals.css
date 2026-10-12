@@ -429,6 +429,31 @@
     .nav-ask-link svg { transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1); }
     .nav-ask-link:hover svg { transform: translateX(2px); }
 
+    /* Minimalist accents, same vocabulary as directions.css: arrows nudge toward where they
+       point, pressed controls dip to 97%, all on one 200ms curve. */
+    .portfolio-shell--minimalist {
+      --accent-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .portfolio-shell--minimalist :is(.nav-resume-link svg, .nav-ask-link svg, .chat-suggestion-arrow, .chat-send-btn svg, .nav-brand-bracket, .nav-theme-icon) {
+      transition: transform 200ms var(--accent-ease), color 0.15s ease;
+    }
+    .portfolio-shell--minimalist .nav-resume-link:hover svg { transform: translate(2px, -2px); }
+    .portfolio-shell--minimalist .nav-ask-link:hover svg { transform: translateX(3px); }
+    .portfolio-shell--minimalist .nav-brand:hover .nav-brand-bracket--left { transform: translateX(-1.5px); }
+    .portfolio-shell--minimalist .nav-brand:hover .nav-brand-bracket--right { transform: translateX(1.5px); }
+    .portfolio-shell--minimalist .nav-theme-control:hover .nav-theme-icon { transform: rotate(30deg); }
+    .portfolio-shell--minimalist :is(.chat-suggestion:hover, .chat-suggestion:focus-visible) .chat-suggestion-arrow { transform: translateX(3px); }
+    .portfolio-shell--minimalist .chat-send-btn:hover:not(:disabled) svg { transform: translateY(-3px); }
+    .portfolio-shell--minimalist :is(.nav-utility, .nav-ask-link, .nav-menu-trigger, .chat-suggestion, .chat-send-btn:not(:disabled)) {
+      transition-property: color, background-color, opacity, scale;
+      transition-duration: 0.15s, 0.15s, 0.15s, 200ms;
+    }
+    .portfolio-shell--minimalist :is(.nav-utility, .nav-ask-link, .nav-menu-trigger, .chat-suggestion, .chat-send-btn:not(:disabled)):active { scale: 0.97; }
+    @media (prefers-reduced-motion: reduce) {
+      .portfolio-shell--minimalist :is(.nav-resume-link svg, .nav-ask-link svg, .chat-suggestion-arrow, .chat-send-btn svg, .nav-brand-bracket, .nav-theme-icon) { transition: none; }
+      .portfolio-shell--minimalist :is(.nav-utility, .nav-ask-link, .nav-menu-trigger, .chat-suggestion, .chat-send-btn):active { scale: none; }
+    }
+
     .nav-menu-mark-vertical {
       transform-origin: center;
       transition: transform 180ms cubic-bezier(0.16, 1, 0.3, 1);

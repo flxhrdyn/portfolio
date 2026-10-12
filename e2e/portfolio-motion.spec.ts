@@ -316,6 +316,27 @@ test.describe("portfolio motion", () => {
     await context.close();
   });
 
+  test("arrows nudge toward where they point with one shared accent", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const nudge = async (trigger: string, arrow: string, offset: [number, number]) => {
+      await page.locator(trigger).first().scrollIntoViewIfNeeded();
+      await page.locator(trigger).first().hover({ force: true });
+      await expect.poll(() => page.locator(arrow).first().evaluate((element) => {
+        const style = getComputedStyle(element);
+        const matrix = new DOMMatrix(style.transform);
+        const [x = "0", y = "0"] = style.translate === "none" ? [] : style.translate.split(" ");
+        return [Math.round(matrix.e + parseFloat(x)), Math.round(matrix.f + parseFloat(y))];
+      })).toEqual(offset);
+    };
+    await nudge(".nav-resume-link", ".nav-resume-link svg", [2, -2]);
+    await nudge(".nav-ask-link", ".nav-ask-link svg", [3, 0]);
+    await nudge(".direction-detail-trigger", ".direction-detail-trigger .direction-link-arrow", [3, 0]);
+    await nudge(".direction-project-links > a", ".direction-project-links > a .direction-link-arrow", [2, -2]);
+    await nudge(".d1-research-paper-link", ".d1-research-paper-link span", [2, -2]);
+  });
+
   test("theme switch develops in place with compositor-only motion", async ({ page }) => {
     await page.goto(portfolioUrl);
     const html = page.locator("html");
