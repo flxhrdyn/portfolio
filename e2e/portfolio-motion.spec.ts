@@ -396,42 +396,29 @@ test.describe("portfolio motion", () => {
     await expect(nav).toHaveAttribute("data-scroll-hidden", "false");
   });
 
-  test("research is the only pinned scene, bounded and desktop-only", async ({ page }) => {
+  test("research title lights word by word in normal scroll flow, with no pinned hold", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(portfolioUrl);
 
-    const scenes = page.locator("[data-scroll-scene]");
-    await expect(scenes).toHaveCount(1);
-    await expect(page.locator('#research [data-scroll-scene="research"]')).toHaveCount(1);
-    const scene = page.locator('[data-scroll-scene="research"]');
-    const inner = scene.locator(".d1-pinned-scene__inner");
-    const position = () => inner.evaluate((element) => getComputedStyle(element).position);
+    await expect(page.locator("[data-scroll-scene]")).toHaveCount(0);
+    const research = page.locator("#research");
+    const words = page.locator("#research [data-lit-word]");
+    const opacity = (index: number) => words.nth(index).evaluate((element) => Number(getComputedStyle(element).opacity));
+    expect(await research.evaluate((element) => element.getBoundingClientRect().height)).toBeLessThan(900 * 1.5);
 
-    expect(await position()).toBe("sticky");
-    const { height, innerHeight, contentHeight } = await scene.evaluate((element) => ({
-      height: element.getBoundingClientRect().height,
-      innerHeight: window.innerHeight,
-      contentHeight: element.querySelector(".d1-synthesis-rc-grid")!.getBoundingClientRect().height,
-    }));
-    expect(height).toBeLessThanOrEqual(innerHeight * 2);
-    expect(contentHeight).toBeLessThanOrEqual(innerHeight);
+    const titleTop = await words.first().evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
+    const last = async () => opacity(await words.count() - 1);
+    // Halfway through the band (85% to 40% of the viewport), the opening words lead the tail.
+    await page.evaluate((top) => window.scrollTo(0, top - 900 * 0.62), titleTop);
+    await expect.poll(() => opacity(0)).toBeGreaterThan(0.9);
+    expect(await last()).toBeLessThan(0.5);
 
-    // Jump to just before the scene, then wheel through the hold like a reader.
-    const sceneTop = await scene.evaluate((element) => element.getBoundingClientRect().top + window.scrollY);
-    await page.evaluate((top) => window.scrollTo(0, top - 200), sceneTop);
-    await page.mouse.move(700, 450);
-    await wheelTo(page, await scene.evaluate((element) =>
-      element.getBoundingClientRect().top + window.scrollY + (element as HTMLElement).offsetHeight - window.innerHeight,
-    ));
-    await expect.poll(() => page.locator("[data-lit-word]").last().evaluate((element) => Number(getComputedStyle(element).opacity))).toBeGreaterThan(0.9);
-
-    await page.setViewportSize({ width: 917, height: 900 });
-    await expect.poll(position).toBe("static");
-    expect(await page.locator("[data-lit-word]").first().evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+    await page.evaluate((top) => window.scrollTo(0, top - 900 * 0.3), titleTop);
+    await expect.poll(last).toBeGreaterThan(0.9);
 
     await page.emulateMedia({ reducedMotion: "reduce" });
-    await page.setViewportSize({ width: 1440, height: 900 });
-    await expect.poll(position).toBe("static");
+    await page.evaluate((top) => window.scrollTo(0, top - 900), titleTop);
+    await expect.poll(last).toBe(1);
   });
 
   test("experience rows reveal at their own scroll position, show instantly on the way up, and re-arm below", async ({ page }) => {

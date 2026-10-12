@@ -11,7 +11,7 @@ import { ProjectArchive } from './ProjectArchive';
 import { ExperiencePhotoInterlude } from './ExperiencePhotoInterlude';
 import { D1HeroEntrance } from './D1HeroEntrance';
 import { D1ContactHeadline } from './D1ContactHeadline';
-import { PinnedScene, ScrollLitText } from './PinnedScene';
+import { ScrollLitText } from './ScrollLitText';
 import { Reveal } from '../Reveal';
 import type { CSSProperties } from 'react';
 
@@ -124,7 +124,6 @@ export function D1Synthesis() {
         </section>
 
         <section className="direction-section d1-synthesis-research" id="research">
-          <PinnedScene name="research">
           <div className="d1-synthesis-rc-grid" data-motion-signature="measured-results">
             <div className="d1-synthesis-rc-research">
               <SectionHeading motionPreset="d1-synthesis">Research</SectionHeading>
@@ -135,7 +134,6 @@ export function D1Synthesis() {
               <CertificationsContent motionPreset="d1-synthesis" />
             </div>
           </div>
-          </PinnedScene>
         </section>
 
         <section className="direction-section d1-synthesis-contact" id="contact" aria-labelledby="contact-editorial-heading" data-motion-signature="type-mask">

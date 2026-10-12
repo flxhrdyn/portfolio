@@ -627,18 +627,9 @@
 .d1-experience-photo-figure { display: flex; min-width: 0; min-height: 0; flex-direction: column; }
 .d1-experience-photo-frame { position: relative; flex: 1; min-height: 0; overflow: hidden; background: transparent; }
 .d1-experience-photo-frame img { object-fit: contain; }
-/* Pinned scenes: one extra viewport of hold on wide desktops only. */
-@media (min-width: 1200px) and (prefers-reduced-motion: no-preference) {
-  .d1-pinned-scene { min-height: 190svh; }
-  .d1-pinned-scene__inner { position: sticky; top: 0; min-height: 100svh; display: flex; flex-direction: column; justify-content: center; }
-  .portfolio-shell--chat-open .d1-pinned-scene { min-height: 0; }
-  .portfolio-shell--chat-open .d1-pinned-scene__inner { position: static; min-height: 0; }
-}
-/* Unpinned, scroll lighting has no hold to play in, so text simply reads. */
-@media (max-width: 1199px), (prefers-reduced-motion: reduce) {
-  [data-lit-word] { opacity: 1 !important; }
-}
+/* Beside the chat the column scrolls, not the window, so the title simply reads. */
 .portfolio-shell--chat-open [data-lit-word] { opacity: 1 !important; }
+@media (prefers-reduced-motion: reduce) { [data-lit-word] { opacity: 1 !important; } }
 /* Clips only vertically: display type may overhang its column sideways. Padding keeps
    ascenders and descenders inside the clip; negative margins cancel it in layout. */
 .d1-mask { display: block; clip-path: inset(0 -100vw); padding: .1em 0 .14em; margin: -.1em 0 -.14em; }
