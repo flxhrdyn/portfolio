@@ -30,6 +30,8 @@ let lastY = 0;
 let lastTime = 0;
 let velocity = 0;
 let tracking = false;
+// Blocks at the very end of the page can never clear the bottom band, so reaching the end plays them.
+const pageEndChecks = new Set<() => void>();
 
 function trackScrollSpeed() {
   if (tracking || typeof window === 'undefined') return;
@@ -43,6 +45,7 @@ function trackScrollSpeed() {
     velocity = velocity * 0.6 + instant * 0.4;
     lastY = window.scrollY;
     lastTime = now;
+    if (window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 2) pageEndChecks.forEach((check) => check());
   }, { passive: true });
 }
 
@@ -72,11 +75,16 @@ function observeReveal(el: HTMLElement | null) {
     const viewBottom = entry.rootBounds?.bottom ?? window.innerHeight;
     if (!entry.isIntersecting && entry.boundingClientRect.top >= viewBottom) set('hidden');
   });
+  const playAtPageEnd = () => {
+    if (el.dataset.reveal === 'hidden' && el.getBoundingClientRect().top < window.innerHeight) set('in');
+  };
+  pageEndChecks.add(playAtPageEnd);
 
   enter.observe(el);
   exit.observe(el);
   return () => {
     enter.disconnect();
     exit.disconnect();
+    pageEndChecks.delete(playAtPageEnd);
   };
 }

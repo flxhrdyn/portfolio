@@ -10,6 +10,7 @@ import {
 import { ProjectArchive } from './ProjectArchive';
 import { ExperiencePhotoInterlude } from './ExperiencePhotoInterlude';
 import { D1HeroEntrance } from './D1HeroEntrance';
+import { D1ContactHeadline } from './D1ContactHeadline';
 import { PinnedScene, ScrollLitText } from './PinnedScene';
 import { Reveal } from '../Reveal';
 import type { CSSProperties } from 'react';
@@ -24,7 +25,7 @@ function ContactLinks({ className = '' }: { className?: string }) {
     <Reveal className={`d1-contact-links ${className}`}>
       {prioritizedContactLinks.map((item, index) => (
         <a
-          data-r="fade"
+          data-r="rise"
           style={{ '--i': index } as CSSProperties}
           href={item.href}
           key={item.label}
@@ -139,10 +140,7 @@ export function D1Synthesis() {
 
         <section className="direction-section d1-synthesis-contact" id="contact" aria-labelledby="contact-editorial-heading" data-motion-signature="type-mask">
           <div className="d1-contact-editorial">
-            <h2 id="contact-editorial-heading">
-              <MaskLine>Let’s talk about</MaskLine>
-              <MaskLine delay={0.12}>AI engineering.</MaskLine>
-            </h2>
+            <D1ContactHeadline />
             <Reveal className="d1-contact-editorial-footer">
               <p data-r="fade" style={{ '--d': '.35s' } as CSSProperties}>Open to AI/ML engineering roles and practical collaborations.</p>
               <ContactLinks className="d1-contact-links-inline" />

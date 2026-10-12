@@ -103,7 +103,7 @@ test.describe("portfolio motion", () => {
     await expect(page.locator(".chat-header-close-btn")).toBeFocused();
     await page.getByRole("button", { name: "Open navigation menu" }).click();
     await expect(page.getByRole("button", { name: "Close navigation menu" })).toHaveAttribute("aria-expanded", "true");
-    await page.getByRole("link", { name: "Experience", exact: true }).click();
+    await page.locator("#top-nav").getByRole("link", { name: "Experience", exact: true }).click();
 
     await expect.poll(() => page.evaluate(() => window.location.hash)).toBe("#experience");
     await expect.poll(() => page.locator(".portfolio-main-column").evaluate((root) => root.scrollTop)).toBeGreaterThan(0);
@@ -246,16 +246,60 @@ test.describe("portfolio motion", () => {
     await expect(ledger).toHaveCSS("animation-name", "d1-cert-page-enter");
   });
 
-  test("footer signs off with a paced reveal", async ({ page }) => {
+  test("contact and footer close the page as one viewport", async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto(portfolioUrl);
 
     const footer = page.locator(".d1-minimal-footer");
     await expect(footer).toHaveAttribute("data-reveal", "hidden");
-    await footer.scrollIntoViewIfNeeded();
+    // Contact and footer read as one scene: no rule separates them.
+    expect(await footer.evaluate((element) => [getComputedStyle(element).borderTopWidth, getComputedStyle(element, "::before").content])).toEqual(["0px", "none"]);
+
+    const heightBefore = await page.evaluate(() => document.documentElement.scrollHeight);
+    // Wheel through Lenis like a visitor: the end-of-page reveal must not depend on a programmatic jump.
+    await page.mouse.move(720, 450);
+    const atEnd = () => page.evaluate(() => scrollY + innerHeight >= document.documentElement.scrollHeight - 2);
+    for (let step = 0; step < 300 && !(await atEnd()); step += 1) await page.mouse.wheel(0, 400);
+    await expect.poll(atEnd).toBe(true);
     await expect(footer).toHaveAttribute("data-reveal", /^(in|instant)$/);
-    await expect.poll(() => footer.locator(".d1-minimal-footer-name").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
-    await expect(footer.getByRole("link", { name: /Back to top/ })).toBeVisible();
+    await expect(footer.getByRole("link", { name: /Back to top/ })).toBeInViewport();
+    const name = footer.locator(".d1-minimal-footer-name .d1-mask-line");
+    await expect(name).toHaveText("Felix Windriyareksa Hardyan");
+    await expect.poll(() => name.evaluate((element) => getComputedStyle(element).transform)).toBe("none");
+    // The hidden name must not extend the page, or revealing it pulls the view up.
+    expect(await page.evaluate(() => document.documentElement.scrollHeight)).toBe(heightBefore);
+
+    const scene = await page.evaluate(() => {
+      const contact = document.querySelector("#contact")!.getBoundingClientRect();
+      const end = document.querySelector(".d1-minimal-footer")!.getBoundingClientRect();
+      return { top: Math.round(contact.top), bottom: Math.round(end.bottom), viewport: innerHeight };
+    });
+    expect(Math.abs(scene.top)).toBeLessThanOrEqual(2);
+    expect(Math.abs(scene.bottom - scene.viewport)).toBeLessThanOrEqual(2);
+  });
+
+  test("contact headline advances with scroll, then the links rise in turn without hairlines", async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto(portfolioUrl);
+
+    const heading = page.locator("#contact-editorial-heading");
+    const scaleOf = () => heading.evaluate((element) => new DOMMatrix(getComputedStyle(element).transform).a);
+    await page.evaluate(() => {
+      const top = document.querySelector("#contact")!.getBoundingClientRect().top + scrollY;
+      window.scrollTo(0, top - innerHeight + 40);
+    });
+    await expect.poll(scaleOf).toBeLessThan(0.93);
+    await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+    await expect.poll(scaleOf).toBeGreaterThan(0.99);
+
+    const links = await page.locator(".d1-contact-links-inline > a").evaluateAll((elements) => elements.map((element) => {
+      const style = getComputedStyle(element);
+      return { delay: parseFloat(style.transitionDelay.split(",")[1]), image: style.backgroundImage, border: style.borderBottomWidth };
+    }));
+    const statementDelay = await page.locator(".d1-contact-editorial-footer > p").evaluate((element) => parseFloat(getComputedStyle(element).transitionDelay.split(",")[1]));
+    expect(links[0].delay).toBeGreaterThan(statementDelay);
+    links.slice(1).forEach((link, index) => expect(link.delay).toBeGreaterThan(links[index].delay));
+    expect(links.every(({ image, border }) => image === "none" && border === "0px")).toBe(true);
   });
 
   test("section copy remains visible when JavaScript is unavailable", async ({ browser }) => {
@@ -673,8 +717,6 @@ test.describe("portfolio motion", () => {
         ? []
         : [{ tag: element.tagName, className: element.className, role: element.getAttribute("data-r"), opacity: style.opacity, transform: style.transform }];
     }))).toEqual([]);
-    const sectionTitles = await page.locator(".d1-synthesis .direction-section-heading h2 .d1-mask-line").evaluateAll((elements) => elements.every((element) => getComputedStyle(element).transform === "none"));
-    expect(sectionTitles).toBe(true);
   });
 
   test("reduced motion renders project and photo media immediately", async ({ page }) => {

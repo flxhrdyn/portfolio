@@ -23,16 +23,14 @@ function D1SynthesisFooter() {
 
   return (
     <Reveal as="footer" className="d1-minimal-footer">
+      <p className="d1-minimal-footer-name"><MaskLine>{PROFILE.name}</MaskLine></p>
       <div className="d1-minimal-footer-meta" data-r="fade">
         <span>© {year}</span>
         <nav aria-label="Footer links">
           <a href="https://github.com/flxhrdyn/portfolio" target="_blank" rel="noopener noreferrer">Source</a>
           <a href="/resume.pdf" target="_blank" rel="noopener noreferrer">Resume</a>
         </nav>
-      </div>
-      <div className="d1-minimal-footer-signoff">
-        <p className="d1-minimal-footer-name" data-r="fade" style={{ '--d': '.08s' } as CSSProperties}>{PROFILE.name}</p>
-        <PortfolioAnchor className="d1-minimal-footer-top" href="#hero" data-r="fade" style={{ '--d': '.16s' } as CSSProperties}>Back to top <span aria-hidden="true">↑</span></PortfolioAnchor>
+        <PortfolioAnchor className="d1-minimal-footer-top" href="#hero">Back to top <span aria-hidden="true">↑</span></PortfolioAnchor>
       </div>
     </Reveal>
   );
