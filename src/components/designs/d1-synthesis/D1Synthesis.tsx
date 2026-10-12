@@ -80,7 +80,7 @@ function ResearchDesignPreviews() {
 export function D1Synthesis() {
   return (
     <DirectionShell className="d1 d1-synthesis" hideNavigation>
-      <main className="direction-main d1-main" data-layout="synthesis-ledger">
+      <main id="main-content" tabIndex={-1} className="direction-main d1-main" data-layout="synthesis-ledger">
         <D1HeroEntrance
           role="AI Engineer & Data Scientist · Jakarta, IDN"
           name={PROFILE.name}

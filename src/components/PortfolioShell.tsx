@@ -95,6 +95,7 @@ export default function PortfolioShell({ children, design }: { children: ReactNo
     <div className={`portfolio-shell portfolio-shell--${design}${chatOpen ? " portfolio-shell--chat-open" : ""}`}>
       {/* Keeps the window Lenis off this column's wheel while the column Lenis drives it. */}
       <div ref={portfolioRef} className="portfolio-main-column" data-lenis-prevent={chatOpen || undefined}>
+        <a className="skip-link" href="#main-content">Skip to content</a>
         {design === "technical" ? (
           <TechnicalNavBar variant="portfolio" onAskAI={openChat} chatOpen={chatOpen} />
         ) : (
