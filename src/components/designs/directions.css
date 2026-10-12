@@ -1162,9 +1162,15 @@
    (↗ up-right, → right, ← left, ↑ up) and a pressed control dips to 97%, both on the
    shared 200ms curve. `translate`/`scale` compose with any existing transform. */
 .direction-link-arrow { display: inline-block; transition: translate 200ms cubic-bezier(.22, 1, .36, 1); }
-.direction-project-links .direction-link-arrow { margin-left: .35em; }
-:is(.direction-project-links > a, .direction-modal-link, .direction-text-link):hover .direction-link-arrow:not(:where(.direction-detail-trigger *)) { translate: 2px -2px; }
-.direction-detail-trigger:hover .direction-link-arrow { translate: 3px 0; }
+:is(.direction-modal-link, .direction-text-link):hover .direction-link-arrow { translate: 2px -2px; }
+/* Project links carry no arrow: on hover their underline slides back up into place from
+   below, the same rise-and-fade the section copy uses. */
+.direction-project-links > :is(a, .direction-detail-trigger) { position: relative; text-decoration: none !important; }
+.direction-project-links > :is(a, .direction-detail-trigger)::after { content: ""; position: absolute; inset: auto 0 0; height: 1px; background: currentColor; }
+.direction-project-links > :is(a, .direction-detail-trigger):hover::after { animation: direction-underline-rise 460ms cubic-bezier(.22, 1, .36, 1); }
+@keyframes direction-underline-rise {
+  from { opacity: 0; transform: translateY(6px); }
+}
 .d1-project-archive-table td:first-child svg { transition: translate 200ms cubic-bezier(.22, 1, .36, 1), color 160ms ease; }
 .d1-project-archive-table td:first-child a:hover svg { translate: 2px -2px; color: var(--dir-ink); }
 .direction-detail-trigger { transition: opacity 150ms ease, scale 200ms cubic-bezier(.22, 1, .36, 1); }
@@ -1174,5 +1180,6 @@
 :is(.direction-detail-trigger, .d1-project-archive-trigger, .direction-cert-pager-btn:not(:disabled), .d1-synthesis-hero-cta):active { scale: .97; }
 @media (prefers-reduced-motion: reduce) {
   .direction-link-arrow, .d1-project-archive-table td:first-child svg { transition: none; }
+  .direction-project-links > :is(a, .direction-detail-trigger):hover::after { animation: none; }
   :is(.direction-detail-trigger, .d1-project-archive-trigger, .direction-cert-pager-btn, .d1-synthesis-hero-cta):active { scale: none; }
 }

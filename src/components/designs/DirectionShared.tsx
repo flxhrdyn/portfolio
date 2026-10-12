@@ -407,11 +407,11 @@ export function ProjectCopy({
           className="direction-detail-trigger"
           onClick={() => setIsOpen(true)}
         >
-          Project details<span className="direction-link-arrow" aria-hidden="true">→</span>
+          Project details
         </button>
         {project.repo ? (
           <a href={`https://github.com/flxhrdyn/${project.repo}`} target="_blank" rel="noreferrer">
-            GitHub<span className="direction-link-arrow" aria-hidden="true">↗</span>
+            GitHub
           </a>
         ) : null}
       </div>

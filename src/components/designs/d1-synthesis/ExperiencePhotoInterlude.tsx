@@ -40,7 +40,7 @@ export function ExperiencePhotoInterlude() {
           <span data-r="from-right">A few places where my work took shape.</span>
         </Reveal>
         <Reveal as="p" className="d1-experience-photo-note-detail" style={{ "--i": 1 } as CSSProperties}>
-          <span data-r="fade">From office floors to computing labs.</span>
+          <span data-r="rise">From office floors to computing labs.</span>
         </Reveal>
         {experiences.map((experience, index) => (
           <Reveal

@@ -332,9 +332,14 @@ test.describe("portfolio motion", () => {
     };
     await nudge(".nav-resume-link", ".nav-resume-link svg", [2, -2]);
     await nudge(".nav-ask-link", ".nav-ask-link svg", [3, 0]);
-    await nudge(".direction-detail-trigger", ".direction-detail-trigger .direction-link-arrow", [3, 0]);
-    await nudge(".direction-project-links > a", ".direction-project-links > a .direction-link-arrow", [2, -2]);
     await nudge(".d1-research-paper-link", ".d1-research-paper-link span", [2, -2]);
+
+    // Project links stay arrowless; their underline slides up into place on hover instead.
+    const detail = page.locator(".direction-detail-trigger").first();
+    await expect(detail).toHaveText("Project details");
+    await detail.scrollIntoViewIfNeeded();
+    await detail.hover({ force: true });
+    expect(await detail.evaluate((element) => getComputedStyle(element, "::after").animationName)).toBe("direction-underline-rise");
   });
 
   test("theme switch develops in place with compositor-only motion", async ({ page }) => {
@@ -513,16 +518,16 @@ test.describe("portfolio motion", () => {
     await expect(title).toHaveAttribute("data-reveal", /^(in|instant)$/);
     await expect(detail).toHaveAttribute("data-reveal", /^(in|instant)$/);
     await expect(title.locator("[data-r='from-right']")).toBeAttached();
-    await expect(detail.locator("[data-r='fade']")).toBeAttached();
+    await expect(detail.locator("[data-r='rise']")).toBeAttached();
     await expect.poll(() => title.locator("[data-r='from-right']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
-    await expect.poll(() => detail.locator("[data-r='fade']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+    await expect.poll(() => detail.locator("[data-r='rise']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
 
     await title.scrollIntoViewIfNeeded();
     await expect(title).toHaveAttribute("data-reveal", /^(in|instant)$/);
     await expect.poll(() => title.locator("[data-r='from-right']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
     await detail.scrollIntoViewIfNeeded();
     await expect(detail).toHaveAttribute("data-reveal", /^(in|instant)$/);
-    await expect.poll(() => detail.locator("[data-r='fade']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
+    await expect.poll(() => detail.locator("[data-r='rise']").evaluate((element) => getComputedStyle(element).opacity)).toBe("1");
 
     const photo = page.locator(".d1-experience-photo-frame [data-motion-reveal='focus']").first();
     const durations = await photo.evaluate((element) => getComputedStyle(element).transitionDuration.split(",").map((duration) => parseFloat(duration)));
