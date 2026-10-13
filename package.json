@@ -20,7 +20,8 @@
     "motion": "^12.42.2",
     "next": "^16.2.10",
     "react": "^19.0.1",
-    "react-dom": "^19.0.1"
+    "react-dom": "^19.0.1",
+    "sharp": "0.34.5"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.13.0",
