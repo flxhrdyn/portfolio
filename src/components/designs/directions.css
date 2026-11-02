@@ -1074,6 +1074,7 @@
 }
 
 @media (min-width: 1200px) {
+  html:has(.portfolio-shell--chat-open) { overflow: hidden; }
   .portfolio-shell--chat-open { height: 100dvh; overflow: hidden; }
   .portfolio-shell--chat-open .portfolio-main-column {
     box-sizing: border-box;

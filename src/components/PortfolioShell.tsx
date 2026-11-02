@@ -4,13 +4,14 @@ import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from "re
 import NavBar from "@/components/NavBar";
 import TechnicalNavBar from "@/components/TechnicalNavBar";
 import ChatPanel from "@/components/ChatPanel";
-import { createPortfolioLenis } from "@/components/MotionProvider";
+import { createPortfolioLenis, usePortfolioScroll } from "@/components/MotionProvider";
 import type { Design } from "@/lib/design";
 
 export default function PortfolioShell({ children, design }: { children: ReactNode; design: Design }) {
   const [chatOpen, setChatOpen] = useState(false);
   const askAITriggerRef = useRef<HTMLButtonElement | null>(null);
   const portfolioRef = useRef<HTMLDivElement>(null);
+  const scrollController = usePortfolioScroll();
   const pendingScrollTransferRef = useRef<{ target: "portfolio" | "window"; top: number } | null>(null);
 
   useEffect(() => {
@@ -49,11 +50,21 @@ export default function PortfolioShell({ children, design }: { children: ReactNo
 
     if (transfer.target === "portfolio") {
       if (portfolioRef.current) portfolioRef.current.scrollTop = transfer.top;
+      // The desktop layout moves scrolling from the document to this column.
+      // Clear the document offset too, or the page is shifted by both scroll positions.
+      window.scrollTo(0, 0);
       return;
     }
 
     window.scrollTo(0, transfer.top);
   }, [chatOpen]);
+
+  // The window Lenis would still scroll the page under the fixed chat panel and shift the whole shell away.
+  useEffect(() => {
+    if (!chatOpen || !window.matchMedia("(min-width: 1200px)").matches) return;
+    scrollController.stop();
+    return () => scrollController.start();
+  }, [chatOpen, scrollController]);
 
   // Desktop chat turns the column into its own scroller; give it the same damped feel as the window.
   useEffect(() => {
